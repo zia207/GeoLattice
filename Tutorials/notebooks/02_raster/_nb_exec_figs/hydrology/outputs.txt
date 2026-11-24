@@ -1,0 +1,182 @@
+========================================================================
+Cell 4 (In[1]) :: import sys
+========================================================================
+DEM:    /home/zia207/Github/GeoLattice/data/raster_data/Bangladesh/hilly_dem_BTM.tiff
+Output: /home/zia207/Github/GeoLattice/data/raster_data/output_folder/bangladesh/hydrology
+
+[cell elapsed: 0.2s]
+
+========================================================================
+Cell 6 (In[2]) :: show_raster(DEM, "Hilly districts DEM (BTM)")
+========================================================================
+path:    hilly_dem_BTM.tiff
+size:    521 x 1329  bands=1
+res:     250.0000 x 250.0000
+bounds:  Bounds(648050.3746814046, 295017.2625412984, 778300.3746814046, 627267.2625412983)
+crs:     PROJCS["unknown",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",90],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",-2000000],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH]]
+nodata:  nan
+title:   Hilly districts DEM (BTM)
+                                                         value
+count                                                   310665
+min                                                  -7.796429
+max                                                 985.049622
+mean                                                109.007889
+std                                                 129.049986
+sum                                            33864935.903503
+percentiles  {'p2': 3.0354053211212157, 'p25': 29.240074157...
+[figure] Tutorials/notebooks/02_raster/_nb_exec_figs/hydrology/fig_01.png
+[figure] Tutorials/notebooks/02_raster/_nb_exec_figs/hydrology/fig_02.png
+
+[cell elapsed: 1.0s]
+<Figure saved>
+<Figure saved>
+
+========================================================================
+Cell 8 (In[3]) :: dem = DEM  # full Bangladesh hilly-district DEM
+========================================================================
+path:    hilly_dem_BTM.tiff
+size:    521 x 1329  bands=1
+res:     250.0000 x 250.0000
+bounds:  Bounds(648050.3746814046, 295017.2625412984, 778300.3746814046, 627267.2625412983)
+crs:     PROJCS["unknown",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",90],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",-2000000],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH]]
+nodata:  nan
+title:   Full DEM (BTM)
+[figure] Tutorials/notebooks/02_raster/_nb_exec_figs/hydrology/fig_03.png
+
+[cell elapsed: 1.1s]
+<Figure saved>
+
+========================================================================
+Cell 10 (In[4]) :: breached = OUT / "dem_breached.tif"
+========================================================================
+[figure] Tutorials/notebooks/02_raster/_nb_exec_figs/hydrology/fig_04.png
+Cells raised by fill: 98609
+Max fill depth (m):   111.149
+
+[cell elapsed: 18.5s]
+<Figure saved>
+
+========================================================================
+Cell 12 (In[5]) :: d8p = OUT / "d8_pointer.tif"
+========================================================================
+[figure] Tutorials/notebooks/02_raster/_nb_exec_figs/hydrology/fig_05.png
+FD8 weight stack: 8 bands (fractional outflow to 8 neighbours)
+
+[cell elapsed: 2.4s]
+<Figure saved>
+
+========================================================================
+Cell 14 (In[6]) :: fa_cells = OUT / "d8_flow_accum_cells.tif"
+========================================================================
+[figure] Tutorials/notebooks/02_raster/_nb_exec_figs/hydrology/fig_06.png
+D8 FA  min/max cells: 1 / 34212
+D∞ SCA min/max (m):   250.0 / 7401750.0
+
+[cell elapsed: 8.3s]
+<Figure saved>
+
+========================================================================
+Cell 16 (In[7]) :: twi_path = OUT / "twi.tif"
+========================================================================
+[figure] Tutorials/notebooks/02_raster/_nb_exec_figs/hydrology/fig_07.png
+                                                           TWI
+count                                                   303775
+min                                                   6.002364
+max                                                  26.691242
+mean                                                  11.14632
+std                                                   3.613208
+sum                                             3385973.226449
+percentiles  {'p5': 7.355215263366699, 'p25': 8.67874526977...
+
+[cell elapsed: 6.5s]
+<Figure saved>
+
+========================================================================
+Cell 18 (In[8]) :: # Threshold in cells — tune to landscape / resolution (full DEM)
+========================================================================
+[figure] Tutorials/notebooks/02_raster/_nb_exec_figs/hydrology/fig_08.png
+Stream cells: 1624
+Unique links: 502
+
+[cell elapsed: 1.5s]
+<Figure saved>
+
+========================================================================
+Cell 20 (In[9]) :: # Place pour points at high-accumulation stream cells (auto outlets)
+========================================================================
+Candidate outlets (map coords): 8
+  1: (707425.4, 445642.3)
+  2: (658675.4, 511892.3)
+  3: (667675.4, 500642.3)
+  4: (675425.4, 488392.3)
+  5: (681925.4, 474892.3)
+  6: (702675.4, 430392.3)
+  7: (707175.4, 414642.3)
+  8: (695925.4, 480892.3)
+Snapped: [(707425.3746814046, 445642.26254129835), (658675.3746814046, 511892.26254129835), (667675.3746814046, 500642.26254129835), (675425.3746814046, 488392.26254129835), (681925.3746814046, 474892.26254129835), (702675.3746814046, 430392.26254129835), (707175.3746814046, 414642.26254129835), (695925.3746814046, 480892.26254129835)]
+[figure] Tutorials/notebooks/02_raster/_nb_exec_figs/hydrology/fig_09.png
+
+[cell elapsed: 11.0s]
+<Figure saved>
+
+========================================================================
+Cell 22 (In[10]) :: eas = OUT / "elevation_above_stream.tif"
+========================================================================
+[figure] Tutorials/notebooks/02_raster/_nb_exec_figs/hydrology/fig_10.png
+
+[cell elapsed: 9.5s]
+<Figure saved>
+
+========================================================================
+Cell 24 (In[11]) :: # Stochastic depression probability on the full DEM
+========================================================================
+[figure] Tutorials/notebooks/02_raster/_nb_exec_figs/hydrology/fig_11.png
+
+[cell elapsed: 47.7s]
+<Figure saved>
+
+========================================================================
+Cell 26 (In[12]) :: print("Hydrology outputs written to:")
+========================================================================
+Hydrology outputs written to:
+  aoi_dem.tif                                  150.7 KB
+  basins.tif                                  2710.9 KB
+  d8_flow_accum_cells.tif                     2710.9 KB
+  d8_pointer.tif                              2710.9 KB
+  dem_breached.tif                            2710.9 KB
+  dem_filled.tif                              2710.9 KB
+  depression_probability.tif                  2710.9 KB
+  dinf_pointer.tif                            2710.9 KB
+  dinf_sca.tif                                2710.9 KB
+  distance_to_stream.tif                      2710.9 KB
+  elevation_above_stream.tif                  2710.9 KB
+  fd8_weights.tif                            21646.1 KB
+  hillshade.tif                                677.2 KB
+  hydrologic_connectivity.tif                 2710.9 KB
+  impoundment_volume.tif                      2710.9 KB
+  rho8_pointer.tif                            2710.9 KB
+  stream_links.tif                            2710.9 KB
+  streams.tif                                 2710.9 KB
+  subbasins.tif                               2710.9 KB
+  twi.tif                                     2710.9 KB
+  watersheds.tif                              2710.9 KB
+
+[cell elapsed: 0.0s]
+
+########################################################################
+TOTAL elapsed: 108.1s
+Figures (11):
+  fig_01.png  135.9 KB
+  fig_02.png  25.4 KB
+  fig_03.png  515.6 KB
+  fig_04.png  362.6 KB
+  fig_05.png  154.6 KB
+  fig_06.png  596.1 KB
+  fig_07.png  151.0 KB
+  fig_08.png  199.4 KB
+  fig_09.png  61.7 KB
+  fig_10.png  150.6 KB
+  fig_11.png  401.9 KB
+Errors (0):
+Notebook: /home/zia207/Github/GeoLattice/Tutorials/notebooks/02_raster/02_05_hydrology_modeling.ipynb
+Log: /home/zia207/Github/GeoLattice/Tutorials/notebooks/02_raster/_nb_exec_figs/hydrology/outputs.txt

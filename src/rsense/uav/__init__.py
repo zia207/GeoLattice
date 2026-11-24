@@ -1,0 +1,202 @@
+"""UAV: flight planning and photogrammetry (ODM), frame/RGB+NIR I/O and co-registration,
+radiometric calibration, vegetation indices, DEM flattening, canopy height, plant counting
+(classical and RiceNet density maps), tiled object detection, SAM plant masks and
+senescence mapping, thermal CWSI and season-long phenology.
+
+Deep-learning parts (``counting``, ``detect``, ``health.sam_plant_mask``) import PyTorch,
+segment-anything or ultralytics only when called (``pip install geolattice[rsense-uav-dl]``).
+"""
+
+from ..core._utils import map_to_pix, pix_to_map
+from . import (
+    counting,
+    dem,
+    detect,
+    health,
+    indices,
+    io,
+    odm,
+    phenology,
+    register,
+    tiling,
+    weights,
+)
+from .canopy import canopy_cover, chm_from_surfaces, count_plants, plants_per_area
+from .counting import (
+    build_ricenet,
+    density_count,
+    load_ricenet,
+    peaks_from_density,
+    size_classes,
+)
+from .dem import (
+    FlattenResult,
+    doming_profile,
+    ransac_flatten,
+    synthetic_dem,
+    trend_surface,
+    write_dems,
+)
+from .detect import (
+    boxes_to_gdf,
+    count_summary,
+    detection_scores,
+    load_detector,
+    tiled_detect,
+)
+from .health import (
+    classify_senescence,
+    exg_plant_mask,
+    health_map,
+    health_summary,
+    hsv_filter,
+    load_segveg,
+    sam_plant_mask,
+    segveg_features,
+)
+from .indices import (
+    bare_soil_line,
+    chromatic,
+    cover_layers,
+    index_summary,
+    vegetation_indices,
+)
+from .io import (
+    as_image,
+    blur_score,
+    build_catalog,
+    exposure_stats,
+    extract_frames,
+    frame_quality,
+    load_pair,
+    pair_catalog,
+    parse_date,
+    read_frame,
+    to_rgb_array,
+)
+from .odm import (
+    CAMERAS,
+    Camera,
+    camera_from_equivalent,
+    flight_plan,
+    load_outputs,
+    run_docker,
+    run_nodeodm,
+)
+from .phenology import (
+    detect_stages,
+    fit_logistic,
+    frame_traits,
+    growth_rates,
+    summarize_dates,
+    trait_table,
+)
+from .radiometry import (
+    empirical_line,
+    panel_calibration,
+    panel_dn_from_image,
+    sunshine_normalize,
+)
+from .register import coregister, edge_agreement, estimate_homography, refine_ecc
+from .segment import sam_segment
+from .thermal import cwsi, raw_to_celsius
+from .tiling import (
+    cosine_weight,
+    merge_boxes,
+    merge_points,
+    predict_tiled,
+    sliding_windows,
+)
+from .weights import fetch as fetch_weights
+from .weights import list_weights
+
+__all__ = [
+    "CAMERAS",
+    "Camera",
+    "FlattenResult",
+    "as_image",
+    "bare_soil_line",
+    "blur_score",
+    "boxes_to_gdf",
+    "build_catalog",
+    "build_ricenet",
+    "camera_from_equivalent",
+    "canopy_cover",
+    "chm_from_surfaces",
+    "chromatic",
+    "classify_senescence",
+    "coregister",
+    "cosine_weight",
+    "count_plants",
+    "count_summary",
+    "counting",
+    "cover_layers",
+    "cwsi",
+    "dem",
+    "density_count",
+    "detect",
+    "detect_stages",
+    "detection_scores",
+    "doming_profile",
+    "edge_agreement",
+    "empirical_line",
+    "estimate_homography",
+    "exg_plant_mask",
+    "exposure_stats",
+    "extract_frames",
+    "fetch_weights",
+    "fit_logistic",
+    "flight_plan",
+    "frame_quality",
+    "frame_traits",
+    "growth_rates",
+    "health",
+    "health_map",
+    "health_summary",
+    "hsv_filter",
+    "index_summary",
+    "indices",
+    "io",
+    "list_weights",
+    "load_detector",
+    "load_outputs",
+    "load_pair",
+    "load_ricenet",
+    "load_segveg",
+    "map_to_pix",
+    "merge_boxes",
+    "merge_points",
+    "odm",
+    "pair_catalog",
+    "panel_calibration",
+    "panel_dn_from_image",
+    "parse_date",
+    "peaks_from_density",
+    "phenology",
+    "pix_to_map",
+    "plants_per_area",
+    "predict_tiled",
+    "ransac_flatten",
+    "raw_to_celsius",
+    "read_frame",
+    "refine_ecc",
+    "register",
+    "run_docker",
+    "run_nodeodm",
+    "sam_plant_mask",
+    "sam_segment",
+    "segveg_features",
+    "size_classes",
+    "sliding_windows",
+    "summarize_dates",
+    "sunshine_normalize",
+    "synthetic_dem",
+    "tiled_detect",
+    "tiling",
+    "to_rgb_array",
+    "trait_table",
+    "trend_surface",
+    "vegetation_indices",
+    "weights",
+    "write_dems",
+]

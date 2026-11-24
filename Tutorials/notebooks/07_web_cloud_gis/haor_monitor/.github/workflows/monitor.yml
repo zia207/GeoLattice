@@ -1,0 +1,48 @@
+# Scheduled monitoring: every 5 days (Sentinel-2's revisit), plus manual runs.
+# Results are kept on the `data` branch, so every update is versioned by git.
+name: monitor
+
+on:
+  schedule:
+    - cron: "30 6 */5 * *"          # 06:30 UTC every fifth day of the month
+  workflow_dispatch:
+    inputs:
+      start:
+        description: "First date (YYYY-MM-DD); default: 30 days ago"
+        required: false
+
+concurrency:
+  group: monitor                     # never two runs at once: they would race on the table
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: data
+          path: monitor_data
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install .
+      - name: Run the monitor
+        env:
+          HAOR_DATA_DIR: monitor_data
+        run: python -m haor_monitor run ${{ inputs.start && format('--start {0}', inputs.start) || '' }}
+      - name: Commit new observations
+        working-directory: monitor_data
+        run: |
+          git config user.name "haor-monitor bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add observations.parquet runs.jsonl
+          git diff --cached --quiet || git commit -m "Observations update $(date -u +%Y-%m-%d)"
+          git push

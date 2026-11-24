@@ -1,0 +1,647 @@
+[build-system]
+requires = ["setuptools>=77", "wheel", "numpy>=1.21.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "geolattice"
+version = "0.3.49"
+description = "Geospatial analysis with CRS tools, vector and raster I/O, basic raster operations, terrain analysis, surface hydrology, multi-criteria suitability analysis (fuzzy / WLC / C kernels), multidimensional rasters, spatial network analysis, segregation analysis, geostatistics (variograms, kriging, simulation, JAX CPU/GPU variograms and kriging), spatial statistics (ESDA, spatial weights, GWR/MGWR, point patterns, spatial regression, sampling, Bayesian disease mapping), spatial causal inference (interference, spatial confounding, spatial DML, geographic RDD / DiD, causal discovery), web and cloud GIS (COG, GeoParquet, PMTiles, XYZ tiles, OGC API Features), spatial databases (PostGIS, SpatiaLite, GeoPackage, DuckDB spatial SQL, PostGIS raster, pgRouting, vector tiles), remote sensing (optical indices and compositing, satellite image super-resolution, texture analysis, NISAR HDF5 products, SAR flood mapping, InSAR, lidar (point cloud filtering, tiling, ground classification, forest, urban, hydrology, change detection, registration, PointNet++), hyperspectral (ENVI/EMIT/EnMAP/PRISMA I/O, MNF, continuum removal, unmixing, target and methane detection, PLSR/PROSAIL traits), foundation models (Prithvi, Clay, DOFA, CROMA, Copernicus-FM, Panopticon, TerraMind, AnySat, SSL4EO, Satlas, Scale-MAE, RemoteCLIP, AlphaEarth embeddings), UAV, time series, fusion, deep learning, image classification, segmentation, object detection and change detection, XAI), distributed and GPU computing (chunked raster and partitioned vector processing, zonal statistics, spatial statistics, networks and machine learning on Dask clusters, CUDA GPUs or Apache Sedona), geoprocessing, geometry tools, vector analysis, attribute manipulation, and optional CPU/GPU acceleration"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    {name = "GeoLattice Contributors"}
+]
+keywords = [
+    "gis",
+    "geospatial",
+    "raster",
+    "raster-algebra",
+    "terrain-analysis",
+    "hydrology",
+    "watershed",
+    "geomorphometry",
+    "suitability",
+    "fuzzy-overlay",
+    "weighted-overlay",
+    "multidimensional",
+    "netcdf",
+    "zarr",
+    "zonal-stats",
+    "network-analysis",
+    "spatial-network",
+    "routing",
+    "accessibility",
+    "geostatistics",
+    "kriging",
+    "variogram",
+    "cokriging",
+    "spatial-statistics",
+    "esda",
+    "moran",
+    "gwr",
+    "mgwr",
+    "spatial-weights",
+    "point-pattern",
+    "segregation-analysis",
+    "causal-inference",
+    "spatial-causal-inference",
+    "interference",
+    "spatial-confounding",
+    "web-gis",
+    "cloud-native",
+    "geoparquet",
+    "spatial-database",
+    "postgis",
+    "spatialite",
+    "geopackage",
+    "duckdb",
+    "spatial-sql",
+    "pmtiles",
+    "cog",
+    "ogc-api",
+    "vector",
+    "vector-analysis",
+    "attribute-table",
+    "geoprocessing",
+    "pointcloud",
+    "remote-sensing",
+    "super-resolution",
+    "pansharpening",
+    "texture-analysis",
+    "image-classification",
+    "semantic-segmentation",
+    "object-detection",
+    "change-detection",
+    "earth-observation",
+    "sentinel",
+    "landsat",
+    "sar",
+    "radarsat",
+    "sea-ice",
+    "insar",
+    "uav",
+    "stac",
+    "lidar",
+    "point-cloud-segmentation",
+    "pointnet",
+    "hyperspectral",
+    "imaging-spectroscopy",
+    "spectral-unmixing",
+    "emit",
+    "enmap",
+    "prisma",
+    "foundation-models",
+    "geospatial-embeddings",
+    "alphaearth",
+    "prithvi",
+    "gpu",
+    "jax",
+    "parallel",
+    "distributed",
+    "dask",
+    "cuda",
+    "rapids",
+    "spark",
+    "sedona",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Scientific/Engineering :: GIS",
+]
+
+# Every runtime dependency is listed in requirements.txt (the full, conflict-free set that
+# "geolattice[all]" resolves to), so installing the wheel or the sdist installs all of them.
+dynamic = ["dependencies"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+    "mypy>=0.950",
+    "sphinx>=4.5.0",
+    "sphinx-rtd-theme>=1.0.0",
+]
+
+io = [
+    "rasterio>=1.2.0",
+    "fiona>=1.8.0",
+    "geopandas>=0.10.0",
+    "pyarrow>=14",
+]
+
+compute = [
+    "cupy-cuda13x>=13.6",
+    "numba>=0.56.0",
+    "dask>=2021.10.0",
+]
+
+viz = [
+    "matplotlib>=3.5.0",
+    "geopandas>=0.12.0",
+    "folium>=0.12.0",
+    "contextily>=1.3.0",
+    "mapclassify>=2.5.0",
+    "xarray>=2023.1.0",
+    "plotly>=5.0.0",
+    "pyvista>=0.35.0",
+]
+
+whitebox = [
+    "whitebox>=2.0.0",
+]
+
+multidim = [
+    "xarray>=2023.1.0",
+    "netCDF4>=1.5.0",
+    "h5netcdf>=1.0.0",
+    "zarr>=2.10.0",
+    "dask>=2021.10.0",
+]
+
+network = [
+    "networkx>=3.0",
+    "geopandas>=0.12.0",
+    "osmnx>=1.9.0",
+    "libpysal>=4.10",
+    "scikit-learn>=1.2.0",
+    "shapely>=2.0.0",
+]
+
+segregation = [
+    "geolattice[network]",
+]
+
+segregation-dasymetric = [
+    "geolattice[segregation]",
+    "rasterio>=1.2.0",
+]
+
+geostatistics = [
+    "geopandas>=0.10.0",
+    "scikit-learn>=1.0.0",
+]
+
+geostatistics-gpu = [
+    "geolattice[geostatistics]",
+    "cupy-cuda13x>=13.6",
+]
+
+geostatistics-jax = [
+    "geolattice[geostatistics]",
+    "jax>=0.4.30",
+    "jaxlib>=0.4.30",
+]
+
+geostatistics-plot = [
+    "geolattice[geostatistics]",
+    "matplotlib>=3.5.0",
+    "contextily>=1.3.0",
+]
+
+geostatistics-h2o = [
+    "geolattice[geostatistics]",
+    "h2o",
+]
+
+geostatistics-pytorch = [
+    "geolattice[geostatistics]",
+    "torch",
+]
+
+geostatistics-tensorflow = [
+    "geolattice[geostatistics]",
+    "tensorflow",
+]
+
+geostatistics-gam = [
+    "geolattice[geostatistics]",
+    "pygam",
+]
+
+geostatistics-optuna = [
+    "geolattice[geostatistics]",
+    "optuna",
+]
+
+geostatistics-deep = [
+    "geolattice[geostatistics-h2o,geostatistics-pytorch,geostatistics-tensorflow]",
+]
+
+spatial-statistics = [
+    "geopandas>=0.14.0",
+    "scikit-learn>=1.3.0",
+    "joblib>=1.3.0",
+]
+
+spatial-statistics-viz = [
+    "geolattice[spatial-statistics]",
+    "matplotlib>=3.5.0",
+    "folium>=0.12.0",
+    "mapclassify>=2.5.0",
+]
+
+spatial-statistics-deep = [
+    "geolattice[spatial-statistics]",
+    "torch",
+]
+
+spatial-statistics-boosting = [
+    "geolattice[spatial-statistics]",
+    "xgboost>=2.0.0",
+    "lightgbm>=4.0.0",
+]
+
+spatial-statistics-bayes = [
+    "geolattice[spatial-statistics]",
+    "pymc>=5.0",
+    "arviz>=0.17",
+]
+
+spatial-statistics-gam = [
+    "geolattice[spatial-statistics]",
+    "pygam>=0.9",
+]
+
+spatial-statistics-libpysal = [
+    "geolattice[spatial-statistics]",
+    "libpysal>=4.9",
+]
+
+spatial-statistics-network = [
+    "geolattice[spatial-statistics]",
+    "networkx>=3.0",
+]
+
+spatial-statistics-all = [
+    "geolattice[spatial-statistics,spatial-statistics-viz,spatial-statistics-deep,spatial-statistics-boosting,spatial-statistics-bayes,spatial-statistics-gam,spatial-statistics-libpysal,spatial-statistics-network]",
+]
+
+spatialcausal = [
+    "geolattice[spatial-statistics]",
+    "geopandas>=0.12",
+    "scikit-learn>=1.2",
+]
+
+spatialcausal-viz = [
+    "geolattice[spatialcausal]",
+    "matplotlib>=3.6",
+]
+
+spatialcausal-causalml = [
+    "geolattice[spatialcausal]",
+    "pycausalml @ https://github.com/zia207/PyCausalML/releases/download/v0.2.0/pycausalml-0.2.0-py3-none-any.whl",
+]
+
+spatialcausal-all = [
+    "geolattice[spatialcausal,spatialcausal-viz,spatialcausal-causalml]",
+]
+
+distributed = [
+    "dask[distributed]>=2023.1.0",
+    "geopandas>=1.0",
+    "shapely>=2.0",
+    "pyarrow>=14",
+    "pyogrio>=0.7",
+    "rioxarray>=0.15",
+    "xarray>=2023.1",
+    "scipy>=1.9",
+    "zarr>=2.14",
+    "odc-stac>=0.3",
+    "dask-geopandas>=0.4",
+    "scikit-learn>=1.3",
+    "networkx>=3.0",
+]
+
+# cuDF (used for GPU bounds) comes from the RAPIDS index, matching your CUDA major version:
+#   pip install --extra-index-url=https://pypi.nvidia.com cudf-cu13
+# cuSpatial is not required (and has no CUDA 13 build).
+distributed-gpu = [
+    "geolattice[distributed]",
+    "cupy-cuda13x>=13.6",
+    "dask-cuda>=24.0",
+]
+
+distributed-hpc = [
+    "geolattice[distributed]",
+    "dask-jobqueue>=0.8",
+    "dask-kubernetes>=2024.1",
+]
+
+distributed-ml = [
+    "geolattice[distributed]",
+    "xgboost>=2.0",
+    "lightgbm>=4.0",
+    "torch>=2.1",
+    "bokeh>=3.1",
+]
+
+# Needs Java 17+. Sedona 1.9 supports Spark up to 4.0 (4.3 removed a class it imports).
+distributed-spark = [
+    "geolattice[distributed]",
+    "apache-sedona>=1.6",
+    "pyspark>=3.4,<4.1",
+]
+
+web = [
+    "geopandas>=1.0",
+    "pyarrow>=14",
+    "rasterio>=1.3",
+    "pillow>=9.0",
+    "matplotlib>=3.5",
+    "starlette>=0.27",
+    "uvicorn>=0.23",
+    "httpx>=0.24",
+    "folium>=0.12",
+    "fsspec>=2023.1",
+]
+
+web-cloud = [
+    "geolattice[web]",
+    "s3fs>=2023.1",
+    "gcsfs>=2023.1",
+    "adlfs>=2023.1",
+    "duckdb>=0.10",
+]
+
+spatial-db = [
+    "geopandas>=0.14.0",
+    "shapely>=2.0",
+    "pandas>=1.5",
+    "numpy>=1.21.0",
+    "pyogrio>=0.7",
+    "duckdb>=0.10",
+]
+
+# PostGIS backend of geolattice.geolatticedb (raster loading also needs raster2pgsql on PATH)
+spatial-db-postgis = [
+    "geolattice[spatial-db]",
+    "sqlalchemy>=2.0",
+    "psycopg[binary]>=3.1",
+    "geoalchemy2>=0.14",
+    "rasterio>=1.3",
+]
+
+spatial-db-all = [
+    "geolattice[spatial-db,spatial-db-postgis]",
+]
+
+rsense = [
+    "xarray>=2023.1.0",
+    "rioxarray>=0.15",
+    "rasterio>=1.3.0",
+    "scikit-image>=0.20",
+    "geopandas>=0.14.0",
+    "requests>=2.28",
+    "pystac-client>=0.7",
+    "tqdm>=4.66",
+]
+
+rsense-access = [
+    "geolattice[rsense]",
+    "pystac>=1.8",
+    "pystac-client>=0.7",
+    "planetary-computer>=1.0",
+    "odc-stac>=0.3.9",
+    "earthaccess>=0.9",
+    "requests>=2.28",
+]
+
+# BioPAR batch jobs. Kept out of rsense-all: current openeo releases require pandas<3.
+rsense-biopar = [
+    "geolattice[rsense]",
+    "openeo>=0.31",
+]
+
+rsense-sentinel3 = [
+    "geolattice[rsense]",
+    "netCDF4>=1.5.0",
+    "h5netcdf>=1.0.0",
+    "pyproj>=3.2.0",
+]
+
+rsense-sentinel5p = [
+    "geolattice[rsense]",
+    "netCDF4>=1.5.0",
+    "h5netcdf>=1.0.0",
+]
+
+rsense-sar = [
+    "geolattice[rsense]",
+    "asf_search>=7.0",
+    "sarsen>=0.9",
+    "h5py>=3.8",
+]
+
+rsense-insar = [
+    "geolattice[rsense]",
+    "hyp3_sdk>=6.0",
+    "h5py>=3.8",
+    # snaphu publishes wheels for Python 3.11-3.13 only and its C source does not build with
+    # GCC 14+; on 3.14 unwrap(method="native") is used instead.
+    "snaphu>=0.4; python_version < '3.14'",
+    "sliderule>=4.0",
+]
+
+rsense-lidar = [
+    "geolattice[rsense]",
+    "laspy[lazrs]>=2.4",
+    "cloth-simulation-filter>=1.1",
+    "h5py>=3.8",
+    "scikit-learn>=1.3.0",
+    "matplotlib>=3.5.0",
+]
+
+rsense-hyperspectral = [
+    "geolattice[rsense]",
+    "h5py>=3.8",
+    "scikit-learn>=1.3.0",
+    "matplotlib>=3.5.0",
+    "plotly>=5.0",
+    "prosail>=2.0",
+]
+
+rsense-uav = [
+    "geolattice[rsense]",
+    "pyodm>=1.5",
+    "opencv-python>=4.8",
+    "scikit-learn>=1.3.0",
+    "gdown>=5.0",
+]
+
+# Deep-learning parts of geolattice.rsense.uav: RiceNet counting, SAM plant masks, YOLO detection,
+# SegVeg XGBoost pickles. Kept out of rsense-all because of its size.
+rsense-uav-dl = [
+    "geolattice[rsense-uav,rsense-dl]",
+    "segment-anything>=1.0",
+    "ultralytics>=8.0",
+    "xgboost>=2.0.0",
+]
+
+rsense-classify = [
+    "geolattice[rsense]",
+    "scikit-learn>=1.3.0",
+    "xgboost>=2.0.0",
+]
+
+rsense-dl = [
+    "geolattice[rsense]",
+    "torch>=2.1",
+    "torchvision>=0.16",
+    "torchgeo>=0.5",
+    "segmentation-models-pytorch>=0.3",
+    "timm>=0.9",
+    "lightning>=2.1",
+]
+
+# Optional model families used by geolattice.rsense.classify.image_classification (timm backbones, YOLO,
+# RemoteCLIP / GeoRSCLIP, SAM). Kept out of rsense-all because of its size.
+rsense-vision = [
+    "geolattice[rsense-dl,rsense-classify]",
+    "timm>=0.9",
+    "ultralytics>=8.0",
+    "open_clip_torch>=2.20",
+    "huggingface_hub>=0.20",
+    "segment-geospatial>=0.10",
+]
+
+# Remote sensing foundation models (geolattice.rsense.foundation_models): TorchGeo for DOFA, CROMA,
+# Copernicus-FM, Panopticon, Scale-MAE, SSL4EO and Satlas; TerraTorch for Prithvi and TerraMind;
+# open_clip for RemoteCLIP / GeoRSCLIP; transformers for DINOv3-sat; Earth Engine for AlphaEarth.
+# Kept out of rsense-all because of its size.
+rsense-foundation = [
+    "geolattice[rsense-dl,rsense-classify]",
+    "torchgeo>=0.8",
+    "terratorch>=1.0",
+    "timm>=1.0",
+    "open_clip_torch>=2.20",
+    "huggingface_hub>=0.20",
+    "transformers>=4.56",
+    "earthengine-api>=0.1.380",
+]
+
+rsense-edge = [
+    "geolattice[rsense-dl,io]",
+    "geopandas>=0.10",
+]
+
+rsense-xai = [
+    "geolattice[rsense]",
+    "scikit-learn>=1.3.0",
+    "shap>=0.44",
+]
+
+rsense-gee = [
+    "geolattice[rsense]",
+    "earthengine-api>=0.1.380",
+    "xee>=0.0.10",
+]
+
+rsense-viz = [
+    "geolattice[rsense]",
+    "matplotlib>=3.5.0",
+    "leafmap>=0.30",
+]
+
+rsense-scale = [
+    "geolattice[rsense]",
+    "dask[distributed]>=2023.1.0",
+    "zarr>=2.10.0",
+    "pystac>=1.8",
+]
+
+rsense-apps = [
+    "geolattice[rsense-viz]",
+    "streamlit>=1.30",
+]
+
+rsense-gpu = [
+    "geolattice[rsense]",
+    "cupy-cuda13x>=13.6",
+]
+
+rsense-all = [
+    "geolattice[rsense,rsense-access,rsense-sentinel3,rsense-sentinel5p,rsense-sar,rsense-insar,rsense-lidar,rsense-hyperspectral,rsense-uav,rsense-classify,rsense-dl,rsense-edge,rsense-xai,rsense-gee,rsense-viz,rsense-scale,rsense-apps]",
+]
+
+# ---------------------------------------------------------------------------
+# Installation options. Each option includes everything in the one before it.
+#   pip install "geolattice[core]"            1. vector, raster, CRS, visualization
+#   pip install "geolattice[analysis]"        2. + spatial analysis
+#   pip install "geolattice[statistics]"      3. + spatial statistics and spatial causal inference
+#   pip install "geolattice[geostats]"        4. + geostatistics
+#   pip install "geolattice[remote-sensing]"  5. + remote sensing
+#   pip install "geolattice[all]"             6. everything (web/cloud GIS, spatial databases, deep learning, ...)
+# Not in "all": GPU builds for CUDA 13 (compute, geostatistics-gpu, rsense-gpu), rsense-biopar (needs pandas<3),
+# geostatistics-h2o / geostatistics-tensorflow, rsense-uav-dl, rsense-vision, rsense-foundation and dev. Add them by name.
+# ---------------------------------------------------------------------------
+
+core = [
+    "geolattice[io,viz]",
+]
+
+analysis = [
+    "geolattice[core,multidim,network,segregation,segregation-dasymetric,whitebox]",
+]
+
+statistics = [
+    "geolattice[analysis,spatial-statistics,spatial-statistics-viz,spatialcausal,spatialcausal-viz]",
+]
+
+geostats = [
+    "geolattice[statistics,geostatistics,geostatistics-plot]",
+]
+
+remote-sensing = [
+    "geolattice[geostats,rsense,rsense-access,rsense-sentinel3,rsense-sentinel5p,rsense-sar,rsense-lidar,rsense-hyperspectral,rsense-uav,rsense-classify,rsense-viz]",
+]
+
+all = [
+    "geolattice[remote-sensing,spatial-statistics-all,spatialcausal-all,geostatistics-jax,geostatistics-pytorch,geostatistics-gam,geostatistics-optuna,rsense-all,web-cloud,spatial-db-all,distributed,distributed-ml]",
+]
+
+[project.urls]
+Homepage = "https://github.com/zia207/GeoLattice"
+Repository = "https://github.com/zia207/GeoLattice"
+"Bug Tracker" = "https://github.com/zia207/GeoLattice/issues"
+Changelog = "https://github.com/zia207/GeoLattice/blob/main/CHANGELOG.md"
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools]
+# Nested package list is built in setup.py so ``geolattice.geostatistics``
+# (core, kriging, simulation, and the other subpackages),
+# ``geolattice.spatial_statistics``, ``geolattice.spatial_analysis.spatialcausal``, ``geolattice.spatial_bd`` (``geolattice.geolatticedb``), ``geolattice.rsense`` (with its
+# ``apps/templates`` namespace package), and the rest of ``src/`` map into the
+# ``geolattice`` namespace.
+package-dir = {"geolattice" = "src", "pygis" = "compat/pygis"}
+
+[tool.black]
+line-length = 100
+target-version = ['py310', 'py311', 'py312', 'py313', 'py314']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --cov=geolattice --cov-report=html --cov-report=term"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true

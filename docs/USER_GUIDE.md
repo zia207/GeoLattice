@@ -1,0 +1,2542 @@
+# GeoLattice user guide
+
+Detailed reference for every GeoLattice module: features, installation and troubleshooting, the package layout, and worked examples for vector and raster data, spatial analysis, geostatistics, spatial statistics, spatial causal inference, web and cloud GIS, spatial databases and remote sensing. For a short introduction, the installation options and a quick start, see the [README](../README.md).
+
+A Python package for geospatial data processing: coordinate reference systems, vector and raster I/O, basic raster operations, terrain analysis / geomorphometry, surface hydrological analysis, multi-criteria suitability modeling (categorical, weighted, fuzzy, sensitivity, plus C kernels), multidimensional rasters (NetCDF / Zarr / OPeNDAP), spatial network analysis (routing, accessibility, flows, diffusion), geostatistics (variograms, kriging, sequential simulation), spatial statistics (ESDA, spatial weights, GWR/MGWR, point patterns, spatial regression, sampling, Bayesian disease mapping), spatial causal inference (interference, spatial confounding, spatial double machine learning, quasi-experiments, causal discovery), web and cloud GIS (COG, GeoParquet, PMTiles, XYZ tiles, OGC API Features), remote sensing (optical, SAR flood mapping, InSAR, lidar, UAV, time series, fusion, deep learning, image classification and computer vision), geoprocessing, geometry tools, vector analysis, attribute manipulation, visualization, and optional CPU/GPU and WhiteboxTools backends.
+
+Requires Python 3.10 or newer. A C compiler and NumPy headers are needed to build the suitability extension.
+
+## Features
+
+| Feature                      | Description |
+|------------------------------|-------------|
+| **Coordinate reference systems** | Search EPSG, ESRI, and other authorities, define custom projections, and choose datum transformations (`geolattice.crs`) |
+| **Vector data** | Read and write desktop formats with GDAL/OGR, open cloud-native formats, clip, buffer, dissolve, intersect, and union |
+| **Raster data** | Open and write GeoTIFF and other GDAL formats, validate CRS, warp/reproject, run clip, mosaic, algebra, fill-nodata, neighbors, reclassify, histogram/classInt-style classification (`quantile`, `jenks`, `fisher`, …), zonal stats, polygonize, proximity, and contour (`geolattice.raster`) |
+| **Terrain analysis** | Slope, aspect, hillshade, TRI, TPI, TWI, roughness, curvature (mean/tangential/profile/plan/Gaussian), landform classification, multiscale metrics, viewshed, contours (`geolattice.spatial_analysis.terrain_analysis`) |
+| **Surface hydrology** | Breach/fill depressions, D8 and D-infinity flow direction and accumulation, stream networks, watershed and subbasin delineation, wetness index, elevation above stream, downslope distance to stream, and related indices (`geolattice.spatial_analysis.surface_hydrology`) |
+| **Suitability analysis** | Multi-criteria suitability modeling — categorical AND/OR/k-of-n, min–max and percentile-rank standardization, weighted linear combination, ArcGIS-style fuzzy memberships/overlays (array API + C-backed rasters), weighted fuzzy Gamma, Mamdani FIS helpers, weight sensitivity/Dirichlet Monte Carlo, locate regions (`geolattice.spatial_analysis.multi_criteria_suitability_analysis`) |
+| **Multidimensional rasters** | Open NetCDF/GRIB/HDF/Zarr/OPeNDAP layers, subset & merge along dimensions, aggregate, anomalies, argument statistics, trend & predict, CCDC/LandTrendr-style change detection, PCA, space-time cubes, temporal profiles, zonal/sample tables (`geolattice.spatial_analysis.multidimensional_raster`; requires `geolattice[multidim]`) |
+| **Spatial networks** | Geographic embedding & Kansky indices, OSMnx routing/isochrones/OD matrices, libpysal spatial graphs, 2SFCA accessibility, gravity & dominant-flow models, simple/complex contagion (`geolattice.spatial_analysis.network_analysis`; requires `geolattice[network]`) |
+| **Segregation analysis** | Single- and multi-group indices (dissimilarity, Gini, isolation, exposure, correlation ratio, Theil's H), local measures (location quotient, entropy, Simpson diversity) with FDR-corrected permutation significance, a KD-tree-based multiscale segregation profile (segregation scale, AUC, distortion — no dense n×n distance matrix), spatial-block bootstrap and permutation inference, boundary harmonization across census years (areal or raster-weighted dasymetric interpolation), panel trend tests and a chained, exactly-additive spatial-vs-composition Shapley decomposition, kernel/KNN/network neighborhoods, static maps and profile/decomposition plots, and an export hook into `geolattice.spatial_analysis.spatialcausal`/PyCausalML (`geolattice.spatial_analysis.segregation`; requires `geolattice[segregation]`, `geolattice[segregation-dasymetric]` for the raster-weighted interpolation; validated against PySAL's `segregation` package) |
+| **Geostatistics** | Variogram estimation/modeling, ordinary/simple/universal/indicator/disjunctive/factorial/soft/Poisson/cokriging, Bayesian kriging (conjugate, grid posterior, Box–Cox transformed, Poisson/binomial GLMM by MCMC), empirical Bayesian and regression kriging, space-time & space-time Poisson kriging, sequential Gaussian/indicator/direct sequential simulation, LU/turning bands/FFT/plurigaussian simulation, multiple-point statistics (direct sampling, SNESIM), indicator/Gaussian/multiple-point co-simulation, simulated annealing, GPU simulation, KT3D, cross-validation, GSLIB-style helpers, and a JAX CPU/GPU variogram and kriging port (`geolattice.geostatistics`, `geolattice.geostatistics.jax_variogram_kriging`; requires `geolattice[geostatistics]`, `geolattice[geostatistics-jax]` for JAX) |
+| **Spatial statistics** | Spatial weights (Queen/Rook/KNN/graph), global & local ESDA (Moran, Geary, Getis–Ord), geographically weighted models (GWR, MGWR, GWSS, GTWR, GW ensembles, GNNWR), point-pattern analysis, spatial lag/error regression, deterministic interpolation, areal transfer, spatial sampling, Bayesian disease mapping (`geolattice.spatial_statistics`; requires `geolattice[spatial-statistics]`) |
+| **Spatial causal inference** | Interference / spillover estimators with exposure mappings and design-based (Hájek) weights, spatial-confounding diagnostics and adjustment (Moran eigenvectors, RBF bases, Spatial+), spatial double machine learning and DR-learner with spatial block cross-fitting and Conley / block standard errors, local effects (GW-DML, GW causal forest), geographic RDD, spatial and staggered DiD, spatial synthetic control, Bayesian ICAR / BYM causal models, cluster and saturation designs with power analysis, spatial causal discovery (spatial Granger, GCCM, spatial NOTEARS) (`geolattice.spatial_analysis.spatialcausal`; requires `geolattice[spatialcausal]`) |
+| **Web and cloud GIS** | Read files on S3 / GCS / Azure / HTTP with range requests (`to_vsi_path`, `cloud_env`, `remote_info`); create and validate Cloud-Optimized GeoTIFFs (`to_cog`, `validate_cog`); write GeoParquet 1.1 with a bbox covering column and Hilbert-sorted rows, FlatGeobuf with a spatial index and PMTiles vector tiles; XYZ tile math, on-the-fly tile rendering (from COG overviews) and static tile pyramids with a Leaflet viewer; a Starlette app serving XYZ tiles, TileJSON and OGC API – Features (OpenAPI `/api`, paging, `bbox`, attribute and `datetime` filters); `start_server` for running apps in notebooks and tests; a range-request file server with transfer counters (`geolattice.web`; requires `geolattice[web]`) |
+| **Spatial databases** | One API for PostGIS, SpatiaLite, GeoPackage and DuckDB spatial: `connect`, load vector files and GeoDataFrames (SRID detection, spatial index), spatial SQL back to GeoDataFrames, `spatial_join`, `nearest` (k-NN), `buffer` (planar or geography), `create_index`, `explain`; PostGIS raster load, zonal statistics and point sampling (`db.raster`), pgRouting topology, shortest paths and isochrones (`db.network`), Mapbox vector tiles and a small tile server (`db.tiles`) (`geolattice.geolatticedb`, also `geolattice.spatial_bd`; requires `geolattice[spatial-db]`, `geolattice[spatial-db-postgis]` for PostGIS) |
+| **Remote sensing** | Data access and downloads, optical imagery and spectral indices, atmospheric composition, SAR (Sentinel-1, PolSAR, RADARSAT, flood and ship detection), InSAR, NISAR, lidar, hyperspectral (imaging spectroscopy), UAV, time series, fusion, texture, image processing, super-resolution, classification and computer vision, on CPU or GPU with an `.rs` xarray accessor (`geolattice.rsense`; requires `geolattice[rsense]`). See [Remote sensing](#remote-sensing-geolatticersense) |
+| **Geometry tools** | Build plot rectangles, ovals, diamonds, offset rows, place points/transects, lay out section grids, snap/square corners, check/repair geometry (`geolattice.vector`) |
+| **Vector analysis** | Field statistics, point-in-polygon counts, DBSCAN/ST-DBSCAN/k-means clustering, distance matrices, nearest-hub links, nearest-neighbour analysis, overlap summaries, line-length totals (`geolattice.spatial_analysis.vector_analysis` / `geolattice.vector.vector_analysis`) |
+| **Attribute manipulation** | Filter, select, rename, calculate, aggregate, sort, join, transform, string operations, conditional updates, reshape attribute tables while keeping geometries |
+| **Visualization** | Static maps, choropleths, rasters, and Folium maps (`geolattice[viz]`) |
+| **Distributed and GPU computing** | Chunked raster algebra, focal filters, terrain and hydrology; partitioned vector joins (Dask, GPU point-in-polygon, or Spark with Apache Sedona), nearest neighbours; rasterize, zonal statistics, point extraction and polygonize; spatial weights, Moran, Geary, LISA, Getis-Ord G*, clustering and kernel density; network shortest paths and centrality; model fitting, raster prediction, multi-GPU tiled inference and DDP training; benchmarking and CPU-vs-GPU checks; on all cores, a Dask cluster (local, multi-GPU, SLURM, PBS, Kubernetes) or CUDA GPUs (`geolattice.distributed`; requires `geolattice[distributed]`). See [Distributed computing](#distributed-computing-geolatticedistributed) |
+| **Compute backends** | Switch between CPU and GPU execution |
+| **WhiteboxTools** | Terrain and hydrology tools through an optional extra |
+| **Core types** | Spatial data bases, bounds, and metadata |
+
+## Remote sensing (`geolattice.rsense`)
+
+`geolattice.rsense` works on xarray objects and registers an `.rs` accessor. Every array step runs on
+CPU (NumPy) or GPU (CuPy). The base install is `geolattice[rsense]`; each topic below names the
+optional extra it needs. Usage examples are under [Quick start → Remote sensing](#remote-sensing).
+
+### Data access and downloads
+
+- STAC, Earth Engine, ASF, CDSE and Earthdata access (`geolattice.rsense.access`; `geolattice[rsense-access]`, `geolattice[rsense-gee]`)
+- `get_images` / `search_images` download the PyGIS Explorer catalogues (Sentinel, Landsat, NAIP, NOAA coastal imagery, USGS 3DEP lidar) into a folder, from a bounding box or a shapefile, GeoJSON or GeoPackage
+- `search_rcm_ard` / `get_rcm_ard` add RADARSAT Constellation Mission CEOS Analysis Ready Data (https://registry.opendata.aws/rcm-ceos-ard/: compact-polarization, 30 m, C-band coverage of Canada, from Natural Resources Canada's EODMS STAC catalogue and the open, unsigned AWS `rcm-ceos-ard` bucket), with client-side `sat:orbit_state` filtering where the catalogue's own STAC API cannot
+- Zarr / STAC export and dask-based scaling (`geolattice.rsense.scale`; `geolattice[rsense-scale]`)
+
+### Optical imagery and spectral indices
+
+- Sensor-aware loaders (Sentinel-2, Landsat, HLS, MODIS), scaling and cloud masking, compositing, land surface temperature and spectral unmixing (`geolattice.rsense.optical`)
+- 100+ spectral indices, with sensor-aware `spectral_index` for MODIS, Landsat 8/9, Sentinel-2, PlanetScope, WorldView and NAIP, plus the USGS Landsat SR-derived set
+- Sentinel-2 canopy biophysical variables (`geolattice.rsense.optical.sentinel2_biophysical.estimate`): LAI, FAPAR, FCOVER, CCC and CWC from the Copernicus Data Space BioPAR openEO service, the SNAP Sentinel-2 Toolbox Level-2 neural-network retrieval of Weiss and Baret (2016); `CWY` is accepted as CWC (`geolattice[rsense-biopar]`)
+- Sentinel-2 burn indices (`geolattice.rsense.optical.sensors.sentinel2_burn_indices`): NBR, dNBR, NBR2, BAI, BAIS2 and MIRBI for forest fire detection and severity assessment
+- Sentinel-3 OLCI / SLSTR / SRAL / Synergy readers and masking (`geolattice.rsense.optical.sensors.sentinel3`): TOA reflectance, CF flag-based cloud/water masking, swath-to-grid regridding, LST/SST/FRP, altimetry, MCI/OTCI indices (`geolattice[rsense-sentinel3]`)
+
+### Atmospheric composition (Sentinel-5P)
+
+`geolattice.rsense.atmosphere.sentinel_5p` (`geolattice[rsense-sentinel5p]`):
+
+- TROPOMI readers for NO2, SO2, O3, CO, CH4, HCHO, aerosol index, aerosol layer height and clouds, including the SO2 volcanic layer-height variants
+- Metadata-driven `qa_value` quality filtering; Dobson Unit and molecules/cm² conversions
+- Level-2-to-3 gridding (pixel-centre binning and pixel-corner area-weighted oversampling) and temporal compositing
+- NO2 averaging-kernel model comparison, CH4 point-source emission estimation (IME method), CO dry-air mixing ratio, and cross-file processing-consistency checks
+
+### SAR: Sentinel-1 GRD processing and speckle filtering
+
+`geolattice.rsense.sar.sentinel1` and `geolattice.rsense.sar.speckle` (`geolattice[rsense-sar]`):
+
+- Border-noise removal, radiometric calibration to sigma0 / beta0 / gamma0, and DEM-based local-incidence-angle terrain flattening
+- Precise / restituted orbit file (`.EOF`) parsing and interpolation; annotation-XML geolocation-grid and platform-heading readers
+- Multitemporal stacks: `read_grd_subset` calibrates just an AOI window of a local or remote GRD scene, `create_stack` co-registers scenes on a common grid (SNAP `CreateStack`), `estimate_offset` / `apply_offset` register a stack to a terrain-corrected reference, and `multitemporal_speckle_filter` applies the Quegan & Yu filter (SNAP `Multi-Temporal-Speckle-Filter`)
+- Single-image speckle filters (Lee and others)
+
+### SAR: polarimetry and RADARSAT compact-pol
+
+- Dual-pol PolSAR (`geolattice.rsense.sar.polsar`): C2 covariance matrix and Cloude H/A/α decomposition with DpRVI, Stokes-vector parameters and degree of polarization, m-δ and m-χ model-based power decompositions (Raney 2007), an eigen-decomposition model-based surface / double-bounce / volume decomposition in the dual-pol framework of Mascolo et al. (2022), and H-α plane classification
+- Quad-pol: `coherency_t3` builds the 3×3 Pauli-basis coherency matrix from HH/HV/VH/VV, and `h_alpha_quad` is the full Cloude-Pottier (1997) H/A/α decomposition from its vectorized 3×3 eigendecomposition; `h_alpha_classify`'s zone map applies to either
+- RCM-ARD compact-pol (`geolattice.rsense.sar.radarsat`, following NRCan/EODMS's reference notebooks): `rr_rl_to_stokes` (circular-basis Stokes parameters and degree of polarization), `rrrl_to_rhrv` (lossless conversion to the linear RH/RV compact-pol covariance matrix, in the same C2 form the dual-pol H/α, Stokes and model-based decompositions take), `compact_pol_mchi` (m-χ surface / volume / double-bounce decomposition in RCM's sign convention), `split_rrrl` and `gamma0_to_sigma0`
+- Simulated compact-pol for missions without compact-pol hardware (RADARSAT-2): `simulate_compact_pol` applies a circular-transmit / linear-receive Jones-vector simulation (Guo et al. 2018) to a quad-pol scattering matrix, and `rhrv_to_stokes` gives the same Stokes form, so `compact_pol_mchi` applies unchanged
+- Raw RCM Level-1 GRD: reads `metadata/calibration/lutSigma` / `lutBeta` / `lutGamma` and `noiseLevels` XML (`read_rcm_lut` / `interpolate_rcm_lut`, `read_rcm_noise_levels` / `interpolate_rcm_noise`, stitching a ScanSAR product's per-beam NESZ segments) and applies them with `calibrate_rcm` (`sigma0 = (DN² + offset) / gain`, NESZ floor subtracted in the calibrated domain); multilooking, speckle filtering and dB conversion reuse the Sentinel-1 functions
+- RCM Level-1 GRD product folders end to end, no SNAP needed: `read_rcm_grd_subset` reads only the AOI window of one polarization, calibrates it, removes the noise floor and returns window-local GCPs and the per-pixel incidence angle in the same form as `sentinel1.read_grd_subset`, so `sentinel1.create_stack` puts RCM dates from different beams on one map grid and `ship.land_mask_for_window` masks land in radar geometry. Helpers: `find_rcm_files`, `read_rcm_metadata`, `read_rcm_tie_points` (fallback when the GeoTIFF has no GCPs), `read_rcm_incidence` / `rcm_incidence_angle`; `interpolate_rcm_lut` / `interpolate_rcm_noise` take a `col0` window offset
+- Incidence-angle normalization for scenes from different beams or across a wide swath: `fit_incidence_slope` (dB-per-degree slope over a mask) and `normalize_incidence` (`sigma0 - slope * (theta - ref)`). Worked case study: sea ice mapping for shipping routes in the Lower St. Lawrence Estuary ([`docs/sea_ice_mapping_rcm_aoi.md`](sea_ice_mapping_rcm_aoi.md); capstone notebook on two real RCM scenes, `Tutorials/notebooks/08_remote_sensing/08_11_Capstones/08_11_09_sea_ice_mapping_RADARSAT.ipynb`; runnable as [`examples/rcm_sea_ice.py`](../examples/rcm_sea_ice.py))
+- RCM Level-1 Stripmap SLC pairs: `read_rcm_annotation` parses `product.xml`'s orbit state vectors and per-line timing into the annotation shape `sentinel1.read_slc_annotation` returns, so `sentinel1.back_geocode` / `resample_slc` (with `ann=None`) and the rest of the sensor-agnostic InSAR chain work on it unchanged
+
+### SAR: change, flood and ship detection
+
+- Flood mapping (`geolattice.rsense.sar.flood_map`): Otsu, split-Otsu, a fixed dB threshold, a pre/post log-ratio, or the UN-SPIDER after/before ratio of dB values (threshold 1.25), with HAND, slope and layover/shadow false-positive masks and a permanent-water split; `geolattice.rsense.sar.hand` computes Height Above Nearest Drainage from a DEM, and `geolattice.rsense.sar.mask_to_polygons` vectorizes the mask and reports area
+- Ship detection (`geolattice.rsense.sar.ship`) on a GRD AOI in native radar geometry: a sea mask rasterized from land polygons onto the window's own GCPs (`land_mask_for_window`), gamma or lognormal cell-averaging CFAR with an ENL estimated from the most homogeneous sea blocks (`estimate_enl`, `cfar` / `cfar_tiled`), connected-component target extraction with PCA length / width / orientation and VH/VV contrast (`extract_targets`), and azimuth-ambiguity flagging from the annotation's PRF (`flag_azimuth_ambiguities`); `detect_ships_grd` chains these over `sentinel1.read_grd_subset`
+- SLC sub-look coherence separates coherent targets from incoherent sea clutter without speckle-smearing a GRD: `range_sublooks`, `azimuth_sublooks` (deramped with `sentinel1.tops_deramp_phase`), `sublook_coherence` and `coherence_at_points` (sampled at GRD candidates via `sentinel1.geo2rdr` / `burst_coordinates`)
+- AIS validation: Danish Maritime Authority daily files (`read_ais_dma`), vessel positions interpolated or dead-reckoned to the SAR time (`ais_at_time`), Hungarian matching with an optional along-track shift for moving vessels (`azimuth_displacement_m`, `match_points`), and precision / recall / F1 (`detection_scores`)
+
+### SAR: Sentinel-1 IW SLC / TOPS bursts
+
+- `download_orbit` / `crop_orbit` / `apply_orbit_file` for precise POEORB orbits from the open AWS `s1-orbits` bucket
+- `read_slc_annotation` (SAFE or ASF burst-extractor XML) and `read_slc_burst` (TOPS Split)
+- `geo2rdr` range-Doppler geocoding, `back_geocode` DEM-assisted co-registration, `tops_deramp_phase` / `resample_slc` deramp–interpolate–reramp, `esd_azimuth_shift` Enhanced Spectral Diversity, `deburst`
+- `terrain_correct` Range-Doppler terrain correction and `layover_shadow_mask`
+- `coregister_stack` (co-register a multi-date SLC stack to one reference with back-geocoding and ESD), `los_unit_vector` (ground-to-satellite ENU direction for GNSS comparison), `geocode_points` (map positions of radar-geometry points such as persistent scatterers, corrected for their DEM error)
+
+### InSAR
+
+`geolattice.rsense.insar` (`geolattice[rsense-insar]`): HyP3, ISCE and MintPy interfaces, interferograms, coherence, Goldstein filtering, unwrapping and deformation, plus:
+
+- **Topographic InSAR** (`insar.topo`): `perpendicular_baseline`, `height_of_ambiguity`, `flat_earth_phase`, `unwrap_snaphu_topo` (SNAPHU TOPO cost mode), `phase_to_height` with per-connected-component ties, `geoid_to_ellipsoid`, `height_std`, `detrend_heights`, `combine_heights`, `dem_error_stats`, `fill_dem_voids`
+- **Differential InSAR** (`insar.dinsar`): `topographic_phase`, `differential_interferogram`, `select_reference_point`, `reference_to_point`, `enu_to_los`
+- **PS-InSAR** (`insar.psinsar`): `amplitude_dispersion`, `ps_candidates`, `sparse_lowpass`, `ps_periodogram` (DEM error and temporal coherence), `coherence_threshold` (random-phase false-positive rate), `unwrap_points` (sparse PS unwrapping through SNAPHU, optionally sequential in time), `atmospheric_filter` (APS: high-pass in time, low-pass in space), `point_velocity`
+- **SBAS** (`insar.sbas`): `sbas_network` / `network_components` (pairs by temporal and perpendicular baseline or nearest neighbours), `interferogram_stack` (form, deburst, multilook, filter and unwrap a whole network from a co-registered stack), `loop_closure` / `correct_unwrapping_errors` (phase-closure integer correction of 2π unwrapping errors), `sbas_svd` (Berardino SVD minimum-norm inversion, bridging disconnected networks, coherence-weighted), `dem_error_correction` (Fattahi & Amelung 2013)
+
+### NISAR
+
+`geolattice.rsense.sar.nisar` (`geolattice[rsense-sar]`): HDF5 inspection and reading for RSLC, RIFG, RUNW, ROFF, GSLC, GCOV, GUNW and GOFF; Level-1 / Level-2 layer readers; RSLC backscatter, RIFG/GSLC interferograms, unwrapped-phase displacement, GCOV indices, offset quality processing and quick-look Level-1 geocoding. Precision geocoding, phase unwrapping and time-series inversion stay with ISCE3, SNAPHU and MintPy.
+
+### Lidar and UAV
+
+- Lidar (`geolattice.rsense.lidar`; `geolattice[rsense-lidar]`), covering the full point cloud workflow from raw tiles to products:
+  - **I/O and inspection** (`io`, `filters`): LAS/LAZ/COPC with `read_las` (bounds and level-of-detail queries), `read_las_chunks` for files larger than memory, `las_info` (header, VLRs, points by return without reading points), `write_las`, `write_ply`; PDAL readers for EPT/USGS 3DEP (`read_pdal` with `bounds_crs=4326` for lon/lat boxes, `out_crs`), `pdal_pipeline` to run any PDAL filter on an in-memory cloud; `summary` (density, spacing, class and return tables), `reproject` (horizontal and compound vertical CRSs), `clip_polygon`
+  - **Quality control and cleaning** (`filters`): `density_map`, `swath_overlap` (inter-flight-line dz), `vertical_accuracy` (RMSEz, NVA 95% against checkpoints), `statistical_outlier_removal` / `radius_outlier_removal` (drop, classify as ASPRS 7/18, or mask), `thin` (voxel, grid-min/max, random)
+  - **Large data** (`tiles`): buffered `tile_grid` / `iter_tiles`, `process_tiles` (thread or process pools; point clouds, rasters and GeoDataFrames trimmed to tile cores and merged), `write_tiles`, `process_files`, `merge_pointclouds`, `merge_rasters`
+  - **Ground and surfaces**: SMRF, CSF and PMF (`classify_ground(pc, "smrf" | "csf" | "pmf")`); `dem`, `dsm`, pit-free `chm`, `normalize_heights`, `fill_gaps` (nearest, IDW, TIN); `sample_raster` and `colorize` (RGB/NIR from orthoimagery)
+  - **Terrain and hydrology** (`terrain`): slope, aspect, hillshade, curvature, TPI, TRI, roughness, geomorphons, depression filling, D8 flow, sparse-solver `flow_accumulation` (with weights), TWI, `hand` (Height Above Nearest Drainage), `inundation` (HAND stage or bathtub, connected to seeds), `flatten_water` (hydro-flattening)
+  - **Point features and ML** (`features`): `eigen_features` (linearity, planarity, scattering, verticality, normals...), `normals`, `euclidean_clusters`, `point_feature_table` (multi-scale), `train_point_classifier` / `predict_point_classes`
+  - **Forest** (`forest`, `features`): `grid_metrics` (vectorized), `structure_metrics` (FHD, effective LAI, canopy relief ratio), `height_profile` (gap fraction, MacArthur–Horn LAD), `foliage_height_diversity`, `plot_metrics` (area-based biomass modelling), `detect_trees`, `segment_crowns`, `segment_trees_points`, `assign_points_to_crowns`
+  - **Urban and infrastructure** (`urban`): `classify_vegetation` (ASPRS 3/4/5), `classify_buildings` (local flatness + RANSAC plane test + edge growing), `building_footprints`, `ransac_plane`, `segment_roof_planes` (slope, aspect), `detect_power_lines` (ASPRS 14 + line geometries), `sun_positions`, `solar_potential` (clear-sky insolation with cast shadows, per roof)
+  - **Change and registration** (`change`, `registration`): `dem_of_difference` (level of detection, erosion/deposition volumes), `c2c_distance` (signed), `m3c2` (Lague et al. 2013), `canopy_change`; `icp` (trimmed, point-to-point), `rigid_transform`, `apply_transform`, `fit_circle`, `detect_stems` (DBH from TLS/MLS/UAV lidar)
+  - **Spaceborne**: GEDI L2A, L2B (cover, PAI, FHD, PAVD profiles), L4A and ICESat-2 ATL08 readers, `footprints_to_raster`
+  - **Plots** (`viz`): `cross_section`, `plot_cross_section` (ASPRS colours), `plot_height_profile`, `plot_classification`
+  - **Deep learning** (`geolattice.rsense.dl.pointnet`; `geolattice[rsense-dl]`): `PointBlockDataset`, `PointNetSeg`, `PointNet2Seg` (pure PyTorch, CPU/CUDA/MPS), `train_point_segmentation`, `predict_point_segmentation` (block sweep with voting)
+- UAV (`geolattice.rsense.uav`; `geolattice[rsense-uav]`, deep-learning parts `geolattice[rsense-uav-dl]`)
+  - **Planning and photogrammetry** (`odm`): `flight_plan` with camera presets (`CAMERAS`: Phantom 4 Pro, Mavic 3M, P4 Multispectral, RedEdge-MX, Mini 4 Pro photo and 4K video) and video capture (`fps`, `frame_step`), `camera_from_equivalent`, OpenDroneMap via `run_docker` / `run_nodeodm`, `load_outputs` (ODM layout or explicit Metashape/Pix4D paths)
+  - **Frames and catalogues** (`io`): `read_frame` (PNG/JPG/TIFF on a metre grid from the GSD, or pixels), `load_pair` (RGB + NIR, optional co-registration), `build_catalog` / `pair_catalog` for dated flight folders, `extract_frames` from video, `blur_score`, `exposure_stats`, `frame_quality`; `coregister` (ORB/SIFT homography + ECC, `register`)
+  - **Radiometry and indices**: `panel_calibration`, `empirical_line`, `sunshine_normalize`; `vegetation_indices` (VARI, TGI, ExG, ExGR, GLI, NGRDI, NDVI, GNDVI, SAVI, CIVE and any `optical` index), `chromatic`, `index_summary`; `bare_soil_line` and `cover_layers` (PVI, green ground cover and WDVI from red and NIR digital numbers, Maas and Rajan 2008)
+  - **Structure** (`dem`, `canopy`): `ransac_flatten` (doming removal for DEMs without GCPs, consistent across dates), `trend_surface`, `doming_profile`, `chm_from_surfaces`, `canopy_cover`
+  - **Plant-level analytics**: `count_plants` (peaks/blobs), `plants_per_area`; RiceNet density counting and plant size (`density_count`, `load_ricenet`, `counting`); tiled YOLO detection (`tiled_detect`, `detection_scores`, `count_summary`, `detect`); SAM plant masks and senescence mapping (`sam_plant_mask`, `classify_senescence` with SegVeg models, `health_map`, `health_summary`, `health`); shared tiling (`sliding_windows`, `predict_tiled`, `merge_points`, `merge_boxes`)
+  - **Thermal and season**: `cwsi`, `raw_to_celsius`; `trait_table`, `summarize_dates`, `fit_logistic`, `growth_rates` (`phenology`); model weights via `fetch_weights` / `list_weights`
+
+### Hyperspectral (imaging spectroscopy)
+
+`geolattice.rsense.hyperspectral` (`geolattice[rsense-hyperspectral]`). Cubes are `xarray` DataArrays `(band, y, x)` with `wavelength` (nm), `fwhm` and `good` band coordinates.
+
+- **I/O** (`io`): ENVI read/write (BSQ/BIL/BIP, any byte order, memory-mapped band and window subsets, bad-band lists, map info and CRS), EMIT L1B/L2A NetCDF with GLT orthorectification (`read_emit`, `glt_orthorectify`), EnMAP L1C/L2A (`read_enmap`, METADATA.XML gains and wavelengths), PRISMA L2 HE5 (`read_prisma`), AVIRIS-NG / AVIRIS-3 (`read_aviris`), band-described GeoTIFFs, `read_hyperspectral` (auto-detect), NASA Earthdata `search` (EMIT reflectance, radiance, CH₄/CO₂ enhancement and plume products, AVIRIS-NG, PACE OCI), `subset_file` for small sample cubes
+- **Cube helpers** (`cube`): `as_cube`, `band_at` (nearest band or averaged window), `sel_range`, `spectra_at` (points or GeoDataFrame), `band_stats` (per-band SNR), `mean_spectrum`
+- **Preprocessing** (`preprocess`): `bad_bands` / `drop_bad_bands` (water-vapour windows, SNR, NaN), `estimate_noise`, `destripe`, `quality_mask`, `empirical_line` (two or more field targets, any wavelength grid), `flat_field`, `iar_reflectance`, `smooth` (Savitzky–Golay, moving, Gaussian), `derivative`, `snv`, `normalize`, `continuum_removal` (vectorised convex hull), `band_depth` (depth, position, width, area, asymmetry), `resample_spectral` (Gaussian SRFs) and `resample_to_sensor` (Sentinel-2, Landsat 8/9, MODIS, PlanetScope, returned with the band names `geolattice.rsense.optical` indices expect)
+- **Dimensionality reduction** (`reduce`): `pca`, `mnf` and `mnf_denoise`, `ica`, `hysime`, `virtual_dimensionality`, `select_bands` (mutual information, random forest, ANOVA, variance, decorrelation, minimum band separation)
+- **Narrowband indices** (`indices`): 32 indices defined by wavelength (NDVI, PRI, CCI, NDRE, MTCI, MCARI, TCARI/OSAVI, CRI, ARI, PSRI, SIPI, WBI, NDII, MSI, CAI, NDLI, NDNI, clay Al-OH, carbonate, iron, phycocyanin, NDCI...), `register_index`, `available`, `red_edge_position`
+- **Libraries and matching** (`library`, `match`): `SpectralLibrary` (subset, resample to a cube, merge, plot), USGS splib07 and ECOSTRESS readers, CSV, `from_image`, `synthetic_library`; `sam`, `sid`, `spectral_similarity` (SAM, SID, SCA, Euclidean, SID-SAM), `classify_spectral`
+- **Endmembers and unmixing** (`endmembers`, `unmixing`): `ppi`, `atgp`, `nfindr`, `vca`; `unmix` (LS, sum-to-one, NNLS, FCLS solved exactly and vectorised; about 3 s for 250k pixels × 5 endmembers), `mesma` (multiple endmembers per class, photometric shade), `sparse_unmix` (large libraries), `reconstruct`
+- **Target and anomaly detection** (`detect`): global and local `rx`, `matched_filter`, `ace`, `cem`, `osp`, `detection_roc`; gas plumes: `gas_matched_filter` (column-wise CH₄/CO₂ matched filter in ppm·m), `plume_mask`, `plume_ime`, `emission_rate` (IME method)
+- **Traits** (`traits`): `fit_plsr` (components by cross-validation, VIP scores, grouped CV), `fit_regressor` (RF, gradient boosting, SVR, ridge, Gaussian process with uncertainty), `TraitModel.predict_map`, PROSAIL `prosail_spectrum` / `prosail_lut` and `hybrid_retrieval`
+- **Plots** (`viz`): wavelength composites (`rgb`, `plot_rgb` with presets), `plot_spectra`, `plot_band_stats`, interactive `spectral_viewer` and `wavelength_slider` (plotly)
+- **Deep learning** (`geolattice.rsense.dl.hyperspectral`; `geolattice[rsense-dl]`): `HSIPatchDataset`, leakage-safe `block_split`, `SpectralCNN1D`, `CNN3D`, `HybridSN`, `SpectralTransformer`, `train_hsi_classifier`, `predict_hsi_map`
+
+### Time series and fusion
+
+- Time series (`geolattice.rsense.timeseries`): smoothing and gap filling, phenology, anomalies, BFAST-style breaks, CCDC
+- Fusion (`geolattice.rsense.fusion`): STARFM, optical–SAR feature stacking and SAR-driven gap filling, lidar–optical wall-to-wall mapping
+
+### Texture analysis
+
+`geolattice.rsense.texture`, for optical and SAR imagery:
+
+- Statistical: `first_order_stats` (moments and entropy), `glcm_texture` (Haralick 1973 gray-level co-occurrence features), `glrlm_texture` (run-length emphasis)
+- Structural: `edge_density` (Canny edge density), `lacunarity` (gliding-box gap/clump distribution)
+- Transform-based: `gabor_texture` (oriented filter bank), `fourier_texture` (radial power-spectrum rings), `wavelet_texture` (Haar subband energy)
+- Local patterns: `lbp_texture` (Local Binary Pattern histogram uniformity/entropy)
+- Model-based: `mrf_texture_energy` (Markov Random Field clique-energy proxy), `fractal_dimension` (differential box-counting), `autoregressive_texture` (local AR fit)
+- Deep learning: `deep_texture_features` (pretrained CNN backbone feature maps via `timm`; `geolattice[rsense-dl]`)
+
+Every function broadcasts over leading dims (band / polarization / time) and returns a georeferenced raster the same shape as its input.
+
+### Classification, deep learning and XAI
+
+- Classical classification (`geolattice.rsense.classify`): unified CPU/GPU estimators, sampling, OBIA, Olofsson accuracy assessment, change detection (`geolattice[rsense-classify]`); the end-to-end `image_classification` workflows below live in the same subpackage
+- Deep learning (`geolattice.rsense.dl`): tile datasets, segmentation and detection models, foundation-model adapters, training and tiled inference (`geolattice[rsense-dl]`)
+- XAI (`geolattice.rsense.xai`): feature importance, spatial cross-validation, area of applicability, conformal prediction (`geolattice[rsense-xai]`)
+- Visualization and apps (`geolattice.rsense.viz`, `geolattice.rsense.apps`): plots, stretches and Streamlit app templates (`geolattice[rsense-viz]`, `geolattice[rsense-apps]`)
+
+### Image classification and computer vision
+
+`geolattice.rsense.classify.image_classification` (also importable as `geolattice.rsense.image_classification`) runs end-to-end image learning workflows (`geolattice[rsense-classify]`, `geolattice[rsense-dl]`, `geolattice[rsense-vision]`):
+
+- **Data**: `load_stack` keeps CRS, transform, nodata, band names, dates and sensor; leakage-safe `spatial_block_split` / `spatial_kfold` / `temporal_split` / `group_split` and a train-only `Normalizer`
+- **Learning mode and spatial unit**: pixel- or object-based; supervised, unsupervised (k-means, GMM), semi-supervised (self-training, FixMatch) and self-supervised (SimCLR, MoCo, SeCo-style pairs, masked-image modeling)
+- **CNNs and transformers**: LeNet / VGG / ResNet / EfficientNet / ConvNeXt / ViT / Swin chip classifiers with N-band stem adaptation, overhead-imagery augmentation, CutMix, CE / weighted-CE / focal / Dice / Lovasz / GCE / SCE losses, and a training loop with AMP, clipping, early stopping, checkpoints and TensorBoard / W&B / MLflow logging
+- **Transfer learning**: linear-probe / partial / full fine-tuning with TorchGeo SSL4EO / Satlas weights, ViT attention rollout
+- **Segmentation**: FCN / U-Net / DeepLabV3(+) / SegFormer with seam-blended sliding windows and GeoTIFF class maps
+- **Detection**: Faster R-CNN / RetinaNet / FCOS / YOLO with NMS, mAP, oriented boxes and scale-aware tiling
+- **Instances and boundaries**: Mask R-CNN instances, boundary weight maps, polygon cleaning / regularization, GeoPackage / GeoJSON export
+- **Agricultural field edges** (`geolattice.rsense.edge_detectors`; `geolattice[rsense-edge]`): FieldEdge-compatible FC-DenseNet56/67/103 checkpoint loading, SegNet and FCN-DKConv6 (the networks of Yang et al. 2020), overlap-blended boundary inference for RGB or multispectral (e.g. blue-green-red-NIR) input, field-instance labels and CRS-aware polygons/boundaries. Training-data and evaluation helpers: `rasterize_boundaries` (buffered polygon outlines to boundary labels), `tile_pairs`, `dihedral_augment`, `classical_edges` (Roberts, Sobel, Prewitt, Scharr, LoG, Canny baselines), `edge_metrics` (boundary/field precision, recall, F1, ROC AUC, optional positional tolerance) and `select_threshold`. Checkpoints are supplied by the user; optional Ultralytics Delineate Anything inference uses `geolattice[rsense-vision]`, while SAM 2 requires its separately installed package. **Fields of The World (FTW)** U-Net checkpoints (v3 `FTW_PRUE_EFNET_B3/B5/B7`, their `_CCBY` variants, and the legacy v1/v2 models; `ftw_models()`) are rebuilt with `build_segmenter` from the settings stored in the checkpoint (`load_ftw_model`, local `.ckpt` files or a cache, downloaded only with `download=True`); `ftw_stack` builds the two-window B04-B03-B02-B08 input, `predict_ftw` / `detect_fields_ftw` run FTW inference (÷3000, up-sampling, overlap blending) and return field polygons, and `to_fiboa` adds the fiboa core properties.
+- **Change detection**: differencing, ratio, CVA and PCA, co-registration checks, Siamese / early-fusion U-Nets and a BIT-style transformer
+- **Time series and fusion**: TempCNN, LSTM, ConvLSTM, L-TAE, PSE-TAE and U-TAE models; early / middle / late optical-SAR fusion; SAR gap filling with a reconstruction flag
+- **Foundation and vision-language models** (see also `geolattice.rsense.foundation_models` below): Prithvi, Clay, SatlasPretrain, DOFA and SkySense survey, TerraTorch configs, embedding search and few-shot prototypes; SAM / SAM 2, Grounding DINO + SAM and RemoteCLIP / GeoRSCLIP, with outputs flagged as unverified
+- **Few or imperfect labels**: active learning, weak labels from coarse products, CORAL / histogram domain adaptation, TENT test-time adaptation
+- **Evaluation and reproducibility**: per-class metrics with bootstrap intervals, error maps, baselines, JSON run records, and a `python -m geolattice.rsense.classify.image_classification` command line
+
+For an existing FieldEdge FC-DenseNet checkpoint, prepare/select three RGB bands and supply their source value range when reading scaled raster values:
+
+```python
+from geolattice.rsense.edge_detectors import load_edge_model, detect_field_edges_from_raster
+
+model = load_edge_model("FC-DenseNet103.pt", device="cuda")
+result = detect_field_edges_from_raster(
+    "rgb.tif", model, bands=(1, 2, 3), image_range=(0, 10000)
+)
+result.fields.to_file("field_boundaries.gpkg", driver="GPKG")
+```
+
+Training a 4-band (blue, green, red, NIR2) boundary network from digitised field polygons:
+
+```python
+import geolattice.rsense.edge_detectors as ed
+
+label = ed.rasterize_boundaries(fields, transform=transform, shape=(H, W), buffer=0.5)
+tiles = ed.tile_pairs(image_hwc, label, size=192)                  # (N, C, 192, 192) and (N, 192, 192)
+x_train, y_train = ed.dihedral_augment(tiles["images"], tiles["labels"])   # 0/90/180/270 degree rotations
+model = ed.build_edge_model("FC-DenseNet103", in_channels=4)       # or "SegNet", "FCN-DKConv6", "unet_basic"
+# ... train with geolattice.rsense.classify.image_classification.train_model(task="segmentation") ...
+scores = ed.edge_metrics(probability, truth, threshold=0.5)         # boundary/field P, R, F1 and AUC
+```
+
+Fields of The World models on two Sentinel-2 windows (planting and harvest), with fiboa output:
+
+```python
+import geolattice.rsense.edge_detectors as ed
+
+print(ed.ftw_models())                                              # names, licences, release URLs
+model = ed.load_ftw_model("FTW_PRUE_EFNET_B5", download=True)       # or a local .ckpt path
+stack = ed.ftw_stack(window_a, window_b)                            # (band, y, x) DataArrays: red, green, blue, nir
+result = ed.detect_fields_ftw(stack, model, min_area_m2=500, simplify=15)
+fields = ed.to_fiboa(result.fields, collection="my_fields_2025", determination_datetime="2025-10-10")
+fields.to_parquet("fields.parquet")                                 # fiboa GeoParquet
+```
+
+### Image processing
+
+`geolattice.rsense.image_processing` is a standalone toolbox following the OpenCV and scikit-image tutorials, on `(band, y, x)` DataArrays (CRS and coordinates kept) or NumPy arrays; it needs only `geolattice[rsense]`:
+
+- I/O and color: `read_image`, `write_image`, `image_info`, `to_gray`, `rgb_to_hsv`, `rgb_to_lab`, `to_uint8`
+- Geometry: `resize`, `rescale`, `downscale_local_mean`, `rotate`, `shift`, `flip`, `crop`, `affine_transform`, `perspective_transform`
+- Radiometry: `stretch`, `adjust_gamma`, `equalize_hist`, `equalize_adapthist` (CLAHE), `match_histograms`, `threshold` (Otsu, Li, local, ...)
+- Filtering: `convolve`, `gaussian_blur`, `median_blur`, `bilateral_denoise`, `tv_denoise`, `sharpen`, `unsharp_mask`, `add_noise`
+- Edges, morphology and features: `edges` (Sobel, Roberts, Canny, ...), `morphology`, `harris_corners`, `hog_features`
+
+```python
+from geolattice.rsense import image_processing as ip
+
+rgb = ip.stretch(ip.read_image("scene.tif", bands=[3, 2, 1]))
+edges = ip.edges(ip.to_gray(rgb), "canny", sigma=2)
+```
+
+### Foundation models
+
+`geolattice.rsense.foundation_models` brings remote sensing foundation models together behind one interface (`geolattice[rsense-foundation]`; the catalog, probes and embedding tools need only `geolattice[rsense-classify]`):
+
+- **Catalog**: `list_models(category=, modality=, loadable=)`, `model_info` and `recommend(task, sensor=)` cover 45 models in six groups: multispectral optical (Prithvi-EO 1.0 and 2.0, SatMAE, Scale-MAE, SSL4EO-S12, SatlasPretrain, SpectralGPT), multi-sensor (Clay, DOFA, CROMA, Copernicus-FM, Panopticon, TerraMind, AnySat, Galileo, OlmoEarth, SkySense), time series and embedding products (AlphaEarth, Presto, TESSERA), very high resolution (DINOv3-sat, Satlas NAIP, SAM, SAM 2), vision-language (RemoteCLIP, GeoRSCLIP, SkyCLIP, GeoChat, EarthGPT, LHRS-Bot, EarthDial) and weather (Prithvi WxC, Aurora, GraphCast, GenCast, FourCastNet)
+- **Loading**: `load_model(name, bands=...)` builds 24 of them with public weights through TorchGeo, TerraTorch, open_clip, `torch.hub` or `transformers` and returns a `FoundationEncoder` with `encode`, `embed` and `embed_raster`. Wavelength-aware models (DOFA, Copernicus-FM, Panopticon) take their wavelengths from the band names; TerraMind and AnySat accept a dict of modalities; CROMA takes `modality="optical"`, `"sar"` or `"both"`
+- **Rasters**: `chip_raster`, `normalize`, `band_wavelengths` and `FoundationEncoder.embed_raster`, which tiles a `(band, y, x)` DataArray and returns a georeferenced `(embedding, y, x)` map
+- **AlphaEarth Foundations** (Google Satellite Embedding in Earth Engine): `alphaearth_image`, `sample_alphaearth` (64 embedding columns per point, ready for regression) and `alphaearth_to_xarray`
+- **Using embeddings**: `linear_probe` and `knn_probe` (with `groups=` for spatial cross-validation), `similarity_map`, `embedding_search`, `cluster_embeddings`, `embedding_change`, `embedding_rgb`, `embeddings_to_frame`, `zero_shot_classify`, `segmentation_model` and `terratorch_config` for fine-tuning
+
+```python
+import geolattice.rsense.foundation_models as fm
+
+fm.list_models("multimodal", modality="sar")
+enc = fm.load_model("prithvi-eo-2.0-300m")                 # HLS 6 bands
+emb = enc.embed_raster(hls_da, chip_size=224, stride=112)  # (1024, y, x)
+labels = fm.cluster_embeddings(emb, 8)
+
+pts = fm.sample_alphaearth(soil_points, 2024)              # A00 to A63 for each sample
+fm.linear_probe(pts[fm.ALPHAEARTH_BANDS], pts["soc"], groups=pts["block"])
+```
+
+Weights download on first use into the TorchGeo and Hugging Face caches. DINOv3-sat is gated on Hugging Face (accept the license, then `hf auth login`). Models marked `external` or `adapter` are listed with their weights and references but need the authors' code or a local checkpoint.
+
+### Surface energy balance and evapotranspiration
+
+`geolattice.rsense.surface_energy_balance` maps evapotranspiration (ET) from satellite images by solving the surface energy balance `Rn = G + H + LE` for the latent heat flux. It covers the methods behind the OpenET ensemble (https://etdata.org/methods/). Functions take NumPy arrays or 2-D DataArrays and return the same kind; model runs return an `xr.Dataset` on the input grid that keeps the CRS and saves to NetCDF. Units are K for the energy balance, C for reference ET, W m-2, kPa, m s-1, s m-1 and mm.
+
+- **Geometry and weather**: `scene_geometry` (sun angles and Earth-Sun distance from a Landsat MTL dict or STAC properties), `solar_position`, `slope_aspect`, `cos_incidence` (sloping ground), extraterrestrial radiation, `pressure_from_elevation`, vapour pressure, `air_density`, `broadband_transmissivity` (ASCE 2005), and `weather_open_meteo` with `interpolate_weather` (hourly ERA5 at the overpass from the free Open-Meteo archive, no key)
+- **Radiation balance**: `albedo` (Liang 2001 for OLI, Tasumi et al. 2008, Bonafoni and Sekertekin 2020 for Sentinel-2, Liang for MODIS; band names such as `SR_B5` or `B08` are recognised), `leaf_area_index` (METRIC SAVI form), `surface_emissivity`, incoming and outgoing shortwave and longwave, `net_radiation`, `daily_net_radiation`, `datum_temperature`
+- **Soil heat flux and aerodynamics**: `soil_heat_flux` (Bastiaanssen or METRIC), `momentum_roughness` (LAI, NDVI, canopy height or a land cover table), `wind_at_blending_height`, `friction_velocity`, `aerodynamic_resistance`, `monin_obukhov_length`, `stability_corrections` (Paulson and Webb)
+- **Reference ET**: `asce_pm_daily` and `asce_pm_hourly` (ASCE standardized Penman-Monteith, grass `"short"` or alfalfa `"tall"`), `fao56_eto`
+- **Anchor pixels**: `candidate_anchors` and `select_anchors` (Allen et al. 2013 percentile method with albedo, land cover and homogeneity screens), `anchor_at` for a hand-picked pixel, `anchor_report`
+- **Models**: `run_sebal` (Bastiaanssen et al. 1998) and `run_metric` (Allen et al. 2007) with the Monin-Obukhov iteration in `sensible_heat_iterative` (`calibration_history` reads the iterations back); `run_ssebop` with `cold_reference_temperature` and `dt_from_climate` (Senay et al. 2013); `ssebi` (Roerink et al. 2000); `triangle_method` (Jiang and Islam 2001); `priestley_taylor_jpl` (Fisher et al. 2008); `tseb_pt`, the two-source model with Priestley-Taylor start (Norman et al. 1995), and `partition_et`
+- **Other resolutions**: `aggregate_lst` (mean in emitted power) and `thermal_sharpen` (data mining sharpener of Gao et al. 2012 with a regression tree, random forest or gradient boosting, and residual correction), for example Sentinel-3 LST sharpened with Sentinel-2 reflectance; it needs scikit-learn
+- **Daily and seasonal ET**: `instantaneous_to_daily` (constant ETrF or EF), `interpolate_etrf` (daily fraction between clear dates, gaps limited), `seasonal_et` (season or monthly totals), `zonal_et` (ET and water volume per crop code, field id or polygon)
+- **Validation**: `energy_closure`, `compare_to_tower` (bias, MAE, RMSE, R2, NSE), `sensitivity` (one at a time), `monte_carlo_anchors` (spread of ET over many anchor pairs)
+
+A worked example is under [Quick start, Surface energy balance and evapotranspiration](#surface-energy-balance-and-evapotranspiration-1). The tutorial chapter `Tutorials/notebooks/09_remote_sensing/09_12_surface_energy_balance_modeling/` has 13 notebooks: fundamentals, inputs, reference ET, net radiation, soil heat flux and aerodynamics, SEBAL, METRIC, SSEBop and simplified models, TSEB, MODIS and Sentinel-3 with thermal sharpening, seasonal crop water use, validation and uncertainty, and a capstone on Boro rice in Bangladesh. Its helper `seb_data.py` downloads and caches every input, and `OUTLINE.md` lists the data and the main results.
+
+### Satellite image super-resolution
+
+`geolattice.rsense.super_resolution` provides classical baselines and multispectral deep-learning tools:
+nearest/bilinear/bicubic/Lanczos interpolation, unsharp masking, degradation-model iterative
+back-projection, and pan-sharpening, alongside SRCNN-, VDSR-, EDSR- and RCAN-style networks,
+SRGAN training, and conditional DDPM diffusion training/sampling. Classical functions use the
+core NumPy/SciPy dependencies; neural models require the optional PyTorch extra:
+
+```bash
+python3 -m pip install "geolattice[rsense-dl]"
+```
+
+```python
+import numpy as np
+from geolattice.rsense import super_resolution as sr
+
+# Six-band Landsat cube in (band, y, x), with reflectance scaled to [0, 1].
+landsat_10m = sr.upsample(landsat_30m, scale=3, method="bicubic")
+landsat_10m = sr.iterative_back_projection(landsat_30m, scale=3, iterations=20)
+
+# Train an EDSR-style model on co-registered (low_res, high_res) patch pairs.
+model = sr.build_sr_model(6, scale=3, architecture="edsr")
+history = sr.train_super_resolution(model, train_loader, epochs=20)
+estimate_10m = sr.predict_super_resolution(model, landsat_30m, tile=128, overlap=16)
+
+# Adversarial or diffusion alternatives are available when their learned-prior
+# texture is appropriate and independently validated.
+generator, discriminator = sr.build_sr_gan(6, scale=3)
+diffusion = sr.build_diffusion_model(6, scale=3)
+```
+
+Use `train_super_resolution_gan` / `train_super_resolution_diffusion` for those models.
+GAN and diffusion outputs can add plausible but unobserved texture. Upsampling Landsat to a
+10 m grid does not create native 10 m Landsat measurements; Sentinel-2 B11/B12 are themselves
+native 20 m bands even when resampled to 10 m. For cross-sensor training, use near-coincident,
+well co-registered, cloud-masked and radiometrically compatible pairs, and reserve spatially
+independent data for evaluation. Cross-date pairs and mismatched processing levels do not provide
+ground truth.
+
+## Distributed computing (`geolattice.distributed`)
+
+`geolattice.distributed` processes vector and raster data on every CPU core, on a Dask cluster or on CUDA GPUs through one API. Install `geolattice[distributed]` (included in `geolattice[all]`), plus `geolattice[distributed-gpu]` for CuPy and dask-cuda, `geolattice[distributed-hpc]` for SLURM, PBS and Kubernetes clusters, `geolattice[distributed-spark]` for Apache Sedona and `geolattice[distributed-ml]` for XGBoost, LightGBM and PyTorch. cuDF, cuML and cuGraph come from the RAPIDS package index (`pip install --extra-index-url=https://pypi.nvidia.com cudf-cu13 cuml-cu13 cugraph-cu13`); cuSpatial is not needed.
+
+Three rules hold for every function:
+
+* `compute="auto"` (the default) uses the GPU when one is visible and the operation has a GPU version that is faster on typical inputs; `"cpu"` and `"gpu"` force a choice. A GPU request that cannot be met runs on the CPU with one warning.
+* The result has the input's type and memory space: a NumPy array or in-memory DataArray comes back in host memory, a GeoDataFrame comes back as a GeoDataFrame, and Dask-backed input stays lazy.
+* Without a cluster, work runs on Dask's local threads, which already use every core. `pdist.start()` sends it to a cluster instead.
+* In a script, start clusters under `if __name__ == "__main__":`; Dask starts worker processes that re-import the script.
+
+The examples below build their own data, so each block runs as it stands.
+
+### Sessions, backends and diagnostics
+
+```python
+import numpy as np
+import xarray as xr
+import geolattice.distributed as pdist
+
+print(pdist.capabilities()["gpus"])          # CUDA GPUs CuPy can see
+print(pdist.explain("raster.slope"))         # which implementation runs, and why
+
+with pdist.start("local", n_workers=2, threads_per_worker=2, dashboard=False) as session:
+    print(session.status()["workers"])       # 2
+# start("cuda") runs one worker per GPU; start("slurm", cores=8, memory="32GB") submits HPC jobs;
+# start("kubernetes", image=...) starts worker pods; start("address", address="tcp://host:8786")
+# joins a running scheduler.
+```
+
+### Raster processing
+
+Moving-window functions read a halo of pixels from neighbouring chunks, so chunked results equal whole-array results, edges included.
+
+```python
+import numpy as np
+import xarray as xr
+import geolattice.distributed as pdist
+
+rng = np.random.default_rng(0)
+z = np.cumsum(np.cumsum(rng.normal(size=(1000, 1200)), 0), 1).astype("float32")
+dem = xr.DataArray(z, dims=("y", "x"),
+                   coords={"y": 1e4 - np.arange(1000) * 10.0, "x": np.arange(1200) * 10.0})
+
+slope = pdist.raster.slope(dem, chunks={"y": 256, "x": 256})          # degrees, Horn's method
+shade = pdist.raster.hillshade(dem, azimuth=315, altitude=45)
+smooth = pdist.raster.focal(dem, "median", size=5)
+classes = pdist.raster.reclassify(slope, bins=[5, 15, 30])            # classes 0 to 3
+steep = pdist.raster.calc("where(s > 30, 1, 0)", s=slope)
+lazy = pdist.raster.tpi(dem.chunk({"y": 250, "x": 300}), window=9)    # stays lazy
+print(slope.shape, int(classes.max()), pdist.is_lazy(lazy))
+```
+
+### Vector processing
+
+GeoDataFrames are split into partitions ordered along a Hilbert curve. `sjoin` sends each partition only the rows of the other table whose bounding boxes touch it. Points in polygons are tested on the GPU when one is available.
+
+```python
+import numpy as np
+import geopandas as gpd
+import shapely
+import geolattice.distributed as pdist
+
+rng = np.random.default_rng(1)
+points = gpd.GeoDataFrame({"id": np.arange(50_000)},
+                          geometry=gpd.points_from_xy(*rng.uniform(0, 1000, (2, 50_000))), crs=3857)
+cells = [shapely.box(i, j, i + 100, j + 100) for i in range(0, 1000, 100) for j in range(0, 1000, 100)]
+grid = gpd.GeoDataFrame({"cell": np.arange(len(cells))}, geometry=cells, crs=3857)
+
+hits = pdist.vector.sjoin(points, grid, predicate="within")          # same columns as geopandas.sjoin
+near = pdist.vector.knn(points.iloc[:100], points.iloc[100:], k=3)   # index_right, distance, k
+area = pdist.vector.area(grid)
+inside = pdist.vector.clip(points, shapely.box(0, 0, 250, 250))
+print(len(hits), near.shape, float(area.sum()), len(inside))
+```
+
+### Rasters and vectors together
+
+```python
+import numpy as np
+import xarray as xr
+import geopandas as gpd
+import shapely
+import geolattice.distributed as pdist
+
+rng = np.random.default_rng(2)
+field = xr.DataArray(rng.random((400, 500)).astype("float32"), dims=("y", "x"),
+                     coords={"y": 400 - (np.arange(400) + 0.5), "x": np.arange(500) + 0.5})
+zones = gpd.GeoDataFrame({"zone": range(20)},
+                         geometry=[shapely.Point(rng.uniform(20, 480), rng.uniform(20, 380)).buffer(15)
+                                   for _ in range(20)])
+stats = pdist.zonal_stats(zones, field, stats=("count", "mean", "max"))
+labels = pdist.rasterize(zones, field, column="zone", fill=-1)
+samples = pdist.extract_values(zones.assign(geometry=zones.centroid), field, method="linear")
+shapes = pdist.polygonize((field > 0.5).astype("int16"), chunks={"y": 128, "x": 128})
+print(stats[["count", "mean"]].head(2), int(labels.max()), len(shapes))
+```
+
+### Spatial statistics and clustering
+
+Statistics match `esda` exactly; the 999 permutations run as batched sparse matrix products on the CPU or GPU.
+
+```python
+import numpy as np
+import xarray as xr
+import geopandas as gpd
+import shapely
+import geolattice.distributed as pdist
+
+cells = [shapely.box(i, j, i + 1, j + 1) for j in range(40) for i in range(40)]
+grid = gpd.GeoDataFrame(geometry=cells)
+y = np.array([np.sin(c.centroid.x / 6) + np.cos(c.centroid.y / 5) for c in cells])
+
+w = pdist.analysis.weights(grid, "queen")                  # row-standardized, identical to libpysal
+moran = pdist.analysis.morans_i(y, w, permutations=999, seed=0)
+lisa = pdist.analysis.local_morans(y, w, permutations=999, seed=0)
+hot = pdist.analysis.getis_ord_local(y, w, star=True)
+print(round(moran.statistic, 3), moran.p_sim, (lisa["p_sim"] < 0.05).sum(), hot["Zs"].max() > 2)
+
+pts = gpd.GeoDataFrame(geometry=gpd.points_from_xy(*np.random.default_rng(3).normal(0, 1, (2, 2000))))
+labels = pdist.analysis.dbscan(pts, eps=0.2, min_samples=10)
+like = xr.DataArray(np.zeros((100, 100)), dims=("y", "x"),
+                    coords={"y": np.linspace(3, -3, 100), "x": np.linspace(-3, 3, 100)})
+density = pdist.analysis.kde(pts, like, bandwidth=0.3)
+print(labels.max() >= 0, float(density.max()) > 0)
+```
+
+### Networks and hydrology
+
+```python
+import numpy as np
+import xarray as xr
+import geopandas as gpd
+import shapely
+import geolattice.distributed as pdist
+
+segs = [shapely.LineString([(i, j), (i + 1, j)]) for i in range(19) for j in range(20)]
+segs += [shapely.LineString([(i, j), (i, j + 1)]) for i in range(20) for j in range(19)]
+g = pdist.network.graph_from_lines(gpd.GeoDataFrame(geometry=segs))
+route = pdist.network.shortest_path(g, 0, g.n_nodes - 1)
+between = pdist.network.centrality(g, "betweenness")
+print(route["cost"], len(route["nodes"]), between.idxmax())
+
+rng = np.random.default_rng(4)
+dem = xr.DataArray(np.cumsum(np.cumsum(rng.normal(size=(300, 300)), 0), 1), dims=("y", "x"),
+                   coords={"y": np.arange(300)[::-1] * 30.0, "x": np.arange(300) * 30.0})
+d8 = pdist.hydrology.flow_direction(pdist.hydrology.fill_depressions(dem), chunks=100)
+acc = pdist.hydrology.flow_accumulation(dem)          # whole-DEM algorithm, in memory
+print(int(d8.max()), float(acc.max()) > 1)
+```
+
+### Machine learning
+
+```python
+import numpy as np
+import xarray as xr
+import geolattice.distributed as pdist
+
+rng = np.random.default_rng(5)
+stack = xr.DataArray(rng.random((4, 200, 250)).astype("float32"), dims=("band", "y", "x"),
+                     coords={"band": [1, 2, 3, 4], "y": np.arange(200)[::-1] + 0.5,
+                             "x": np.arange(250) + 0.5})
+X = stack.values.reshape(4, -1).T
+y = np.where(X[:, 0] + X[:, 1] > 1, 2, 1)
+model = pdist.ml.fit("rf", X[:5000], y[:5000], n_estimators=50)    # cuML on GPU, scikit-learn on CPU
+classes = pdist.ml.predict_raster(model, stack)                     # NaN pixels stay NaN
+proba = pdist.ml.predict_raster(model, stack, proba=True)          # (class, y, x)
+print(float((classes.values.ravel() == y).mean()) > 0.9, proba.sizes["class"])
+```
+
+`pdist.ml.predict_tiles(net, image, tile=256, overlap=32, devices="auto")` runs a PyTorch model over a large image in overlapping tiles with one model replica per GPU, and `pdist.ml.train_ddp(fn, nprocs=4)` runs `fn(rank, world_size)` in one process per device with `torch.distributed` set up.
+
+### Checking and timing GPU results
+
+```python
+import numpy as np
+import xarray as xr
+import geolattice.distributed as pdist
+
+dem = xr.DataArray(np.random.default_rng(6).random((500, 500)), dims=("y", "x"),
+                   coords={"y": np.arange(500)[::-1] * 1.0, "x": np.arange(500) * 1.0})
+print(pdist.benchmark(pdist.raster.slope, dem, repeats=2))        # one row per available target
+report = pdist.check_equivalence(pdist.raster.slope, dem, rtol=1e-4, atol=1e-3)
+print(report.ok)                                                   # True when CPU and GPU agree
+```
+
+`pdist.memory_report()` gathers host, GPU and worker memory, and `pdist.profile(fn, ...)` writes a Dask performance report when a session is active. On GPU, cuGraph betweenness is replaced by the CPU version when a lattice-like network could overflow cuGraph's path counters; `compute="auto"` keeps `rasterize` and `dbscan` on the CPU because their GPU versions measured slower.
+
+## Installation
+
+GDAL and PROJ must already be installed, and the Python GDAL bindings must match that GDAL library. Install them with your system package manager or conda before using pip. Building from source also needs a C compiler (for `geolattice.spatial_analysis._suitability`) and NumPy.
+
+Installing GeoLattice installs every runtime dependency listed in [`requirements.txt`](../requirements.txt), whether you install from PyPI, the wheel or the sdist (`pip install dist/geolattice-0.3.49-cp311-cp311-linux_x86_64.whl` or `pip install dist/geolattice-0.3.49.tar.gz`). That list is the conflict-free set that installation option 6 (`geolattice[all]`) resolves to: about 80 packages, including PyTorch. `pip install -r requirements.txt` installs the same set without GeoLattice itself.
+
+### Installation options
+
+The option names below still work, and existing install commands keep working, but a plain install already includes all of them. Each option includes everything in the one above it.
+
+| Option | Install | Adds |
+|---|---|---|
+| 1. Core | `geolattice[core]` | Vector and raster I/O including GeoParquet, CRS tools, maps and plots (rasterio, fiona, GeoPandas, pyarrow, matplotlib, folium, contextily, plotly) |
+| 2. Spatial analysis | `geolattice[analysis]` | Terrain and hydrology, suitability, multidimensional rasters, network and segregation analysis (xarray, netCDF4, zarr, dask, networkx, OSMnx, libpysal, WhiteboxTools) |
+| 3. Spatial statistics | `geolattice[statistics]` | ESDA, spatial weights, GWR, point patterns, spatial regression, and spatial causal inference (scikit-learn, joblib) |
+| 4. Geostatistics | `geolattice[geostats]` | Variograms, kriging and simulation, with plotting helpers |
+| 5. Remote sensing | `geolattice[remote-sensing]` | Optical, SAR, lidar, hyperspectral and UAV processing, STAC access, classification (rioxarray, scikit-image, pystac-client, laspy, h5py, OpenCV, xgboost, leafmap) |
+| 6. All | `geolattice[all]` | Everything above plus web and cloud GIS, spatial databases, deep learning (PyTorch, torchgeo), Bayesian models (PyMC), boosting, JAX kriging and Earth Engine |
+
+```bash
+python3 -m pip install "geolattice[core]"             # 1. core, vector, raster, CRS, visualization
+python3 -m pip install "geolattice[analysis]"         # 2. core + spatial analysis
+python3 -m pip install "geolattice[statistics]"       # 3. core + spatial analysis + spatial statistics
+python3 -m pip install "geolattice[geostats]"         # 4. ... + geostatistics
+python3 -m pip install "geolattice[remote-sensing]"   # 5. ... + remote sensing
+python3 -m pip install "geolattice[all]"              # 6. all
+```
+
+To install from a local wheel instead of an index, name the file: `python3 -m pip install "geolattice[geostats] @ file:///path/to/dist/geolattice-0.3.49-cp311-cp311-linux_x86_64.whl"`. A plain `geolattice` (no brackets) installs every package in `requirements.txt`, the same set as `geolattice[all]`.
+
+Both a plain install and `geolattice[all]` leave out a few groups that need special hardware or conflict with other packages. Add them by name when you need them: `compute`, `geostatistics-gpu` and `rsense-gpu` (CUDA GPUs), `geostatistics-h2o` (Java) and `geostatistics-tensorflow`, `rsense-uav-dl` and `rsense-vision` (large vision models), `rsense-biopar` (needs pandas below 3), `distributed-gpu` (CUDA GPUs), `distributed-hpc` (SLURM, PBS and Kubernetes), `distributed-spark` (Apache Sedona, needs Java 17 or newer) and `dev`.
+
+A few dependencies have no prebuilt wheel for the newest Python versions and are compiled during install: fiona on Python 3.14 and `cloth-simulation-filter` (lidar); they need a C/C++ compiler. `snaphu` (InSAR phase unwrapping) has no Python 3.14 wheel and its source does not build with GCC 14 or newer, so it is installed on Python 3.13 and older only; on 3.14 use `rsense.insar.unwrap(method="native")`.
+
+`requirements.txt` is generated from the extras in `pyproject.toml`. After changing an extra, run `python3 tools/make_requirements.py` and rebuild the wheel; `python3 tools/make_requirements.py --check` reports whether the file is current, and `tests/test_requirements.py` fails until it is.
+
+### Build a wheel and sdist
+
+From the repository root:
+
+```bash
+python3 -m pip install build
+python3 -m build
+python3 -m pip install dist/geolattice-*.whl
+```
+
+`python3 -m build` writes a platform wheel (C extension) such as `dist/geolattice-0.3.49-cp311-cp311-linux_x86_64.whl` and `dist/geolattice-0.3.49.tar.gz`. The wheel works only with the Python version it was built with; for another version, build from the sdist with that Python: `python3 -m pip wheel --no-deps -w dist dist/geolattice-0.3.49.tar.gz`.
+
+The `rsense-sar` extra includes `h5py` for reading NISAR HDF5 products. See the NISAR
+examples in the remote-sensing section below for `inspect_hdf5`, Level-1/Level-2 readers,
+and quick-look processing.
+
+### Editable install
+
+```bash
+python3 -m pip install -e ".[dev]"
+```
+
+### Individual extras
+
+The installation options above are built from these smaller groups. Install a group on its own when you need only one part:
+
+```bash
+python3 -m pip install -e ".[io]"                    # rasterio, fiona, geopandas, pyarrow (GeoParquet, Feather)
+python3 -m pip install -e ".[compute]"               # cupy (CUDA 13), numba, dask
+python3 -m pip install -e ".[viz]"                   # matplotlib, geopandas, folium, and related plotting libraries
+python3 -m pip install -e ".[multidim]"              # xarray, netCDF4/h5netcdf, zarr, dask
+python3 -m pip install -e ".[network]"               # networkx, osmnx, libpysal, scikit-learn
+python3 -m pip install -e ".[segregation]"           # segregation analysis (network extra: networkx, osmnx, libpysal)
+python3 -m pip install -e ".[segregation-dasymetric]"  # adds rasterio for raster-weighted (dasymetric) interpolation
+python3 -m pip install -e ".[geostatistics]"         # variograms, kriging, simulation (geopandas, scikit-learn)
+python3 -m pip install -e ".[geostatistics-gpu]"     # CuPy (CUDA 13) backend for kriging / simulation
+python3 -m pip install -e ".[geostatistics-jax]"     # JAX CPU/GPU variograms and kriging
+python3 -m pip install -e ".[geostatistics-plot]"    # matplotlib / contextily helpers
+python3 -m pip install -e ".[geostatistics-pytorch]" # deep regression-kriging (PyTorch)
+python3 -m pip install -e ".[geostatistics-h2o]"     # H2O AutoML regression-kriging
+python3 -m pip install -e ".[geostatistics-tensorflow]"  # deep regression-kriging (TensorFlow; no Python 3.14 wheel)
+python3 -m pip install -e ".[geostatistics-deep]"    # H2O + PyTorch + TensorFlow regression-kriging
+python3 -m pip install -e ".[geostatistics-gam]"     # GAM regression-kriging (pygam)
+python3 -m pip install -e ".[geostatistics-optuna]"  # hyperparameter search (optuna)
+python3 -m pip install -e ".[spatial-statistics]"    # ESDA, weights, GWR, point patterns, spatial regression
+python3 -m pip install -e ".[spatial-statistics-viz]"      # choropleth / Moran / LISA maps
+python3 -m pip install -e ".[spatial-statistics-deep]"     # GNNWR / GTNNWR (PyTorch)
+python3 -m pip install -e ".[spatial-statistics-boosting]" # GW XGBoost / LightGBM
+python3 -m pip install -e ".[spatial-statistics-bayes]"    # PyMC / ArviZ BYM backend
+python3 -m pip install -e ".[spatial-statistics-gam]"  # GAM-based models (pygam)
+python3 -m pip install -e ".[spatial-statistics-libpysal]"  # libpysal weights interoperability
+python3 -m pip install -e ".[spatial-statistics-network]"  # network-based weights and NetworkGWR (networkx)
+python3 -m pip install -e ".[spatial-statistics-all]"  # all spatial-statistics groups above
+python3 -m pip install -e ".[spatialcausal]"         # spatial causal inference (spatial-statistics, scikit-learn, geopandas)
+python3 -m pip install -e ".[spatialcausal-viz]"     # matplotlib plots for geolattice.spatial_analysis.spatialcausal
+python3 -m pip install -e ".[spatialcausal-causalml]" # PyCausalML estimators through PyCausalMLAdapter
+python3 -m pip install -e ".[spatialcausal-all]"     # all of the above
+python3 -m pip install -e ".[web]"                   # web / cloud GIS: GeoParquet, COG, tiles, tile + OGC API server
+python3 -m pip install -e ".[web-cloud]"             # adds s3fs / gcsfs / adlfs and DuckDB
+python3 -m pip install -e ".[spatial-db]"            # geolattice.geolatticedb: DuckDB spatial, SpatiaLite / GeoPackage (needs mod_spatialite), pyogrio
+python3 -m pip install -e ".[spatial-db-postgis]"     # adds SQLAlchemy, psycopg 3, GeoAlchemy2, rasterio for PostGIS
+python3 -m pip install -e ".[spatial-db-all]"        # spatial-db + spatial-db-postgis
+python3 -m pip install -e ".[rsense]"                # remote sensing core, plus catalogue download (requests, pystac-client)
+python3 -m pip install -e ".[rsense-access]"         # STAC, Planetary Computer, odc-stac, earthaccess
+python3 -m pip install -e ".[rsense-biopar]"         # Sentinel-2 LAI, FAPAR, FCOVER, CCC, CWC (openEO BioPAR)
+python3 -m pip install -e ".[rsense-sentinel3]"      # Sentinel-3 NetCDF (netCDF4/h5netcdf, pyproj)
+python3 -m pip install -e ".[rsense-sentinel5p]"     # Sentinel-5P/TROPOMI NetCDF (netCDF4/h5netcdf)
+python3 -m pip install -e ".[rsense-sar]"            # ASF search, sarsen, h5py (NISAR HDF5)
+python3 -m pip install -e ".[rsense-insar]"          # HyP3 SDK, h5py, snaphu, sliderule (ICESat-2)
+python3 -m pip install -e ".[rsense-lidar]"          # laspy, cloth simulation filter, h5py, scikit-learn, matplotlib (PDAL: conda install -c conda-forge python-pdal)
+python3 -m pip install -e ".[rsense-hyperspectral]"  # h5py, scikit-learn, matplotlib, plotly, prosail
+python3 -m pip install -e ".[rsense-uav]"            # pyodm (OpenDroneMap), OpenCV, scikit-learn, gdown
+python3 -m pip install -e ".[rsense-uav-dl]"         # rsense-uav + rsense-dl, segment-anything, ultralytics, xgboost
+python3 -m pip install -e ".[rsense-classify]"       # scikit-learn, xgboost
+python3 -m pip install -e ".[rsense-dl]"             # torch, torchgeo, segmentation-models-pytorch, lightning
+python3 -m pip install -e ".[rsense-edge]"           # field-edge models, PyTorch, rasterio, GeoPandas
+python3 -m pip install -e ".[rsense-vision]"         # rsense-dl + timm, ultralytics, open_clip, segment-geospatial
+python3 -m pip install -e ".[rsense-foundation]"     # foundation models: TerraTorch, torchgeo, timm, open_clip, transformers, Earth Engine
+python3 -m pip install -e ".[rsense-xai]"            # shap, scikit-learn
+python3 -m pip install -e ".[rsense-gee]"            # Earth Engine API, xee
+python3 -m pip install -e ".[rsense-viz]"            # matplotlib, leafmap
+python3 -m pip install -e ".[rsense-scale]"          # dask.distributed, zarr, pystac
+python3 -m pip install -e ".[rsense-apps]"           # Streamlit app templates
+python3 -m pip install -e ".[rsense-gpu]"            # CuPy (CUDA 13) backend
+python3 -m pip install -e ".[rsense-all]"            # every rsense group except rsense-gpu
+python3 -m pip install -e ".[whitebox]"              # WhiteboxTools
+python3 -m pip install -e ".[distributed]"           # geolattice.distributed: dask.distributed, dask-geopandas, rioxarray, zarr, odc-stac, scikit-learn, networkx
+python3 -m pip install -e ".[distributed-gpu]"       # CuPy (CUDA 13) and dask-cuda; cuDF/cuML/cuGraph from the RAPIDS index
+python3 -m pip install -e ".[distributed-hpc]"       # dask-jobqueue (SLURM, PBS) and dask-kubernetes
+python3 -m pip install -e ".[distributed-spark]"     # Apache Sedona and PySpark 3.4 to 4.0 (needs Java 17+)
+python3 -m pip install -e ".[distributed-ml]"        # XGBoost, LightGBM, PyTorch, bokeh (profiles)
+python3 -m pip install -e ".[all]"                   # installation option 6 (see Installation options)
+```
+
+### Troubleshooting: `libgdal.so.39` / `No module named '_gdal'`
+
+`from osgeo import gdal` can fail even when the Python `GDAL` package is installed:
+
+```text
+ImportError: libgdal.so.39: cannot open shared object file: No such file or directory
+ModuleNotFoundError: No module named '_gdal'
+```
+
+**Cause.** The pip/pyenv `osgeo` bindings are linked against a specific GDAL shared library (for example `libgdal.so.39` from GDAL 3.13). That library must be on the dynamic loader path. Interactive shells often get it from `~/.bashrc` (`LD_LIBRARY_PATH`), but **Cursor / VS Code Jupyter kernels usually do not load bashrc**, so they only see system GDAL (for example Ubuntu’s `libgdal.so.38`) and the import fails.
+
+Typical mismatch on this machine:
+
+| Piece | Example |
+| --- | --- |
+| Python bindings | `GDAL` 3.13.x in `~/.pyenv/versions/3.11.16/.../site-packages/osgeo` |
+| User-local library | `~/.local/share/gdal-prefix/lib/libgdal.so.39` |
+| System package | `libgdal38` / GDAL 3.12 (`libgdal.so.38`) — wrong SONAME |
+
+**Check.**
+
+```bash
+# Which Python / GDAL bindings?
+python -c "import sys; print(sys.executable)"
+python -c "import osgeo; print(osgeo.__file__)"
+
+# System vs user-local libgdal
+ldconfig -p | grep libgdal
+ls ~/.local/share/gdal-prefix/lib/libgdal.so*
+
+# Reproduce the IDE failure (no bashrc path)
+env -u LD_LIBRARY_PATH python -c "from osgeo import gdal; print(gdal.__version__)"
+```
+
+**Fix options (pick one).**
+
+1. **Shell / notebooks started from a terminal** — export the user-local prefix (also keep this in `~/.bashrc`):
+
+```bash
+export PATH="$HOME/.local/share/gdal-prefix/bin${PATH:+:$PATH}"
+export LD_LIBRARY_PATH="$HOME/.local/share/gdal-prefix/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+```
+
+2. **Jupyter kernelspec** — if the IDE uses `~/.local/share/jupyter/kernels/python3/kernel.json`, set `env.LD_LIBRARY_PATH` (and `PATH`) to include `$HOME/.local/share/gdal-prefix/lib`. Cursor often launches `ipykernel` directly and **ignores** this file; use option 3 if the error persists after a kernel restart.
+
+3. **Durable fix for pyenv + IDE kernels** — embed an RPATH into the `osgeo` extension modules so they find `libgdal.so.39` without relying on `LD_LIBRARY_PATH`:
+
+```bash
+# once: install patchelf (distro package or binary), then:
+GDAL_LIBDIR="$HOME/.local/share/gdal-prefix/lib"
+SITE="$(python -c 'import osgeo, pathlib; print(pathlib.Path(osgeo.__file__).parent)')"
+for so in "$SITE"/_*.so; do
+  patchelf --set-rpath "$GDAL_LIBDIR" "$so"
+done
+env -u LD_LIBRARY_PATH python -c "from osgeo import gdal; print(gdal.__version__)"
+```
+
+Optionally add a `sitecustomize.py` under that interpreter’s `site-packages` that prepends the GDAL lib dir and preloads `libgdal.so.39` with `ctypes` for tools that still need the env path.
+
+4. **Align versions instead of patching** — install matching bindings for system GDAL (`python3-gdal` / rebuild against `libgdal-dev`), or install both library and bindings from the same conda/micromamba environment and select that kernel in the IDE.
+
+After any fix, **restart the notebook kernel** and re-run the import cell.
+
+### Troubleshooting: pyproj `CRSError: no database context specified`
+
+```text
+CRSError: Invalid projection: EPSG:4326: (Internal Proj Error: proj_create: no database context specified)
+UserWarning: pyproj unable to set PROJ database path.
+```
+
+**Cause.** Wheel-built `pyproj` ships its own `libproj` under `pyproj.libs/` plus `proj.db` under `pyproj/proj_dir/share/proj`. If another `libproj` (for example from `~/.local/share/gdal-prefix/lib`) is loaded into the same process first—especially via `ctypes.CDLL(..., RTLD_GLOBAL)` or a broad `LD_LIBRARY_PATH`—pyproj can no longer open its PROJ database.
+
+**Fix.**
+
+1. Do **not** preload `libgdal` with `RTLD_GLOBAL` in `sitecustomize.py`. Prefer an RPATH on the `osgeo` `*.so` modules (see above) so GDAL resolves without forcing GDAL’s `libproj` onto pyproj.
+2. Keep `PROJ_DATA` / `PROJ_LIB` pointing at a matching `proj.db` when using system/user GDAL tools:
+
+```bash
+export PROJ_DATA="$HOME/.local/share/gdal-prefix/share/proj"
+export PROJ_LIB="$PROJ_DATA"
+```
+
+3. In tutorials, prefer GDAL/OSR `CoordinateTransformation` for layer reprojection when you are already on the GDAL stack (see `01_01_read_write_vector_data.ipynb`).
+
+Restart the kernel after changing environment or `sitecustomize.py`.
+
+### Troubleshooting: a GDAL environment used without `conda activate`
+
+A conda-style GDAL prefix (such as `~/.local/share/gdal-prefix`) run directly, without `conda activate`, misses the variables its activation scripts set. Two symptoms:
+
+```text
+ERROR 1: PROJ: proj_create_from_database: Open of .../gdal-prefix/share/proj failed
+ImportError: .../pyarrow/libarrow_substrait.so: undefined symbol: _ZN4absl12lts_...
+```
+
+**PROJ.** GDAL cannot find its `proj.db`, so EPSG codes and reprojection fail. Point `PROJ_DATA` at the prefix's PROJ data (the activation script does the same), for example in `~/.bashrc`:
+
+```bash
+export PROJ_DATA="$HOME/.local/share/gdal-prefix/share/proj"
+```
+
+Check the match with `projinfo EPSG:3857` and, in Python, `osr.SpatialReference().ImportFromEPSG(3857) == 0`. Do not point `PROJ_DATA` at pyproj's bundled `proj.db`: GDAL then reports `DATABASE.LAYOUT.VERSION.MINOR = 6 whereas a number >= 7 is expected`.
+
+**pyarrow.** `LD_LIBRARY_PATH=<prefix>/lib` makes the prefix's abseil libraries replace the copy pip's pyarrow bundles, and `pyarrow.parquet` (GeoParquet, Dask, `geolattice.web`) fails to import. A Python installed inside the prefix finds GDAL without `LD_LIBRARY_PATH`, so leave it unset there; keep it only for an interpreter outside the prefix (such as a pyenv Python whose GDAL bindings link the prefix's `libgdal`).
+
+## Package layout
+
+```
+src/                      # installed as the ``geolattice`` package
+├── crs.py                # CRS, catalog search, custom projections, datum transforms
+├── install_options.py    # installation options and install hints for missing extras
+├── network.py            # is_online: reachability check for remote catalogues (not routing)
+├── stac.py               # search STAC catalogues and keep the least cloudy scene
+├── spatialcausal/        # deprecated alias of spatial_analysis.spatialcausal
+├── api/                  # read_vector, read_raster, backend configuration
+├── core/                 # SpatialData, Bounds, Metadata
+├── vector/               # read/write, cloud-native I/O, geoprocessing, geometry_tools, vector_analysis
+├── raster/               # read/write, CRS / warp, basic ops
+├── distributed/          # geolattice.distributed: raster, vector, bridge, analysis, network, hydrology, ml, io,
+│                         #   sedona, diagnostics on CPU cores, Dask clusters or CUDA GPUs
+├── spatial_analysis/     # terrain, hydrology, multidim, MCDA, network_analysis, vector_analysis
+│   ├── segregation/      # segregation indices, local measures, multiscale profiles, decomposition
+│   └── spatialcausal/    # spatial causal inference (ported from PySpatialCausal 0.3.1)
+│       ├── core/             # SpatialCausalData, SpatialPanel, result containers
+│       ├── datasets/         # simulators with known effects
+│       ├── exposure.py       # exposure mappings, randomisation designs, exposure probabilities
+│       ├── interference.py   # direct / spillover effects (AIPW, Hájek)
+│       ├── confounding.py    # diagnostics, Moran eigenvectors, RBF bases, Spatial+
+│       ├── ml.py, crossfit.py, inference.py  # spatial DML / DR-learner, block CV, Conley / block SEs
+│       ├── local.py          # GW-DML, GW causal forest
+│       ├── quasi.py, spacetime.py  # geographic RDD, spatial / staggered DiD, synthetic control
+│       ├── bayes.py          # Bayesian ICAR / BYM causal models
+│       ├── design.py         # cluster / saturation designs, rerandomisation, power
+│       ├── discovery.py      # spatial Granger, GCCM, spatial NOTEARS
+│       └── viz.py
+├── geostatistics/        # variograms, kriging family, simulation, GSLIB helpers
+│   ├── core/             # Variogram, ordinary / simple kriging, model functions
+│   ├── kriging/          # universal, co-, indicator, disjunctive, factorial, soft, Poisson, Bayesian, EBK, KT3D
+│   ├── spacetime/        # space-time variograms and kriging
+│   ├── ml/               # regression kriging (sklearn, H2O, PyTorch, TensorFlow, GNN, space-time nets)
+│   ├── validation/       # LOO / k-fold and spatial cross-validation
+│   ├── simulation/       # SGS, SIS, LU, turning bands, FFT, co-simulation, DSS, annealing, PGS
+│   ├── mps/              # Direct Sampling and SNESIM
+│   ├── gpu/              # CuPy engines used when a simulator runs with use_gpu
+│   ├── gslib/            # Geo-EAS I/O, normal scores, transforms, declustering, grid coordinates
+│   ├── io/               # GeoDataFrame adapters
+│   └── utils/            # CPU / GPU array backend, anisotropy
+├── spatial_statistics/   # ESDA, weights, GWR/MGWR, point patterns, regression, sampling, bayes
+│   ├── core/
+│   ├── weights/
+│   ├── esda/
+│   ├── gwmodel/
+│   ├── pointpattern/
+│   ├── regression/
+│   ├── interpolate/
+│   ├── cluster/
+│   ├── sampling/
+│   ├── bayes/
+│   └── viz/
+├── web/                  # web and cloud GIS
+│   ├── cloud.py          # to_vsi_path, cloud_env, cloud_options, remote_info
+│   ├── cog.py            # to_cog, validate_cog
+│   ├── tiles.py          # XYZ tile math, render_tile, make_xyz_tiles, tilejson
+│   ├── server.py         # create_app (XYZ tiles + OGC API – Features + /api), serve, start_server
+│   ├── static.py         # static_server: range requests, CORS, byte counters (in-process or subprocess)
+│   └── viewer.py         # leaflet_html
+├── spatial_bd/           # spatial databases
+│   └── geolatticedb.py        # PostGIS, SpatiaLite, GeoPackage, DuckDB: load, SQL, joins, k-NN, buffers, indexes, raster, pgRouting, MVT tiles
+├── geolatticedb.py            # alias: ``geolattice.geolatticedb`` is ``geolattice.spatial_bd.geolatticedb``
+├── rsense/               # remote sensing (ported from PyRSense), CPU / GPU, ``.rs`` accessor
+│   ├── super_resolution.py # classical, CNN, GAN and conditional diffusion SR
+│   ├── surface_energy_balance.py # radiation balance, reference ET, anchors, SEBAL, METRIC, SSEBop, S-SEBI, triangle, PT-JPL, TSEB, sharpening, seasonal ET
+│   ├── texture.py        # statistical, structural, transform, local-pattern, model- and deep-learning-based texture
+│   ├── get_images.py     # search and download Explorer catalogues to a folder
+│   ├── spectral_index.py # sensor-aware indices (MODIS, Landsat 8/9, S2, Planet, WV, NAIP)
+│   ├── backend/          # set_backend / device, CPU-GPU dispatch, precision, memory
+│   ├── core/             # read / write, CRS, cubes, mosaic, tiling, zonal stats, point clouds
+│   ├── access/           # STAC, Earth Engine, ASF, CDSE, Earthdata
+│   ├── optical/          # sensors, scaling, QA masks, index formulas, composites, LST, unmixing
+│   │   ├── sentinel2_biophysical.py  # LAI, FAPAR, FCOVER, CCC, CWC via CDSE BioPAR (openEO)
+│   │   └── sensors/sentinel3.py  # OLCI/SLSTR/SRAL/Synergy readers, flag masking, swath-to-grid
+│   ├── atmosphere/       # atmospheric composition
+│   │   └── sentinel_5p.py # TROPOMI readers, qa_value masking, L2->L3 gridding, AK, CH4 IME emissions
+│   ├── sar/              # Sentinel-1, speckle filters, PolSAR, RADARSAT (compact-pol, RCM GRD reader, incidence normalization), change, flood mapping (HAND, slope/shadow, polygons)
+│   ├── insar/            # HyP3, ISCE, MintPy, interferograms, unwrapping, deformation, topographic InSAR (DEMs)
+│   ├── lidar/            # LAS/PDAL I/O, QC and outlier filters, tiling, ground (SMRF/CSF/PMF), surfaces, terrain and HAND, point features and ML, forest, urban, change (DoD/M3C2), ICP and stems, GEDI / ICESat-2, plots
+│   ├── hyperspectral/    # ENVI/EMIT/EnMAP/PRISMA I/O, preprocessing, continuum removal, MNF, narrowband indices, libraries, SAM, endmembers, unmixing (FCLS/MESMA), target and gas-plume detection, PLSR/PROSAIL traits
+│   ├── uav/              # ODM, frames, indices, DEM, counting, detection, crop health, phenology
+│   ├── timeseries/       # smoothing, phenology, anomalies, BFAST-style breaks, CCDC
+│   ├── classify/         # estimators, OBIA, change, accuracy, image_classification
+│   │   └── image_classification.py # splits, pixel/object classification, CNN/ViT, segmentation, detection, change, SITS, SSL, foundation models
+│   ├── fusion/           # STARFM, optical–SAR, lidar–optical
+│   ├── dl/               # datasets, models, training, inference, foundation-model adapters, PointNet / PointNet++, hyperspectral CNNs / HybridSN / transformer
+│   ├── xai/              # importance, spatial CV, area of applicability, conformal prediction
+│   ├── viz/              # plots and stretches
+│   ├── scale/            # Dask cluster, Zarr store, STAC export
+│   └── apps/             # Streamlit templates (change viewer, flood mapper, index explorer)
+├── viz/                  # maps and charts
+├── pointcloud/
+├── compute/              # CPU and GPU backends
+├── whitebox/
+├── analysis/             # alias of spatial_analysis (+ geostatistics / spatial_statistics)
+├── io/
+└── utils/
+```
+
+`CRS` is imported from `geolattice.crs`. `geolattice.core` re-exports it along with bounds and metadata.
+Every subpackage is also reachable as an attribute after a plain `import geolattice` (for example
+`geolattice.raster.open_raster`, `geolattice.spatial_analysis.slope`, `geolattice.geostatistics.Variogram`);
+subpackages load on first access, so `import geolattice` stays fast.
+Geostatistics modules are grouped in subpackages (for example
+`geolattice.geostatistics.simulation.sgsim` and
+`geolattice.geostatistics.spacetime.krige_st`). Former flat paths such as
+`geolattice.geostatistics.sgsim` remain aliases of those modules. The former
+`geolattice.geostatistics.pygstat` namespace remains an attribute alias of
+`geolattice.geostatistics`.
+`geolattice.spatial_analysis.spatialcausal` is the PySpatialCausal port; it uses `geolattice.spatial_statistics` for
+spatial weights, ESDA, GW kernels and ICAR / BYM, so it needs no separate PySpatialStats install.
+Before 0.3.43 it lived at `geolattice.spatialcausal`; that path still imports (with a
+`DeprecationWarning`) and returns the same package.
+`geolattice.geolatticedb` and `geolattice.spatial_bd.geolatticedb` are the same module.
+`geolattice.rsense` is the PyRSense port; it keeps PyRSense's metadata keys (`pyrsense:sensor`,
+`pyrsense:index`, …) so files written by either package read back the same way.
+Source lives under ``src/`` and is mapped to the ``geolattice`` import name by ``setup.py`` / ``pyproject.toml``.
+
+## Quick start
+
+```python
+from geolattice.crs import CRS
+from geolattice.vector import buffer, read_vector_data, write_vector_data
+
+wgs84 = CRS.from_epsg(4326)
+print(wgs84)                 # EPSG:4326
+print(wgs84.is_geographic)
+print(wgs84.to_epsg())
+
+write_vector_data(
+    "sites.gpkg",
+    [{"geometry": "POINT (-73.9 40.7)", "name": "nyc"}],
+    layer="sites",
+    crs=4326,
+)
+
+with read_vector_data("sites.gpkg") as dataset:
+    print(dataset.layer.crs, dataset.layer.feature_count)
+    table = dataset.to_dataframe()
+
+buffered = buffer(table, 100)
+```
+
+Geometry tools take the same kinds of input (GeoDataFrame, Shapely, WKT, or an open layer). Distances are in the layer's coordinate units, so project a geographic layer before using a ground distance:
+
+```python
+from geolattice.vector import (
+    offset_lines,
+    oriented_minimum_bounding_box,
+    points_along_geometry,
+    rectangles,
+)
+
+angle = oriented_minimum_bounding_box(cemetery)["angle"].iloc[0]
+rows = offset_lines(surveyed_row, 2.5, count=12, side="left", keep_original=True)
+graves = points_along_geometry(rows, 1.2)
+plots = rectangles(graves, 1.2, 2.5, angle=angle)
+```
+
+`build_sections` lays out a labeled grid or dissolves plots that share a section attribute. `snap_geometries_to_layer`, `orthogonalize`, `check_validity`, and `fix_geometries` clean digitized corners before area is calculated.
+
+### Raster I/O and basic operations
+
+```python
+from geolattice.raster import (
+    calc,
+    class_intervals,
+    clip,
+    fill_nodata,
+    mosaic,
+    open_raster_data,
+    raster_histogram,
+    reclassify_by,
+    reproject_raster,
+    write_raster_data,
+    zonal_stats,
+)
+import numpy as np
+
+write_raster_data(
+    "grid.tif",
+    np.arange(20, dtype=np.float32).reshape(4, 5),
+    crs=4326,
+    geotransform=(0, 1, 0, 4, 0, -1),
+    nodata=-9999,
+)
+
+with open_raster_data("grid.tif") as dataset:
+    print(dataset.driver, dataset.shape, dataset.crs)
+
+reproject_raster("grid.tif", "grid_utm.tif", dst_crs=32618, resample="bilinear")
+fill_nodata("dem.tif", "dem_filled.tif", max_distance=100)
+clip("landcover.tif", "clipped.tif", bounds=(-80, 35, -79, 36))
+calc("A * 0.3048", "elev_m.tif", source="elev_ft.tif")
+mosaic(["tile_a.tif", "tile_b.tif"], "mosaic.tif")
+stats = zonal_stats("dem.tif", "watersheds.gpkg", zone_field="id")
+
+# Histogram and classInt-style reclassification
+hist = raster_histogram("dem.tif", bins=10)
+breaks = class_intervals("dem.tif", n=5, style="quantile")
+reclassify_by("dem.tif", "dem_q5.tif", n=5, style="quantile")
+reclassify_by("dem.tif", "dem_jenks.tif", n=5, style="jenks")
+```
+
+Classification styles match R `classIntervals`: `fixed`, `sd`, `equal`, `pretty`, `quantile`, `kmeans`, `hclust`, `bclust`, `fisher`, and `jenks`.
+
+### Spatial analysis
+
+Terrain, surface hydrology, multidimensional rasters, multi-criteria suitability,
+and vector analysis live in ``geolattice.spatial_analysis`` (alias ``geolattice.analysis``).
+Raster I/O and basic ops stay in ``geolattice.raster``; vector I/O and geoprocessing
+stay in ``geolattice.vector``.
+
+### Terrain analysis
+
+First-order products and roughness indices use GDAL `gdaldem`. Curvature, TWI, landform classification, multiscale metrics, and viewshed use NumPy geomorphometry helpers (Whitebox-style). Contours reuse `gdal.ContourGenerateEx`.
+
+```python
+from geolattice.spatial_analysis import (
+    aspect,
+    contours,
+    curvature,
+    hillshade,
+    landform_classification,
+    multiscale_analysis,
+    roughness,
+    slope,
+    tpi,
+    tri,
+    twi,
+    viewshed,
+)
+
+slope("dem.tif", "slope_deg.tif", units="degrees")
+slope("dem.tif", "slope_pct.tif", units="percent")
+aspect("dem.tif", "aspect.tif")
+hillshade("dem.tif", "hillshade.tif", azimuth=315, altitude=45)
+hillshade("dem.tif", "hillshade_md.tif", multidirectional=True)
+tri("dem.tif", "tri.tif")
+tpi("dem.tif", "tpi.tif", window_size=11)
+twi("dem.tif", "twi.tif")
+roughness("dem.tif", "roughness.tif")
+curvature("dem.tif", "profile_curv.tif", curvature_type="profile")
+landform_classification("dem.tif", "landforms.tif")
+multiscale_analysis("dem.tif", "ms_tpi.tif", metric="tpi", min_scale=3, max_scale=21)
+viewshed("dem.tif", "viewshed.tif", observer=(x, y), observer_height=1.8)
+contours("dem.tif", "contours.gpkg", interval=10)
+```
+
+### Surface hydrological analysis
+
+Depression handling, flow routing, streams, watersheds, and wetness indices use NumPy geomorphometry helpers aligned with WhiteboxTools hydrology workflows (D8, D-infinity, FD8, and related methods).
+
+```python
+from geolattice.spatial_analysis import (
+    breach_depressions,
+    d8_flow_accumulation,
+    d8_pointer,
+    dinf_flow_accumulation,
+    extract_streams,
+    fill_depressions,
+    snap_pour_points,
+    watershed,
+    wetness_index,
+)
+
+fill_depressions("dem.tif", "filled.tif")
+# Or: breach_depressions("dem.tif", "breached.tif", fill_pits=True)
+d8_pointer("filled.tif", "d8_pointer.tif")
+d8_flow_accumulation("filled.tif", "fa_cells.tif", out_type="cells")
+dinf_flow_accumulation("filled.tif", "sca.tif", out_type="sca")
+extract_streams("fa_cells.tif", "streams.tif", threshold=1000)
+snap_pour_points("outlets.shp", "streams.tif", "snapped.shp", snap_distance=1000)
+watershed("d8_pointer.tif", "snapped.shp", "watersheds.tif")
+wetness_index("filled.tif", "twi.tif", method="dinf")
+```
+
+### Suitability analysis
+
+Multi-criteria suitability tools live in
+`geolattice.spatial_analysis.multi_criteria_suitability_analysis` (alias
+`suitability_analysis`). Array helpers cover categorical screens, WLC,
+fuzzy memberships / overlays, Mamdani FIS, and weight uncertainty; file-based
+raster tools are backed by the `_suitability` C extension.
+
+```python
+from geolattice.spatial_analysis import (
+    # Array API (tutorials 03_05_*)
+    categorical_and,
+    gaussian,
+    minmax_normalize,
+    monte_carlo_weights,
+    overlay,
+    small,
+    weighted_fuzzy_overlay,
+    weighted_linear_combination,
+    # C-backed raster file API
+    fuzzy_membership,
+    fuzzy_overlay,
+    locate_regions,
+    rescale_by_function,
+    suitability_reclassify,
+    weighted_overlay,
+    weighted_sum,
+)
+
+# Weighted linear combination on standardized criteria
+need_s = minmax_normalize(need_index, benefit=True)
+access_s = minmax_normalize(hub_km, benefit=False)
+score = weighted_linear_combination(
+    {"need": need_s, "access": access_s},
+    {"need": 0.6, "access": 0.4},
+)
+
+# Fuzzy memberships + Gamma overlay (NumPy / pandas Series)
+mu_slope = small(slope_pct, midpoint=4, spread=4)
+mu_aspect = gaussian(dev_south, midpoint=0, spread=1e-4)
+suit = overlay([mu_slope, mu_aspect], method="gamma", gamma=0.8)
+suit_w = weighted_fuzzy_overlay([mu_slope, mu_aspect], [0.7, 0.3], gamma=0.8)
+
+# Raster file workflow
+suitability_reclassify(
+    "landcover.tif",
+    "landcover_suit.tif",
+    mapping=[(1, 9), (2, 5), (3, 1)],
+)
+rescale_by_function("slope.tif", "slope_pref.tif", function="small", from_scale=1, to_scale=9)
+weighted_sum(["slope_pref.tif", "landcover_suit.tif"], "wsum.tif", weights=[0.6, 0.4])
+weighted_overlay(
+    ["slope.tif", "dist_roads.tif"],
+    "woverlay.tif",
+    weights=[1, 1],
+    remap=[
+        [(0, 5, 9), (5, 15, 5), (15, 90, 1)],
+        [(0, 500, 9), (500, 2000, 5), (2000, 1e9, 1)],
+    ],
+)
+
+fuzzy_membership("slope.tif", "slope_fuzzy.tif", membership_type="small", midpoint=10, spread=5)
+fuzzy_membership("aspect.tif", "aspect_fuzzy.tif", membership_type="gaussian", midpoint=180, spread=0.01)
+fuzzy_overlay(["slope_fuzzy.tif", "aspect_fuzzy.tif"], "suitability.tif", overlay_type="gamma", gamma=0.9)
+
+# Place three ~50 ha sites (cell_area in the same units as area)
+locate_regions(
+    "suitability.tif",
+    "candidate_sites.tif",
+    n_regions=3,
+    area=50,
+    cell_area=0.01,
+    shape="circle",
+    minimum_distance=20,
+)
+```
+
+Array fuzzy memberships: `gaussian`, `near`, `large`, `small`, `ms_large`, `ms_small`, `linear`. Overlay methods: `and`, `or`, `product`, `sum`, `gamma`. Tutorials:
+`Tutorials/notebooks/03_spatial_analysis/03_04_multi_criteria_suitability_analysis/`.
+
+### Multidimensional rasters
+
+NetCDF / Zarr / OPeNDAP workflows mirror ArcGIS Multidimension / Image Analyst tools. Install the `multidim` extra first (`xarray` and friends).
+
+```python
+from geolattice.spatial_analysis import (
+    aggregate_multidimensional_raster,
+    generate_multidimensional_anomaly,
+    generate_trend_raster,
+    make_multidimensional_raster_layer,
+    predict_using_trend_raster,
+    subset_multidimensional_raster,
+)
+
+mdr = make_multidimensional_raster_layer("era5_t2m.nc", variables=["t2m"])
+print(mdr.variables, mdr.get_dimension_names())
+
+subset = subset_multidimensional_raster(
+    mdr,
+    dimension_definitions={"time": {"start": "2015-01-01", "end": "2020-12-31"}},
+)
+monthly = aggregate_multidimensional_raster(
+    subset,
+    variable="t2m",
+    aggregation_method="MEAN",
+    aggregation_definition="INTERVAL_KEYWORD",
+    interval_keyword="MONTHLY",
+)
+anom = generate_multidimensional_anomaly(
+    monthly,
+    anomaly_type="DIFFERENCE_FROM_MEAN",
+    calculation_interval="BY_MONTH",
+)
+trend = generate_trend_raster(monthly, trend_type="LINEAR")
+trend.to_netcdf("t2m_trend.nc")
+```
+
+Typical flow: make layer → subset → transpose → aggregate → anomaly or trend (or CCDC / LandTrendr) → zonal statistics / space-time cube. Analysis outputs are best written as NetCDF or Zarr; Esri CRF is not written natively.
+
+### Geostatistics
+
+Variogram estimation, kriging, and sequential simulation live in ``geolattice.geostatistics``
+(also ``geolattice.analysis.geostatistics``). Install the ``geostatistics`` extra first
+(``geopandas``, ``scikit-learn``; NumPy / SciPy / pandas are already core deps).
+
+```python
+import numpy as np
+from geolattice.geostatistics import OrdinaryKriging, Variogram
+
+rng = np.random.default_rng(0)
+coords = rng.uniform(0, 100, size=(40, 2))
+values = 10 + 0.05 * coords[:, 0] + rng.normal(0, 0.5, size=40)
+
+variogram = Variogram(coords, values, model="spherical", n_lags=8)
+variogram.fit()
+
+ok = OrdinaryKriging(variogram, use_gpu=False)
+ok.fit(coords, values)
+pred = ok.predict(np.array([[25.0, 25.0], [75.0, 75.0]]))
+```
+
+The same variogram and kriging steps run on JAX, on CPU or GPU, from
+``geolattice.geostatistics.jax_variogram_kriging`` (extra ``geolattice[geostatistics-jax]``).
+That module includes simple, ordinary, universal, and cokriging.
+``use_gpu="auto"`` selects a GPU when JAX has one. ``JaxVariogram``,
+``JaxOrdinaryKriging``, ``JaxSimpleKriging``, ``JaxUniversalKriging`` and
+``JaxCokriging`` are aliases on ``geolattice.geostatistics`` and do not replace
+the NumPy/CuPy classes. Notebook
+``Tutorials/notebooks/05_geostatistics/05_02_kriging/05_02_05_gp_data_5000_jax_comparison.ipynb``
+times the two implementations on one field.
+
+```python
+from geolattice.geostatistics.jax_variogram_kriging import OrdinaryKriging, Variogram
+
+variogram = Variogram(coords, values, model="spherical", n_lags=8, use_gpu="auto")
+variogram.fit()
+ok = OrdinaryKriging(variogram, use_gpu="auto").fit(coords, values)
+pred = ok.predict(np.array([[25.0, 25.0], [75.0, 75.0]]), return_variance=True)
+```
+
+Other entry points include ``SimpleKriging``, ``UniversalKriging``, ``IndicatorKriging``,
+``Cokriging``, ``PoissonKriging``, ``RegressionKriging``, ``EmpiricalBayesianKriging``, ``BayesianKriging``,
+``STKriging``, ``sgsim`` / ``sisim`` / ``sis_local_means`` / ``lusim`` / ``tbsim`` / ``fftsim`` / ``pgsim`` / ``dssim`` / ``snesim`` / ``sicosim`` / ``sgcosim`` / ``dssim_direct`` / ``sasim``, ``kt3d``, and ``loo_cv`` / ``kfold_cv``.
+
+#### Bayesian kriging
+
+``BayesianKriging`` treats the trend, the variance, the range and the relative nugget as
+unknown. Discrete priors on the range and nugget ratio and a conjugate normal–inverse-gamma
+prior on the trend and variance give the posterior over the grid in closed form; the
+predictive distribution is a mixture of Student-t distributions, so its intervals include
+the uncertainty of the variogram parameters. ``ConjugateBayesianKriging`` fixes the range and
+nugget (``BayesianKriging.from_variogram(variogram)`` builds one from a fitted variogram),
+``BayesianTransformedKriging`` adds a Box–Cox parameter for skewed positive data, and
+``BayesianGLMKriging`` fits Poisson or binomial data by MCMC.
+
+```python
+from geolattice.geostatistics import BayesianKriging, BayesianGLMKriging
+
+bk = BayesianKriging("exponential", trend=0, nugget_grid=[0, 0.1, 0.25, 0.5]).fit(coords, values)
+print(bk.posterior_.sort_values("weight").tail())          # grid posterior
+mean, sd = bk.predict(new_coords, return_std=True)
+lo, med, hi = bk.predict_quantiles(new_coords, [0.05, 0.5, 0.95]).T
+p_exceed = bk.predict_proba(new_coords, threshold=12.0)
+draws = bk.predictive_samples(new_coords, 1000, joint=True)
+
+glm = BayesianGLMKriging("poisson").fit(coords, counts, trials_or_exposure=expected, n_iter=6000)
+rates = glm.predict(new_coords)                            # posterior mean / sd / quantiles of the rate
+```
+
+#### LU (Cholesky) simulation
+
+``lusim`` is exact Gaussian simulation by Cholesky factorization of the full
+covariance (GSLIB ``lusim``). It has no search neighbourhood or random path, so
+realizations have exactly the target covariance and the exact simple / ordinary
+kriging conditional distribution. The dense ``N x N`` matrix limits it to a few
+thousand data + grid nodes (``max_nodes``, default 10 000); use ``sgsim`` beyond
+that. ``LUSimulator`` factorizes once, so extra realizations are cheap:
+
+```python
+import numpy as np
+import pandas as pd
+from geolattice.geostatistics import LUSimulator, lusim, lusim_unconditional
+
+xs = np.arange(0, 100, 5.0)
+grid = np.array([(x, y) for x in xs for y in xs])            # 400 nodes
+df = pd.DataFrame({"X": [10, 50, 80], "Y": [20, 60, 30], "Z": [1.2, 3.4, 2.1]})
+vario = [30, 0.0, 60, 30, 1.0, "spherical"]  # azimuth, nugget, major, minor, sill, type
+
+sims = lusim(grid, df, "X", "Y", "Z", vario, kriging_type="ordinary", nsim=100, seed=0)
+
+sim = LUSimulator(vario, itrans=True, zmin=0.0).fit(grid, df, "X", "Y", "Z")
+more = sim.simulate(nsim=1000, seed=1)                        # reuses the factor
+kriging_mean, kriging_std = sim.conditional_mean_, sim.conditional_std_
+
+uncond = lusim_unconditional(grid, vario, nsim=10, seed=2)
+```
+
+``vario`` uses the same GSLIB practical-range convention as ``sgsim``.
+
+#### Turning bands simulation
+
+``tbsim`` (Matheron's turning bands, TBSIM-style) sums independent 1-D line
+processes over many directions to build a Gaussian field: random-sign sawtooth
+lines for ``spherical``, spectral lines for ``exponential`` / ``gaussian`` /
+``matern``. 2-D fields are plane sections of a 3-D simulation, and line
+directions are quasi-uniform with a random rotation per realization, so banding
+averages out. Realizations are conditioned by global simple or ordinary
+kriging (kriged data + simulated residual). Cost grows linearly with the grid,
+so unlike ``lusim`` it handles hundreds of thousands of nodes; conditioning
+data are limited by the dense kriging system (``max_data``, default 5 000).
+
+```python
+from geolattice.geostatistics import TBSimulator, tbsim, tbsim_unconditional
+
+sims = tbsim(grid, df, "X", "Y", "Z", vario, kriging_type="ordinary",
+             nsim=100, nlines=1000, seed=0)
+
+sim = TBSimulator([0, 0.1, 80, 40, 1.0, "exponential"], itrans=True, zmin=0.0)
+sim.fit(grid, df, "X", "Y", "Z")
+reals = sim.simulate(nsim=50, seed=1)
+kriging_std = sim.conditional_std_
+
+uncond = tbsim_unconditional(grid, [0, 0, 50, 50, 1.0, "matern", 1.5], nsim=10, seed=2)
+```
+
+``nlines`` trades speed for quality: each realization is a sum of ``nlines``
+processes, so a few hundred lines is the practical minimum for near-Gaussian,
+artefact-free single realizations.
+
+#### FFT spectral simulation
+
+``fftsim`` is exact Gaussian simulation on a regular lattice by circulant
+embedding: the lattice covariance is wrapped onto a padded torus, its
+eigenvalues come from one 2-D FFT, and each FFT of scaled complex noise gives
+two independent realizations. Cost is ``O(N log N)``, so a million nodes takes
+a fraction of a second per realization. Padding grows automatically until the
+embedding is valid; if ``max_cells`` is reached first (correlation range much
+larger than the grid), negative eigenvalues are clipped with a warning and
+``negative_eigen_fraction_`` reports how much (0.0 means exact).
+
+``prediction_grid`` must lie on a regular lattice (any order, holes allowed;
+pass ``spacing=`` for a single row or column). Conditioning data are moved to
+their nearest node, which then reproduces the datum exactly (nugget included),
+and realizations are conditioned by simple or ordinary kriging.
+
+```python
+from geolattice.geostatistics import FFTSimulator, fftsim, fftsim_unconditional
+
+sims = fftsim(grid, df, "X", "Y", "Z", vario, kriging_type="ordinary", nsim=100, seed=0)
+
+sim = FFTSimulator([30, 0, 200, 100, 1.0, "spherical"]).fit(grid, df, "X", "Y", "Z")
+reals = sim.simulate(nsim=500, seed=1)
+lattice = sim.simulate_lattice(nsim=2, seed=2)     # unconditional, (2, nx, ny)
+print(sim.embedding_shape_, sim.negative_eigen_fraction_, sim.max_data_shift_)
+```
+
+Which simulator to use:
+
+| | ``sgsim`` | ``lusim`` | ``tbsim`` | ``fftsim`` |
+|---|---|---|---|---|
+| Exact covariance | approx. (neighbourhood) | exact | ensemble-exact | exact |
+| Grid size | large | ≤ ~10 000 nodes | large, any points | very large, regular lattice |
+| Conditioning data | many (local search) | ≤ ``max_nodes`` | ≤ ``max_data`` | ≤ ``max_data``, snapped to nodes |
+
+``TBSimulator`` and ``FFTSimulator`` can re-condition a fitted setup on new
+values at the same data locations without refitting:
+``sim.simulate(nsim, seed, data_values=...)`` (order given by ``sim.conditioning_xy_``).
+
+#### Plurigaussian simulation (categorical)
+
+``pgsim`` simulates facies by truncating one or two latent Gaussian fields with a
+*truncation rule*, which controls which facies may touch. The latent fields are
+``Y1 = A`` and ``Y2 = rho * A + sqrt(1 - rho^2) * B``, with independent ``A`` and
+``B`` that each have their own variogram (sill 1), simulated with ``fftsim`` on a
+lattice or ``tbsim`` otherwise. Facies data are converted to latent Gaussian
+values by a Gibbs sampler, one draw per realization, so every realization
+reproduces the data categories.
+
+```python
+import numpy as np
+import pandas as pd
+from geolattice.geostatistics import (
+    PluriGaussianSimulator, TruncationRule, category_probabilities, pgsim,
+)
+
+rule = TruncationRule.hierarchical({"sand": 0.3, "silt": 0.5, "shale": 0.2})
+# or: TruncationRule.truncated_gaussian({...})      one field, ordered facies
+# or: TruncationRule.from_flag([[0, 0, 1], [2, 1, 1]], categories=["a", "b", "c"])
+print(rule.proportions(rho=0.4))
+
+wells = pd.DataFrame({"X": [10, 50, 80], "Y": [20, 60, 30],
+                      "facies": ["sand", "shale", "silt"]})
+pgs = PluriGaussianSimulator(rule,
+                             vario1=[0, 0, 60, 30, 1.0, "gaussian"],
+                             vario2=[90, 0, 40, 40, 1.0, "spherical"],
+                             rho=0.4)
+codes = pgs.fit(grid, wells, "X", "Y", "facies").simulate(nsim=50, seed=1)
+labels = np.asarray(pgs.categories_)[codes]          # (50, len(grid))
+prob = category_probabilities(codes, len(pgs.categories_))   # facies probability maps
+
+labels = pgsim(grid, wells, "X", "Y", "facies", rule, [0, 0, 60, 30, 1.0, "gaussian"],
+               [90, 0, 40, 40, 1.0, "spherical"], rho=0.4, nsim=10, labels=True)
+```
+
+``TruncationRule(rectangles)`` takes any tiling of ``[0, 1]^2`` into
+``(category, u1_lo, u1_hi, u2_lo, u2_hi)`` boxes, where ``u = Phi(y)``. Proportions
+are stationary; ``gibbs_iter`` (default 200) sets the Gibbs sweeps per realization.
+
+#### Multiple-point statistics (Direct Sampling)
+
+``dssim`` / ``DirectSampling`` reproduce patterns that variograms cannot describe
+(sinuous, connected channels, for example) by borrowing them from a *training
+image* (Mariethoz, Renard & Straubhaar, 2010). Each node, on a random path, takes the
+``n_neighbors`` nearest informed nodes as its data event and pastes the centre of
+the first training-image location whose pattern is within ``threshold``. A
+post-processing pass (``n_postprocess=1``) then re-simulates every node with a
+full neighbourhood. It works for categorical and continuous variables; hard data
+are moved to their nearest node and reproduced exactly.
+
+```python
+import numpy as np
+from geolattice.geostatistics import (
+    DirectSampling, channel_training_image, connectivity, dssim,
+    pattern_histogram, pattern_histogram_distance,
+)
+
+ti = channel_training_image(150, 150, seed=0)     # or your own 2-D array, ti[ix, iy]
+xs = np.arange(0, 100.0)
+grid = np.array(np.meshgrid(xs, xs, indexing="ij")).reshape(2, -1).T   # same cell size as ti
+
+ds = DirectSampling(ti, n_neighbors=30, threshold=0.05)
+reals = ds.fit(grid).simulate(nsim=5, seed=1)          # (5, len(grid))
+lattice = ds.simulate_lattice(nsim=1, seed=2)[0]       # (nx, ny) image
+
+# compare with the training image
+print(pattern_histogram_distance(pattern_histogram(ti, 3), pattern_histogram(lattice, 3)))
+print(connectivity(ti, 1, max_lag=30)[-1], connectivity(lattice, 1, max_lag=30)[-1])
+```
+
+Lower ``threshold`` and more ``n_neighbors`` copy the training image more
+faithfully, but run slower and give less variability. Direct Sampling does not
+enforce global proportions. Continuous results are slightly rougher than the
+training image at the finest lag.
+
+#### SNESIM (categorical multiple-point)
+
+``snesim`` / ``SNESIM`` (Strebelle, 2002) read each node's facies probabilities
+directly from training-image pattern counts: the frequency of each facies at the
+centre of every training-image pattern that matches the node's data event. Large
+structures come from a multigrid (``n_multigrid``, default 4), where coarse grids
+are simulated first with an expanded template. A servosystem keeps facies
+proportions on target (the training image's, or ``target_proportions``). Use it
+for categorical training images; use ``dssim`` for continuous ones.
+
+```python
+from geolattice.geostatistics import SNESIM, channel_training_image, snesim
+
+ti = channel_training_image(150, 150, seed=0)
+sim = SNESIM(ti, n_template=40, n_multigrid=4, min_replicates=3, servo=0.5)
+reals = sim.fit(grid).simulate(nsim=5, seed=1)                 # facies values
+print(sim.n_patterns_, reals.mean())                           # proportions ~ ti.mean()
+
+# with well data and a different target sand proportion
+# reals = snesim(grid, wells, "X", "Y", "facies", ti, nsim=10,
+#                target_proportions={0.0: 0.7, 1.0: 0.3}, seed=2)
+```
+
+If fewer than ``min_replicates`` training-image patterns match a node's data
+event, the farthest conditioning nodes are dropped. Small values keep channels
+continuous on small training images; around 10 suits large ones.
+
+#### Sequential indicator co-simulation
+
+``sicosim`` / ``IndicatorCoSimulator`` run sequential indicator simulation in
+which each node's probabilities come from collocated indicator cokriging with a
+secondary variable under the Markov–Bayes model (Zhu & Journel, 1993). An
+exhaustive secondary (seismic, remote sensing, ...) is calibrated against the hard
+data into soft indicator probabilities (``SoftCalibration``). The parameter
+``B`` (0 = useless, 1 = as good as hard data) sets how much each class trusts the
+secondary. It works for categorical classes and for continuous variables through
+thresholds, and is plain SIS when no secondary is given (``sisim`` covers
+continuous variables only).
+
+```python
+from geolattice.geostatistics import IndicatorCoSimulator, SoftCalibration, sicosim
+
+# facies 0/1/2 at wells, seismic at every grid node (and in wells["seis"])
+cosim = IndicatorCoSimulator([0, 1, 2], [0, 0, 30, 15, 0.24, "spherical"],
+                             num_points=16, radius=40)
+cosim.fit(grid, wells, "X", "Y", "facies", secondary=seismic, secondary_col="seis")
+print(cosim.B_)                          # per-class Markov-Bayes calibration
+reals = cosim.simulate(nsim=20, seed=1)
+
+# continuous variable through thresholds, or your own soft probabilities
+# sicosim(grid, wells, "X", "Y", "Z", thresholds, vario, secondary=seismic,
+#         secondary_col="seis", variable="continuous", nsim=20)
+# cosim.fit(grid, wells, "X", "Y", "facies", soft=probabilities, B=[0.6, 0.5, 0.7])
+```
+
+Calibration bins are secondary quantiles, so a bin straddling a class boundary
+lowers ``B`` by roughly ``1 / n_bins`` even for a perfect secondary.
+
+
+#### Sequential indicator simulation with local prior means
+
+``sis_local_means`` / ``sklm_cdf`` run sequential indicator simulation of a
+continuous variable when every node already has a prior CDF from secondary
+information (for example a proportional-odds model). Residuals of the
+indicators are kriged with simple kriging (local means), then the corrected
+CDF is drawn from with power tails. This is the continuous / local-prior
+counterpart of ``sisim`` (global prior) and differs from ``sicosim``
+(Markov–Bayes soft data).
+
+```python
+from geolattice.geostatistics import sis_local_means, sklm_cdf
+
+# models: list of {"model", "nugget", "psill", "range"} per threshold (standardized)
+# variances: residual variances that restore indicator units
+sims = sis_local_means(
+    nodes, prior_nodes, data_xy, data_ind, data_prior, thresholds, models, variances,
+    zmin=zmin, zmax=zmax, p_low=1.2, p_up=0.8, nsim=50, seed=1,
+)
+F = sklm_cdf(points, prior_points, data_xy, data_resid, models, variances)
+```
+
+
+#### Sequential Gaussian co-simulation
+
+``sgcosim`` / ``GaussianCoSimulator`` run sequential Gaussian simulation with
+collocated simple cokriging under Markov Model 1. Only the primary variogram and
+the normal-score correlation ``rho`` with an exhaustive secondary are needed
+(``rho`` is estimated from the data by default). The primary is normal-score
+transformed and back-transformed; use ``zmin``/``zmax`` to bound the tails.
+
+```python
+from geolattice.geostatistics import GaussianCoSimulator, sgcosim, sgcosim_hierarchical
+
+cosim = GaussianCoSimulator([0, 0, 30, 15, 1.0, "spherical"], radius=40, zmin=0.0)
+cosim.fit(grid, wells, "X", "Y", "porosity", secondary=impedance, secondary_col="ai")
+print(cosim.rho_, cosim.mm1_nugget_ratio_)
+reals = cosim.simulate(nsim=50, seed=1)
+
+# both variables known only at the wells: simulate the secondary, then the primary
+porosity, perm = sgcosim_hierarchical(grid, wells, "X", "Y", "porosity", "perm",
+                                      vario_primary, vario_secondary, nsim=20, seed=2)
+```
+
+``secondary_neighbors`` chooses the cokriging scheme:
+
+- ``1`` (default, GSLIB) uses only the collocated secondary. It reproduces
+  ``rho`` when the secondary is smooth (seismic, DEMs), but under-reproduces it
+  for a noisy secondary.
+- ``m > 1`` uses the secondary at the ``m`` nearest nodes with the full MM1
+  covariance. That fixes a noisy secondary but badly over-fits a smooth one.
+
+``mm1_nugget_ratio_`` tells them apart: around 1 or more favours ``m`` of about
+25, while well below 1 (a smooth secondary) means keep ``1``.
+
+#### Direct sequential simulation
+
+``dssim_direct`` / ``DirectSequentialSimulator`` simulate in **original units**,
+with no normal-score transform of the field. Each node is simple-kriged with the
+original-unit variogram (sill = variance), and the value is drawn from a local
+distribution built from the global histogram. The *original-unit* variogram is
+reproduced, which SGS (normal-score variogram) does not guarantee for skewed
+variables.
+
+```python
+from geolattice.geostatistics import DirectSequentialSimulator, GlobalDistribution, dssim_direct
+
+dss = DirectSequentialSimulator([0, 0, 30, 30, wells["grade"].var(), "exponential"],
+                                radius=60, weights=declustering_weights)
+reals = dss.fit(grid, wells, "X", "Y", "grade").simulate(nsim=50, seed=1)
+
+# co-simulation with an exhaustive secondary (collocated MM1 cokriging)
+reals = dssim_direct(grid, wells, "X", "Y", "grade", vario, secondary=geophysics,
+                     secondary_col="geo", nsim=50, seed=2)
+```
+
+``method="lookup"`` (default; Oz et al., 2003) draws from the back-transformed
+Gaussian window whose mean and variance match the kriging estimate and variance.
+``method="soares"`` (Soares, 2001) centres a Gaussian window on the transformed
+estimate. It is biased upward for skewed data (the simulated mean drifts about
++10% at CV 0.4, far more when strongly skewed), so it warns when the data
+skewness exceeds 1. It is named ``dssim_direct`` because ``dssim`` is the Direct
+Sampling MPS simulator.
+
+#### Simulated annealing
+
+``sasim`` / ``SimulatedAnnealing`` (GSLIB ``sasim``-style) start from a random image
+that reproduces the target histogram exactly, then swap pairs of non-data nodes
+(histogram preserved), accepting swaps by the Metropolis rule under a cooling
+schedule. The objective combines any of:
+
+- the variogram mismatch at lags along chosen directions (continuous, ``vario``);
+- per-class indicator variograms (categorical, ``indicator_varios``);
+- the correlation with an exhaustive secondary (``target_correlation``).
+
+Each component is scaled by its average change per swap, so
+``component_weights`` are relative importances. Every swap updates the
+objective incrementally.
+
+```python
+from geolattice.geostatistics import SimulatedAnnealing, sasim
+
+sa = SimulatedAnnealing(vario=[0, 0, 30, 15, 1.0, "spherical"], n_lags=10,
+                        target_values=declustered_values, target_correlation=0.6,
+                        component_weights={"variogram": 1.0, "correlation": 2.0})
+reals = sa.fit(grid, wells, "X", "Y", "Z", secondary=seismic).simulate(nsim=5, seed=1)
+print(sa.objective_, sa.n_swaps_)                 # final objective / initial, swaps used
+print(sa.experimental_variogram(sa.simulate_lattice(1, seed=2)[0]), sa.target_variogram())
+
+facies = sasim(grid, wells, "X", "Y", "facies",
+               indicator_varios={0: [0, 0, 30, 15, 0.21, "spherical"],
+                                 1: [0, 0, 20, 20, 0.16, "exponential"]},
+               nsim=3, seed=3)
+```
+
+The grid must be a regular lattice. Cost grows with the number of swaps, about
+500 per free node by default (``max_swaps``), and stopping is controlled by
+``tol``, ``k_accept``, ``k_max``, ``reduction`` and ``n_stop``.
+
+#### Multiple-point co-simulation
+
+Both MPS engines accept an exhaustive secondary variable such as seismic:
+
+- **Direct Sampling with a paired secondary training image.** ``secondary_ti``
+  is the secondary on the training image, cell by cell. Each node's data event
+  adds the secondary at the node and its ``n_secondary - 1`` nearest offsets, and
+  the pattern distance is ``(1 - w) d_primary + w d_secondary``
+  (``secondary_weight``). The secondary also guides the first nodes on the path.
+- **SNESIM with soft probabilities through the tau model** (Journel, 2002). The
+  training-image probability ``P(A|B)`` and a soft probability ``P(A|C)`` are
+  combined as ``x/x0 = (x_B/x0)^tau1 (x_C/x0)^tau2`` with ``x = (1 - P)/P``. Soft
+  probabilities can come from ``SoftCalibration`` on the training-image pair.
+  Unless you set ``target_proportions``, their mean becomes the target
+  proportions.
+
+```python
+from geolattice.geostatistics import DirectSampling, SNESIM, SoftCalibration, tau_model
+
+ti, ti_seismic = channel_ti, forward_modelled_seismic      # paired training images
+co_ds = DirectSampling(ti, secondary_ti=ti_seismic, secondary_weight=0.5, n_secondary=5)
+reals = co_ds.fit(grid, wells, "X", "Y", "facies", secondary=seismic).simulate(10, seed=1)
+
+ind = np.column_stack([ti.ravel() == 0, ti.ravel() == 1]).astype(float)
+soft = SoftCalibration(n_bins=15).fit(ind, ti_seismic.ravel()).transform(seismic)
+reals = SNESIM(ti, tau=(1.0, 1.0)).fit(grid, wells, "X", "Y", "facies", soft=soft).simulate(10, seed=2)
+```
+
+On a synthetic channel test with a blurred, noisy seismic, co-simulation raised
+cell accuracy against the true facies from 0.66 to 0.92 (Direct Sampling) and from
+0.63 to 0.82 (SNESIM).
+
+#### GPU-accelerated multiple-point simulation
+
+``DirectSampling`` and ``SNESIM`` take ``use_gpu=False | True | "auto"``, like
+``sgsim``. On a CUDA GPU (CuPy), all realizations advance through their own random
+paths together, and each simulation step is a single fused CUDA kernel with one
+thread block per realization:
+
+- **Direct Sampling:** the block's threads scan training-image candidates in
+  parallel, taking the first match in scan order, or else the best one, which is
+  the same rule as the CPU engine.
+- **SNESIM:** the threads match the data event against the whole pattern table
+  and build the prefix counts in shared memory.
+
+Co-simulation (``secondary_ti`` / ``soft``) runs on the GPU too.
+
+```python
+reals = SNESIM(ti, use_gpu=True).fit(grid, wells, "X", "Y", "facies").simulate(200, seed=1)
+reals = DirectSampling(ti, use_gpu="auto").fit(grid).simulate(100, seed=2)
+```
+
+Measured on an RTX A5500 laptop GPU (40×40 grid, 120×120 training image) against
+the CPU engines:
+
+| realizations | Direct Sampling | SNESIM |
+|---|---|---|
+| 1 | 0.6× | 3× |
+| 8 | 3× | 23× |
+| 32 | 7× | 84× |
+| 128 | 19× | 334× |
+
+GPU SNESIM gives exactly the same realizations as the CPU engine for the same
+seed. GPU Direct Sampling is statistically equivalent; about 0.2% of cells differ
+from the NumPy reference engine because of floating-point summation order. For a
+single realization the CPU is usually as fast or faster. Limits on the GPU path:
+``n_neighbors <= 128``, ``n_secondary <= 64``, ``n_template <= 64``, at most 16
+categories. ``use_gpu=True`` without a usable GPU warns and falls back to the CPU.
+
+#### GPU-accelerated sequential Gaussian simulation
+
+``GaussianCoSimulator(..., use_gpu=True)`` and ``sgsim_gpu(...)`` run sequential
+Gaussian simulation with **one CUDA thread per realization**. Each thread walks its
+own random path, building and solving its kriging system by Gaussian elimination;
+each kernel launch advances all realizations by 1,024 steps. It supports:
+
+- simple and ordinary kriging (``kriging_type``);
+- the collocated MM1 secondary, including per-realization secondaries as used by
+  ``sgcosim_hierarchical``;
+- spherical, exponential and Gaussian variograms, with up to 48 neighbours.
+
+The host generates each realization's path and normal deviates exactly as the CPU
+engine does, so **GPU realizations are identical to the CPU ones** for the same
+seed. Realizations are processed in batches sized to the free GPU memory. If the
+GPU is unavailable or runs out of memory, it warns and runs on the CPU, which
+gives the same result.
+
+```python
+from geolattice.geostatistics import GaussianCoSimulator, sgsim_gpu
+
+reals = sgsim_gpu(grid, wells, "X", "Y", "porosity", [0, 0, 30, 15, 1.0, "spherical"],
+                  num_points=16, radius=40, nsim=500, seed=1)
+
+cosim = GaussianCoSimulator(vario, radius=40, use_gpu=True)
+reals = cosim.fit(grid, wells, "X", "Y", "porosity", secondary=impedance,
+                  secondary_col="ai").simulate(500, seed=2)
+```
+
+Measured on an RTX A5500 laptop GPU (60 data, 16 neighbours, spherical
+variogram) against the CPU engine:
+
+| realizations | 60×60 grid | 100×100 grid |
+|---|---|---|
+| 1 | 0.2× (1.0 s) | 0.2× (2.9 s) |
+| 16 | 2.8× | 2.3× |
+| 128 | 16× | 13× |
+| 1,024 | 108× (2.0 s) | 84× (6.0 s) |
+
+A single GPU thread is much slower than a CPU core, so the CPU engine wins for
+a few realizations; the GPU pays off from about 16 realizations upward.
+
+#### GPU-accelerated sequential indicator simulation
+
+``IndicatorCoSimulator(..., use_gpu=True)`` (``sicosim``) runs sequential indicator
+simulation and co-simulation on the GPU the same way: one CUDA thread per
+realization. At each node a thread solves one indicator kriging system per class
+or threshold, each with its own variogram and including the Markov–Bayes soft
+datum when given. It then draws a class (categorical), or applies the GSLIB
+order-relation correction and draws a value with ``sisim``'s linear, power or
+hyperbolic tail models (continuous). Realizations are **identical to the CPU
+engine** for the same seed: exactly equal for categorical results, equal up to
+rounding for continuous ones.
+
+```python
+from geolattice.geostatistics import IndicatorCoSimulator
+
+sis = IndicatorCoSimulator([0, 1, 2], {0: v0, 1: v1, 2: v2}, radius=40, use_gpu=True)
+facies = sis.fit(grid, wells, "X", "Y", "facies", secondary=seismic,
+                 secondary_col="seis").simulate(1000, seed=1)
+```
+
+| realizations (3 classes) | 60×60 grid | 100×100 grid |
+|---|---|---|
+| 1 | 0.2× (3.0 s) | 0.2× (8.3 s) |
+| 16 | 2.7× | 2.9× |
+| 128 | 14× | 15× |
+| 1,024 | 108× (5.8 s) | 112× (16.6 s) |
+
+Limits on the GPU path: at most 48 neighbours and 16 classes or thresholds, with
+spherical, exponential and Gaussian variograms. Memory batching and the CPU
+fallback work as for SGS.
+
+#### GPU-accelerated direct sequential simulation
+
+``DirectSequentialSimulator(..., use_gpu=True)`` (``dssim_direct``) runs DSS and
+direct sequential co-simulation on the GPU. It solves the same original-units
+simple (co)kriging system as the CPU engine and draws from the global
+distribution. The GPU replicates ``numpy.interp`` exactly and uses CUDA's
+``normcdf`` / ``normcdfinv``:
+
+- **``method="soares"``:** one thread per realization.
+- **``method="lookup"``:** one thread block per realization. Thread 0 krigs, and
+  128 threads search the window table in parallel, first in FP32 and then
+  exactly in FP64, returning the same window as the CPU's KD-tree.
+
+GPU realizations equal the CPU ones for the same seed, to within about 1e-14 of
+the range.
+
+```python
+from geolattice.geostatistics import DirectSequentialSimulator
+
+dss = DirectSequentialSimulator([0, 0, 30, 15, wells["grade"].var(), "spherical"],
+                                radius=40, use_gpu=True)
+reals = dss.fit(grid, wells, "X", "Y", "grade").simulate(1000, seed=1)
+```
+
+| realizations | lookup 60×60 | lookup 100×100 | soares 60×60 | soares 100×100 |
+|---|---|---|---|---|
+| 1 | 0.2× | 0.2× | 0.2× | 0.2× |
+| 16 | 3.4× | 3.4× | 2.7× | 2.7× |
+| 128 | 24× | 24× | 16× | 15× |
+| 1,024 | 37× (6.8 s) | 38× (18.6 s) | 112× (1.9 s) | 111× (5.5 s) |
+
+``lookup`` searches about 12,900 windows per node per realization, which caps its
+speed-up at large batches.
+
+#### GPU-accelerated turning bands simulation
+
+``TBSimulator(..., use_gpu=True)`` (``tbsim``) evaluates the line processes and the
+kriging conditioning on the GPU:
+
+- **Line processes:** a spectral cosine sum, or a spherical sawtooth gather, over
+  chunks of points × lines.
+- **Conditioning:** the target-to-data covariance times the dual-kriging
+  coefficients, for every node and realization.
+
+Random numbers stay on the host and are drawn with the CPU engine's exact calls, so
+realizations are **identical to the CPU engine** to within about 1e-14 of the
+range, for all four variogram models, simple and ordinary conditioning, the
+normal-score transform and ``data_values`` re-conditioning. Unlike the sequential
+simulators, turning bands has no sequential dependency, so the GPU is faster
+**even for a single realization**.
+
+```python
+from geolattice.geostatistics import TBSimulator
+
+tb = TBSimulator([20, 0, 40, 20, 1.0, "exponential"], nlines=1000, use_gpu=True)
+reals = tb.fit(grid, wells, "X", "Y", "Z").simulate(32, seed=1)
+```
+
+| grid (data, 1000 lines) | model | 1 realization | 8 | 32 |
+|---|---|---|---|---|
+| 100×100 (100) | exponential | 63× | 92× | 85× |
+| 100×100 (100) | spherical | 35× | 40× | 42× |
+| 250×250 (300) | exponential | 64× (0.03 s) | 101× | 105× |
+| 250×250 (300) | spherical | 25× (0.06 s) | 30× | 30× |
+
+Spectral models (exponential, Gaussian, Matérn) gain the most; the spherical
+sawtooth's sign gather is less GPU-friendly. The neighbour search differs from
+``sgsim``: the nearest informed points within ``radius``, without octants. The
+older ``sgsim(..., use_gpu=True)`` path is unchanged, but measured no faster than
+its CPU mode (about 5.5 s per realization on 900 nodes, dominated by its octant
+search), so use ``sgsim_gpu`` / ``GaussianCoSimulator`` for GPU speed.
+
+GPU paths use ``use_gpu='auto'|True|False`` when CuPy is available
+(``geolattice[geostatistics-gpu]``). JAX variograms and kriging use the same switch
+in ``geolattice.geostatistics.jax_variogram_kriging`` (``geolattice[geostatistics-jax]``).
+Deep / AutoML regression-kriging backends need
+``geolattice[geostatistics-pytorch]``, ``geolattice[geostatistics-tensorflow]``, or
+``geolattice[geostatistics-h2o]``.
+
+### Remote sensing
+
+`geolattice.rsense` works on xarray objects and registers an `.rs` accessor. Select a backend once;
+array steps then run on NumPy or CuPy. Call `.rs.to_cpu()` (or `rs.to_cpu`) before converting
+GPU results to plain NumPy values.
+
+The snippets below continue from the backend setup (`import numpy as np`, `import geolattice.rsense as rs`).
+
+#### Backend setup
+
+```python
+import numpy as np
+import geolattice.rsense as rs
+
+rs.set_backend("auto")                       # "cuda" when CuPy and a GPU are present, else "cpu"
+print(rs.info()["pyrsense_backend"])
+```
+
+#### Optical imagery and spectral indices
+
+```python
+# Sentinel-2 L2A from a STAC catalog (geolattice[rsense-access]); any (time, y, x) Dataset works too
+s2 = rs.optical.load_sentinel2("aoi.geojson", ("2026-05-01", "2026-09-30"))
+s2 = s2.rs.scale().rs.mask_clouds()
+
+ndvi = s2.rs.composite("median").rs.index("NDVI").rs.to_cpu()
+rs.write(ndvi, "ndvi.tif")
+
+several = rs.optical.index(s2, ["NDVI", "NDWI", "NBR"])    # Dataset, one variable per index
+rs.optical.list_indices("vegetation")                      # catalog with formulas and references
+
+# Sentinel-2 biophysical variables on CDSE (geolattice[rsense-biopar]; signs in with OpenID Connect)
+biopar = rs.optical.sentinel2_biophysical
+paths = biopar.estimate(
+    {"west": 5.22, "south": 51.16, "east": 5.41, "north": 51.24},
+    ("2024-05-01", "2024-05-31"),
+    variables=["LAI", "FAPAR", "FCOVER", "CCC", "CWC"],  # "CWY" is accepted as CWC
+)
+lai = biopar.read(paths["LAI"], variable="LAI")
+
+# Sensor-aware indices (MODIS, Landsat 8/9, Sentinel-2, PlanetScope, WorldView, NAIP)
+rs.spectral_index.available("sentinel2")                   # which indices this sensor can compute
+rs.spectral_index.list_for_sensor("naip", domain="vegetation")
+ndvi = rs.spectral_index.compute(s2, "NDVI")               # validates bands for the sensor
+# USGS Landsat Collection 2 SR-derived set (NDVI, EVI, SAVI, MSAVI, NDMI, NBR, NBR2, NDSI)
+usgs = rs.spectral_index.usgs_landsat_sr(landsat_ds)       # landsat_ds: Landsat 8/9 Dataset
+```
+
+#### Time series
+
+```python
+# time series: gap-fill and smooth an NDVI cube, then extract phenology
+smooth = rs.timeseries.whittaker(s2.rs.index("NDVI"), lmbda=10)
+pheno = rs.timeseries.phenology(smooth)
+```
+
+#### SAR backscatter and flood mapping
+
+```python
+# Sentinel-1 backscatter: speckle filtering
+vv = rs.read("s1_vv_db.tif")
+vv_lee = rs.sar.lee(vv, size=7)
+
+# Open-water flood extent from linear VV (sigma0 or gamma0). Change detection keeps
+# pixels that fell by more than 3 dB against a dry reference and are still dark.
+flood = rs.sar.flood_map(
+    vv_linear, method="change", reference=vv_may, change_db=-3.0,
+    hand=rs.sar.hand(dem, channel_cells=100), hand_max=15.0,
+    slope=rs.lidar.slope(dem), slope_max=5.0,
+    permanent_water=permanent_water, min_pixels=6,
+)
+print(rs.sar.mask_to_polygons(flood.flood).area_km2.sum())
+```
+
+#### Sentinel-1 GRD processing and multitemporal stacks
+
+```python
+# Sentinel-1 GRD: border-noise removal + calibration to beta0, then DEM-based terrain
+# flattening (gamma0 = beta0 / cos(local incidence angle)) instead of the ellipsoid-only
+# approximation
+s1 = rs.sar.sentinel1
+grd = s1.process_grd("S1A_IW_GRDH_...SAFE", kind="betaNought", border_noise=True)
+xml = "S1A_IW_GRDH_...SAFE/annotation/s1a-iw-grd-vv-....xml"
+heading, _pass = s1.read_platform_heading(xml)
+inc = s1.incidence_angle_grid(xml, grd.vv.shape)
+lia = s1.local_incidence_angle(dem_on_grid, resolution=10.0, heading_deg=heading, incidence_deg=inc)
+gamma0 = s1.terrain_flatten(grd.vv, lia)
+
+# Multitemporal GRD stack from Planetary Computer's sentinel-1-grd (one track), AOI windows only:
+# calibrate each scene, co-register on one 10 m grid (CreateStack), Quegan filter, register to RTC
+bounds = (92.130, 21.179, 92.167, 21.213)                   # lon/lat
+scenes = [s1.read_grd_subset(it.assets["vh"].href, it.assets["schema-calibration-vh"].href,
+                             it.assets["schema-noise-vh"].href, bounds=bounds) for it in items]
+stack = s1.create_stack(scenes, [it.datetime for it in items], bounds=bounds, crs="EPSG:32646", resolution=10)
+filtered = s1.multitemporal_speckle_filter(stack, spatial="boxcar", size=7)
+dy, dx, corr = s1.estimate_offset(s1.to_db(filtered.mean("time")), s1.to_db(rtc_vh_mean))
+cube_db = s1.to_db(s1.apply_offset(filtered, dy, dx))      # (time, y, x) in dB, ready for features / ML
+
+# RCM ScanSAR GRD (unzipped EODMS folders), two dates from different beams: AOI window,
+# sigma0 from lutSigma, NESZ removed, speckle filtered, both dates on one UTM grid, then
+# normalized to a 35 degree incidence angle
+rcm = rs.sar.radarsat
+aoi = (-68.40, 48.87, -67.28, 49.29)
+subs = [rcm.read_rcm_grd_subset(p, "HH", bounds=aoi) for p in ("RCM1_..._SCLNA_..._GRD", "RCM3_..._SCLND_..._GRD")]
+for sub in subs:
+    sub["data"] = rs.sar.refined_lee(sub["data"], enl=rs.sar.enl_estimate(sub["data"][200:300, 400:500]))
+hh = s1.create_stack(subs, ["2026-01-28", "2026-02-03"], bounds=aoi, crs="EPSG:32619", resolution=50)
+inc = s1.create_stack([{"data": x["incidence"], "gcps": x["gcps"]} for x in subs],
+                      ["2026-01-28", "2026-02-03"], bounds=aoi, crs="EPSG:32619", resolution=50)
+fit = rcm.fit_incidence_slope(s1.to_db(hh.isel(time=0)), inc.isel(time=0))   # pass mask= for one surface type
+hh_norm = rcm.normalize_incidence(s1.to_db(hh), inc, fit["slope"], ref_deg=35.0)
+
+# Precise orbit (.EOF, Copernicus Data Space Ecosystem or ASF) for baseline/QC use
+orbit = s1.read_orbit_file("S1A_OPER_AUX_POEORB_....EOF")
+position, velocity = s1.interpolate_orbit(orbit, np.array(["2026-05-01T12:00:00"], dtype="datetime64[ns]"))
+```
+
+#### InSAR: topographic, differential, PS-InSAR and SBAS
+
+```python
+# Topographic InSAR (a DEM) from two Sentinel-1 IW SLC bursts (ASF burst extractor; geolattice[rsense-sar,rsense-insar])
+ins = rs.insar
+ref = s1.apply_orbit_file(s1.read_slc_annotation("ref.xml", swath="IW3"), s1.download_orbit("S1A", t_ref, "orbits"))
+sec = s1.apply_orbit_file(s1.read_slc_annotation("sec.xml", swath="IW3"), s1.download_orbit("S1C", t_sec, "orbits"))
+cols = s1.burst_window(ref, i_ref, aoi_lonlat)                                   # TOPS Split to the AOI
+m = s1.read_slc_burst("ref.tiff", ref, i_ref, cols=cols)
+g = s1.back_geocode(ref, sec, i_ref, i_sec, dem_ellipsoid, cols=cols)            # DEM-assisted co-registration
+s = s1.resample_slc(s1.read_slc_burst("sec.tiff", sec, i_sec), g["sec_line"], g["sec_sample"],
+                    ann=sec, burst=i_sec)                                         # deramp - interpolate - reramp
+ifg = m * np.conj(s) * np.exp(-1j * ins.flat_earth_phase(g["flat_delta_range"], ref["wavelength"]))
+# ... ESD (s1.esd_azimuth_shift) over two bursts, s1.deburst, multilook, ins.goldstein_filter, then
+unw, cc = ins.unwrap_snaphu_topo(filt, coh, wavelength=ref["wavelength"], bperp=bperp, near_range=r0,
+                                 range_spacing=dr, azimuth_spacing=da, altitude=alt, nlooks_range=8, nlooks_azimuth=2)
+height, ties = ins.phase_to_height(unw, ref["wavelength"], dh_dR, reference=dem_radar, mask=coh > 0.5, components=cc)
+dem_map = s1.terrain_correct(height, row_times, r0, dr, ref["orbit"], utm_dem_grid)   # Range-Doppler TC
+
+# Differential InSAR / SBAS: co-register every date to one reference, then any pair is cheap
+co = s1.coregister_stack(stack[ref_date], {d: stack[d] for d in later_dates}, dem_ellipsoid)  # dicts of per-burst lists
+slc_i, slc_j = co["stack"][d_i]["slc"][0], co["stack"][d_j]["slc"][0]
+dR = co["stack"][d_j]["delta_range"][0] - co["stack"][d_i]["delta_range"][0]
+dif = ins.differential_interferogram(slc_i, slc_j, dR, wavelength)       # flat-Earth + topography removed
+los = ins.phase_to_los(ins.unwrap(ins.goldstein_filter(dif), coh, method="snaphu", cost="defo"))
+pt = ins.select_reference_point(coh, mask=stable_area)                  # coherent, stable pixel
+los = ins.reference_to_point(los, pt)
+gnss_los = ins.enu_to_los(d_east, d_north, d_up, s1.los_unit_vector(lat, lon, h, ref["orbit"]))
+
+# PS-InSAR on the same co-registered stack (full resolution, single reference)
+DA, mean_amp = ins.amplitude_dispersion(np.abs(slc_stack))                    # (n_dates, rows, cols)
+r, c = np.nonzero(ins.ps_candidates(DA, 0.25, mean_amplitude=mean_amp, peak_window=3))
+low = ins.sparse_lowpass(np.exp(1j * phase), x, y, sigma=300, exclude_self=True)  # spatially correlated phase
+fit = ins.ps_periodogram(np.angle(np.exp(1j * phase) * np.conj(low)), 4 * np.pi / wavelength * kz)
+ps = fit["coherence"] > ins.coherence_threshold(np.nanmedian(4 * np.pi / wavelength * kz, axis=1), fpr=0.01)
+unw = ins.unwrap_points(np.angle(np.exp(1j * (phase - 4 * np.pi / wavelength * kz * fit["dem_error"])))[:, ps], x[ps], y[ps])
+clean = unw - ins.atmospheric_filter(unw, x[ps], y[ps], t_years)
+v = ins.point_velocity(ins.phase_to_los(clean, wavelength), t_years)["velocity"]
+
+# SBAS on the same co-registered stack
+pairs = ins.sbas_network(dates, bperp, max_temporal_days=48, max_perpendicular=150)
+ds = ins.interferogram_stack(stack[ref_date], co, pairs, reference_date=ref_date, looks=(3, 12))
+unw = ins.reference_to_point(ds.unwrapped.values, ins.select_reference_point(ds.coherence.mean("pair").values, mask=stable))
+unw, info = ins.correct_unwrapping_errors(unw, pairs)                        # phase closure
+ts = ins.sbas_svd(unw, pairs, weights=ds.coherence.values)                    # SVD, minimum norm
+los, dz = ins.dem_error_correction(ins.phase_to_los(ts, wavelength), -(ds.kz.values - ds.kz.values[0]), t_years)
+```
+
+#### NISAR
+
+```python
+# NISAR HDF5: inspect a product, read a geocoded GCOV layer, or read RSLC in radar geometry
+structure = rs.sar.inspect_hdf5("NISAR_L2_GCOV_....h5", "/science/LSAR/GCOV")
+gamma0_hh = rs.sar.read_l2("NISAR_L2_GCOV_....h5", "GCOV", "HHHH", frequency="A")
+rslc_hh = rs.sar.read_radar("NISAR_L1_RSLC_....h5", "RSLC", "HH", frequency="A")
+coordinate_x = rs.sar.read_nisar(
+    "NISAR_L1_RSLC_....h5", "RSLC", "metadata/geolocationGrid/coordinateX"
+)
+# Level-1 precision geocoding, phase unwrapping, and time-series inversion use ISCE3,
+# SNAPHU, and MintPy workflows; geocode_l1 is only a quick-look interpolator.
+```
+
+#### Sentinel-3
+
+```python
+# Sentinel-3: OLCI L2 water (chlorophyll, TSM) from an extracted .SEN3 folder (geolattice[rsense-sentinel3])
+s3 = rs.optical.sensors.sentinel3
+wfr = s3.read_olci_water("S3A_OL_2_WFR____....SEN3", variables=["chl_nn", "tsm_nn"])
+valid = s3.olci_water_mask(wfr["wqsf"])                    # CF flag_masks/flag_meanings, not hardcoded bits
+chl = s3.log_to_linear(wfr["chl_nn"].where(valid))          # CHL is stored as log10(mg/m3)
+chl_grid = s3.swath_to_grid(chl, wfr.longitude, wfr.latitude, resolution=0.005)
+rs.write(chl_grid, "chl.tif")
+```
+
+#### Sentinel-5P / TROPOMI
+
+```python
+# Sentinel-5P/TROPOMI: tropospheric NO2 column from one L2 product file (geolattice[rsense-sentinel5p])
+s5p = rs.atmosphere.sentinel_5p
+no2 = s5p.read_no2("S5P_OFFL_L2__NO2____....nc")
+valid = s5p.qa_mask(no2["qa_value"])                        # threshold read from the file's own metadata
+no2_molec = s5p.molecules_per_cm2(no2["nitrogendioxide_tropospheric_column"].where(valid))
+
+# Level-2 to Level-3: bin onto a regular grid (pixel-corner oversampling for finer grids)
+lat_edges, lon_edges = np.arange(30, 45.01, 0.1), np.arange(-120, -99.99, 0.1)
+no2_grid = s5p.bin_to_grid(no2_molec.values, no2.latitude.values, no2.longitude.values,
+                           lat_edges, lon_edges, min_count=3)
+rs.write(no2_grid["mean"], "no2.tif")
+```
+
+#### Lidar
+
+```python
+from geolattice.rsense import lidar
+
+pc = lidar.read_las("tile.laz")                               # or read_pdal(ept_url, bounds=..., bounds_crs=4326)
+print(lidar.summary(pc)["density_pts_m2"])
+pc = lidar.statistical_outlier_removal(pc, action="classify")  # noise → ASPRS 7 / 18
+pc = lidar.classify_ground(pc, "csf")                          # or "smrf", "pmf"
+dtm, dsm = lidar.dem(pc, 1.0), lidar.dsm(pc, 1.0)
+chm = lidar.chm(dsm, dtm)
+pcn = lidar.normalize_heights(pc, dtm)
+
+# forest: tree tops, crowns, area-based metrics and field-plot metrics for biomass models
+tops = lidar.detect_trees(chm)
+labels, crowns = lidar.segment_crowns(chm, tops)
+metrics = lidar.grid_metrics(pcn, 20)
+plots = lidar.plot_metrics(pcn, field_plots, radius=11.3)    # join with plot AGB and fit a model
+
+# urban: buildings, footprints, roof planes, rooftop solar
+pcn = lidar.classify_buildings(pcn)
+footprints = lidar.building_footprints(pcn)
+solar = lidar.solar_potential(dsm, footprints=footprints)
+
+# hydrology: hydro-flatten, HAND, flood extent for a 2 m stage
+dtm = lidar.flatten_water(dtm, lakes_gdf)
+flood = lidar.inundation(lidar.hand(dtm, threshold=2000), 2.0)
+
+# large areas: buffered tiles in parallel, merged back
+dtm_all = lidar.process_tiles(pc, lambda t: lidar.dem(lidar.smrf(t), 1.0), size=500,
+                              buffer=30, n_jobs=8)
+
+# change between two surveys
+dod = lidar.dem_of_difference(dtm_2018, dtm_2024, sigma_before=0.07, sigma_after=0.05)
+m3 = lidar.m3c2(pc_2018, pc_2024, normal_scale=2.0, projection_scale=1.0)
+
+# point classification: random forest on multi-scale eigen features, or PointNet++
+fit = lidar.train_point_classifier(training_pc, "classification", scales=(10, 30))
+pc = lidar.predict_point_classes(pc, fit)
+```
+
+#### UAV
+
+```python
+import geolattice.rsense as rs
+
+uav = rs.uav
+plan = uav.flight_plan(6, camera="mini4pro_4k_video", speed_ms=1.0, fps=24, frame_step=6)
+
+cat = uav.build_catalog("data/infrastructure-free-uav-phenotyping")  # one row per frame
+img = uav.read_frame(cat.path[0], gsd=0.00185)                       # (band, y, x), metres
+vi = uav.vegetation_indices(img)                                     # VARI, TGI, ExG, ...
+mask, cover = uav.canopy_cover(vi.ExG)
+
+health = uav.health_map(img)          # 0 background, 1 green, 2 senescent (SAM with sam_checkpoint=)
+print(uav.health_summary(health))
+
+pairs = uav.pair_catalog(uav.build_catalog("data/Canola dataset"))   # RGB + NIR frames
+ms = uav.load_pair(pairs.rgb_path[0], pairs.nir_path[0], register=True)
+ndvi = uav.vegetation_indices(ms, "NDVI")
+cover = uav.cover_layers(ms)   # PVI, GC, WDVI; soil line in cover.attrs
+
+flat = uav.ransac_flatten(["dem_0904.tif", "dem_0917.tif"])          # remove doming, keep metres
+growth = flat.dems[1] - flat.dems[0]                                 # height change between flights
+
+pts, density = uav.density_count(img, uav.fetch_weights("ricenet_count"))  # RiceNet
+boxes = uav.tiled_detect(img, "panicle.pt", backend="yolov5", conf=0.7, iou=0.4)
+fit = uav.fit_logistic(dates, cover_by_date)                          # growth curve
+```
+
+#### Hyperspectral
+
+```python
+from geolattice.rsense import hyperspectral as hs
+
+cube = hs.read_emit("EMIT_L2A_RFL_001_20240601T160000.nc")   # or read_envi / read_enmap / read_prisma
+cube = hs.drop_bad_bands(cube)                                # water-vapour windows, noisy bands
+cube = hs.smooth(cube, window=7)                              # Savitzky–Golay along wavelength
+
+# indices, red edge, continuum removal and clay band depth
+idx = hs.index(cube, ["NDVI", "PRI", "NDRE", "WBI", "ClayAlOH"])
+rep = hs.red_edge_position(cube)
+clay = hs.band_depth(cube, 2205, 2120, 2280)                  # depth, position, width, area
+
+# MNF, endmembers and fully constrained unmixing
+mnf_scores, mnf_model = hs.mnf(cube, 20)
+k = hs.hysime(cube)["k"]
+em = hs.nfindr(cube, k)
+fractions = hs.unmix(cube, em)                                # one map per endmember + rmse
+
+# library matching (USGS splib07 resampled to the sensor)
+lib = hs.read_usgs("usgs_splib07/ASCIIdata_splib07a/").subset("Kaolinite|Calcite|Alunite")
+minerals = hs.classify_spectral(cube, lib, measure="sam", threshold=0.10)
+
+# methane: column-wise matched filter on radiance, plumes, IME and emission rate
+rad = hs.read_emit("EMIT_L1B_RAD_001_20240601T160000.nc", ortho=False)
+enh = hs.gas_matched_filter(rad, ch4_unit_absorption)          # ppm·m
+labels, plumes = hs.plume_mask(enh)
+ime = hs.plume_ime(enh, labels, plume=1, pixel_area_m2=60 * 60)
+q_kg_h = hs.emission_rate(ime["ime_kg"], wind_speed_m_s=3.0, plume_length_m=ime["length_m"])
+
+# traits: PLSR on field plots, or PROSAIL hybrid retrieval
+pls = hs.fit_plsr(hs.spectra_at(cube, plots), plots["nitrogen"], target="nitrogen")
+n_map = pls.predict_map(cube)
+lai = hs.hybrid_retrieval(cube, ["lai", "cab"], model="gpr")["maps"]
+
+# simulate Sentinel-2 from the cube and reuse the optical index library
+s2 = hs.resample_to_sensor(cube, "sentinel2")
+```
+
+#### Surface energy balance and evapotranspiration
+
+METRIC on one Landsat 8/9 Collection 2 Level-2 scene with Open-Meteo weather. `sr` is a Dataset of surface reflectance scaled to 0 to 1 (`blue, green, red, nir, swir16, swir22`), `lst` the `ST_B10` surface temperature in K, both cloud masked, and `props` the STAC item's properties.
+
+```python
+import numpy as np
+import geolattice.rsense.surface_energy_balance as seb
+
+geo = seb.scene_geometry(props)                                   # overpass time, sun zenith, dr
+wx = seb.interpolate_weather(seb.weather_open_meteo(36.43, -120.1, geo["datetime"], geo["datetime"]),
+                             geo["datetime"])                     # ERA5 at the overpass
+z = 60.0                                                          # elevation (m), or a DEM
+P = seb.pressure_from_elevation(z)
+ea = seb.actual_vapour_pressure(t_dew_c=wx.dew_point_2m)
+u2 = seb.wind_2m(wx.wind_speed_10m, 10)
+
+ndvi = seb.ndvi(sr.red, sr.nir)
+lai = seb.leaf_area_index(seb.savi(sr.red, sr.nir, L=0.1))
+alb = seb.albedo(sr, sensor="landsat8")
+e0 = seb.surface_emissivity(lai, ndvi)
+cos_t = np.cos(np.radians(geo["sun_zenith"]))
+tau = seb.broadband_transmissivity(cos_t, pressure=P, ea=ea)
+anchors = seb.select_anchors(ndvi, lst, albedo_=alb)              # cold: irrigated crop, hot: bare soil
+rl_in = seb.incoming_longwave(anchors["cold"]["lst"], seb.air_emissivity(tau_sw=tau))
+rn = seb.net_radiation(seb.incoming_shortwave(cos_t, tau, dr=geo["dr"]), alb, rl_in,
+                       seb.outgoing_longwave(lst, e0), e0)
+g = seb.soil_heat_flux(rn, lst, lai=lai, method="metric", ndvi_=ndvi)
+
+# alfalfa reference ET at the overpass (mm/h) and for the day (mm/d)
+etr_h = seb.asce_pm_hourly(wx.temperature_2m, ea, wx.shortwave_radiation * 0.0036, u2, z,
+                           36.43, -120.1, geo["datetime"], reference="tall")
+etr_d = seb.asce_pm_daily(46.6, 25.6, ea, 29.65, u2, z, 36.43, geo["doy"], reference="tall")
+
+out = seb.run_metric(lst, rn, g, seb.momentum_roughness(lai=lai), seb.wind_at_blending_height(u2),
+                     P, etr_h, anchors=anchors, etr_daily=etr_d)
+seb.calibration_history(out)                                       # rah, dT, a, b per iteration
+out.et24.plot(cmap="YlGnBu")                                       # daily ET (mm)
+seb.zonal_et(out.et24, cdl, names={36: "alfalfa", 61: "fallow"})   # ET and m3 per crop code
+
+# the same inputs in other models
+sebal = seb.run_sebal(lst, rn, g, seb.momentum_roughness(lai=lai), seb.wind_at_blending_height(u2),
+                      P, anchors=anchors)
+tseb = seb.tseb_pt(lst, lai, wx.temperature_2m + 273.15, wx.wind_speed_10m, ea, P, rn,
+                   geo["sun_zenith"], hc=np.clip(lai / 4, 0.1, 2.5))  # soil E and canopy T
+```
+
+On `LC08_L2SP_042035_20240705_02_T1` (Westside San Joaquin Valley) this gives about 11 mm/d on irrigated fields against a daily alfalfa reference of 12 mm/d. For a season, run each clear date, stack `out.etrf` along `time`, then `seb.seasonal_et(seb.interpolate_etrf(stack), etr_daily_series)`.
+
+#### Zonal statistics
+
+```python
+# zonal statistics over field polygons (GeoDataFrame)
+stats = ndvi.rs.zonal_stats(fields_gdf)
+```
+
+#### Downloading imagery
+
+```python
+# Download scenes the same way as PyGIS Explorer. Planetary Computer also needs
+# geolattice[rsense-access] (the planetary-computer package). Copernicus needs
+# CDSE_USER and CDSE_PASSWORD.
+from geolattice.rsense.get_images import get_images, search_images
+
+found = search_images(
+    bbox=(-76.6, 42.4, -76.4, 42.5),
+    dates=("2024-03-01", "2024-03-31"),
+    source="earth-search",
+    collection="sentinel-2-l2a",
+    cloud=10,
+)
+saved = get_images(
+    "downloads/s2_ithaca",
+    aoi="field.shp",                 # or field.geojson / field.gpkg, or bbox=...
+    dates=("2024-03-01", "2024-03-31"),
+    source="earth-search",
+    collection="sentinel-2-l2a",
+    cloud=10,
+    bands=["red", "green", "blue", "nir"],
+    stack=True,
+)
+print(saved.out, len(saved.files))
+print(rs.get_images.list_collections())
+
+# RCM CEOS Analysis Ready Data (Canada only): orbit is filtered client-side, since EODMS's
+# STAC API does not support the `query` extension a server-side sat:orbit_state filter needs
+from geolattice.rsense.get_images import get_rcm_ard, search_rcm_ard
+
+rcm_found = search_rcm_ard(bbox=(-76.0, 45.2, -75.5, 45.5), dates=("2025-01-01", "2025-05-31"),
+                           orbit="ascending")
+rcm_saved = get_rcm_ard("downloads/rcm_ottawa", search=rcm_found, clearest=True)
+print(rcm_saved.files)   # default bands: rr, rl (backscatter), data_mask
+```
+
+#### Image classification and computer vision
+
+`geolattice.rsense.classify.image_classification` covers the full path from georeferenced rasters to
+evaluated, georeferenced maps and vectors. Learning mode (supervised, unsupervised,
+semi-supervised, self-supervised) and spatial unit (pixel, object) are independent choices.
+Classical workflows need `geolattice[rsense,rsense-classify]`; deep-learning parts need
+`geolattice[rsense-dl]` (and `timm`, `ultralytics`, `open_clip_torch` or `segment-geospatial`
+for the optional model families, see `geolattice[rsense-vision]`).
+
+```python
+import geolattice.rsense.classify.image_classification as ic
+
+# val_loader, image, before/after, s1, unlabeled_loader, proba and features stand for your own inputs
+
+# 1. Data: keep CRS / transform / nodata / band names; split by geography, not by pixel
+img = ic.load_stack("Sentinel_2_UB/Images", sensor="Sentinel-2", crs="EPSG:32617")
+pts = ic.labels_from_table("train_data.csv", label="Class_ID", crs=img.rio.crs)
+X, y, coords = ic.sample_pixels(img, pts, "Class_ID")
+split = ic.spatial_block_split(coords, block_size=300, test_size=0.3, stratify=y)
+
+# 2. Pixel-based supervised baseline with spatial block CV, evaluation and a GeoTIFF map
+clf, cv = ic.train_pixel_classifier(X.iloc[split.train], y[split.train], model="rf",
+                                    coords=coords[split.train], block_size=300)
+report = ic.classification_report(y[split.test], clf.predict(X.iloc[split.test]), n_boot=200)
+landcover = ic.predict_map(clf, img)
+ic.write_class_map(landcover, "landcover.tif", class_names={1: "road", 2: "building"})
+ic.save_run("run.json", raster_meta=ic.RasterMeta.from_dataarray(img), split=split,
+            metrics={"oa": report["overall_accuracy"], "kappa": report["kappa"]})
+
+# unsupervised and object-based alternatives
+clusters, km = ic.unsupervised_classify(img, 6, method="gmm")
+obia = ic.object_based_classify(img, pts, "Class_ID", n_segments=1500)
+
+# 3. Chip CNN for 10 bands (ImageNet stem adapted to N bands), focal loss, AMP, early stopping
+chips, labels, _ = ic.extract_chips(img, pts, "Class_ID", size=9)
+norm = ic.Normalizer().fit(chips, band_axis=1)            # fit on training chips only
+ds = ic.ChipDataset(chips, labels - 1, normalizer=norm, transform=ic.OverheadAugment())
+cnn = ic.build_cnn("resnet18", in_channels=10, num_classes=5, pretrained=True)
+hist = ic.train_model(cnn, ic.as_loader(ds, 64), val_loader, loss="focal", precision="bf16",
+                      early_stopping=5, checkpoint="best.pt", logger="tensorboard")
+
+# 5. Segmentation with seam-free sliding windows; 7. polygons for fields / buildings
+seg = ic.build_segmenter("deeplabv3plus", in_channels=4, num_classes=6, weights="imagenet")
+cmap = ic.sliding_window_predict(seg, image, tile=256, overlap=64, normalizer=norm)
+inst, _ = ic.instances_from_semantic(cmap, method="watershed")
+fields = ic.polygonize(inst, class_map=cmap, min_area=500, simplify=2, regularize="auto")
+ic.export_vectors(fields, "fields.gpkg")
+
+# 8. Change detection: check co-registration, then CVA / PCA or a Siamese U-Net / BIT model
+ic.check_coregistration(before, after)
+change = ic.change_vector_analysis(before, after)
+siam = ic.build_change_model("siamese_diff", in_channels=6)
+
+# 9-13. time series, fusion, self-supervision, foundation models, few labels
+tae = ic.build_temporal_model("ltae", in_channels=10, num_classes=8)
+fused = ic.fuse_early(img, s1, align=True)                 # resampling is explicit and recorded
+mae, _ = ic.pretrain_masked(ic.build_mae(10), unlabeled_loader)
+ic.foundation_model_info()                                 # Prithvi, Clay, Satlas, DOFA, ...
+picks = ic.select_for_labeling(proba, 50, strategy="entropy", embeddings=features)
+```
+
+Command line, same choices (`--task`, `--learning-mode`, `--spatial-unit`, `--bands`, `--seed`):
+
+```bash
+python -m geolattice.rsense.classify.image_classification --image Sentinel_2_UB/Images \
+    --labels train_data.csv --label-col Class_ID --model rf --block-size 300 --out results/
+python -m geolattice.rsense.classify.image_classification --image scene.tif --learning-mode unsupervised \
+    --n-classes 8 --out clusters/
+python -m geolattice.rsense.classify.image_classification --task change-detection --image t1.tif \
+    --image2 t2.tif --out change/
+```
+
+The output folder holds the class GeoTIFF (CRS, nodata, class names and color table),
+per-class metrics, the confusion matrix, spatial-CV folds and `run.json` (configuration,
+package versions, normalization values, CRS/transform, split ids, metrics).
+
+### Spatial statistics
+
+ESDA, spatial weights, geographically weighted models, point patterns, spatial
+regression, sampling, and Bayesian disease mapping live in
+``geolattice.spatial_statistics`` (also ``geolattice.analysis.spatial_statistics``).
+Install the ``spatial-statistics`` extra first (``geopandas``, ``scikit-learn``,
+``joblib``).
+
+```python
+import numpy as np
+from geolattice.spatial_statistics import Queen, Moran, GWR
+from geolattice.spatial_statistics.datasets import load_lattice, load_georgia
+
+gdf, y_col = load_lattice(n=8, seed=0)
+w = Queen(gdf)
+mi = Moran(gdf[y_col], w, permutations=199, seed=1)
+print(mi.I, mi.p_value)
+
+gdf, feature_cols, target_col = load_georgia()
+coords = np.column_stack([gdf.geometry.x, gdf.geometry.y])
+gwr = GWR(bandwidth="auto", fixed=False, kernel="bisquare")
+gwr.fit(gdf[feature_cols].to_numpy(), gdf[target_col].to_numpy(), coords)
+print(gwr.aicc_, gwr.coef_.shape)
+```
+
+Other entry points include ``Rook``, ``KNN``, ``Moran_Local``, ``Geary``,
+``GeneralG``, ``MGWR``, ``GWSS``, ``GTWR``, ``PointPattern``, ``OLS`` /
+``SpatialLag`` / ``SpatialError``, ``getis_ord_gi``, ``IDW``, ``grts``, and
+``eb_gamma_poisson``. Plotting helpers need ``geolattice[spatial-statistics-viz]``;
+GNNWR / GTNNWR need ``geolattice[spatial-statistics-deep]``; GW boosting models need
+``geolattice[spatial-statistics-boosting]``.
+
+### Spatial causal inference
+
+``geolattice.spatial_analysis.spatialcausal`` estimates causal effects when units are spatially
+dependent: spillovers between neighbours, unmeasured confounders that vary
+smoothly in space, and treatments assigned by geography. Install the
+``spatialcausal`` extra first.
+
+```python
+import geolattice.spatial_analysis.spatialcausal as sc
+from geolattice.spatial_analysis.spatialcausal.datasets import simulate_interference, simulate_spatial_confounding
+
+# Spatial confounding: an unmeasured, spatially smooth confounder drives T and Y
+conf = simulate_spatial_confounding(n=800, ate=1.0, random_state=0)
+print(sc.diagnose_spatial_confounding(conf, permutations=99))
+dml = sc.SpatialDML(model_y="gbr", model_t="gbr", se="conley", cutoff=0.1).fit(conf)
+print(dml.summary())
+
+# Interference: direct and spillover effects through a neighbourhood exposure
+interf = simulate_interference(n=1000, direct=1.0, spillover=0.5, random_state=0)
+exposure = sc.ExposureMapping(interf.w, kind="share", threshold=0.5)
+est = sc.InterferenceEstimator(exposure, learner="ridge").fit(interf)
+print(est.result_.to_frame())
+```
+
+Other entry points include ``SpatialPlus``, ``SpatialDRLearner``, ``GWDML``,
+``GWCausalForest``, ``GeographicRDD``, ``SpatialDiD``, ``StaggeredSpatialDiD``,
+``SpatialSyntheticControl``, ``BayesianSpatialCausal``, ``ClusterRandomizedDesign``,
+``power_analysis``, ``SpatialGranger``, ``GCCM`` and ``SpatialNOTEARS``. Plots
+(``geolattice.spatial_analysis.spatialcausal.viz``) need ``geolattice[spatialcausal-viz]``;
+``PyCausalMLAdapter`` needs ``geolattice[spatialcausal-causalml]``.
+
+### Web and cloud GIS
+
+``geolattice.web`` covers the cloud-native formats and the serving side of a web-GIS. GeoParquet,
+FlatGeobuf and PMTiles writers are also available from ``geolattice.vector``. Install the ``web``
+extra first.
+
+```python
+import geopandas as gpd
+import geolattice.web as web
+from geolattice.vector import read_geoparquet, write_geoparquet
+
+# Rasters: convert to a Cloud-Optimized GeoTIFF and check it
+web.to_cog("nir.tif", "nir_cog.tif", overview_resampling="average")
+print(web.validate_cog("nir_cog.tif"))
+
+# Vectors: GeoParquet for analysis (bbox reads use the covering column), PMTiles for web maps
+counties = gpd.read_file("NY_County_GCS.shp")
+write_geoparquet("counties.parquet", counties)
+central = read_geoparquet("counties.parquet", bbox=(-76.5, 42.8, -75.9, 43.3))
+web.write_pmtiles("counties.pmtiles", counties, maxzoom=10)
+
+# Static XYZ tiles with a Leaflet viewer, or a live tile + OGC API – Features server
+web.make_xyz_tiles("nir_cog.tif", "tiles", zooms=range(9, 12), colormap="viridis")
+app = web.create_app(rasters={"nir": "nir_cog.tif"}, vectors={"counties": "counties.parquet"})
+web.serve(app, port=8000)            # http://127.0.0.1:8000/viewer, /collections, /tiles
+
+# Remote COGs are read with range requests
+with web.cloud_env(anonymous=True, region="us-west-2"):
+    print(web.validate_cog("s3://sentinel-cogs/sentinel-s2-l2a-cogs/18/T/UN/2025/8/S2C_18TUN_20250802_0_L2A/B04.tif"))
+```
+
+The server is a Starlette application, so it can be mounted in FastAPI
+(``api.mount("/gis", app)``) or run by any ASGI server. For many users, run it with several worker
+processes (``uvicorn module:app --workers 4``).
+
+Feature collections follow OGC API – Features Core: an OpenAPI description at ``/api``, paging with
+``limit`` / ``offset`` and ``next`` links, ``bbox``, attribute filters, and ``datetime`` (an instant
+or an interval such as ``2025-01-07T00:00:00Z/2025-01-13T23:59:59Z``) on a collection's datetime
+column. GDAL's ``OAPIF`` driver, QGIS, OWSLib and GeoPandas read it directly.
+
+In notebooks and tests, run apps in the background and serve local files over HTTP:
+
+```python
+srv = web.start_server(app)                    # background thread, free port; srv.url, srv.stop()
+items = gpd.read_file(f"{srv.url}/collections/counties/items?limit=100")
+
+with web.static_server("outputs") as files:    # range requests + CORS + counters
+    gdf = read_geoparquet(f"{files.url}/counties.parquet", bbox=(-76.5, 42.8, -75.9, 43.3))
+    print(files.stats)                         # {'requests': ..., 'bytes': ...}
+
+# rasterio holds the GIL while reading over HTTP: serve files to it from a child process
+with web.static_server("outputs", subprocess=True) as files:
+    app = web.create_app(rasters={"nir": f"{files.url}/nir_cog.tif"})
+```
+
+### Spatial databases
+
+``geolattice.geolatticedb`` (also ``geolattice.spatial_bd.geolatticedb``) runs the same calls on four
+backends: ``postgis``, ``spatialite``, ``geopackage`` and ``duckdb``. Install the
+``spatial-db`` extra; add ``spatial-db-postgis`` for PostgreSQL. SpatiaLite and
+GeoPackage need the ``mod_spatialite`` library (``apt install libsqlite3-mod-spatialite``,
+``brew install libspatialite`` or ``conda install libspatialite``); DuckDB installs its
+``spatial`` extension on first use.
+
+```python
+from geolattice import geolatticedb as pdb
+
+db = pdb.connect("duckdb")                       # or "spatialite"/"geopackage" with path=...
+# db = pdb.connect("postgis", host="localhost", dbname="gis", user="postgres", password="secret")
+
+db.load("counties.shp", "counties")              # SRID detected, spatial index built
+db.load(wells_gdf, "wells")
+ny = db.query("SELECT * FROM counties WHERE statefp = '36'")   # GeoDataFrame
+joined = db.spatial_join("wells", "counties", predicate="within")
+near = db.nearest("wells", "hospitals", k=3)
+buf = db.buffer("hospitals", 5000, geography=True)
+print(db.explain("SELECT * FROM counties WHERE ST_Area(geom) > 1", analyze=True))
+
+# PostGIS only
+zs = db.raster.zonal_stats("dem", "counties")
+db.network.prepare("roads")
+path = db.network.shortest_path("roads", source=(-76.50, 42.44), target=(-76.48, 42.45))
+iso = db.network.isochrone("roads", source=(-76.50, 42.44), costs=[1000, 2000])
+db.tiles.serve(["counties"], port=8080)          # http://127.0.0.1:8080/
+db.close()
+```
+
+Every method also exists as a module function that takes the connection first,
+for example ``pdb.query(db, sql)``. Tests are in ``tests/test_geolatticedb.py``; set
+``GEOLATTICE_TEST_PG_DSN`` to run the PostGIS cases.
+
+### Vector analysis and attributes
+
+Vector analysis tools are available from ``geolattice.spatial_analysis`` and
+``geolattice.vector``:
+
+```python
+from geolattice.spatial_analysis import (
+    calculate_fields,
+    count_points_in_polygon,
+    filter_features,
+    join_attributes,
+    kmeans_clustering,
+    sum_line_lengths,
+)
+
+counted = count_points_in_polygon(counties, samples)
+clusters = kmeans_clustering(samples, n_clusters=5)
+lengths = sum_line_lengths(watersheds, streams)
+
+subset = filter_features(districts, "DIV_Name in ('Rangpur', 'Rajshahi')")
+totals = calculate_fields(rice, {"Total": "Aus + Aman + Boro"})
+joined = join_attributes(upazilas, poverty, on="ADM3_PCODE")
+```
+
+Plotting needs the `viz` extra:
+
+```python
+from geolattice.viz import plot_layer
+
+plot_layer(table)
+```
+
+Backend selection:
+
+```python
+import geolattice as pg
+
+print(pg.config.backend)
+with pg.gpu_backend():
+    print(pg.config.backend)
+```
+
+## WhiteboxTools
+
+Install `geolattice[whitebox]`, then call tools by file path:
+
+```python
+import geolattice.whitebox as wb
+
+wb.slope("dem.tif", "slope.tif")
+wb.aspect("dem.tif", "aspect.tif")
+wb.breach_depressions("dem.tif", "filled.tif")
+```
+
+## Documentation
+
+Sphinx sources live in `docs/`. Tutorials are in `Tutorials/`, with matching R notes in `R_Code/`.
+
+| Topic | Module / notes | Tutorial |
+| --- | --- | --- |
+| Vector I/O & geoprocessing | `geolattice.vector` | `Tutorials/notebooks/01_vector/` |
+| Vector analysis & attributes | `geolattice.spatial_analysis.vector_analysis` / `geolattice.vector.vector_analysis` | `Tutorials/notebooks/03_spatial_analysis/03_01_foundation/03_01_02_vector_analyis.ipynb` |
+| Raster I/O & basic ops | `geolattice.raster.basic_raster_operation` | `Tutorials/notebooks/02_raster/02_03_basic_raster_operation.ipynb` |
+| Proximity analysis | `geolattice.raster` (`proximity`, …) | `Tutorials/notebooks/03_spatial_analysis/03_01_foundation/03_01_03_raster_analysis.ipynb` |
+| Terrain / geomorphometry | `geolattice.spatial_analysis.terrain_analysis` | `Tutorials/notebooks/03_spatial_analysis/03_02_digital_terrain_modeling/03_02_02_terrain_analysis.ipynb` |
+| Surface hydrology | `geolattice.spatial_analysis.surface_hydrology`; R: `R_Code/surface-hydrological-anlysis-whitbox-r.qmd` | `Tutorials/notebooks/03_spatial_analysis/03_02_digital_terrain_modeling/03_02_03_hydrology_modeling.ipynb` |
+| Multidimensional rasters | `geolattice.spatial_analysis.multidimensional_raster` (`geolattice[multidim]`) | `Tutorials/notebooks/03_spatial_analysis/03_03_multidimentional_data/` |
+| Multi-criteria suitability | `geolattice.spatial_analysis.multi_criteria_suitability_analysis` (C kernels in `_suitability.c`; alias `suitability_analysis`) | `Tutorials/notebooks/03_spatial_analysis/03_04_multi_criteria_suitability_analysis/` |
+| Spatial networks | `geolattice.spatial_analysis.network_analysis` (`geolattice[network]`) | `Tutorials/notebooks/03_spatial_analysis/03_05_network_analysis/` |
+| Segregation analysis | `geolattice.spatial_analysis.segregation` (`geolattice[segregation]`, `geolattice[segregation-dasymetric]`) | `Tutorials/notebooks/03_spatial_analysis/03_06_segregation_analysis/03_06_00_introduction_segregation_analysis.ipynb` |
+| Geostatistics | `geolattice.geostatistics` (`geolattice[geostatistics]`) | `Tutorials/notebooks/05_geostatistics/` |
+| Spatial statistics | `geolattice.spatial_statistics` (`geolattice[spatial-statistics]`) | `Tutorials/notebooks/04_spatial_statistics/` |
+| Vector analysis | `geolattice.spatial_analysis.vector_analysis` (also `geolattice.vector.vector_analysis`) | `Tutorials/notebooks/03_spatial_analysis/03_01_foundation/03_01_02_vector_analyis.ipynb` |
+| Spatial causal inference | `geolattice.spatial_analysis.spatialcausal` (`geolattice[spatialcausal]`) | `Tutorials/notebooks/03_spatial_analysis/03_07_spatial_causal/` |
+| Spatial databases | `geolattice.geolatticedb` / `geolattice.spatial_bd.geolatticedb` (`geolattice[spatial-db]`, `geolattice[spatial-db-postgis]`) | `Tutorials/notebooks/07_web_cloud_gis/07_03_spatial_sql.ipynb`; tests: `tests/test_geolatticedb.py` |
+| Remote sensing | `geolattice.rsense` (`geolattice[rsense]`, `geolattice[rsense-access]`) | `Tutorials/notebooks/08_remote_sensing/` |
+| RCM sea ice mapping (RADARSAT Constellation GRD) | `geolattice.rsense.sar.radarsat` (`geolattice[rsense-sar]`) | `Tutorials/notebooks/08_remote_sensing/08_11_Capstones/08_11_09_sea_ice_mapping_RADARSAT.ipynb`; guide `docs/sea_ice_mapping_rcm_aoi.md`; script `examples/rcm_sea_ice.py` |
+| Lidar data processing | `geolattice.rsense.lidar`, `geolattice.rsense.dl.pointnet` (`geolattice[rsense-lidar]`, `geolattice[rsense-dl]`) | `Tutorials/notebooks/08_remote_sensing/08_06_lidar/` |
+| Hyperspectral image processing | `geolattice.rsense.hyperspectral`, `geolattice.rsense.dl.hyperspectral` (`geolattice[rsense-hyperspectral]`, `geolattice[rsense-dl]`) | tests: `tests/rsense/test_hyperspectral*.py` (tutorial notebooks to come) |
+| Surface energy balance and ET | `geolattice.rsense.surface_energy_balance` | `Tutorials/notebooks/09_remote_sensing/09_12_surface_energy_balance_modeling/` (13 notebooks); tests: `tests/rsense/test_surface_energy_balance.py` |
+| Image classification and vision | `geolattice.rsense.classify.image_classification` (`geolattice[rsense-classify]`, `geolattice[rsense-dl]`, `geolattice[rsense-vision]`) | `Tutorials/notebooks/08_remote_sensing/08_09_image_classification/` (data) |
+| Web and cloud GIS | `geolattice.web`, `geolattice.vector` cloud-native writers (`geolattice[web]`) | `Tutorials/notebooks/07_web_cloud_gis/` (see its README) |
+
+**Module 08, Web and Cloud GIS** (`Tutorials/notebooks/07_web_cloud_gis/`):
+
+| Notebook | Topic |
+| --- | --- |
+| `08_00_introduction_web_cloud_gis` | Web vs cloud GIS, range requests, tiles, catalogues |
+| `08_01_cloud_native_raster` | COG, Zarr and STAC: create, validate, read remotely, catalogue |
+| `08_02_cloud_native_vector` | GeoParquet, FlatGeobuf, PMTiles; measured remote reads |
+| `08_03_spatial_sql` | DuckDB spatial SQL, join quality, GeoPackage, PostGIS |
+| `08_04_interactive_web_maps` | Folium, leafmap, lonboard; coverage simplification, classes, rasters on web maps |
+| `08_05_serving_maps` | Static vs dynamic tiles, OGC API – Features tested with GDAL / OWSLib, PMTiles |
+| `08_06_geospatial_apis` | FastAPI: validation, spatial and raster endpoints, jobs, keys, rate limits, tests |
+| `08_07_web_apps` | One app in Streamlit, Panel and Solara (`apps/`) |
+| `08_08_scalable_processing` | Dask, Zarr chunking, CuPy GPU, remote reads, batch jobs and cost |
+| `08_09_cloud_platforms` | Planetary Computer, Earth Search, Copernicus Data Space, openEO, Earth Engine |
+| `08_10_devops_geospatial` | Packaging, tests, CI, Docker, scheduled idempotent pipelines (`haor_monitor/`) |
+| `08_11_capstone` | Sentinel-1 haor flood monitor: COG, GeoParquet, STAC, FastAPI + OGC service, web map |
+
+## License
+
+MIT. See [LICENSE](../LICENSE).
+
+## Contributing
+
+See [CONTRIBUTING.md](../CONTRIBUTING.md).
