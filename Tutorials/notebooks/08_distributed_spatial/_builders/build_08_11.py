@@ -138,7 +138,7 @@ checks = {  # name: (function, arguments, keyword arguments)
 }
 rows = []  # one row per check
 for name, (fn, args, kw) in checks.items():  # each operation
-    tol = dict(rtol=1e-4, atol=1e-3) if name.startswith(("raster", "analysis.kde")) else dict(rtol=1e-6, atol=1e-6)  # float32 rasters vs float64 tables
+    tol = dict(rtol=1e-4, atol=1e-3) if name.startswith(("raster", "analysis.kde")) else dict(rtol=1e-6, atol=1e-3)  # float32 rasters; float64 tables (areas in m2)
     rep = pdist.check_equivalence(fn, *args, **tol, **kw)  # CPU vs GPU
     rows.append({"operation": name, "equivalent": rep.ok, "largest |GPU - CPU|": rep.max_abs, "parts compared": len(rep.details)})  # row
 eq = pd.DataFrame(rows).set_index("operation")  # table
@@ -154,23 +154,26 @@ different random numbers.
 
 ## Benchmarks done right
 
-The cell below times the same GPU slope three ways. Only the last is right.
+The cell below times the terrain ruggedness index (TRI, not used earlier in this notebook) on the
+GPU in three misleading ways, then with `pdist.benchmark`.
 """)
 
 nb.code('''
 if caps["gpus"]:  # needs a GPU
     g = pdist.to_gpu(win)  # data on the device
-    t = time.perf_counter(); r = pdist.raster.slope(g); wrong1 = time.perf_counter() - t  # first call: includes kernel compilation
-    t = time.perf_counter(); r = pdist.raster.slope(g); wrong2_launch = time.perf_counter() - t  # returns when kernels are queued
-    t = time.perf_counter(); lz = pdist.raster.slope(dd.gp_raster("elev")); wrong3 = time.perf_counter() - t  # lazy: nothing ran
-    bench = pdist.benchmark(pdist.raster.slope, win, computes=("cpu", "gpu"), repeats=5, warmup=1)  # warm-up, repeats, sync
+    t = time.perf_counter(); r = pdist.raster.tri(g); sync(); wrong1 = time.perf_counter() - t  # first call of TRI: includes kernel compilation
+    t = time.perf_counter(); r = pdist.raster.tri(g); wrong2_launch = time.perf_counter() - t  # no sync: may return before the kernels finish
+    t = time.perf_counter(); lz = pdist.raster.tri(dd.gp_raster("elev")); wrong3 = time.perf_counter() - t  # lazy: nothing ran
+    bench = pdist.benchmark(pdist.raster.tri, win, computes=("cpu", "gpu"), repeats=5, warmup=1)  # warm-up, repeats, sync
     print(f"first call {wrong1 * 1000:.0f} ms | unsynchronised {wrong2_launch * 1000:.1f} ms | lazy call {wrong3 * 1000:.1f} ms")  # misleading numbers
     print(bench.round(4).to_string())  # the right numbers
 ''')
 
 nb.md("""
-The first call is slow because CuPy compiles its kernels; an unsynchronised call measures only
-how long it took to queue the kernels; a lazy call measures nothing at all. `pdist.benchmark`
+The first call is the slowest because CuPy compiles TRI's kernels then; an unsynchronised call can
+stop the clock before the queued kernels have finished (here the Dask machinery around each call
+dominates, so the error is small); and the lazy call measured only building a task graph for the
+whole DEM, not computing it. `pdist.benchmark`
 avoids all three: it runs a warm-up, materialises lazy results, synchronises the GPU and repeats.
 
 ## Strong and weak scaling
@@ -211,9 +214,11 @@ strong.round(2)  # the seconds
 ''')
 
 nb.md("""
-The three workloads scale very differently on the same 24 cores. The compute-bound median scales
-well; slope, which mostly moves memory, stops improving after a few threads; the vector join sits
-in between, because building the result table runs in one thread. Weak scaling of the median
+The three workloads scale very differently on the same 24 cores. The compute-bound median scaled
+more than tenfold; slope, which mostly moves memory, stopped improving after four threads; the
+point-in-county join did not scale at all. Its time goes into serial steps (Hilbert-sorting 1.6
+million points, querying the county tree, concatenating and re-sorting the result), which matches
+notebook 04, where plain GeoPandas on one core was faster. Weak scaling of the median
 holds up until the cores start to share memory bandwidth and the turbo clock falls with more
 active cores. Measure scaling for your own workload before choosing hardware.
 
@@ -235,9 +240,11 @@ print("performance report:", report, f"({Path(report).stat().st_size / 1e6:.1f} 
 ''')
 
 nb.md("""
-The table shows how the time divides between reading the GeoTIFF chunks, assembling the halos
-(the `concatenate` and `getitem` tasks of `map_overlap`) and the computations themselves. Open the
-HTML report to see the same as a timeline per thread.
+Almost all of the task time is attributed to `getitem` tasks. That does not mean slicing is
+slow: Dask fuses each chunk's read, halo slicing and the two computations into one task before
+running the graph, and the fused task keeps the name of its first step. The table is therefore a
+coarse view; the HTML report shows the same work as a timeline per thread and worker, which is
+where the real bottlenecks (idle threads, transfers, one slow chunk) become visible.
 
 ## Seven pitfalls, reproduced and fixed
 
@@ -321,43 +328,60 @@ pool.
 
 nb.code('''
 if caps["gpus"]:  # needs a GPU and RAPIDS
-    import cupy as cp  # GPU arrays
-    g = pdist.to_gpu(dem)  # the DEM on the device
-    bench = lambda: pdist.benchmark(pdist.raster.slope, g, computes=("gpu",), repeats=3).best_s.iloc[0]  # GPU-only timing
-    before = cp.cuda.get_allocator()  # CuPy's own pool
-    t_pool = bench()  # with CuPy's pool
-    import cudf  # noqa: F401  (a plain import: switches the allocator)
-    switched = cp.cuda.get_allocator() is not before  # did it change?
-    t_rmm = bench()  # with RMM's default allocator
-    cp.cuda.set_allocator(before)  # the fix: restore CuPy's pool
-    t_fixed = bench()  # again with the pool
-    print(f"allocator switched by import cudf: {switched} | slope: CuPy pool {t_pool:.3f} s, after import {t_rmm:.3f} s, restored {t_fixed:.3f} s")  # result
-    del g  # free GPU memory
+    import subprocess, sys  # a fresh Python process, so cuDF is imported for the first time
+    probe = """
+import time, numpy as np, cupy as cp
+import geolattice.distributed as pdist
+x = pdist.to_gpu(np.random.default_rng(0).random((8192, 8192), dtype=np.float32))
+def best():
+    ts = []
+    for _ in range(4):
+        cp.cuda.Device().synchronize(); t = time.perf_counter()
+        pdist.raster.slope(x, res=90.0, compute="gpu"); cp.cuda.Device().synchronize()
+        ts.append(time.perf_counter() - t)
+    return min(ts[1:])
+before = cp.cuda.get_allocator(); a = best()
+import cudf
+switched = cp.cuda.get_allocator() is not before; b = best()
+cp.cuda.set_allocator(before); c = best()
+print(switched, a, b, c)
+"""  # times slope before and after a plain import of cuDF, then after restoring the pool
+    out = subprocess.run([sys.executable, "-c", probe], capture_output=True, text=True).stdout.split()  # run it
+    switched, t_pool, t_rmm, t_fixed = out[0] == "True", *map(float, out[1:4])  # parse
+    print(f"allocator switched by import cudf: {switched} | slope of 67 million pixels: CuPy pool {t_pool:.3f} s, "  # result
+          f"after import {t_rmm:.3f} s ({t_rmm / t_pool:.1f}x), restored {t_fixed:.3f} s")  # slowdown and fix
 ''')
 
 nb.md("""
-### 7. Spilling to disk
+### 7. Worker memory limits, GDAL's cache and spilling
 
-A worker that exceeds 60 % of its memory limit writes results to disk. Persisting a 1 GB DEM on
-two workers limited to 400 MB each forces spilling; the same persist with enough memory does not.
+A worker that exceeds 60 % of its memory limit writes results to disk (spills), and at 95 % its
+nanny restarts it. While this notebook was written, workers limited to a few hundred megabytes or
+a gigabyte or two died again and again while doing nothing but reading GeoTIFFs. The cause was
+GDAL: it caches decoded raster blocks up to 5 % of the machine's RAM **in every process**, here
+6.6 GB per worker, far above the limit. `pdist.start("local", memory_limit=...)` now caps GDAL's
+cache in the workers at a tenth of an explicit limit (set `GDAL_CACHEMAX` yourself to override).
+With that, a small limit produces what it should: spilling, and a slower job.
 """)
 
 nb.code('''
-for limit in ["400MB", "4GB"]:  # too little and enough memory per worker
-    with pdist.start("local", n_workers=2, threads_per_worker=4, memory_limit=limit, dashboard=False) as s:  # small cluster
+for limit in ["1.5GB", "6GB"]:  # too little and enough memory per worker
+    with pdist.start("local", n_workers=2, threads_per_worker=2, memory_limit=limit, dashboard=False) as s:  # GDAL cache capped
         t = time.perf_counter()  # start
-        p = pdist.persist(dd.gp_raster("elev"))  # 1 GB into worker memory
+        p = pdist.persist(dd.gp_raster("elev", chunks={"y": 1024, "x": 1024}))  # 1 GB into worker memory
         from dask.distributed import wait; wait(p.data)  # until loaded
         v = float(pdist.raster.slope(p, compute="cpu").mean())  # use it
         secs = time.perf_counter() - t  # elapsed
         spilled = sum(w.get("metrics", {}).get("spilled_bytes", {}).get("disk", 0) for w in s.client.scheduler_info()["workers"].values())  # bytes on disk
-        print(f"memory limit {limit:>5} per worker: {secs:.1f} s, spilled to disk {spilled / 1e9:.2f} GB")  # result
+        used = [w["memory_gb"] for w in pdist.memory_report()["workers"].values()]  # memory per worker
+        print(f"memory limit {limit:>5} per worker: {secs:.1f} s, spilled to disk {spilled / 1e9:.2f} GB, worker memory {used} GB")  # result
 ''')
 
 nb.md("""
-With 400 MB per worker most of the persisted DEM went to disk, and every later use read it back;
-with 4 GB nothing spilled. A job that spills constantly needs more workers, more memory per
-worker, smaller chunks, or less data persisted.
+With 1.5 GB per worker part of the persisted DEM went to disk and the job took several times
+longer; with 6 GB nothing spilled. A job that spills constantly needs more workers, more memory
+per worker, smaller chunks, or less data persisted; a worker that dies while only reading files
+points to a library cache, not to your data.
 
 ## Summary and exercises
 
@@ -370,7 +394,7 @@ worker, smaller chunks, or less data persisted.
 - `pdist.profile` attributes time to task types, or writes Dask's HTML performance report.
 - Seven pitfalls reproduced: repeated computes, tiny chunks, host round trips between GPU steps,
   NumPy on GPU memory, `compute="auto"` inside CPU clusters, RAPIDS imports changing CuPy's
-  allocator, and spilling.
+  allocator, and GDAL's per-process cache breaking worker memory limits.
 
 **Exercises**
 
@@ -379,8 +403,8 @@ worker, smaller chunks, or less data persisted.
 2. Measure strong scaling of `pdist.zonal_stats` for the counties with 1 to 24 threads. Where
    does it stop improving, and why?
 3. Open the HTML performance report and identify the longest task in the task stream.
-4. Repeat the spilling experiment with `memory_limit="1GB"`. How much spills, and how long does
-   it take?
+4. Repeat the spilling experiment with `memory_limit="1GB"` and with `GDAL_CACHEMAX` set to 2048
+   in the environment before starting the cluster. What happens to the workers?
 """)
 
 nb.write()

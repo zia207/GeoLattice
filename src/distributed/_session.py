@@ -115,9 +115,10 @@ def start(kind: Kind = "auto", *, n_workers: int | None = None,
             raise ValueError("kind='address' needs address='tcp://host:port'")
         client = Client(address, **kwargs)
     elif kind == "local":
-        cluster = LocalCluster(n_workers=n_workers, threads_per_worker=threads_per_worker,
-                               memory_limit=memory_limit,
-                               dashboard_address=":8787" if dashboard else None, **kwargs)
+        with _gdal_cache_for(memory_limit):
+            cluster = LocalCluster(n_workers=n_workers, threads_per_worker=threads_per_worker,
+                                   memory_limit=memory_limit,
+                                   dashboard_address=":8787" if dashboard else None, **kwargs)
         client = Client(cluster)
     elif kind == "cuda":
         try:
@@ -152,6 +153,27 @@ def start(kind: Kind = "auto", *, n_workers: int | None = None,
 
     _ACTIVE = Session(client, cluster, kind)
     return _ACTIVE
+
+
+def _gdal_cache_for(memory_limit: Any):
+    """Context that caps GDAL's block cache in new worker processes.
+
+    GDAL caches decoded raster blocks up to 5 % of the machine's RAM in every process. With an
+    explicit per-worker ``memory_limit`` that cache alone can exceed the limit (6.6 GB on a
+    132 GB machine), and the nanny then kills workers that only read rasters. For an explicit
+    limit the cache is set to a tenth of it (64 MB to 1 GB), unless ``GDAL_CACHEMAX`` is set.
+    """
+    import contextlib
+    import os
+
+    import dask
+    from dask.utils import parse_bytes
+
+    if memory_limit in (None, "auto", 0) or "GDAL_CACHEMAX" in os.environ:
+        return contextlib.nullcontext()
+    limit = parse_bytes(memory_limit) if isinstance(memory_limit, str) else int(memory_limit)
+    mb = max(64, min(1024, int(0.1 * limit / 2**20)))
+    return dask.config.set({"distributed.nanny.pre-spawn-environ.GDAL_CACHEMAX": str(mb)})
 
 
 def get_session() -> Session | None:

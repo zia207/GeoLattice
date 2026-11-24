@@ -34,7 +34,7 @@ and it needs exactly the operations of this chapter.
 |---|---|---|---|
 | 1. Cropland by county | 2025 CDL, 10 m | lazy read (02), lookup-table reclassification (03), zonal sums (05) | 21 billion pixels |
 | 2. Training table | 570 SOC samples, 12 covariates | grid alignment (02), point extraction (05) | 570 x 12 |
-| 3. Model | training table | spatial cross-validation, XGBoost on CPU and GPU (09) | 570 rows |
+| 3. Model | training table | spatial cross-validation, XGBoost on CPU and GPU (09) | 561 rows |
 | 4. SOC map | 12 covariates, 90 m | chunked prediction (09), COG output (02) | 262 million pixels |
 | 5. County summaries | SOC map, covariates | zonal statistics (05) | 225 zones x 4 rasters |
 | 6. Spatial patterns | county table | weights, Moran's I, LISA, G* (06) | 225 counties |
@@ -156,7 +156,7 @@ nb.md("""
 ## Stage 3: a validated soil carbon model
 
 XGBoost with spatial cross-validation (5 blocks of the sample coordinates), then a final fit on all
-samples. Training 570 rows is quick on either target; the GPU model is used because stage 4
+samples. Training 561 rows is quick on either target; the GPU model is used because stage 4
 predicts on the GPU.
 """)
 
@@ -266,6 +266,18 @@ plt.tight_layout(); plt.show()  # draw
 ''')
 
 nb.md("""
+County SOC is strongly clustered (Moran's I about 0.8): a high-high cluster in the wetter east of
+Kansas and another in the Colorado mountains, low-low clusters across New Mexico and the dry
+plains of south-eastern Colorado. Precipitation and temperature explain most of the county
+differences. The regression gives cropland share a **positive** coefficient, which seems to
+contradict the expectation that cultivation lowers SOC. It does not: in the Great Plains, cropland
+is concentrated on the deeper, wetter soils of central and eastern Kansas, and the regression
+picks up where crops are grown, not what cultivation does to a given soil. The scatter shows it:
+at the same rainfall, cropland and SOC are hardly related. A county regression cannot separate
+the two; answering the causal question needs paired comparisons of cultivated and uncultivated
+soils, or the causal methods of chapter 03. The residuals are still clustered, so a spatial
+regression model (chapter 05) would be the next step.
+
 ## Outputs and the time budget
 """)
 
@@ -296,8 +308,9 @@ nb.md("""
   stays on the CPU, while the GPU took over the prediction and the zonal partial sums.
 - County SOC was strongly clustered: high in the wetter east and the mountains, low on the warm,
   dry southern plains. A regression on cropland share, precipitation and temperature explained
-  much of it, but its residuals remained clustered, so a spatial model (chapter 05) would be the
-  next step.
+  most of it (R2 about 0.8). Its positive cropland coefficient reflects where crops are grown, not
+  an effect of cultivation, and its residuals remained clustered, so a spatial model (chapter 05)
+  would be the next step.
 - The results are analysis-ready: a county GeoParquet file and a COG of the SOC map.
 
 **Exercises**

@@ -170,9 +170,12 @@ per_county.sort_values("count", ascending=False).head(5)  # largest counties
 ''')
 
 nb.md("""
-The physical plan shows a spatial join operator rather than a cartesian product: Sedona
-recognised the `ST_Intersects` condition. Reading the GeoParquet, joining and grouping inside
-Spark, with only 105 rows returned, is much faster than the round trip of the previous cell.
+The physical plan shows a `BroadcastIndexJoin` rather than a cartesian product: Sedona recognised
+the `ST_Intersects` condition, built a spatial index on the small side (the 105 counties) and
+broadcast it to every task. Reading the GeoParquet, joining and grouping inside Spark took about
+as long as the round trip of the previous cell, and still more than the Dask join. On one machine
+Spark's own overheads (planning, the JVM, moving rows between stages) are visible; its strengths
+are data that already live in Spark, and clusters of many machines.
 
 ## Spatial SQL on taxi zones and trips
 
@@ -221,7 +224,8 @@ q3.head(8)  # the densest pickup zones
 
 nb.md("""
 The third query mixes an ordinary aggregation of 38 million rows with a geometric measure: pickups
-per square mile. Midtown and the Upper East Side lead by far. Spark ran the aggregation in
+per square mile. Penn Station, the Midtown zones and Times Square lead by far; the Upper East Side
+has more pickups in total but spread over a larger area. Spark ran the aggregation in
 parallel over the Parquet row groups and joined the 263 results to the zones.
 
 The trips carry zone IDs, not coordinates, so the last example creates points: one million random
@@ -279,7 +283,8 @@ nb.md("""
   `to_geopandas` move data across the Python and JVM boundary.
 - The county join gave identical pairs with GeoPandas, Dask and Sedona. With GeoPandas input on
   one machine, Dask was fastest, because Sedona paid to move the geometries into the JVM; with
-  both inputs read by Spark, the join and aggregation ran inside Spark and only 105 rows came back.
+  both inputs read by Spark, the join and aggregation ran inside Spark and only 105 rows came back,
+  in about the same time.
 - Spatial SQL combined `ST_Area`, `ST_DWithin`, `ST_Distance` and `ST_Contains` with ordinary
   aggregation of 38 million trips, and Spark wrote GeoParquet that GeoPandas read directly.
 
