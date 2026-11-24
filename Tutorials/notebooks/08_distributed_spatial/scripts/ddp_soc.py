@@ -33,7 +33,7 @@ def train(rank, world, X, y, epochs=200):
             loss = torch.nn.functional.mse_loss(model(xb).squeeze(1), yb)
             loss.backward()  # DDP averages the gradients of all ranks here
             opt.step()
-            total += float(loss) * len(xb)
+            total += float(loss.detach()) * len(xb)
             n += len(xb)
         history.append(total / n)
     checksum = float(sum(p.detach().double().sum().cpu() for p in model.parameters()))

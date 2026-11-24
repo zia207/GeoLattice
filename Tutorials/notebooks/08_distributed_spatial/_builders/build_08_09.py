@@ -24,7 +24,7 @@ nb.md("""
 
 | Stage | Size here | Parallel pattern |
 |---|---|---|
-| Training a tree ensemble | 570 rows, 12 covariates | trees in parallel (random forest), split finding in parallel (boosting); a GPU helps for large tables |
+| Training a tree ensemble | 561 complete rows, 12 covariates | trees in parallel (random forest), split finding in parallel (boosting); a GPU helps for large tables |
 | Cross-validation | 5 folds x 3 models | each fold is independent |
 | Predicting a raster | 262 million pixels x 12 covariates | embarrassingly parallel: chunk by chunk, the model copied to each worker |
 | Tiled inference of a CNN | 18,510 x 24,400 pixels | overlapping tiles; batches spread over GPUs |
@@ -161,7 +161,7 @@ cv.round(3)  # show
 ''')
 
 nb.md("""
-With 570 rows, training takes seconds everywhere and the GPU offers no advantage: there is too
+With 561 rows (the 570 samples less 9 with a missing covariate), training takes seconds everywhere and the GPU offers no advantage: there is too
 little work to fill it, and copying data and launching kernels cost more than they save. The GPU
 pays off for training on millions of rows (for example the pixels of a classified image), not for
 point samples. The accuracies are modest, as is typical for soil carbon at the regional scale
@@ -170,14 +170,20 @@ where scale matters.
 
 ## A soil carbon map of 262 million pixels
 
-The XGBoost model is refitted on all samples, once on each target, and `pdist.ml.predict_raster`
-applies it to every pixel of the 12-band stack, chunk by chunk. Pixels where any covariate is
+The XGBoost model is refitted once on all samples, and `pdist.ml.predict_raster` applies it to
+every pixel of the 12-band stack, chunk by chunk, first on the CPU and then with the same trees
+moved to the GPU. (Comparing two separately trained models would mix the device with the random
+row and column sampling of training: a first version of this cell did that, and the two maps
+differed by up to 0.8 log units.) Pixels where any covariate is
 missing stay NaN.
 """)
 
 nb.code('''
-final = {c: pdist.ml.fit("xgb", X, y, task="regression", compute=c, **models["xgb"])  # one model per target
-         for c in (["cpu", "gpu"] if caps["gpus"] else ["cpu"])}  # targets
+import copy  # copy a fitted model
+final = {"cpu": pdist.ml.fit("xgb", X, y, task="regression", compute="cpu", **models["xgb"])}  # one model, fitted once
+if caps["gpus"]:  # the same trees, predicting on the GPU
+    final["gpu"] = copy.deepcopy(final["cpu"]); final["gpu"].set_params(device="cuda")  # move the booster to the device
+    final["gpu"].geolattice_engine = "xgboost-cuda"  # predict_raster then feeds it CuPy chunks
 print(f"stack: {dict(stack.sizes)}, {dd.gb(stack.nbytes)}, {stack.data.npartitions} chunks")  # size
 t, maps = {}, {}  # timings and maps
 for c, m in final.items():  # each model
@@ -302,8 +308,9 @@ tile keeps as margin. Without overlap the tile edges see padding instead of thei
 the predictions there differ. The CNN reproduces the NDVI mask closely from colour alone; trees,
 lawns and crops are green in the visible bands too.
 
-Memory is the practical limit of this function: it holds the image, its padded copy and the
-output in host memory (about 20 GB here). For larger images, run it window by window, or wrap it
+Memory is the practical limit of this function: it holds the image as float32, its padded copy,
+the float64 accumulator and the output in host memory; with the training arrays the process
+peaked at about 65 GB here. For larger images, run it window by window, or wrap it
 in `pdist.raster.map_tiles` with an overlap.
 
 ## Distributed data parallel training
@@ -333,7 +340,7 @@ nb.md("""
 Each of the two CPU ranks trained on half of the rows per epoch, yet both ended with exactly the
 same weights (the checksums match): DDP averages the gradients after every step, so the replicas
 never diverge. The times are dominated by starting the processes and by communication; a network
-this small on 570 rows gains nothing from parallel training. DDP pays off when each step is
+this small on 561 rows gains nothing from parallel training. DDP pays off when each step is
 expensive: large networks, large images, many batches. On a machine with `n` GPUs,
 `train_ddp(fn)` without `nprocs` starts one process per GPU with NCCL, and the same function runs
 unchanged; on a cluster `torchrun` or a SLURM job array starts the processes instead.
