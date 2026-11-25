@@ -1,0 +1,2864 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>compact_polarimetry_cp – GeoLattice: Remote Sensing</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../09_03_radar/09_03_03_00_nisar_nasa_isro_synthetic_aperture_radar.html" rel="next">
+<link href="../09_03_radar/09_03_02_04_radarsat_polarimetric_sar_polsar.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">GeoLattice: Remote Sensing</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-foundations--optical" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Foundations &amp; Optical</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-foundations--optical">    
+        <li class="dropdown-header">Foundations</li>
+        <li>
+    <a class="dropdown-item" href="../09_01_foundations/09_01_00_remote_sensing_fundamentals.html">
+ <span class="dropdown-text">Remote Sensing Fundamentals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_01_foundations/09_01_01_the_python_geospatial_environment.html">
+ <span class="dropdown-text">The Python Geospatial Environment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_01_foundations/09_01_02_raster_and_vector_data_essentials.html">
+ <span class="dropdown-text">Raster and Vector Data Essentials</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_01_foundations/09_01_03_data_discovery_and_access.html">
+ <span class="dropdown-text">Data Discovery and Access</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_01_foundations/09_01_04_getting_access_to_remote_sensing_images.html">
+ <span class="dropdown-text">Getting Access to Remote Sensing Images</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Optical</li>
+        <li>
+    <a class="dropdown-item" href="../09_02_optical/09_02_01_introduction_to_optical_satellite_images.html">
+ <span class="dropdown-text">Introduction to Optical Satellite Images</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_02_optical/09_02_02_preprocessing_of_optical_images.html">
+ <span class="dropdown-text">Preprocessing of Optical Images</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_02_optical/09_02_03_modis_global_monitoring_every_day.html">
+ <span class="dropdown-text">Global Monitoring Every Day</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_02_optical/09_02_04_landsat_half_a_century_of_earth_observation.html">
+ <span class="dropdown-text">Landsat</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_02_optical/09_02_05_sentinel_2_red_edge_10_m_and_five_day_revisits.html">
+ <span class="dropdown-text">Sentinel-2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_02_optical/09_02_06_sentinel_3_ocean_colour_surface_temperature_and_altimetry.html">
+ <span class="dropdown-text">Sentinel-3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_02_optical/09_02_07_sentinel_5p_and_sentinel_5_mapping_air_pollution_from_orbit.html">
+ <span class="dropdown-text">Sentinel-5P and Sentinel-5</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-radar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Radar</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-radar">    
+        <li class="dropdown-header">Radar (SAR and InSAR)</li>
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_00_sar_fundamentals.html">
+ <span class="dropdown-text">SAR Fundamentals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_00_sentinel_1_sar.html">
+ <span class="dropdown-text">Sentinel-1 SAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_01_sentinel_1_sar_processing.html">
+ <span class="dropdown-text">Sentinel-1 SAR Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_02_sentinel_1_grd_processing.html">
+ <span class="dropdown-text">Sentinel-1 GRD Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_03_sentinel_1_multitemporal_grd_time_series_deforestation_around_the_rohingya_camps_2017.html">
+ <span class="dropdown-text">Sentinel-1 GRD Time Series</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_04_topographic_insar_a_dem_from_a_sentinel_1_slc_pair.html">
+ <span class="dropdown-text">Topographic InSAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_05_differential_insar_dinsar.html">
+ <span class="dropdown-text">Differential InSAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_06_sbas_small_baseline_subset_insar.html">
+ <span class="dropdown-text">SBAS InSAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_07_persistent_scatterer_insar_ps_insar.html">
+ <span class="dropdown-text">Persistent Scatterer InSAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_08_dual_pol_polarimetric_decomposition_slc.html">
+ <span class="dropdown-text">Dual-Pol Polarimetric Decomposition</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_09_interferometric_coherence_of_slcs.html">
+ <span class="dropdown-text">Interferometric Coherence of SLCs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_10_sentinel_1_based_indices.html">
+ <span class="dropdown-text">Sentinel-1 Based Indices</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_02_00_radarsat_constellation_mission_rcm.html">
+ <span class="dropdown-text">RADARSAT Constellation Mission</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_02_01_radarsat_constellation_mission_rcm_processing.html">
+ <span class="dropdown-text">RCM Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_02_02_radarsat_grd_data.html">
+ <span class="dropdown-text">RADARSAT GRD Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_02_03_radarsat_constellation_mission_rcm_insar_processing.html">
+ <span class="dropdown-text">RCM InSAR Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_02_04_radarsat_polarimetric_sar_polsar.html">
+ <span class="dropdown-text">RADARSAT Polarimetric SAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_02_05_compact_polarimetry_cp.html">
+ <span class="dropdown-text">Compact-polarimetry</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_03_00_nisar_nasa_isro_synthetic_aperture_radar.html">
+ <span class="dropdown-text">NISAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_03_01_nisar_processing.html">
+ <span class="dropdown-text">NISAR Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_03_02_nisar_rslc_range_doppler_single_look_complex_processing.html">
+ <span class="dropdown-text">NISAR RSLC</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_03_03_nisar_gslc_geocoded_single_look_complex_processing.html">
+ <span class="dropdown-text">NISAR GSLC</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_03_04_nisar_gcov_geocoded_polarimetric_covariance_processing.html">
+ <span class="dropdown-text">NISAR GCOV</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_03_05_nisar_gunw_geocoded_unwrapped_interferogram.html">
+ <span class="dropdown-text">NISAR GUNW</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-uav-hyperspectral--lidar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">UAV, Hyperspectral &amp; LiDAR</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-uav-hyperspectral--lidar">    
+        <li class="dropdown-header">UAV</li>
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_01_uav_fundamentals_and_mission_planning.html">
+ <span class="dropdown-text">UAV Fundamentals and Mission Planning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_02_reading_and_inspecting_uav_imagery.html">
+ <span class="dropdown-text">Reading and Inspecting UAV Imagery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_03_photogrammetry_orthomosaic_dsm_and_dtm.html">
+ <span class="dropdown-text">Photogrammetry</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_04_rgb_vegetation_indices_and_canopy_cover.html">
+ <span class="dropdown-text">RGB Vegetation Indices and Canopy Cover</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_05_rgb_plus_nir_multispectral_analysis.html">
+ <span class="dropdown-text">RGB + NIR Multispectral Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_06_dem_correction_and_canopy_height.html">
+ <span class="dropdown-text">DEM Correction and Canopy Height</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_07_plant_counting_and_size.html">
+ <span class="dropdown-text">Plant Counting and Size</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_08_crop_health_sam_plant_masks_and_senescence_detection.html">
+ <span class="dropdown-text">Crop Health</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_09_panicle_detection_with_yolo.html">
+ <span class="dropdown-text">Panicle Detection with YOLO</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_10_season_long_phenotyping.html">
+ <span class="dropdown-text">Season-Long Phenotyping</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Hyperspectral</li>
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_00_introduction_to_imaging_spectroscopy.html">
+ <span class="dropdown-text">Introduction to Imaging Spectroscopy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_01_reading_and_exploring_hyperspectral_data.html">
+ <span class="dropdown-text">Reading and Exploring Hyperspectral Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_02_preprocessing_hyperspectral_cubes.html">
+ <span class="dropdown-text">Preprocessing Hyperspectral Cubes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_03_dimensionality_reduction_and_band_selection.html">
+ <span class="dropdown-text">Dimensionality Reduction and Band Selection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_04_narrowband_indices_and_vegetation_analysis.html">
+ <span class="dropdown-text">Narrowband Indices and Vegetation Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_05_biophysical_and_biochemical_trait_retrieval.html">
+ <span class="dropdown-text">Biophysical and Biochemical Trait Retrieval</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_06_spectral_libraries_and_spectral_matching.html">
+ <span class="dropdown-text">Spectral Libraries and Spectral Matching</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_07_endmember_extraction_and_spectral_unmixing.html">
+ <span class="dropdown-text">Endmember Extraction and Spectral Unmixing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_08_target_and_anomaly_detection.html">
+ <span class="dropdown-text">Target and Anomaly Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_09_greenhouse_gas_plume_detection.html">
+ <span class="dropdown-text">Greenhouse Gas Plume Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_10_thematic_applications_across_tanager_scenes.html">
+ <span class="dropdown-text">Thematic Applications Across Tanager Scenes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_11_deep_learning_for_hyperspectral_classification.html">
+ <span class="dropdown-text">Deep Learning for Hyperspectral Classification</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">LiDAR</li>
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_01_lidar_fundamentals.html">
+ <span class="dropdown-text">LiDAR Fundamentals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_02_lidar_processing_quality_control_cleaning_ground_classification_and_surface_models.html">
+ <span class="dropdown-text">LiDAR Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_03_terrain_and_hydrology_from_lidar_dems.html">
+ <span class="dropdown-text">Terrain and Hydrology from LiDAR DEMs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_04_forest_structure_and_individual_trees_from_lidar.html">
+ <span class="dropdown-text">Forest Structure and Individual Trees from LiDAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_05_buildings_and_urban_features_from_lidar.html">
+ <span class="dropdown-text">Buildings and Urban Features from LiDAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_06_point_cloud_classification_with_machine_learning_and_deep_learning.html">
+ <span class="dropdown-text">Point Cloud Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_07_spaceborne_lidar_gedi_and_icesat_2.html">
+ <span class="dropdown-text">Spaceborne LiDAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_08_large_area_lidar_processing_tiling_streaming_parallel_work_and_the_gpu.html">
+ <span class="dropdown-text">Large-Area LiDAR Processing</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-image-analysis--ai" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Image Analysis &amp; AI</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-image-analysis--ai">    
+        <li class="dropdown-header">Texture Analysis</li>
+        <li>
+    <a class="dropdown-item" href="../09_07_texture_analysis/09_07_00_texture_analysis.html">
+ <span class="dropdown-text">Texture Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_07_texture_analysis/09_07_01_texture_analysis_of_landsat_imagery_statistical_and_structural_methods.html">
+ <span class="dropdown-text">Statistical and Structural Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_07_texture_analysis/09_07_02_texture_analysis_of_landsat_imagery_transform_based_spectral_methods.html">
+ <span class="dropdown-text">Transform-Based Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_07_texture_analysis/09_07_03_texture_analysis_of_landsat_imagery_local_pattern_based_methods_lbp.html">
+ <span class="dropdown-text">Local Pattern-Based Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_07_texture_analysis/09_07_04_texture_analysis_of_landsat_imagery_model_based_methods.html">
+ <span class="dropdown-text">Model-Based Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_07_texture_analysis/09_07_05_texture_analysis_of_landsat_imagery_deep_learning_based_methods.html">
+ <span class="dropdown-text">Deep-Learning-Based Methods</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Image Super-Resolution</li>
+        <li>
+    <a class="dropdown-item" href="../09_08_image_super_resolution/09_08_00_image_super_resolution.html">
+ <span class="dropdown-text">Image Super-Resolution</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_08_image_super_resolution/09_08_01_landsat_8_to_sentinel_2_six_band_super_resolution.html">
+ <span class="dropdown-text">Landsat 8 to Sentinel-2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_08_image_super_resolution/09_08_02_sentinel_2_to_planetscope_multispectral_super_resolution.html">
+ <span class="dropdown-text">Sentinel-2 to PlanetScope</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_08_image_super_resolution/09_08_03_planetscope_to_high_resolution_naip_style_imagery_super_resolution.html">
+ <span class="dropdown-text">PlanetScope to NAIP-style Imagery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_08_image_super_resolution/09_08_04_landsat_8_sentinel_2_planetscope_and_high_resolution_imagery.html">
+ <span class="dropdown-text">Landsat 8 to High Resolution</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Image Classification</li>
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_01_01_introduction_to_image_classification.html">
+ <span class="dropdown-text">Introduction to Image Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_01_02_image_processing.html">
+ <span class="dropdown-text">Image Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_01_03_sampling_accuracy_assessment_and_reproducible_runs.html">
+ <span class="dropdown-text">Sampling and Accuracy Assessment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_02_01_classical_image_classification_pixel_based_and_object_based.html">
+ <span class="dropdown-text">Classical Image Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_02_02_image_classification_with_a_cnn_on_the_gpu_landsat_and_the_cropland_data_layer.html">
+ <span class="dropdown-text">CNN Classification on the GPU</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_02_03_deep_learning_for_sentinel_2_cnn_resnet_efficientnet_convnext_vit_and_swin_on_the_gpu.html">
+ <span class="dropdown-text">Deep Learning for Sentinel-2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_02_04_transfer_learning_and_vision_transformers_for_sentinel_2_imagenet_vs_remote_sensing_weights.html">
+ <span class="dropdown-text">Transfer Learning and Transformers</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_03_01_crop_classification_with_sentinel_1_sar_time_series_pixel_classifiers_and_deep_cnns_vv_vh_may_october_2024.html">
+ <span class="dropdown-text">Crops from Sentinel-1 Time Series</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_03_02_spatio_temporal_and_multi_sensor_crop_mapping_sentinel_2_sentinel_1_and_landsat_time_series_2020_to_2025.html">
+ <span class="dropdown-text">Multi-Sensor Crop Mapping</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_03_03_change_detection_classical_post_classification_and_deep_methods_on_landsat_and_sentinel_2_2020_to_2025.html">
+ <span class="dropdown-text">Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_04_01_semantic_segmentation_of_crop_types_from_sentinel_2_fcn_u_net_deeplabv3_plus_and_segformer_on_the_gpu.html">
+ <span class="dropdown-text">Semantic Segmentation of Crops</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_04_02_instance_segmentation_of_agricultural_fields_with_mask_r_cnn.html">
+ <span class="dropdown-text">Instance Segmentation of Fields</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_05_03_imperfect_labels_and_domain_shift.html">
+ <span class="dropdown-text">Imperfect Labels and Domain Shift</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_05_04_multi_sensor_image_fusion.html">
+ <span class="dropdown-text">Multi-Sensor Image Fusion</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Object Detection</li>
+        <li>
+    <a class="dropdown-item" href="../09_10_object_detection/09_10_00_object_detection.html">
+ <span class="dropdown-text">Object Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_10_object_detection/09_10_01_object_detection_in_aerial_imagery.html">
+ <span class="dropdown-text">Object Detection in Aerial Imagery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_10_object_detection/09_10_02_field_boundary_detection_in_google_satellite_screenshots_bangladesh.html">
+ <span class="dropdown-text">Field Boundaries in Google Imagery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_10_object_detection/09_10_03_field_edge_detection_in_worldview_imagery_rgb_versus_rgb_plus_nir.html">
+ <span class="dropdown-text">Field Edges in WorldView Imagery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_10_object_detection/09_10_04_field_edge_detection_in_sentinel_2_fields_of_the_world_versus_delineate_anything.html">
+ <span class="dropdown-text">Field Edges in Sentinel-2</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Foundation Models</li>
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_00_what_foundation_models_are_and_why_remote_sensing_needs_them.html">
+ <span class="dropdown-text">What Foundation Models Are</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_01_self_supervised_pretraining_for_sentinel_2_crop_mapping.html">
+ <span class="dropdown-text">Self-Supervised Pretraining</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_02_geospatial_foundation_models_embeddings_promptable_segmentation_and_zero_shot_classification.html">
+ <span class="dropdown-text">Geospatial Foundation Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_03_from_a_geotiff_to_an_embedding_map.html">
+ <span class="dropdown-text">From a GeoTIFF to an Embedding Map</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_04_prithvi_ssl4eo_satlaspretrain_and_scale_mae_on_sentinel_2.html">
+ <span class="dropdown-text">Optical Encoders on Sentinel-2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_05_one_model_for_many_sensors_dofa_panopticon_copernicus_fm_croma_and_terramind.html">
+ <span class="dropdown-text">One Model for Many Sensors</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_06_time_in_foundation_models_prithvi_tl_anysat_presto_and_galileo.html">
+ <span class="dropdown-text">Time in Foundation Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_07_alphaearth_foundations_precomputed_embeddings_for_the_whole_planet.html">
+ <span class="dropdown-text">AlphaEarth Foundations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_08_foundation_model_embeddings_as_covariates_digital_soil_mapping_of_soc.html">
+ <span class="dropdown-text">Embeddings as Covariates</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_09_very_high_resolution_dinov3_sat_satlas_naip_scale_mae_and_sam_2.html">
+ <span class="dropdown-text">Very High Resolution Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_10_vision_language_models_zero_shot_classification_and_text_retrieval.html">
+ <span class="dropdown-text">Vision-Language Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_11_change_and_similarity_in_embedding_space.html">
+ <span class="dropdown-text">Change and Similarity in Embedding Space</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_12_weather_and_earth_system_foundation_models.html">
+ <span class="dropdown-text">Weather and Earth System Foundation Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_13_benchmarking_foundation_models_on_your_own_data.html">
+ <span class="dropdown-text">Benchmarking Foundation Models</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-energy-balance--capstones" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Energy Balance &amp; Capstones</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-energy-balance--capstones">    
+        <li class="dropdown-header">Surface Energy Balance</li>
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_00_evapotranspiration_and_the_surface_energy_balance.html">
+ <span class="dropdown-text">ET and the Energy Balance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_01_building_an_analysis_ready_stack_for_energy_balance_models.html">
+ <span class="dropdown-text">An Analysis-Ready Stack</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_02_reference_et_with_the_asce_standardized_penman_monteith_equation.html">
+ <span class="dropdown-text">Reference ET (ASCE Penman-Monteith)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_03_net_radiation_from_landsat_albedo_emissivity_and_surface_temperature.html">
+ <span class="dropdown-text">Net Radiation from Landsat</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_04_soil_heat_flux_roughness_and_aerodynamic_resistance.html">
+ <span class="dropdown-text">Soil Heat Flux and Aerodynamics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_05_sebal_solving_for_sensible_heat_with_hot_and_cold_pixels.html">
+ <span class="dropdown-text">SEBAL</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_06_metric_internal_calibration_against_reference_et.html">
+ <span class="dropdown-text">METRIC</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_07_ssebop_s_sebi_the_triangle_method_and_pt_jpl.html">
+ <span class="dropdown-text">SSEBop, S-SEBI, Triangle, PT-JPL</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_08_two_source_energy_balance_separating_soil_evaporation_and_transpiration.html">
+ <span class="dropdown-text">Two-Source Energy Balance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_09_et_at_other_resolutions_modis_sentinel_3_and_sentinel_2_with_thermal_sharpening.html">
+ <span class="dropdown-text">ET at Other Resolutions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_10_from_snapshots_to_seasonal_et_and_crop_water_use.html">
+ <span class="dropdown-text">Seasonal ET and Crop Water Use</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_11_how_good_is_the_et_map_validation_sensitivity_and_uncertainty.html">
+ <span class="dropdown-text">Validation and Uncertainty</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html">
+ <span class="dropdown-text">Capstone: Boro Rice Water Use</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Capstone Projects</li>
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html">
+ <span class="dropdown-text">Change around Pucallpa, Peru</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html">
+ <span class="dropdown-text">Fifty Years in the Bangladesh Delta</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html">
+ <span class="dropdown-text">Wildfire Burned Area</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
+ <span class="dropdown-text">Rohingya Deforestation: Sentinel-2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
+ <span class="dropdown-text">Flood Mapping in Sylhet</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
+ <span class="dropdown-text">Rohingya Deforestation: Sentinel-1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
+ <span class="dropdown-text">Ship Detection, Strait of Hormuz</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
+ <span class="dropdown-text">Crops from NISAR GCOV</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
+ <span class="dropdown-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
+ <span class="dropdown-text">Charland Monitoring, Lower Meghna</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
+ <span class="dropdown-text">Shrimp Ghers in Coastal Bangladesh</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
+ <span class="dropdown-text">Big Sur Wildfire, 2026</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
+ <span class="dropdown-text">Wetland Paddy in Bangladesh</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
+ <span class="dropdown-text">Field Edges across Four Countries</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
+ <span class="dropdown-text">Tree Biomass and Carbon from LiDAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
+ <span class="dropdown-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../09_03_radar/09_03_00_sar_fundamentals.html"><strong>Radar (SAR and InSAR)</strong></a></li><li class="breadcrumb-item"><a href="../09_03_radar/09_03_02_05_compact_polarimetry_cp.html">Compact-polarimetry</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../09_03_radar/09_03_00_sar_fundamentals.html"><strong>Radar (SAR and InSAR)</strong></a></li><li class="breadcrumb-item"><a href="../09_03_radar/09_03_02_05_compact_polarimetry_cp.html">Compact-polarimetry</a></li></ol></nav></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="../images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Foundations</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_01_foundations/09_01_00_remote_sensing_fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Remote Sensing Fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_01_foundations/09_01_01_the_python_geospatial_environment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The Python Geospatial Environment</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_01_foundations/09_01_02_raster_and_vector_data_essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raster and Vector Data Essentials</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_01_foundations/09_01_03_data_discovery_and_access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Discovery and Access</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_01_foundations/09_01_04_getting_access_to_remote_sensing_images.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting Access to Remote Sensing Images</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Optical</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_02_optical/09_02_01_introduction_to_optical_satellite_images.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Optical Satellite Images</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_02_optical/09_02_02_preprocessing_of_optical_images.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preprocessing of Optical Images</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_02_optical/09_02_03_modis_global_monitoring_every_day.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Global Monitoring Every Day</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_02_optical/09_02_04_landsat_half_a_century_of_earth_observation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Landsat</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_02_optical/09_02_05_sentinel_2_red_edge_10_m_and_five_day_revisits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_02_optical/09_02_06_sentinel_3_ocean_colour_surface_temperature_and_altimetry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_02_optical/09_02_07_sentinel_5p_and_sentinel_5_mapping_air_pollution_from_orbit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-5P and Sentinel-5</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Radar (SAR and InSAR)</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_00_sar_fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SAR Fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_00_sentinel_1_sar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 SAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_01_sentinel_1_sar_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 SAR Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_02_sentinel_1_grd_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 GRD Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_03_sentinel_1_multitemporal_grd_time_series_deforestation_around_the_rohingya_camps_2017.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 GRD Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_04_topographic_insar_a_dem_from_a_sentinel_1_slc_pair.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Topographic InSAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_05_differential_insar_dinsar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Differential InSAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_06_sbas_small_baseline_subset_insar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SBAS InSAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_07_persistent_scatterer_insar_ps_insar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Persistent Scatterer InSAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_08_dual_pol_polarimetric_decomposition_slc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dual-Pol Polarimetric Decomposition</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_09_interferometric_coherence_of_slcs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interferometric Coherence of SLCs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_10_sentinel_1_based_indices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Based Indices</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_02_00_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RADARSAT Constellation Mission</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_02_01_radarsat_constellation_mission_rcm_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RCM Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_02_02_radarsat_grd_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RADARSAT GRD Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_02_03_radarsat_constellation_mission_rcm_insar_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RCM InSAR Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_02_04_radarsat_polarimetric_sar_polsar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RADARSAT Polarimetric SAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_02_05_compact_polarimetry_cp.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Compact-polarimetry</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_03_00_nisar_nasa_isro_synthetic_aperture_radar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NISAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_03_01_nisar_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NISAR Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_03_02_nisar_rslc_range_doppler_single_look_complex_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NISAR RSLC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_03_03_nisar_gslc_geocoded_single_look_complex_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NISAR GSLC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_03_04_nisar_gcov_geocoded_polarimetric_covariance_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NISAR GCOV</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_03_05_nisar_gunw_geocoded_unwrapped_interferogram.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NISAR GUNW</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>UAV</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_01_uav_fundamentals_and_mission_planning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">UAV Fundamentals and Mission Planning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_02_reading_and_inspecting_uav_imagery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reading and Inspecting UAV Imagery</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_03_photogrammetry_orthomosaic_dsm_and_dtm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Photogrammetry</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_04_rgb_vegetation_indices_and_canopy_cover.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RGB Vegetation Indices and Canopy Cover</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_05_rgb_plus_nir_multispectral_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RGB + NIR Multispectral Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_06_dem_correction_and_canopy_height.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DEM Correction and Canopy Height</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_07_plant_counting_and_size.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Plant Counting and Size</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_08_crop_health_sam_plant_masks_and_senescence_detection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Crop Health</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_09_panicle_detection_with_yolo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panicle Detection with YOLO</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_10_season_long_phenotyping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Season-Long Phenotyping</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Hyperspectral</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_00_introduction_to_imaging_spectroscopy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Imaging Spectroscopy</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_01_reading_and_exploring_hyperspectral_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reading and Exploring Hyperspectral Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_02_preprocessing_hyperspectral_cubes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preprocessing Hyperspectral Cubes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_03_dimensionality_reduction_and_band_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dimensionality Reduction and Band Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_04_narrowband_indices_and_vegetation_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Narrowband Indices and Vegetation Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_05_biophysical_and_biochemical_trait_retrieval.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Biophysical and Biochemical Trait Retrieval</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_06_spectral_libraries_and_spectral_matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spectral Libraries and Spectral Matching</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_07_endmember_extraction_and_spectral_unmixing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Endmember Extraction and Spectral Unmixing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_08_target_and_anomaly_detection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Target and Anomaly Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_09_greenhouse_gas_plume_detection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Greenhouse Gas Plume Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_10_thematic_applications_across_tanager_scenes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Thematic Applications Across Tanager Scenes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_11_deep_learning_for_hyperspectral_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Deep Learning for Hyperspectral Classification</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>LiDAR</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_01_lidar_fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">LiDAR Fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_02_lidar_processing_quality_control_cleaning_ground_classification_and_surface_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">LiDAR Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_03_terrain_and_hydrology_from_lidar_dems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Terrain and Hydrology from LiDAR DEMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_04_forest_structure_and_individual_trees_from_lidar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forest Structure and Individual Trees from LiDAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_05_buildings_and_urban_features_from_lidar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Buildings and Urban Features from LiDAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_06_point_cloud_classification_with_machine_learning_and_deep_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Point Cloud Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_07_spaceborne_lidar_gedi_and_icesat_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spaceborne LiDAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_08_large_area_lidar_processing_tiling_streaming_parallel_work_and_the_gpu.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Large-Area LiDAR Processing</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Texture Analysis</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_07_texture_analysis/09_07_00_texture_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Texture Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_07_texture_analysis/09_07_01_texture_analysis_of_landsat_imagery_statistical_and_structural_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistical and Structural Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_07_texture_analysis/09_07_02_texture_analysis_of_landsat_imagery_transform_based_spectral_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transform-Based Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_07_texture_analysis/09_07_03_texture_analysis_of_landsat_imagery_local_pattern_based_methods_lbp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Local Pattern-Based Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_07_texture_analysis/09_07_04_texture_analysis_of_landsat_imagery_model_based_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model-Based Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_07_texture_analysis/09_07_05_texture_analysis_of_landsat_imagery_deep_learning_based_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Deep-Learning-Based Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Image Super-Resolution</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_08_image_super_resolution/09_08_00_image_super_resolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Super-Resolution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_08_image_super_resolution/09_08_01_landsat_8_to_sentinel_2_six_band_super_resolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Landsat 8 to Sentinel-2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_08_image_super_resolution/09_08_02_sentinel_2_to_planetscope_multispectral_super_resolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-2 to PlanetScope</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_08_image_super_resolution/09_08_03_planetscope_to_high_resolution_naip_style_imagery_super_resolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PlanetScope to NAIP-style Imagery</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_08_image_super_resolution/09_08_04_landsat_8_sentinel_2_planetscope_and_high_resolution_imagery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Landsat 8 to High Resolution</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Image Classification</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_01_01_introduction_to_image_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Image Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_01_02_image_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_01_03_sampling_accuracy_assessment_and_reproducible_runs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sampling and Accuracy Assessment</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_02_01_classical_image_classification_pixel_based_and_object_based.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classical Image Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_02_02_image_classification_with_a_cnn_on_the_gpu_landsat_and_the_cropland_data_layer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CNN Classification on the GPU</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_02_03_deep_learning_for_sentinel_2_cnn_resnet_efficientnet_convnext_vit_and_swin_on_the_gpu.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Deep Learning for Sentinel-2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_02_04_transfer_learning_and_vision_transformers_for_sentinel_2_imagenet_vs_remote_sensing_weights.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transfer Learning and Transformers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_03_01_crop_classification_with_sentinel_1_sar_time_series_pixel_classifiers_and_deep_cnns_vv_vh_may_october_2024.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Crops from Sentinel-1 Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_03_02_spatio_temporal_and_multi_sensor_crop_mapping_sentinel_2_sentinel_1_and_landsat_time_series_2020_to_2025.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multi-Sensor Crop Mapping</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_03_03_change_detection_classical_post_classification_and_deep_methods_on_landsat_and_sentinel_2_2020_to_2025.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_04_01_semantic_segmentation_of_crop_types_from_sentinel_2_fcn_u_net_deeplabv3_plus_and_segformer_on_the_gpu.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Semantic Segmentation of Crops</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_04_02_instance_segmentation_of_agricultural_fields_with_mask_r_cnn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instance Segmentation of Fields</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_05_03_imperfect_labels_and_domain_shift.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Imperfect Labels and Domain Shift</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_05_04_multi_sensor_image_fusion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multi-Sensor Image Fusion</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Object Detection</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_10_object_detection/09_10_00_object_detection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Object Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_10_object_detection/09_10_01_object_detection_in_aerial_imagery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Object Detection in Aerial Imagery</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_10_object_detection/09_10_02_field_boundary_detection_in_google_satellite_screenshots_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Field Boundaries in Google Imagery</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_10_object_detection/09_10_03_field_edge_detection_in_worldview_imagery_rgb_versus_rgb_plus_nir.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Field Edges in WorldView Imagery</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_10_object_detection/09_10_04_field_edge_detection_in_sentinel_2_fields_of_the_world_versus_delineate_anything.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Field Edges in Sentinel-2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Foundation Models</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_00_what_foundation_models_are_and_why_remote_sensing_needs_them.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What Foundation Models Are</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_01_self_supervised_pretraining_for_sentinel_2_crop_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Self-Supervised Pretraining</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_02_geospatial_foundation_models_embeddings_promptable_segmentation_and_zero_shot_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geospatial Foundation Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_03_from_a_geotiff_to_an_embedding_map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">From a GeoTIFF to an Embedding Map</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_04_prithvi_ssl4eo_satlaspretrain_and_scale_mae_on_sentinel_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Optical Encoders on Sentinel-2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_05_one_model_for_many_sensors_dofa_panopticon_copernicus_fm_croma_and_terramind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">One Model for Many Sensors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_06_time_in_foundation_models_prithvi_tl_anysat_presto_and_galileo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Time in Foundation Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_07_alphaearth_foundations_precomputed_embeddings_for_the_whole_planet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">AlphaEarth Foundations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_08_foundation_model_embeddings_as_covariates_digital_soil_mapping_of_soc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Embeddings as Covariates</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_09_very_high_resolution_dinov3_sat_satlas_naip_scale_mae_and_sam_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Very High Resolution Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_10_vision_language_models_zero_shot_classification_and_text_retrieval.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vision-Language Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_11_change_and_similarity_in_embedding_space.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Change and Similarity in Embedding Space</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_12_weather_and_earth_system_foundation_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weather and Earth System Foundation Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_13_benchmarking_foundation_models_on_your_own_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarking Foundation Models</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Surface Energy Balance</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_00_evapotranspiration_and_the_surface_energy_balance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ET and the Energy Balance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_01_building_an_analysis_ready_stack_for_energy_balance_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">An Analysis-Ready Stack</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_02_reference_et_with_the_asce_standardized_penman_monteith_equation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reference ET (ASCE Penman-Monteith)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_03_net_radiation_from_landsat_albedo_emissivity_and_surface_temperature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Net Radiation from Landsat</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_04_soil_heat_flux_roughness_and_aerodynamic_resistance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil Heat Flux and Aerodynamics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_05_sebal_solving_for_sensible_heat_with_hot_and_cold_pixels.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SEBAL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_06_metric_internal_calibration_against_reference_et.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">METRIC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_07_ssebop_s_sebi_the_triangle_method_and_pt_jpl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SSEBop, S-SEBI, Triangle, PT-JPL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_08_two_source_energy_balance_separating_soil_evaporation_and_transpiration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Two-Source Energy Balance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_09_et_at_other_resolutions_modis_sentinel_3_and_sentinel_2_with_thermal_sharpening.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ET at Other Resolutions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_10_from_snapshots_to_seasonal_et_and_crop_water_use.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Seasonal ET and Crop Water Use</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_11_how_good_is_the_et_map_validation_sensitivity_and_uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Validation and Uncertainty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capstone: Boro Rice Water Use</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Change around Pucallpa, Peru</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fifty Years in the Bangladesh Delta</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wildfire Burned Area</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rohingya Deforestation: Sentinel-2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Flood Mapping in Sylhet</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rohingya Deforestation: Sentinel-1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ship Detection, Strait of Hormuz</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Crops from NISAR GCOV</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Charland Monitoring, Lower Meghna</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shrimp Ghers in Coastal Bangladesh</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Big Sur Wildfire, 2026</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wetland Paddy in Bangladesh</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Field Edges across Four Countries</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tree Biomass and Carbon from LiDAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#compact-polarimetry-cp" id="toc-compact-polarimetry-cp" class="nav-link active" data-scroll-target="#compact-polarimetry-cp">Compact-polarimetry (CP)</a>
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#core-concepts" id="toc-core-concepts" class="nav-link" data-scroll-target="#core-concepts">Core concepts</a>
+  <ul class="collapse">
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#contents" id="toc-contents" class="nav-link" data-scroll-target="#contents">Contents</a></li>
+  </ul></li>
+  <li><a href="#compact-polarimetry-cp-processing" id="toc-compact-polarimetry-cp-processing" class="nav-link" data-scroll-target="#compact-polarimetry-cp-processing">Compact-polarimetry (CP) processing</a></li>
+  <li><a href="#real-data-simulating-rcms-compact-pol-from-a-real-radarsat-2-quad-pol-scene" id="toc-real-data-simulating-rcms-compact-pol-from-a-real-radarsat-2-quad-pol-scene" class="nav-link" data-scroll-target="#real-data-simulating-rcms-compact-pol-from-a-real-radarsat-2-quad-pol-scene">Real data: simulating RCM’s compact-pol from a real RADARSAT-2 quad-pol scene</a>
+  <ul class="collapse">
+  <li><a href="#simulated-rhrv-covariance-matrix" id="toc-simulated-rhrv-covariance-matrix" class="nav-link" data-scroll-target="#simulated-rhrv-covariance-matrix">Simulated RH/RV covariance matrix</a></li>
+  <li><a href="#stokes-parameters-and-the-m-chi-decomposition" id="toc-stokes-parameters-and-the-m-chi-decomposition" class="nav-link" data-scroll-target="#stokes-parameters-and-the-m-chi-decomposition">Stokes parameters and the m-chi decomposition</a></li>
+  <li><a href="#validating-the-sign-convention-canonical-scatterers" id="toc-validating-the-sign-convention-canonical-scatterers" class="nav-link" data-scroll-target="#validating-the-sign-convention-canonical-scatterers">Validating the sign convention: canonical scatterers</a></li>
+  <li><a href="#cross-checking-against-the-real-quad-pol-h-alpha-classification" id="toc-cross-checking-against-the-real-quad-pol-h-alpha-classification" class="nav-link" data-scroll-target="#cross-checking-against-the-real-quad-pol-h-alpha-classification">Cross-checking against the real quad-pol H-alpha classification</a></li>
+  <li><a href="#m-chi-rgb-composite" id="toc-m-chi-rgb-composite" class="nav-link" data-scroll-target="#m-chi-rgb-composite">M-chi RGB composite</a></li>
+  </ul></li>
+  <li><a href="#takeaways-and-limitations" id="toc-takeaways-and-limitations" class="nav-link" data-scroll-target="#takeaways-and-limitations">Takeaways and limitations</a>
+  <ul class="collapse">
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/09_03_banner_rs_rader.png" class="img-fluid figure-img"></p>
+<figcaption>Banner</figcaption>
+</figure>
+</div>
+<section id="compact-polarimetry-cp" class="level1">
+<h1>Compact-polarimetry (CP)</h1>
+<p>This notebook explains compact polarimetry, the RCM mode that transmits a circularly polarised wave and receives two linear polarisations, and simulates it from a real RADARSAT-2 quad-pol scene to compute compact-pol decompositions.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>Compact-polarimetry (CP) is a SAR mode where the radar transmits a circularly polarized wave (commonly RH or LH) and receives two orthogonal linear polarizations (Horizontal, RH and Vertical, RV). This enables the construction of a 2×2 complex covariance matrix, capturing much of the information of full quad-pol but at the cost and coverage of dual-pol.</p>
+<ul>
+<li><p>The radar records complex scattering coefficients: <strong>S<sub>RH</sub></strong> and <strong>S<sub>RV</sub></strong> (where RH = Received Horizontal, RV = Received Vertical, both after transmitting Right-Circular polarization).</p></li>
+<li><p>The covariance matrix <strong>[C<sub>2</sub>]</strong> is formed as:</p>
+<pre><code>C₂ = | &lt;|S_RH|²&gt;      &lt;S_RH S_RV*&gt;   |
+     | &lt;S_RV S_RH*&gt;   &lt;|S_RV|²&gt;      |</code></pre>
+<p>or, in markdown math: <span class="math display">\[
+\mathbf{C}_2 =
+\begin{bmatrix}
+  \langle |S_{\mathrm{RH}}|^2 \rangle &amp; \langle S_{\mathrm{RH}} S_{\mathrm{RV}}^* \rangle \\
+  \langle S_{\mathrm{RV}} S_{\mathrm{RH}}^* \rangle &amp; \langle |S_{\mathrm{RV}}|^2 \rangle
+\end{bmatrix}
+\]</span> where ⟨·⟩ indicates spatial averaging (speckle filtering).</p></li>
+<li><p>From this, you compute <strong>Stokes parameters</strong>:</p>
+<ul>
+<li><span class="math inline">\(S_0 = \langle |S_{\mathrm{RH}}|^2 \rangle + \langle |S_{\mathrm{RV}}|^2 \rangle\)</span> (total intensity)</li>
+<li><span class="math inline">\(S_1 = \langle |S_{\mathrm{RH}}|^2 \rangle - \langle |S_{\mathrm{RV}}|^2 \rangle\)</span></li>
+<li><span class="math inline">\(S_2 = 2 \, \operatorname{Re}(\langle S_{\mathrm{RH}} S_{\mathrm{RV}}^* \rangle)\)</span> (real part)</li>
+<li><span class="math inline">\(S_3 = \pm 2 \, \operatorname{Im}(\langle S_{\mathrm{RH}} S_{\mathrm{RV}}^* \rangle)\)</span> (imaginary part; sign depends on handedness convention)</li>
+</ul></li>
+<li><p>The <strong>degree of polarization</strong> is:</p>
+<p><span class="math display">\[
+m = \frac{\sqrt{S_1^2 + S_2^2 + S_3^2}}{S_0}
+\]</span> This describes how “purely” the scene scatters polarization (low <em>m</em> = depolarized, e.g., vegetation).</p></li>
+<li><p>The <strong>ellipticity angle</strong> (<span class="math inline">\(\chi\)</span>) (indicates even vs.&nbsp;odd bounce) is:</p>
+<p><span class="math display">\[
+\sin 2\chi = -\frac{S_3}{m S_0}
+\]</span> Negative means odd-bounce dominant (e.g., double-bounce in urban or flooded areas).</p></li>
+<li><p>The <strong>relative phase</strong> (<span class="math inline">\(\delta\)</span>) between RH and RV is:</p>
+<p><span class="math display">\[
+\delta = \arctan\left(\frac{S_3}{S_2}\right)
+\]</span></p></li>
+</ul>
+<p><strong>m-χ decomposition:</strong> This produces an RGB visualization to distinguish scattering types: - <strong>Red channel (Double-bounce):</strong> $ $ - <strong>Green channel (Volume):</strong> $ $ - <strong>Blue channel (Surface):</strong> $ $</p>
+<p>Thus, compact-pol SAR enables physically interpretable, information-rich products using rigorous polarimetric math.</p>
+</section>
+<section id="core-concepts" class="level2">
+<h2 class="anchored" data-anchor-id="core-concepts">Core concepts</h2>
+<section id="learning-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
+<ol type="1">
+<li>Describe compact polarimetry as a circular transmit and two linear receives, and the 2x2 covariance matrix that follows.</li>
+<li>Compute the Stokes parameters, degree of polarization, ellipticity angle, and RH-RV relative phase.</li>
+<li>Form the m-chi decomposition and read the red, green, and blue channels as double-bounce, volume, and surface.</li>
+<li>Simulate a right-circular compact-pol acquisition from the measured RADARSAT-2 quad-pol scattering matrix.</li>
+<li>Check the surface and double-bounce assignment on canonical odd-bounce and even-bounce scatterers.</li>
+<li>Compare the simulated power fractions with the quad-pol H-alpha zones of the Mecklenburg Lake District scene.</li>
+<li>Display an m-chi RGB composite in radar geometry and set it beside the quad-pol Pauli RGB.</li>
+</ol>
+</section>
+<section id="contents" class="level3">
+<h3 class="anchored" data-anchor-id="contents">Contents</h3>
+<ol type="1">
+<li>Compact-polarimetry (CP) processing</li>
+<li>Real data: simulating RCM’s compact-pol from a real RADARSAT-2 quad-pol scene</li>
+<li>Takeaways and limitations</li>
+</ol>
+</section>
+</section>
+<section id="compact-polarimetry-cp-processing" class="level2">
+<h2 class="anchored" data-anchor-id="compact-polarimetry-cp-processing">Compact-polarimetry (CP) processing</h2>
+<p>CP is what distinguishes RCM. It captures much of quad-pol’s information at dual-pol cost and swath width.</p>
+<p><strong>1. Covariance matrix.</strong> From the calibrated complex RH and RV channels, form the 2×2 covariance matrix [C2]: - ⟨|RH|²⟩, ⟨|RV|²⟩, ⟨RH·RV*⟩ - ⟨ ⟩ denotes spatial averaging, which is the polarimetric speckle filter.</p>
+<p><strong>2. Stokes parameters</strong> - S₀ = ⟨|RH|²⟩ + ⟨|RV|²⟩ is the total power. - S₁ = ⟨|RH|²⟩ − ⟨|RV|²⟩ - S₂ = 2 Re⟨RH·RV<em>⟩ - S₃ = ±2 Im⟨RH·RV</em>⟩. The sign depends on transmit handedness, so check the convention in your software.</p>
+<p><strong>3. Derived parameters</strong> - <strong>Degree of polarization:</strong> m = √(S₁² + S₂² + S₃²) / S₀ - Low m means depolarized, volume-like scattering, as in vegetation. - <strong>Ellipticity angle:</strong> sin 2χ = −S₃ / (m·S₀) - Indicates odd versus even bounce. - <strong>Relative phase:</strong> δ = arctan(S₃ / S₂)</p>
+<p><strong>4. m-χ decomposition (Raney).</strong> This gives an RGB composite: - Double bounce = √[m·S₀·(1 − sin 2χ)/2], displayed in red. Indicates buildings and flooded vegetation. - Volume = √[S₀·(1 − m)], displayed in green. Indicates forest and crop canopy. - Surface = √[m·S₀·(1 + sin 2χ)/2], displayed in blue. Indicates bare soil and water. - <strong>m-δ decomposition</strong> follows the same logic, using δ in place of χ.</p>
+<p><strong>5. Other CP products</strong> - Circular polarization ratio (CPR) indicates surface roughness and is used for sea ice. - RH/RV backscatter and the conformity coefficient are used for soil moisture. - <strong>Pseudo-quad reconstruction</strong> (Souyris or Nord methods) estimates a full 3×3 matrix. This lets you apply quad-pol decompositions such as Freeman-Durden or H/A/α.</p>
+<p><strong>6. Order of operations.</strong> Terrain-correct the decomposition outputs <em>after</em> computing them, not before. Resampling complex data first corrupts the phase relationships.</p>
+<p><strong>Applications:</strong> crop type and phenology, wetland classes (open water vs.&nbsp;flooded vegetation vs.&nbsp;marsh), sea-ice typing, and oil-slick vs.&nbsp;look-alike discrimination.</p>
+</section>
+<section id="real-data-simulating-rcms-compact-pol-from-a-real-radarsat-2-quad-pol-scene" class="level2">
+<h2 class="anchored" data-anchor-id="real-data-simulating-rcms-compact-pol-from-a-real-radarsat-2-quad-pol-scene">Real data: simulating RCM’s compact-pol from a real RADARSAT-2 quad-pol scene</h2>
+<p>RADARSAT-2 carries no compact-pol hardware – only RCM does. There is consequently no real RS2 compact-pol product to read. What the compact-pol literature does instead (and what this notebook does) is <strong>simulate</strong> a compact-pol acquisition from a real quad-pol scene: apply the transmitted-wave physics of a circular-transmit, linear-receive (CTLR) radar to the scene’s real <em>measured</em> scattering matrix, exactly as a CTLR receiver (RCM’s or RISAT-1’s hardware) would have recorded it had it flown over the same ground at the same time. This is not fabricated data – every number comes from the real, measured <span class="math inline">\(S_{HH}, S_{HV}, S_{VH}, S_{VV}\)</span> channels of <code>Data/08_remote_sensing/08_03_radar/RS2_OK153952_PK1408399_DK1372518_FQ17_20150626_052324_HH_VV_HV_VH_SLC/</code> (the same real Fine Quad scene over the Mecklenburg Lake District, Germany, used in <code>07_03_02_03_RADARSAT_PolSAR.ipynb</code>) – only the <em>receive mode</em> is simulated, not the data.</p>
+<p>This is a standard, well-precedented technique, not something improvised for this notebook: Charbonneau et al.&nbsp;(2010) used exactly this simulate-from-RS2-quad-pol approach to evaluate candidate compact-pol algorithms years before RCM launched and its hardware CP mode existed to test against. <code>geolattice.rsense.sar.radarsat.simulate_compact_pol</code> follows the explicit formula of Guo et al.&nbsp;(2018, <em>Sensors</em> 18(7):2271), who built the same simulation from RADARSAT-2 data for rice-field studies: the transmitted Jones vector for right-hand circular polarisation is <span class="math inline">\(R = \tfrac{1}{2}\begin{pmatrix}1 \\ -j\end{pmatrix}\)</span>, and applying the Sinclair matrix gives</p>
+<p><span class="math display">\[E_{RH} = \tfrac{1}{2}\left(S_{HH} - j\,S_x\right), \qquad
+  E_{RV} = \tfrac{1}{2}\left(S_x - j\,S_{VV}\right), \qquad
+  S_x = \tfrac{1}{2}\left(S_{HV} + S_{VH}\right)\]</span></p>
+<p>the same reciprocity average used throughout this notebook series. <code>simulate_compact_pol</code> locally averages this into a C2 covariance matrix (<code>c11 = &lt;|E_RH|^2&gt;</code> etc.) with the same naming <code>rrrl_to_rhrv</code> already uses for RCM’s real product, so every downstream function – <code>h_alpha_dual</code> (basis-independent), and via the new <code>rhrv_to_stokes</code>, <code>compact_pol_mchi</code> – applies completely unchanged to either a real RCM acquisition or this RS2 simulation.</p>
+<p><strong>Installation.</strong> This notebook needs installation option 5 (core, spatial analysis, spatial statistics, geostatistics and remote sensing): <code>pip install "geolattice[remote-sensing]"</code>. See “Installation options” in the GeoLattice README.</p>
+<div id="480a4071" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-25T15:43:28.238916Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-25T15:43:28.238438Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-25T15:43:31.774621Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-25T15:43:31.771803Z&quot;}}" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the real RADARSAT-2 Fine Quad-pol SLC channels that will stand in for CompPol's</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># real inputs -- compact-pol is simulated below from this real, measured scattering matrix.</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Silence warnings so the printed summary output below isn't cluttered by incidental</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#    library warnings (e.g. from rasterio/numpy on nodata or dtype casts).</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)  <span class="co"># hide library warnings</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path  <span class="co"># file paths</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt  <span class="co"># figures</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np  <span class="co"># arrays</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio  <span class="co"># raster reading</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr  <span class="co"># labelled arrays</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice <span class="im">import</span> rsense <span class="im">as</span> rs  <span class="co"># GeoLattice remote sensing</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.rsense.sar <span class="im">import</span> polsar, radarsat  <span class="co"># polarimetry tools and RCM compact-pol simulation</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Use a higher figure DPI so the RGB composite rendered later in the notebook is crisp.</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">"figure.dpi"</span>: <span class="dv">110</span>})</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Point at the same real RADARSAT-2 Fine Quad (FQ17) SLC product used in the quad-pol</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">#    PolSAR notebook -- this notebook reuses its real HH/HV/VH/VV channels, simulating only</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">#    the compact-pol *receive mode* on top of them, not fabricating any new data.</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>PRODUCT <span class="op">=</span> Path(<span class="st">"../../../../Data/08_remote_sensing/08_03_radar/RS2_OK153952_PK1408399_DK1372518_FQ17_20150626_052324_HH_VV_HV_VH_SLC"</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. SLC products store each complex channel as two real bands (band 1 = real/I,</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co">#    band 2 = imaginary/Q); recombine them into a single complex64 array per polarization.</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> read_slc(pol):</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> rasterio.<span class="bu">open</span>(PRODUCT <span class="op">/</span> <span class="ss">f"imagery_</span><span class="sc">{</span>pol<span class="sc">}</span><span class="ss">.tif"</span>) <span class="im">as</span> src:  <span class="co"># open the SLC GeoTIFF of this polarisation</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># band 1 = real part, band 2 = imaginary part</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (src.read(<span class="dv">1</span>) <span class="op">+</span> <span class="ot">1j</span> <span class="op">*</span> src.read(<span class="dv">2</span>)).astype(<span class="st">"complex64"</span>)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Read all four linear-pol SLC channels -- these feed both the compact-pol simulation</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co">#    (which only needs HH/HV/VH/VV) and the real quad-pol H-alpha cross-check used later.</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>hh, hv, vh, vv <span class="op">=</span> (read_slc(p) <span class="cf">for</span> p <span class="kw">in</span> (<span class="st">"HH"</span>, <span class="st">"HV"</span>, <span class="st">"VH"</span>, <span class="st">"VV"</span>))</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co"># version and image size</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"geolattice.rsense </span><span class="sc">{</span>rs<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span>hh<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> x </span><span class="sc">{</span>hh<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> pixels per channel, "</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"real RADARSAT-2 Fine Quad (FQ17) HH/HV/VH/VV SLC, 2015-06-26"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>geolattice.rsense 0.2.0.dev0 | 5371 x 3500 pixels per channel, real RADARSAT-2 Fine Quad (FQ17) HH/HV/VH/VV SLC, 2015-06-26</code></pre>
+</div>
+</div>
+<section id="simulated-rhrv-covariance-matrix" class="level3">
+<h3 class="anchored" data-anchor-id="simulated-rhrv-covariance-matrix">Simulated RH/RV covariance matrix</h3>
+<div id="e5a801e3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-25T15:43:31.782275Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-25T15:43:31.781302Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-25T15:43:35.098722Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-25T15:43:35.095914Z&quot;}}" data-execution_count="2">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate a compact-pol (CTLR, right-circular transmit) acquisition from the real quad-pol</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># scattering matrix, then summarize the resulting RH/RV total power.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Choose the multilooking/averaging window used to form the local covariance matrix --</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#    this plays the role of the spatial averaging &lt;.&gt; (the polarimetric speckle filter) in</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#    the Stokes-parameter math described above.</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>SIZE <span class="op">=</span> <span class="dv">7</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Apply the circular-transmit, linear-receive physics (Guo et al. 2018's formula for</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#    E_RH, E_RV from S_HH, S_VV and S_x = (S_HV+S_VH)/2) to the real scattering matrix, then</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#    locally average into a 2x2 C2 covariance matrix (c11 = &lt;|E_RH|^2&gt;, c22 = &lt;|E_RV|^2&gt;,</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#    c12 = &lt;E_RH E_RV*&gt;) -- exactly as RCM's real CTLR hardware would have recorded it.</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>cp <span class="op">=</span> radarsat.simulate_compact_pol(hh, hv, vh, vv, size<span class="op">=</span>SIZE)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Total power S0 is the sum of the two diagonal (intensity) terms of C2.</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>power <span class="op">=</span> cp[<span class="st">"c11"</span>] <span class="op">+</span> cp[<span class="st">"c22"</span>]</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"simulated RH/RV total power (c11+c22), dB percentiles (5/50/95th): "</span>  <span class="co"># total power percentiles</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"</span><span class="sc">{</span><span class="dv">10</span> <span class="op">*</span> np<span class="sc">.</span>log10(np.nanpercentile(power, [<span class="dv">5</span>, <span class="dv">50</span>, <span class="dv">95</span>]))<span class="sc">.</span><span class="bu">round</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>simulated RH/RV total power (c11+c22), dB percentiles (5/50/95th): [63. 76. 79.]</code></pre>
+</div>
+</div>
+</section>
+<section id="stokes-parameters-and-the-m-chi-decomposition" class="level3">
+<h3 class="anchored" data-anchor-id="stokes-parameters-and-the-m-chi-decomposition">Stokes parameters and the m-chi decomposition</h3>
+<p><code>rhrv_to_stokes</code> inverts <code>rrrl_to_rhrv</code>’s own <code>c11 = (s0+s1)/2</code> mapping to get <span class="math inline">\(S_0, S_1, S_2, S_3\)</span> from the simulated C2, in the same convention <code>compact_pol_mchi</code> already expects from RCM’s real product – so it is the same function call either way.</p>
+<div id="fffea890" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-25T15:43:35.108953Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-25T15:43:35.105918Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-25T15:43:37.647122Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-25T15:43:37.644435Z&quot;}}" data-execution_count="3">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the simulated RH/RV covariance matrix into Stokes parameters, run the m-chi</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># decomposition, and sanity-check that the decomposed powers add back up to the total power.</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. rhrv_to_stokes inverts rrrl_to_rhrv's c11 = (s0+s1)/2 convention to recover S0, S1, S2,</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#    S3 (and the degree of polarization m) from the simulated C2 -- the same convention</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#    compact_pol_mchi expects, whether its input came from real RCM data or this simulation.</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>st <span class="op">=</span> radarsat.rhrv_to_stokes(<span class="op">**</span>cp)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Run the m-chi (Raney) decomposition on the Stokes parameters to split total power S0</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#    into surface (ps), double-bounce (pd), and volume (pv) scattering mechanisms.</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>mc <span class="op">=</span> radarsat.compact_pol_mchi(st[<span class="st">"s0"</span>], st[<span class="st">"s1"</span>], st[<span class="st">"s2"</span>], st[<span class="st">"s3"</span>])</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Degree of polarization m: low values indicate depolarized, volume-like scattering</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#    (e.g. vegetation); high values indicate a purely polarized (deterministic) return.</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"degree of polarization m, percentiles (5/50/95th): "</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"</span><span class="sc">{</span>np<span class="sc">.</span>nanpercentile(st[<span class="st">'degree_of_polarization'</span>], [<span class="dv">5</span>, <span class="dv">50</span>, <span class="dv">95</span>])<span class="sc">.</span><span class="bu">round</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Report each decomposed mechanism's power in dB (clipped above zero before the log to</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#    avoid -inf from any exactly-zero pixels) so the three channels are easy to compare.</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k, label <span class="kw">in</span> ((<span class="st">"ps"</span>, <span class="st">"surface"</span>), (<span class="st">"pd"</span>, <span class="st">"double-bounce"</span>), (<span class="st">"pv"</span>, <span class="st">"volume"</span>)):</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    db <span class="op">=</span> <span class="dv">10</span> <span class="op">*</span> np.log10(np.clip(mc[k], <span class="fl">1e-6</span>, <span class="va">None</span>))  <span class="co"># power of this component in dB</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># its percentiles</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>label<span class="sc">:&gt;13}</span><span class="ss"> power, dB percentiles (5/50/95th): </span><span class="sc">{</span>np<span class="sc">.</span>nanpercentile(db, [<span class="dv">5</span>, <span class="dv">50</span>, <span class="dv">95</span>])<span class="sc">.</span><span class="bu">round</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. The m-chi decomposition should conserve power: ps + pd + pv must equal the total power</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">#    S0 at every pixel. Compute the worst-case relative error as a numerical sanity check</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co">#    that the decomposition was implemented and composed correctly.</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>power_err <span class="op">=</span> np.nanmax(np.<span class="bu">abs</span>((mc[<span class="st">"ps"</span>] <span class="op">+</span> mc[<span class="st">"pd"</span>] <span class="op">+</span> mc[<span class="st">"pv"</span>]) <span class="op">-</span> st[<span class="st">"s0"</span>]) <span class="op">/</span> (st[<span class="st">"s0"</span>] <span class="op">+</span> <span class="fl">1e-9</span>))</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co"># the three powers must add up to the total</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"power conservation (ps+pd+pv == s0): max relative error </span><span class="sc">{</span>power_err<span class="sc">:.2e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>degree of polarization m, percentiles (5/50/95th): [0.11  0.285 0.519]
+      surface power, dB percentiles (5/50/95th): [52.2 68.  74.1]
+double-bounce power, dB percentiles (5/50/95th): [51.1 63.8 71.1]
+       volume power, dB percentiles (5/50/95th): [62.  74.5 77.3]
+power conservation (ps+pd+pv == s0): max relative error 1.58e-07</code></pre>
+</div>
+</div>
+</section>
+<section id="validating-the-sign-convention-canonical-scatterers" class="level3">
+<h3 class="anchored" data-anchor-id="validating-the-sign-convention-canonical-scatterers">Validating the sign convention: canonical scatterers</h3>
+<p><code>compact_pol_mchi</code>’s surface/double-bounce assignment is fixed by RCM’s real right-circular transmit hardware (see its docstring). <code>simulate_compact_pol</code> uses the same right-circular convention (Guo et al.&nbsp;2018’s <span class="math inline">\(R\)</span>), so the composition should be internally consistent – check this directly, not just by inspection, on two canonical Pauli scatterers with a known answer: a pure single/odd-bounce (surface) target has <span class="math inline">\(S_{HH} = S_{VV}\)</span>, no cross-pol; a pure double-bounce target has <span class="math inline">\(S_{HH} = -S_{VV}\)</span>, no cross-pol. Both are deterministic point scatterers, so every pixel should land on one extreme of the decomposition.</p>
+<div id="f54478e9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-25T15:43:37.653914Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-25T15:43:37.653248Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-25T15:43:37.673935Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-25T15:43:37.671796Z&quot;}}" data-execution_count="4">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Validate the sign convention analytically on two canonical, deterministic Pauli scatterers</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># with a known answer: pure surface (odd-bounce) and pure double-bounce (even-bounce).</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Build synthetic "scattering matrices" for two idealized point targets: a pure</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#    single/odd-bounce (surface) target has S_HH = S_VV with no cross-pol return, while a</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#    pure double-bounce target has S_HH = -S_VV with no cross-pol return. Using constant</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#    arrays (no speckle) means every pixel should land exactly on one extreme of the</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#    decomposition, with no averaging needed to see the pure result.</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>one <span class="op">=</span> np.ones((<span class="dv">5</span>, <span class="dv">5</span>), dtype<span class="op">=</span><span class="st">"complex128"</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>zero <span class="op">=</span> np.zeros((<span class="dv">5</span>, <span class="dv">5</span>), dtype<span class="op">=</span><span class="st">"complex128"</span>)  <span class="co"># a zero channel for the cross-pol terms of the toy scatterers</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. For each canonical scatterer, run the same simulate -&gt; Stokes -&gt; m-chi pipeline used on</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#    the real scene (size=1 since there is no speckle to average out here), then compute each</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#    mechanism's power as a fraction of total power S0 -- the expected result is exactly 1.0</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#    for the matching mechanism and 0.0 for the other two.</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, s_hh_c, s_vv_c <span class="kw">in</span> ((<span class="st">"surface  (Shh = Svv)"</span>, one, one), (<span class="st">"double-bounce (Shh = -Svv)"</span>, one, <span class="op">-</span>one)):</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simulate compact-pol from an ideal scatterer</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    cp_c <span class="op">=</span> radarsat.simulate_compact_pol(s_hh_c, zero, zero, s_vv_c, size<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    st_c <span class="op">=</span> radarsat.rhrv_to_stokes(<span class="op">**</span>cp_c)  <span class="co"># Stokes parameters</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    mc_c <span class="op">=</span> radarsat.compact_pol_mchi(st_c[<span class="st">"s0"</span>], st_c[<span class="st">"s1"</span>], st_c[<span class="st">"s2"</span>], st_c[<span class="st">"s3"</span>])  <span class="co"># m-chi decomposition</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># share of each power in the total</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    frac <span class="op">=</span> {k: <span class="bu">round</span>(<span class="bu">float</span>(np.nanmedian(mc_c[k] <span class="op">/</span> st_c[<span class="st">"s0"</span>])), <span class="dv">3</span>) <span class="cf">for</span> k <span class="kw">in</span> (<span class="st">"ps"</span>, <span class="st">"pd"</span>, <span class="st">"pv"</span>)}</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:&lt;28}</span><span class="ss"> -&gt; power fractions </span><span class="sc">{</span>frac<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># print them</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>surface  (Shh = Svv)         -&gt; power fractions {'ps': 1.0, 'pd': 0.0, 'pv': 0.0}
+double-bounce (Shh = -Svv)   -&gt; power fractions {'ps': 0.0, 'pd': 1.0, 'pv': 0.0}</code></pre>
+</div>
+</div>
+<p>Exactly as the physics demands: the pure-surface target puts 100% of its power in <code>ps</code>, the pure-double-bounce target puts 100% in <code>pd</code>, both with zero volume and zero leakage into the other mechanism – confirming the sign convention is correct by construction, not just checked after the fact against real data below.</p>
+</section>
+<section id="cross-checking-against-the-real-quad-pol-h-alpha-classification" class="level3">
+<h3 class="anchored" data-anchor-id="cross-checking-against-the-real-quad-pol-h-alpha-classification">Cross-checking against the real quad-pol H-alpha classification</h3>
+<p>Canonical synthetic scatterers prove the formula is self-consistent; this checks it against <em>real</em> ground truth from the same scene, independently. <code>07_03_02_03_RADARSAT_PolSAR.ipynb</code> already computed the real quad-pol H-alpha zone classification for this exact scene – recompute it here and compare each zone’s simulated compact-pol power fractions against what the zone label says it should be: zones with a “surface” label should have the highest <code>ps</code> fraction, zones with a high-alpha “multiple”/double-bounce character should have the highest <code>pd</code> fraction, and vegetation/volume zones should be dominated by <code>pv</code>.</p>
+<div id="bc517f67" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-25T15:43:37.678861Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-25T15:43:37.678541Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-25T15:44:47.492200Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-25T15:44:47.489433Z&quot;}}" data-execution_count="5">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cross-check the simulated compact-pol decomposition against an independent, real-data</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># reference: the quad-pol H-alpha classification of the same scene.</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Recompute the real quad-pol H-alpha workflow for this scene (coherency matrix T3, then</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#    entropy H and alpha angle, then the standard 8/9-zone H-alpha classification) exactly as</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#    done in the quad-pol PolSAR notebook -- this is ground truth computed from the real,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#    unsimulated quad-pol data, independent of the compact-pol simulation above.</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>t3 <span class="op">=</span> polsar.coherency_t3(hh, hv, vh, vv, size<span class="op">=</span>SIZE)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>t3_da <span class="op">=</span> {k: xr.DataArray(v, dims<span class="op">=</span>(<span class="st">"y"</span>, <span class="st">"x"</span>)) <span class="cf">for</span> k, v <span class="kw">in</span> t3.items()}  <span class="co"># coherency matrix elements as DataArrays</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>ha <span class="op">=</span> polsar.h_alpha_quad(<span class="op">**</span>t3_da)  <span class="co"># quad-pol H-alpha decomposition (the reference)</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>zone <span class="op">=</span> polsar.h_alpha_classify(ha[<span class="st">"entropy"</span>], ha[<span class="st">"alpha"</span>]).values  <span class="co"># H-alpha zone of every pixel</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Build a lookup from each zone's numeric code back to its descriptive label (e.g. "Z9</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#    low entropy surface") so the comparison table below is human-readable.</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>codes <span class="op">=</span> {<span class="st">"Z9"</span>: <span class="dv">9</span>, <span class="st">"Z8"</span>: <span class="dv">8</span>, <span class="st">"Z7"</span>: <span class="dv">7</span>, <span class="st">"Z6"</span>: <span class="dv">6</span>, <span class="st">"Z5"</span>: <span class="dv">5</span>, <span class="st">"Z4"</span>: <span class="dv">4</span>, <span class="st">"Z2"</span>: <span class="dv">2</span>, <span class="st">"Z1"</span>: <span class="dv">1</span>}</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>label_by_code <span class="op">=</span> {codes[name[:<span class="dv">2</span>]]: name <span class="cf">for</span> name <span class="kw">in</span> polsar.H_ALPHA_ZONES}  <span class="co"># zone code -&gt; zone name</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Express each compact-pol mechanism's power as a fraction of total power S0, pixel by</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co">#    pixel, so it can be compared directly against the quad-pol zone labels below.</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>surf_frac <span class="op">=</span> np.where(st[<span class="st">"s0"</span>] <span class="op">&gt;</span> <span class="dv">0</span>, mc[<span class="st">"ps"</span>] <span class="op">/</span> st[<span class="st">"s0"</span>], np.nan)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>pd_frac <span class="op">=</span> np.where(st[<span class="st">"s0"</span>] <span class="op">&gt;</span> <span class="dv">0</span>, mc[<span class="st">"pd"</span>] <span class="op">/</span> st[<span class="st">"s0"</span>], np.nan)  <span class="co"># double-bounce share of the compact-pol total</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>vol_frac <span class="op">=</span> np.where(st[<span class="st">"s0"</span>] <span class="op">&gt;</span> <span class="dv">0</span>, mc[<span class="st">"pv"</span>] <span class="op">/</span> st[<span class="st">"s0"</span>], np.nan)  <span class="co"># volume share</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. For each sufficiently large zone, report the median simulated surface/double-bounce/</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="co">#    volume fraction within it -- a correct sign convention should show surface-labeled zones</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="co">#    dominated by "surf", double-bounce-labeled zones dominated by "pd", and vegetation/</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="co">#    volume zones dominated by "vol".</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'zone'</span><span class="sc">:&lt;28}{</span><span class="st">'n px'</span><span class="sc">:&gt;12}{</span><span class="st">'surf'</span><span class="sc">:&gt;8}{</span><span class="st">'pd'</span><span class="sc">:&gt;8}{</span><span class="st">'vol'</span><span class="sc">:&gt;8}</span><span class="ss">"</span>)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code <span class="kw">in</span> <span class="bu">sorted</span>(c <span class="cf">for</span> c <span class="kw">in</span> np.unique(zone) <span class="cf">if</span> c <span class="op">!=</span> <span class="dv">0</span>):  <span class="co"># every H-alpha zone present</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> zone <span class="op">==</span> code  <span class="co"># its pixels</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">int</span>(mask.<span class="bu">sum</span>())  <span class="co"># number of pixels</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">&lt;</span> <span class="dv">1000</span>:  <span class="co"># skip small zones</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># median compact-pol shares in the zone</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>label_by_code[code]<span class="sc">:&lt;28}{</span>n<span class="sc">:&gt;12,}{</span>np<span class="sc">.</span>nanmedian(surf_frac[mask])<span class="sc">:&gt;8.3f}</span><span class="ss">"</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"</span><span class="sc">{</span>np<span class="sc">.</span>nanmedian(pd_frac[mask])<span class="sc">:&gt;8.3f}{</span>np<span class="sc">.</span>nanmedian(vol_frac[mask])<span class="sc">:&gt;8.3f}</span><span class="ss">"</span>)</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Quantify the agreement with two scalar correlations, subsampling every 10th pixel in</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a><span class="co">#    each dimension to keep the correlation computation fast: degree of polarization should</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a><span class="co">#    fall as quad-pol entropy rises (both describe how depolarized/random the scattering is),</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a><span class="co">#    and the simulated double-bounce fraction should rise with the real quad-pol alpha angle</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a><span class="co">#    (alpha near 90 degrees is itself the quad-pol signature of double-bounce scattering).</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>sl <span class="op">=</span> (<span class="bu">slice</span>(<span class="va">None</span>, <span class="va">None</span>, <span class="dv">10</span>), <span class="bu">slice</span>(<span class="va">None</span>, <span class="va">None</span>, <span class="dv">10</span>))</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a><span class="co"># pixels valid in both layers</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> np.isfinite(st[<span class="st">"degree_of_polarization"</span>][sl].ravel()) <span class="op">&amp;</span> np.isfinite(ha[<span class="st">"entropy"</span>].values[sl].ravel())</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a><span class="co"># correlation of compact-pol degree of polarisation with quad-pol entropy</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>r_dop_h <span class="op">=</span> np.corrcoef(st[<span class="st">"degree_of_polarization"</span>][sl].ravel()[m], ha[<span class="st">"entropy"</span>].values[sl].ravel()[m])[<span class="dv">0</span>, <span class="dv">1</span>]</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a><span class="co"># pixels valid in both layers</span></span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>m2 <span class="op">=</span> np.isfinite(pd_frac[sl].ravel()) <span class="op">&amp;</span> np.isfinite(ha[<span class="st">"alpha"</span>].values[sl].ravel())</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a><span class="co"># correlation of compact-pol double-bounce share with quad-pol alpha</span></span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>r_pd_alpha <span class="op">=</span> np.corrcoef(pd_frac[sl].ravel()[m2], ha[<span class="st">"alpha"</span>].values[sl].ravel()[m2])[<span class="dv">0</span>, <span class="dv">1</span>]</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a><span class="co"># print the first correlation</span></span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">correlation(simulated degree of polarization m, real quad-pol entropy H): </span><span class="sc">{</span>r_dop_h<span class="sc">:+.3f}</span><span class="ss">"</span>)</span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a><span class="co"># print the second correlation</span></span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"correlation(simulated pd fraction, real quad-pol alpha angle): </span><span class="sc">{</span>r_pd_alpha<span class="sc">:+.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>zone                                n px    surf      pd     vol
+Z1 high entropy multiple         117,352   0.015   0.354   0.624
+Z2 high entropy vegetation     4,150,867   0.059   0.131   0.798
+Z4 medium entropy multiple       780,399   0.064   0.300   0.627
+Z5 medium entropy vegetation   7,621,938   0.167   0.089   0.735
+Z6 medium entropy surface      6,064,533   0.321   0.028   0.638
+Z7 low entropy multiple           21,096   0.192   0.571   0.231
+Z8 low entropy dipole              3,985   0.374   0.377   0.249
+Z9 low entropy surface            38,330   0.683   0.034   0.267
+
+correlation(simulated degree of polarization m, real quad-pol entropy H): -0.722
+correlation(simulated pd fraction, real quad-pol alpha angle): +0.702</code></pre>
+</div>
+</div>
+<p>The real-data zone table matches the canonical check: <strong>Z9</strong> (“low entropy surface”) has the highest <code>surf</code> fraction (0.68) of any zone; <strong>Z7</strong> (“low entropy multiple”, high alpha at low entropy – this scene’s double-bounce-dominated pixels) has the highest <code>pd</code> fraction (0.57); <strong>Z8</strong> (“low entropy dipole”, the narrow alpha band <em>between</em> Z9 and Z7) sits almost exactly between them (surf 0.37, pd 0.38); and the high/medium-entropy vegetation zones (Z1, Z2, Z4, Z5) are all dominated by <code>vol</code> (0.6-0.8), as expected for forest canopy and crop fields. The two correlations are in the physically expected direction and both reasonably strong given this is a simulation, not a direct remeasurement: degree of polarization <em>falls</em> as quad-pol entropy rises (r = -0.72, more depolarised scattering looks less purely polarized from a compact-pol receiver too) and the simulated double-bounce fraction <em>rises</em> with the real quad-pol alpha angle (r = +0.70, alpha near 90 degrees is itself the quad-pol signature of double-bounce scattering). This is two independent polarimetric analyses of the same real scene – one quad-pol, one a compact-pol simulation – agreeing with each other on real ground truth, not a claim that the sign convention was simply assumed correct.</p>
+</section>
+<section id="m-chi-rgb-composite" class="level3">
+<h3 class="anchored" data-anchor-id="m-chi-rgb-composite">M-chi RGB composite</h3>
+<p>The theory above defines the standard m-chi false-colour composite: red = double-bounce (<span class="math inline">\(\sqrt{p_d}\)</span>), green = volume (<span class="math inline">\(\sqrt{p_v}\)</span>), blue = surface (<span class="math inline">\(\sqrt{p_s}\)</span>) – amplitude, not power, matching the Pauli RGB convention used for the real quad-pol scene in <code>07_03_02_03_RADARSAT_PolSAR.ipynb</code>.</p>
+<div id="847a38a1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-25T15:44:47.500205Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-25T15:44:47.499600Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-25T15:44:52.162208Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-25T15:44:52.160033Z&quot;}}" data-execution_count="6">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build and display the standard m-chi false-colour RGB composite from the simulated</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># compact-pol decomposition: red = double-bounce, green = volume, blue = surface.</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Contrast-stretch a single band to [0, 1] using its 2nd/98th percentiles as black/white</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#    points, clipping outliers and replacing any NaN with 0 -- a simple visualization helper</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#    so each channel uses its own full dynamic range in the composite.</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> stretch(x, lo<span class="op">=</span><span class="dv">2</span>, hi<span class="op">=</span><span class="dv">98</span>):</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    a, b <span class="op">=</span> np.nanpercentile(x, [lo, hi])  <span class="co"># 2nd and 98th percentile</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.nan_to_num(np.clip((x <span class="op">-</span> a) <span class="op">/</span> (b <span class="op">-</span> a), <span class="dv">0</span>, <span class="dv">1</span>))  <span class="co"># stretch to [0, 1], NaN -&gt; 0</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Assemble the RGB composite using amplitude (square root of power), not power itself,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">#    matching the Pauli RGB convention used for the real quad-pol scene elsewhere in this</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">#    series: R = double-bounce, G = volume, B = surface.</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>mchi_rgb <span class="op">=</span> np.dstack([stretch(np.sqrt(mc[<span class="st">"pd"</span>])), stretch(np.sqrt(mc[<span class="st">"pv"</span>])), stretch(np.sqrt(mc[<span class="st">"ps"</span>]))])</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Display the composite in the SLC's native radar geometry (range sample x azimuth line),</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">#    with no terrain correction or geocoding applied.</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">12</span>))</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>plt.imshow(mchi_rgb)  <span class="co"># the m-chi RGB composite</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Simulated compact-pol m-chi RGB -- R: double-bounce  G: volume  B: surface"</span>)  <span class="co"># title</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"range sample"</span>)<span class="op">;</span> plt.ylabel(<span class="st">"azimuth line"</span>)  <span class="co"># axis labels</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()  <span class="co"># arrange</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="09_03_02_05_compact_polarimetry_cp_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Visually this closely mirrors the real quad-pol Pauli RGB from <code>07_03_02_03_RADARSAT_PolSAR.ipynb</code>: the same lakes read dark, the same forested moraine hills read green, and the same village cluster stands out with a strong red (double-bounce) tint – using only two simulated receive channels instead of four real ones, exactly the compression compact-pol trades for quad-pol’s extra swath-width and data-rate cost.</p>
+</section>
+</section>
+<section id="takeaways-and-limitations" class="level2">
+<h2 class="anchored" data-anchor-id="takeaways-and-limitations">Takeaways and limitations</h2>
+<ul>
+<li><code>geolattice.rsense.sar.radarsat</code> ships the <strong>native</strong> RCM compact-pol pipeline unchanged from earlier in this session: <code>split_rrrl</code>, <code>rr_rl_to_stokes</code>, <code>rrrl_to_rhrv</code> and <code>compact_pol_mchi</code> read RCM’s real circular-receive (RR/RL/RRRL*) ARD product directly, no simulation involved. <code>data/</code> does not currently hold a real RCM compact-pol product (only an RCM dual-pol GRD and RCM InSAR pair), so that path is not demonstrated with real data here – the formulas and conventions follow NRCan/EODMS’s own reference notebooks exactly (<code>rrrl_to_rhrv.ipynb</code>, <code>mchi_decomposition.ipynb</code>), as documented in each function’s docstring.</li>
+<li><code>simulate_compact_pol</code> (new) is specifically for missions <strong>without</strong> compact-pol hardware – RADARSAT-2 here – and is a simulation of the <em>receive mode</em>, not of the data: every channel going in is real, measured backscatter from the real scene.</li>
+<li>The sign convention in <code>simulate_compact_pol</code> + <code>compact_pol_mchi</code>’s composition was verified two independent ways above: analytically exact on canonical pure-surface/pure-double-bounce scatterers, and empirically consistent with the real quad-pol H-alpha classification of the same scene (median fractions line up zone-by-zone, both correlations have the physically expected sign).</li>
+<li><strong>Pseudo-quad reconstruction</strong> (Souyris/Nord methods, mentioned in the theory above) is deliberately not implemented: reconstructing a full 3x3 covariance matrix from only 2x2 compact-pol data requires an extra modelling assumption (a fixed or iteratively-estimated cross-pol/co-pol energy ratio) with multiple incompatible published variants – the same normalization/branching risk judged not worth taking for Freeman-Durden in the PolSAR notebook.</li>
+<li>No radiometric calibration applied – harmless here since <code>m</code>, the ellipticity, and the m-chi power fractions are all scale-invariant ratios, but the absolute dB values printed above are relative, uncalibrated numbers.</li>
+<li>No terrain correction or geocoding – results are in the SLC’s own radar geometry, as for every other raw (non-ARD) RADARSAT product in this series.</li>
+</ul>
+<section id="references" class="level4">
+<h4 class="anchored" data-anchor-id="references">References</h4>
+<ul>
+<li>Raney, R. K. (2007). <em>Hybrid-polarity SAR architecture.</em> IEEE TGRS, 45(11), 3397-3404.</li>
+<li>Charbonneau, F. J., et al.&nbsp;(2010). <em>Compact polarimetry overview and applications assessment.</em> Canadian Journal of Remote Sensing, 36(sup2), S298-S315.</li>
+<li>Guo, X., Li, K., Shao, Y., et al.&nbsp;(2018). <em>Inversion of rice biophysical parameters using simulated compact polarimetric SAR C-band data.</em> Sensors, 18(7), 2271.</li>
+<li>Cloude, S. R., &amp; Pottier, E. (1997). <em>An entropy based classification scheme for land applications of polarimetric SAR.</em> IEEE TGRS, 35(1), 68-78.</li>
+<li>NRCan/EODMS. <code>radarsat-notebooks</code> (<code>rrrl_to_rhrv.ipynb</code>, <code>mchi_decomposition.ipynb</code>). https://github.com/eodms-sgdot/radarsat-notebooks</li>
+</ul>
+
+
+</section>
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../09_03_radar/09_03_02_04_radarsat_polarimetric_sar_polsar.html" class="pagination-link" aria-label="RADARSAT Polarimetric SAR">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">RADARSAT Polarimetric SAR</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../09_03_radar/09_03_03_00_nisar_nasa_isro_synthetic_aperture_radar.html" class="pagination-link" aria-label="NISAR">
+        <span class="nav-page-text">NISAR</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

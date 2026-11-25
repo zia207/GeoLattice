@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:2000px;height:500px;overflow:hidden}
+body{font-family:'Plus Jakarta Sans',sans-serif;position:relative;
+ background:linear-gradient(105deg,#1b3a8a 0%,#21479e 45%,#2552ab 100%);color:#fff}
+.grid{position:absolute;inset:0;
+ background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px),
+ linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+ background-size:80px 80px,80px 80px,20px 20px,20px 20px}
+.bar{position:absolute;left:0;top:0;bottom:0;width:14px;background:#f5c518}
+.bignum{position:absolute;left:1120px;top:60px;font-size:520px;font-weight:800;line-height:1;color:rgba(255,255,255,.04)}
+.logo{position:absolute;left:80px;top:68px;width:68px;height:68px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center}
+.logo img{width:58px;height:58px;border-radius:50%}
+.part{position:absolute;left:172px;top:88px;font-size:22px;font-weight:800;letter-spacing:.24em;color:#f5c518}
+h1{position:absolute;left:80px;top:160px;font-size:78px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.sub{position:absolute;left:80px;top:262px;font-size:29px;font-weight:500;color:#dbe6ff}
+.chips{position:absolute;left:80px;top:323px;display:flex;gap:13px}
+.chip{border:2px solid rgba(255,255,255,.28);background:rgba(255,255,255,.07);border-radius:24px;padding:8px 18px;font-size:20.5px;font-weight:600;white-space:nowrap}
+.foot{position:absolute;left:80px;top:453px;font-size:17px;font-weight:700;letter-spacing:.2em;color:rgba(219,230,255,.55)}
+.panel{position:absolute;left:1280px;top:40px;width:656px;height:384px;border:2px solid rgba(140,175,255,.5);border-radius:18px;background:rgba(18,40,110,.55);overflow:hidden}
+.cap{position:absolute;left:1280px;width:656px;top:434px;text-align:center;font-size:18px;font-weight:600;color:#b9ccff}
+</style></head><body>
+<div class="grid"></div><div class="bar"></div>
+<div class="bignum">3</div>
+<div class="logo"><img src="../../geolattice_logo.png"></div>
+<div class="part">MODULE 3 · 8 TOPICS</div>
+<h1>Spatial Analysis</h1>
+<div class="sub">From overlay to cause and effect: terrain, cubes, suitability, networks and more</div>
+<div class="chips">
+ <div class="chip">Terrain · hydrology</div>
+ <div class="chip">Data cubes</div>
+ <div class="chip">Suitability</div>
+ <div class="chip">Networks</div>
+ <div class="chip">Segregation</div>
+ <div class="chip">Causal</div>
+</div>
+<div class="foot">SPATIAL ANALYSIS WITH GEOLATTICE · UPATTA ANALYTICS</div>
+
+<div class="panel">
+<svg width="656" height="384" viewBox="0 0 656 384" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="1"/></pattern>
+  <radialGradient id="hot" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#f5c518" stop-opacity=".55"/><stop offset="1" stop-color="#f5c518" stop-opacity="0"/></radialGradient>
+ </defs>
+ <rect width="656" height="384" fill="url(#g)"/>
+ <!-- terrain contours -->
+ <g fill="none" stroke="#7f9fee" stroke-width="2" opacity=".75">
+  <path d="M110 190c0-70 60-120 130-118s120 50 118 112-60 110-130 108-118-34-118-102z"/>
+  <path d="M150 188c0-46 40-80 88-79s82 34 80 76-40 74-88 72-80-22-80-69z"/>
+  <path d="M190 186c0-24 22-42 48-41s44 18 43 40-22 39-47 38-44-12-44-37z"/>
+ </g>
+ <circle cx="236" cy="186" r="5" fill="#9ab7ff"/>
+ <text x="196" y="138" fill="#c9d8ff" font-family="Plus Jakarta Sans" font-weight="700" font-size="17">terrain</text>
+ <!-- stream -->
+ <path d="M236 186c-20 40-70 70-90 120s-20 50-40 78" fill="none" stroke="#5fc6ff" stroke-width="3" stroke-linecap="round"/>
+ <!-- suitability raster -->
+ <g transform="translate(470 24)">
+  <g opacity=".95">
+   <rect x="0" y="0" width="36" height="36" fill="#f5c518"/><rect x="38" y="0" width="36" height="36" fill="#f5c518"/><rect x="76" y="0" width="36" height="36" fill="#9ab7ff"/><rect x="114" y="0" width="36" height="36" fill="#4f7de0"/>
+   <rect x="0" y="38" width="36" height="36" fill="#f5c518"/><rect x="38" y="38" width="36" height="36" fill="#9ab7ff"/><rect x="76" y="38" width="36" height="36" fill="#4f7de0"/><rect x="114" y="38" width="36" height="36" fill="#2b4fa8"/>
+   <rect x="0" y="76" width="36" height="36" fill="#9ab7ff"/><rect x="38" y="76" width="36" height="36" fill="#4f7de0"/><rect x="76" y="76" width="36" height="36" fill="#2b4fa8"/><rect x="114" y="76" width="36" height="36" fill="#2b4fa8"/>
+  </g>
+  <text x="0" y="136" fill="#c9d8ff" font-family="Plus Jakarta Sans" font-weight="700" font-size="17">suitability</text>
+ </g>
+ <!-- network -->
+ <g stroke="#dbe6ff" stroke-width="2.5" opacity=".9">
+  <line x1="350" y1="250" x2="440" y2="200"/><line x1="440" y1="200" x2="540" y2="230"/><line x1="540" y1="230" x2="610" y2="300"/>
+  <line x1="350" y1="250" x2="420" y2="330"/><line x1="420" y1="330" x2="540" y2="230"/><line x1="420" y1="330" x2="530" y2="350"/><line x1="530" y1="350" x2="610" y2="300"/>
+ </g>
+ <path d="M350 250L420 330L530 350L610 300" fill="none" stroke="#f5c518" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+ <g fill="#ffffff" stroke="#1b3a8a" stroke-width="2.5">
+  <circle cx="440" cy="200" r="8"/><circle cx="540" cy="230" r="8"/><circle cx="420" cy="330" r="8"/><circle cx="530" cy="350" r="8"/>
+ </g>
+ <circle cx="350" cy="250" r="11" fill="#f5c518" stroke="#1b3a8a" stroke-width="3"/>
+ <circle cx="610" cy="300" r="11" fill="#f5c518" stroke="#1b3a8a" stroke-width="3"/>
+ <text x="556" y="196" fill="#c9d8ff" font-family="Plus Jakarta Sans" font-weight="700" font-size="17">network</text>
+ <!-- service area buffer -->
+ <circle cx="350" cy="250" r="56" fill="rgba(245,197,24,.08)" stroke="#f5c518" stroke-width="2" stroke-dasharray="6 6"/>
+ <!-- hotspot / segregation points -->
+ <circle cx="96" cy="70" r="46" fill="url(#hot)"/>
+ <g fill="#f5c518"><circle cx="86" cy="62" r="5"/><circle cx="104" cy="78" r="5"/><circle cx="96" cy="58" r="5"/><circle cx="78" cy="80" r="5"/></g>
+ <g fill="#9ab7ff"><circle cx="40" cy="120" r="5"/><circle cx="58" cy="40" r="5"/><circle cx="140" cy="44" r="5"/><circle cx="34" cy="70" r="5"/><circle cx="150" cy="100" r="5"/></g>
+ <text x="40" y="24" fill="#c9d8ff" font-family="Plus Jakarta Sans" font-weight="700" font-size="17">clusters</text>
+ <!-- causal arrow -->
+ <g transform="translate(40 318)">
+  <rect x="0" y="0" width="34" height="34" rx="8" fill="none" stroke="#9ab7ff" stroke-width="2.5"/>
+  <text x="17" y="23" text-anchor="middle" fill="#dbe6ff" font-family="Plus Jakarta Sans" font-weight="800" font-size="16">T</text>
+  <path d="M40 17h52" stroke="#f5c518" stroke-width="3"/><path d="M92 10l12 7-12 7z" fill="#f5c518"/>
+  <rect x="110" y="0" width="34" height="34" rx="8" fill="none" stroke="#9ab7ff" stroke-width="2.5"/>
+  <text x="127" y="23" text-anchor="middle" fill="#dbe6ff" font-family="Plus Jakarta Sans" font-weight="800" font-size="16">Y</text>
+ </g>
+</svg>
+</div>
+<div class="cap">overlay · terrain · cubes · suitability · networks · causality</div>
+</body></html>

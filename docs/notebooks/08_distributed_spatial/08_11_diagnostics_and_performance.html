@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>diagnostics_and_performance – GeoLattice: Distributed Spatial Computing</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./08_12_capstone_great_plains_soil_carbon_and_cropland.html" rel="next">
+<link href="./08_10_apache_sedona.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GeoLattice: Distributed Spatial Computing</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
+        <li class="dropdown-header">Foundations</li>
+        <li>
+    <a class="dropdown-item" href="./08_00_distributed_spatial_computing_fundamentals.html">
+ <span class="dropdown-text">Fundamentals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_01_sessions_and_clusters.html">
+ <span class="dropdown-text">Sessions and Clusters</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_02_distributed_input_and_output.html">
+ <span class="dropdown-text">Parallel Input and Output</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Processing at Scale</li>
+        <li>
+    <a class="dropdown-item" href="./08_03_raster_processing_at_scale.html">
+ <span class="dropdown-text">Rasters at Scale</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_04_vector_processing_at_scale.html">
+ <span class="dropdown-text">Vectors at Scale</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_05_rasters_and_vectors_together.html">
+ <span class="dropdown-text">Rasters and Vectors Together</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_06_spatial_statistics_and_clustering.html">
+ <span class="dropdown-text">Spatial Statistics and Clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_07_networks.html">
+ <span class="dropdown-text">Networks</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_08_hydrology.html">
+ <span class="dropdown-text">Hydrology</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Models, Spark and Tuning</li>
+        <li>
+    <a class="dropdown-item" href="./08_09_machine_learning.html">
+ <span class="dropdown-text">Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_10_apache_sedona.html">
+ <span class="dropdown-text">Apache Sedona</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_11_diagnostics_and_performance.html">
+ <span class="dropdown-text">Diagnostics and Performance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_12_capstone_great_plains_soil_carbon_and_cropland.html">
+ <span class="dropdown-text">Capstone: Great Plains Soil Carbon</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08_09_machine_learning.html"><strong>Models, Spark and Tuning</strong></a></li><li class="breadcrumb-item"><a href="./08_11_diagnostics_and_performance.html">Diagnostics and Performance</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08_09_machine_learning.html"><strong>Models, Spark and Tuning</strong></a></li><li class="breadcrumb-item"><a href="./08_11_diagnostics_and_performance.html">Diagnostics and Performance</a></li></ol></nav></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Foundations</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_00_distributed_spatial_computing_fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_01_sessions_and_clusters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sessions and Clusters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_02_distributed_input_and_output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parallel Input and Output</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Processing at Scale</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_03_raster_processing_at_scale.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rasters at Scale</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_04_vector_processing_at_scale.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vectors at Scale</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_05_rasters_and_vectors_together.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rasters and Vectors Together</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_06_spatial_statistics_and_clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial Statistics and Clustering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_07_networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Networks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_08_hydrology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hydrology</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Models, Spark and Tuning</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_09_machine_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine Learning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_10_apache_sedona.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apache Sedona</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_11_diagnostics_and_performance.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Diagnostics and Performance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_12_capstone_great_plains_soil_carbon_and_cropland.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capstone: Great Plains Soil Carbon</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#measuring-checking-and-tuning-distributed-and-gpu-workloads" id="toc-measuring-checking-and-tuning-distributed-and-gpu-workloads" class="nav-link active" data-scroll-target="#measuring-checking-and-tuning-distributed-and-gpu-workloads">Measuring, Checking and Tuning Distributed and GPU Workloads</a>
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a>
+  <ul class="collapse">
+  <li><a href="#correctness-first" id="toc-correctness-first" class="nav-link" data-scroll-target="#correctness-first">Correctness first</a></li>
+  <li><a href="#timing-correctly" id="toc-timing-correctly" class="nav-link" data-scroll-target="#timing-correctly">Timing correctly</a></li>
+  <li><a href="#strong-and-weak-scaling" id="toc-strong-and-weak-scaling" class="nav-link" data-scroll-target="#strong-and-weak-scaling">Strong and weak scaling</a></li>
+  <li><a href="#overheads-that-eat-speed-ups" id="toc-overheads-that-eat-speed-ups" class="nav-link" data-scroll-target="#overheads-that-eat-speed-ups">Overheads that eat speed-ups</a></li>
+  </ul></li>
+  <li><a href="#diagnostics-with-geolattice" id="toc-diagnostics-with-geolattice" class="nav-link" data-scroll-target="#diagnostics-with-geolattice">Diagnostics with GeoLattice</a>
+  <ul class="collapse">
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#contents" id="toc-contents" class="nav-link" data-scroll-target="#contents">Contents</a></li>
+  </ul></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#cpu-and-gpu-agree-one-check-per-operation" id="toc-cpu-and-gpu-agree-one-check-per-operation" class="nav-link" data-scroll-target="#cpu-and-gpu-agree-one-check-per-operation">CPU and GPU agree: one check per operation</a></li>
+  <li><a href="#benchmarks-done-right" id="toc-benchmarks-done-right" class="nav-link" data-scroll-target="#benchmarks-done-right">Benchmarks done right</a></li>
+  <li><a href="#strong-and-weak-scaling-1" id="toc-strong-and-weak-scaling-1" class="nav-link" data-scroll-target="#strong-and-weak-scaling-1">Strong and weak scaling</a></li>
+  <li><a href="#where-the-time-goes-profiling" id="toc-where-the-time-goes-profiling" class="nav-link" data-scroll-target="#where-the-time-goes-profiling">Where the time goes: profiling</a></li>
+  <li><a href="#seven-pitfalls-reproduced-and-fixed" id="toc-seven-pitfalls-reproduced-and-fixed" class="nav-link" data-scroll-target="#seven-pitfalls-reproduced-and-fixed">Seven pitfalls, reproduced and fixed</a>
+  <ul class="collapse">
+  <li><a href="#computing-the-same-graph-twice" id="toc-computing-the-same-graph-twice" class="nav-link" data-scroll-target="#computing-the-same-graph-twice">1. Computing the same graph twice</a></li>
+  <li><a href="#tiny-chunks" id="toc-tiny-chunks" class="nav-link" data-scroll-target="#tiny-chunks">2. Tiny chunks</a></li>
+  <li><a href="#moving-data-to-the-host-between-gpu-steps" id="toc-moving-data-to-the-host-between-gpu-steps" class="nav-link" data-scroll-target="#moving-data-to-the-host-between-gpu-steps">3. Moving data to the host between GPU steps</a></li>
+  <li><a href="#reading-a-gpu-result-with-numpy" id="toc-reading-a-gpu-result-with-numpy" class="nav-link" data-scroll-target="#reading-a-gpu-result-with-numpy">4. Reading a GPU result with NumPy</a></li>
+  <li><a href="#computeauto-on-a-machine-with-a-gpu" id="toc-computeauto-on-a-machine-with-a-gpu" class="nav-link" data-scroll-target="#computeauto-on-a-machine-with-a-gpu">5. <code>compute="auto"</code> on a machine with a GPU</a></li>
+  <li><a href="#importing-cudf-or-cuml-changes-cupys-memory-allocator" id="toc-importing-cudf-or-cuml-changes-cupys-memory-allocator" class="nav-link" data-scroll-target="#importing-cudf-or-cuml-changes-cupys-memory-allocator">6. Importing cuDF or cuML changes CuPy’s memory allocator</a></li>
+  <li><a href="#worker-memory-limits-gdals-cache-and-spilling" id="toc-worker-memory-limits-gdals-cache-and-spilling" class="nav-link" data-scroll-target="#worker-memory-limits-gdals-cache-and-spilling">7. Worker memory limits, GDAL’s cache and spilling</a></li>
+  </ul></li>
+  <li><a href="#summary-and-exercises" id="toc-summary-and-exercises" class="nav-link" data-scroll-target="#summary-and-exercises">Summary and exercises</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/09_distributed_spatial_datas.png" class="img-fluid figure-img"></p>
+<figcaption>Banner</figcaption>
+</figure>
+</div>
+<section id="measuring-checking-and-tuning-distributed-and-gpu-workloads" class="level1">
+<h1>Measuring, Checking and Tuning Distributed and GPU Workloads</h1>
+<p>A fast wrong answer is worse than a slow right one, and a “speed-up” measured badly is neither. This notebook collects the habits that kept the rest of the chapter honest: checking that CPU and GPU give the same answer, timing what actually happens (including the GPU’s asynchronous queue and Dask’s laziness), measuring strong and weak scaling, finding where the time goes with a profiler, and recognising the common mistakes. Every pitfall in the last section actually happened while this chapter was written, and each is reproduced and fixed with <code>geolattice.distributed.diagnostics</code>.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<section id="correctness-first" class="level3">
+<h3 class="anchored" data-anchor-id="correctness-first">Correctness first</h3>
+<p>GPU kernels, chunked algorithms and parallel reductions all compute in a different order from the plain whole-array version, so results can differ by rounding, and bugs show up at chunk edges, at NaN values or with unusual geometries. Every operation should be checked against a reference on real data before it is trusted at scale: exactly for integers and geometries, within a tolerance for floating point.</p>
+</section>
+<section id="timing-correctly" class="level3">
+<h3 class="anchored" data-anchor-id="timing-correctly">Timing correctly</h3>
+<ul>
+<li><strong>Laziness</strong>: a Dask call returns at once; time the <code>.compute()</code> (or the write) instead.</li>
+<li><strong>GPU queues</strong>: CuPy launches kernels asynchronously; synchronise the device before stopping the clock.</li>
+<li><strong>Warm-up</strong>: the first call compiles kernels, fills caches and loads files into the page cache; time later calls, or report the first separately.</li>
+<li><strong>Repeats</strong>: report the best or the median of several runs.</li>
+</ul>
+</section>
+<section id="strong-and-weak-scaling" class="level3">
+<h3 class="anchored" data-anchor-id="strong-and-weak-scaling">Strong and weak scaling</h3>
+<ul>
+<li><strong>Strong scaling</strong>: fixed problem, more workers. Ideal: time falls as <code>1/n</code>; Amdahl’s law (notebook 00) describes the shortfall.</li>
+<li><strong>Weak scaling</strong>: problem grows with the workers. Ideal: constant time. Weak scaling is what matters when the reason for more workers is more data.</li>
+</ul>
+</section>
+<section id="overheads-that-eat-speed-ups" class="level3">
+<h3 class="anchored" data-anchor-id="overheads-that-eat-speed-ups">Overheads that eat speed-ups</h3>
+<p>Task scheduling (about a millisecond per task on a cluster), serialization between processes, host-to-device copies over PCIe, Python code that holds the GIL, and reading the same data twice.</p>
+</section>
+</section>
+<section id="diagnostics-with-geolattice" class="level2">
+<h2 class="anchored" data-anchor-id="diagnostics-with-geolattice">Diagnostics with GeoLattice</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pdist.check_equivalence(func, *args, rtol=, atol=)</code></td>
+<td>runs <code>func</code> with <code>compute="cpu"</code> and <code>"gpu"</code> and compares arrays, DataArrays, tables, GeoDataFrames and result objects</td>
+</tr>
+<tr class="even">
+<td><code>pdist.benchmark(func, *args, computes=, repeats=, warmup=)</code></td>
+<td>best, mean and spread of the run time per target, lazy results materialised and the GPU synchronised</td>
+</tr>
+<tr class="odd">
+<td><code>pdist.explain(op, compute=)</code></td>
+<td>which implementation an operation would use, and why</td>
+</tr>
+<tr class="even">
+<td><code>pdist.memory_report()</code></td>
+<td>host, process, GPU and worker memory</td>
+</tr>
+<tr class="odd">
+<td><code>pdist.profile(func, *args, path=)</code></td>
+<td>a per-task timing table (local scheduler) or a Dask performance report in HTML (with a session)</td>
+</tr>
+</tbody>
+</table>
+<section id="learning-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
+<ol type="1">
+<li>Check every GPU implementation used in the chapter against the CPU on real data.</li>
+<li>Time lazy and GPU computations correctly with <code>pdist.benchmark</code>.</li>
+<li>Measure strong and weak scaling and interpret them.</li>
+<li>Profile a computation and find its most expensive tasks.</li>
+<li>Recognise and fix seven common pitfalls.</li>
+</ol>
+</section>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dataset</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Great Plains DEM and counties</td>
+<td>90 m DEM (262 million pixels); 225 counties</td>
+</tr>
+<tr class="even">
+<td>Kansas buildings</td>
+<td>1.6 million footprints</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="contents" class="level3">
+<h3 class="anchored" data-anchor-id="contents">Contents</h3>
+<ul>
+<li>Setup</li>
+<li>CPU and GPU agree: one check per operation</li>
+<li>Benchmarks done right</li>
+<li>Strong and weak scaling</li>
+<li>Where the time goes: profiling</li>
+<li>Seven pitfalls, reproduced and fixed</li>
+<li>Summary and exercises</li>
+</ul>
+</section>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<div id="62588043" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T14:52:14.175099Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T14:52:14.174766Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T14:52:22.309489Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T14:52:22.308510Z&quot;}}" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings  <span class="co"># warning control</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)  <span class="co"># hide routine library warnings</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os  <span class="co"># environment and CPU count</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time  <span class="co"># wall-clock timing</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path  <span class="co"># file paths</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt  <span class="co"># figures</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np  <span class="co"># arrays</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd  <span class="co"># tables</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd  <span class="co"># vector data</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr  <span class="co"># labelled rasters</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice  <span class="co"># GeoLattice</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.distributed <span class="im">as</span> pdist  <span class="co"># distributed and GPU spatial computing</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dist_data <span class="im">as</span> dd  <span class="co"># chapter helper: paths, cached downloads, timers</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">"figure.dpi"</span>: <span class="dv">110</span>})  <span class="co"># figure resolution</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">"display.width"</span>, <span class="dv">140</span>)  <span class="co"># wider printed tables</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>OUT <span class="op">=</span> Path(<span class="st">"outputs"</span>)  <span class="co"># results and scratch files written by this chapter</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>OUT.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)  <span class="co"># create it if needed</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>caps <span class="op">=</span> pdist.capabilities()  <span class="co"># engines and GPUs on this machine</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"GeoLattice"</span>, geolattice.__version__, <span class="st">"|"</span>, os.cpu_count(), <span class="st">"CPU cores |"</span>, caps[<span class="st">"gpus"</span>], <span class="st">"GPU(s)"</span>,  <span class="co"># versions</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"(</span><span class="sc">{</span>caps<span class="sc">.</span>get(<span class="st">'gpu_memory_total'</span>, <span class="dv">0</span>) <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.0f}</span><span class="ss"> GB)"</span> <span class="cf">if</span> caps[<span class="st">"gpus"</span>] <span class="cf">else</span> <span class="st">""</span>)  <span class="co"># GPU memory</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dask  <span class="co"># Dask configuration</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dask.array <span class="im">as</span> da  <span class="co"># chunked arrays</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sync():  <span class="co"># wait for queued GPU work</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># only with a GPU</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        <span class="im">import</span> cupy <span class="im">as</span> cp  <span class="co"># GPU arrays</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        cp.cuda.Device().synchronize()  <span class="co"># block until done</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>dem <span class="op">=</span> dd.gp_raster(<span class="st">"elev"</span>).compute()  <span class="co"># the DEM in memory</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>win <span class="op">=</span> dem[<span class="dv">6000</span>:<span class="dv">8048</span>, <span class="dv">6000</span>:<span class="dv">8048</span>].fillna(<span class="dv">0</span>)  <span class="co"># a 2048 x 2048 window</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>counties <span class="op">=</span> dd.gp_counties()  <span class="co"># 225 counties</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>bld <span class="op">=</span> pdist.vector.to_crs(dd.kansas_buildings(), <span class="dv">5070</span>)  <span class="co"># 1.6 million buildings</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>pts <span class="op">=</span> bld.set_geometry(bld.geometry.representative_point())  <span class="co"># one point per building</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>ks <span class="op">=</span> counties[counties.state <span class="op">==</span> <span class="st">"KS"</span>][[<span class="st">"FIPS"</span>, <span class="st">"geometry"</span>]]  <span class="co"># Kansas counties</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>GeoLattice 0.3.49 | 24 CPU cores | 1 GPU(s) (17 GB)</code></pre>
+</div>
+</div>
+</section>
+<section id="cpu-and-gpu-agree-one-check-per-operation" class="level2">
+<h2 class="anchored" data-anchor-id="cpu-and-gpu-agree-one-check-per-operation">CPU and GPU agree: one check per operation</h2>
+<p><code>pdist.check_equivalence</code> runs a function on both targets and compares everything it returns. The table covers every operation with a GPU implementation used in this chapter, each on real data.</p>
+<div id="a3870a5c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T14:52:22.312163Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T14:52:22.311885Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T14:52:42.749362Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T14:52:42.748692Z&quot;}}" data-execution_count="2">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>s200 <span class="op">=</span> pts.sample(<span class="dv">20_000</span>, random_state<span class="op">=</span><span class="dv">0</span>)  <span class="co"># a sample for the point statistics</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>w8 <span class="op">=</span> pdist.analysis.weights(s200, <span class="st">"knn"</span>, k<span class="op">=</span><span class="dv">8</span>)  <span class="co"># weights for the statistics</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>y8 <span class="op">=</span> np.log(pdist.vector.area(bld.loc[s200.index])).values  <span class="co"># log building area</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> xr.DataArray(np.zeros((<span class="dv">300</span>, <span class="dv">300</span>), np.float32), dims<span class="op">=</span>(<span class="st">"y"</span>, <span class="st">"x"</span>),  <span class="co"># 1 km template around Wichita</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                    coords<span class="op">=</span>{<span class="st">"y"</span>: <span class="dv">1_640_000</span> <span class="op">-</span> <span class="dv">500</span> <span class="op">-</span> <span class="dv">1000</span> <span class="op">*</span> np.arange(<span class="dv">300</span>), <span class="st">"x"</span>: <span class="op">-</span><span class="dv">250_000</span> <span class="op">+</span> <span class="dv">500</span> <span class="op">+</span> <span class="dv">1000</span> <span class="op">*</span> np.arange(<span class="dv">300</span>)}).rio.write_crs(<span class="dv">5070</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>checks <span class="op">=</span> {  <span class="co"># name: (function, arguments, keyword arguments)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"raster.slope"</span>: (pdist.raster.slope, (win,), {}),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"raster.hillshade"</span>: (pdist.raster.hillshade, (win,), {}),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"raster.curvature"</span>: (pdist.raster.curvature, (win,), {}),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"raster.focal median 9"</span>: (pdist.raster.focal, (win, <span class="st">"median"</span>), {<span class="st">"size"</span>: <span class="dv">9</span>}),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"raster.focal std 9"</span>: (pdist.raster.focal, (win, <span class="st">"std"</span>), {<span class="st">"size"</span>: <span class="dv">9</span>}),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"raster.reclassify"</span>: (pdist.raster.reclassify, (win,), {<span class="st">"bins"</span>: [<span class="dv">500</span>, <span class="dv">1000</span>, <span class="dv">1500</span>]}),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hydrology.flow_direction"</span>: (pdist.hydrology.flow_direction, (win,), {}),</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"vector.area"</span>: (pdist.vector.area, (bld.iloc[:<span class="dv">200_000</span>],), {}),</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"vector.bounds"</span>: (pdist.vector.bounds, (bld.iloc[:<span class="dv">200_000</span>],), {}),</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"vector.sjoin points in counties"</span>: (pdist.vector.sjoin, (pts, ks), {<span class="st">"predicate"</span>: <span class="st">"within"</span>}),</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"vector.knn k=5"</span>: (pdist.vector.knn, (s200,), {<span class="st">"k"</span>: <span class="dv">5</span>}),</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bridge.zonal_stats"</span>: (pdist.zonal_stats, (counties, dd.gp_raster(<span class="st">"ndvi"</span>)), {<span class="st">"stats"</span>: [<span class="st">"count"</span>, <span class="st">"mean"</span>, <span class="st">"std"</span>]}),</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bridge.extract_values"</span>: (pdist.extract_values, (dd.gp_points(), dd.gp_raster(<span class="st">"preci"</span>)), {}),</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bridge.rasterize"</span>: (pdist.rasterize, (counties, dd.gp_raster(<span class="st">"elev"</span>)[::<span class="dv">10</span>, ::<span class="dv">10</span>].compute()), {<span class="st">"column"</span>: <span class="st">"x"</span>}),</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"analysis.morans_i"</span>: (pdist.analysis.morans_i, (y8, w8), {<span class="st">"permutations"</span>: <span class="dv">0</span>}),</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"analysis.getis_ord_local"</span>: (pdist.analysis.getis_ord_local, (y8, w8), {}),</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"analysis.kde"</span>: (pdist.analysis.kde, (s200, grid), {<span class="st">"bandwidth"</span>: <span class="dv">3000</span>}),</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []  <span class="co"># one row per check</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, (fn, args, kw) <span class="kw">in</span> checks.items():  <span class="co"># each operation</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    tol <span class="op">=</span> <span class="bu">dict</span>(rtol<span class="op">=</span><span class="fl">1e-4</span>, atol<span class="op">=</span><span class="fl">1e-3</span>) <span class="cf">if</span> name.startswith((<span class="st">"raster"</span>, <span class="st">"analysis.kde"</span>)) <span class="cf">else</span> <span class="bu">dict</span>(rtol<span class="op">=</span><span class="fl">1e-6</span>, atol<span class="op">=</span><span class="fl">1e-3</span>)  <span class="co"># float32 rasters; float64 tables (areas in m2)</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    rep <span class="op">=</span> pdist.check_equivalence(fn, <span class="op">*</span>args, <span class="op">**</span>tol, <span class="op">**</span>kw)  <span class="co"># CPU vs GPU</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"operation"</span>: name, <span class="st">"equivalent"</span>: rep.ok, <span class="st">"largest |GPU - CPU|"</span>: rep.max_abs, <span class="st">"parts compared"</span>: <span class="bu">len</span>(rep.details)})  <span class="co"># row</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> pd.DataFrame(rows).set_index(<span class="st">"operation"</span>)  <span class="co"># table</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"all equivalent:"</span>, <span class="bu">bool</span>(eq.equivalent.<span class="bu">all</span>()))  <span class="co"># verdict</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>eq  <span class="co"># show</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>all equivalent: True</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">equivalent</th>
+<th data-quarto-table-cell-role="th">largest |GPU - CPU|</th>
+<th data-quarto-table-cell-role="th">parts compared</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">operation</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">raster.slope</th>
+<td>True</td>
+<td>1.525879e-05</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">raster.hillshade</th>
+<td>True</td>
+<td>6.405947e-05</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">raster.curvature</th>
+<td>True</td>
+<td>0.000000e+00</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">raster.focal median 9</th>
+<td>True</td>
+<td>0.000000e+00</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">raster.focal std 9</th>
+<td>True</td>
+<td>3.066417e-05</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">raster.reclassify</th>
+<td>True</td>
+<td>0.000000e+00</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">hydrology.flow_direction</th>
+<td>True</td>
+<td>0.000000e+00</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">vector.area</th>
+<td>True</td>
+<td>3.866876e-04</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">vector.bounds</th>
+<td>True</td>
+<td>0.000000e+00</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">vector.sjoin points in counties</th>
+<td>True</td>
+<td>0.000000e+00</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">vector.knn k=5</th>
+<td>True</td>
+<td>0.000000e+00</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">bridge.zonal_stats</th>
+<td>True</td>
+<td>3.020570e-13</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">bridge.extract_values</th>
+<td>True</td>
+<td>0.000000e+00</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">bridge.rasterize</th>
+<td>True</td>
+<td>0.000000e+00</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">analysis.morans_i</th>
+<td>True</td>
+<td>1.421085e-14</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">analysis.getis_ord_local</th>
+<td>True</td>
+<td>0.000000e+00</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">analysis.kde</th>
+<td>True</td>
+<td>6.776264e-21</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Every operation passed. Integer and geometry outputs (flow direction, reclassification, join pairs, neighbour indices) were identical; floating point outputs differed by rounding at most. Statistics with permutations are compared without them here, since the two targets draw different random numbers.</p>
+</section>
+<section id="benchmarks-done-right" class="level2">
+<h2 class="anchored" data-anchor-id="benchmarks-done-right">Benchmarks done right</h2>
+<p>The cell below times the terrain ruggedness index (TRI, not used earlier in this notebook) on the GPU in three misleading ways, then with <code>pdist.benchmark</code>.</p>
+<div id="610a7127" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T14:52:42.751050Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T14:52:42.750943Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T14:52:43.304365Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T14:52:43.303902Z&quot;}}" data-execution_count="3">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># needs a GPU</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    g <span class="op">=</span> pdist.to_gpu(win)  <span class="co"># data on the device</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> time.perf_counter()<span class="op">;</span> r <span class="op">=</span> pdist.raster.tri(g)<span class="op">;</span> sync()<span class="op">;</span> wrong1 <span class="op">=</span> time.perf_counter() <span class="op">-</span> t  <span class="co"># first call of TRI: includes kernel compilation</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> time.perf_counter()<span class="op">;</span> r <span class="op">=</span> pdist.raster.tri(g)<span class="op">;</span> wrong2_launch <span class="op">=</span> time.perf_counter() <span class="op">-</span> t  <span class="co"># no sync: may return before the kernels finish</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> time.perf_counter()<span class="op">;</span> lz <span class="op">=</span> pdist.raster.tri(dd.gp_raster(<span class="st">"elev"</span>))<span class="op">;</span> wrong3 <span class="op">=</span> time.perf_counter() <span class="op">-</span> t  <span class="co"># lazy: nothing ran</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    bench <span class="op">=</span> pdist.benchmark(pdist.raster.tri, win, computes<span class="op">=</span>(<span class="st">"cpu"</span>, <span class="st">"gpu"</span>), repeats<span class="op">=</span><span class="dv">5</span>, warmup<span class="op">=</span><span class="dv">1</span>)  <span class="co"># warm-up, repeats, sync</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"first call </span><span class="sc">{</span>wrong1 <span class="op">*</span> <span class="dv">1000</span><span class="sc">:.0f}</span><span class="ss"> ms | unsynchronised </span><span class="sc">{</span>wrong2_launch <span class="op">*</span> <span class="dv">1000</span><span class="sc">:.1f}</span><span class="ss"> ms | lazy call </span><span class="sc">{</span>wrong3 <span class="op">*</span> <span class="dv">1000</span><span class="sc">:.1f}</span><span class="ss"> ms"</span>)  <span class="co"># misleading numbers</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(bench.<span class="bu">round</span>(<span class="dv">4</span>).to_string())  <span class="co"># the right numbers</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>first call 15 ms | unsynchronised 10.8 ms | lazy call 16.2 ms
+         best_s  mean_s   std_s  repeats  speedup
+compute                                          
+cpu      0.0555  0.0606  0.0043        5   1.0000
+gpu      0.0188  0.0242  0.0033        5   2.9515</code></pre>
+</div>
+</div>
+<p>The first call is the slowest because CuPy compiles TRI’s kernels then; an unsynchronised call can stop the clock before the queued kernels have finished (here the Dask machinery around each call dominates, so the error is small); and the lazy call measured only building a task graph for the whole DEM, not computing it. <code>pdist.benchmark</code> avoids all three: it runs a warm-up, materialises lazy results, synchronises the GPU and repeats.</p>
+</section>
+<section id="strong-and-weak-scaling-1" class="level2">
+<h2 class="anchored" data-anchor-id="strong-and-weak-scaling-1">Strong and weak scaling</h2>
+<p>Strong scaling: slope of the full DEM, zonal statistics of NDVI by county and the point-in-county join, each with 1 to 24 threads. Weak scaling: slope with the DEM window growing in proportion to the threads, so each thread always has about 11 million pixels.</p>
+<div id="7376f086" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T14:52:43.306410Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T14:52:43.306319Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T14:54:46.843012Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T14:54:46.842078Z&quot;}}" data-execution_count="4">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ndvi <span class="op">=</span> dd.gp_raster(<span class="st">"ndvi"</span>).compute()  <span class="co"># NDVI in memory, so reading does not dominate</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>work <span class="op">=</span> {<span class="st">"slope (raster, memory-bound)"</span>: <span class="kw">lambda</span>: pdist.raster.slope(dem, compute<span class="op">=</span><span class="st">"cpu"</span>, chunks<span class="op">=</span>(<span class="dv">1024</span>, <span class="dv">1024</span>)),  <span class="co"># three workloads</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"focal median 5 (raster, compute-bound)"</span>: <span class="kw">lambda</span>: pdist.raster.focal(dem[:<span class="dv">6000</span>, :<span class="dv">6000</span>], <span class="st">"median"</span>, size<span class="op">=</span><span class="dv">5</span>, compute<span class="op">=</span><span class="st">"cpu"</span>, chunks<span class="op">=</span>(<span class="dv">750</span>, <span class="dv">750</span>)),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"points in counties (vector join)"</span>: <span class="kw">lambda</span>: pdist.vector.sjoin(pts, ks, predicate<span class="op">=</span><span class="st">"within"</span>, compute<span class="op">=</span><span class="st">"cpu"</span>, npartitions<span class="op">=</span><span class="dv">48</span>)}</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>threads <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">24</span>]  <span class="co"># thread counts</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>strong <span class="op">=</span> pd.DataFrame(index<span class="op">=</span>threads, columns<span class="op">=</span><span class="bu">list</span>(work), dtype<span class="op">=</span><span class="bu">float</span>)  <span class="co"># seconds</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> threads:  <span class="co"># each count</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> dask.config.<span class="bu">set</span>(scheduler<span class="op">=</span><span class="st">"threads"</span>, num_workers<span class="op">=</span>n):  <span class="co"># n threads</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> name, fn <span class="kw">in</span> work.items():  <span class="co"># each workload</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>            fn()<span class="op">;</span> t <span class="op">=</span> time.perf_counter()<span class="op">;</span> fn()<span class="op">;</span> strong.loc[n, name] <span class="op">=</span> time.perf_counter() <span class="op">-</span> t  <span class="co"># warm, then time</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>weak <span class="op">=</span> {}  <span class="co"># seconds by thread count</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> threads:  <span class="co"># each count</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    side <span class="op">=</span> <span class="bu">int</span>(np.sqrt(n <span class="op">*</span> <span class="fl">11e6</span>))  <span class="co"># pixels per side so each thread has about 11 million</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    sub <span class="op">=</span> dem[:<span class="bu">min</span>(side, dem.shape[<span class="dv">0</span>]), :<span class="bu">min</span>(side, dem.shape[<span class="dv">1</span>])]  <span class="co"># the window</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> dask.config.<span class="bu">set</span>(scheduler<span class="op">=</span><span class="st">"threads"</span>, num_workers<span class="op">=</span>n):  <span class="co"># n threads</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        pdist.raster.focal(sub, <span class="st">"median"</span>, size<span class="op">=</span><span class="dv">5</span>, compute<span class="op">=</span><span class="st">"cpu"</span>, chunks<span class="op">=</span>(<span class="dv">1024</span>, <span class="dv">1024</span>))  <span class="co"># warm-up</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        t <span class="op">=</span> time.perf_counter()<span class="op">;</span> pdist.raster.focal(sub, <span class="st">"median"</span>, size<span class="op">=</span><span class="dv">5</span>, compute<span class="op">=</span><span class="st">"cpu"</span>, chunks<span class="op">=</span>(<span class="dv">1024</span>, <span class="dv">1024</span>))<span class="op">;</span> weak[n] <span class="op">=</span> time.perf_counter() <span class="op">-</span> t  <span class="co"># time</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="fl">4.8</span>))  <span class="co"># two panels</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> strong:  <span class="co"># strong scaling curves</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    ax[<span class="dv">0</span>].plot(threads, strong[col].iloc[<span class="dv">0</span>] <span class="op">/</span> strong[col], <span class="st">"o-"</span>, label<span class="op">=</span>col)  <span class="co"># speed-up</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].plot(threads, threads, <span class="st">":"</span>, color<span class="op">=</span><span class="st">"grey"</span>, label<span class="op">=</span><span class="st">"ideal"</span>)<span class="op">;</span> ax[<span class="dv">0</span>].set_ylim(<span class="dv">0</span>, <span class="dv">25</span>)  <span class="co"># ideal line</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_xlabel(<span class="st">"threads"</span>)<span class="op">;</span> ax[<span class="dv">0</span>].set_ylabel(<span class="st">"speed-up"</span>)<span class="op">;</span> ax[<span class="dv">0</span>].legend(fontsize<span class="op">=</span><span class="dv">8</span>)<span class="op">;</span> ax[<span class="dv">0</span>].set_title(<span class="st">"Strong scaling"</span>)  <span class="co"># labels</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].plot(<span class="bu">list</span>(weak), [weak[<span class="dv">1</span>] <span class="op">/</span> v <span class="cf">for</span> v <span class="kw">in</span> weak.values()], <span class="st">"o-"</span>)  <span class="co"># weak scaling efficiency</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].axhline(<span class="dv">1</span>, ls<span class="op">=</span><span class="st">":"</span>, color<span class="op">=</span><span class="st">"grey"</span>)<span class="op">;</span> ax[<span class="dv">1</span>].set_ylim(<span class="dv">0</span>, <span class="fl">1.2</span>)<span class="op">;</span> ax[<span class="dv">1</span>].set_xlabel(<span class="st">"threads (and data)"</span>)  <span class="co"># ideal</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_ylabel(<span class="st">"efficiency (time with 1 thread / time with n)"</span>)<span class="op">;</span> ax[<span class="dv">1</span>].set_title(<span class="st">"Weak scaling, focal median 5 x 5"</span>)  <span class="co"># labels</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()  <span class="co"># draw</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>strong.<span class="bu">round</span>(<span class="dv">2</span>)  <span class="co"># the seconds</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08_11_diagnostics_and_performance_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">slope (raster, memory-bound)</th>
+<th data-quarto-table-cell-role="th">focal median 5 (raster, compute-bound)</th>
+<th data-quarto-table-cell-role="th">points in counties (vector join)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1</th>
+<td>3.75</td>
+<td>9.06</td>
+<td>1.11</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2</th>
+<td>2.20</td>
+<td>4.60</td>
+<td>0.97</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>1.65</td>
+<td>2.39</td>
+<td>0.96</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">8</th>
+<td>3.32</td>
+<td>2.15</td>
+<td>2.24</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">16</th>
+<td>2.07</td>
+<td>0.94</td>
+<td>1.38</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">24</th>
+<td>2.01</td>
+<td>0.83</td>
+<td>1.42</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The three workloads scale very differently on the same 24 cores. The compute-bound median scaled more than tenfold; slope, which mostly moves memory, stopped improving after four threads; the point-in-county join did not scale at all. Its time goes into serial steps (Hilbert-sorting 1.6 million points, querying the county tree, concatenating and re-sorting the result), which matches notebook 04, where plain GeoPandas on one core was faster. Weak scaling of the median holds up until the cores start to share memory bandwidth and the turbo clock falls with more active cores. Measure scaling for your own workload before choosing hardware.</p>
+</section>
+<section id="where-the-time-goes-profiling" class="level2">
+<h2 class="anchored" data-anchor-id="where-the-time-goes-profiling">Where the time goes: profiling</h2>
+<p><code>pdist.profile</code> without a session uses Dask’s local profiler and returns a table of seconds by task type; with a session it writes Dask’s HTML performance report (task stream, worker profiles, bandwidth), which opens in a browser.</p>
+<div id="4c78f35a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T14:54:46.844702Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T14:54:46.844611Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T14:54:59.918527Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T14:54:59.917918Z&quot;}}" data-execution_count="5">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>lazy_chain <span class="op">=</span> <span class="kw">lambda</span>: pdist.raster.hillshade(pdist.raster.focal(dd.gp_raster(<span class="st">"elev"</span>), <span class="st">"mean"</span>, size<span class="op">=</span><span class="dv">5</span>, compute<span class="op">=</span><span class="st">"cpu"</span>), compute<span class="op">=</span><span class="st">"cpu"</span>)  <span class="co"># read, smooth, shade</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>res, table <span class="op">=</span> pdist.profile(lazy_chain)  <span class="co"># local profiler</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"result </span><span class="sc">{</span>res<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">; task time summed over threads: </span><span class="sc">{</span>table[<span class="st">'sum'</span>]<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">:.1f}</span><span class="ss"> s"</span>)  <span class="co"># total</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(table.head(<span class="dv">8</span>).<span class="bu">round</span>(<span class="dv">2</span>).to_string())  <span class="co"># the most expensive task types</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pdist.start(<span class="st">"local"</span>, n_workers<span class="op">=</span><span class="dv">4</span>, threads_per_worker<span class="op">=</span><span class="dv">6</span>) <span class="im">as</span> s:  <span class="co"># a cluster for the HTML report</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    _, report <span class="op">=</span> pdist.profile(lazy_chain, path<span class="op">=</span><span class="bu">str</span>(OUT <span class="op">/</span> <span class="st">"profile_hillshade.html"</span>))  <span class="co"># performance report</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"performance report:"</span>, report, <span class="ss">f"(</span><span class="sc">{</span>Path(report)<span class="sc">.</span>stat()<span class="sc">.</span>st_size <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss"> MB)"</span>)  <span class="co"># where it is</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>result (17196, 15245); task time summed over threads: 74.9 s
+                 sum  count
+task                       
+getitem        66.66   1517
+open_rasterio   3.79      9
+rechunk         1.75    162
+_trim           1.31    102
+concatenate     0.65    396
+finalize        0.38      1
+overlap         0.29     16
+repeat          0.05     22
+performance report: outputs/profile_hillshade.html (0.6 MB)</code></pre>
+</div>
+</div>
+<p>Almost all of the task time is attributed to <code>getitem</code> tasks. That does not mean slicing is slow: Dask fuses each chunk’s read, halo slicing and the two computations into one task before running the graph, and the fused task keeps the name of its first step. The table is therefore a coarse view; the HTML report shows the same work as a timeline per thread and worker, which is where the real bottlenecks (idle threads, transfers, one slow chunk) become visible.</p>
+</section>
+<section id="seven-pitfalls-reproduced-and-fixed" class="level2">
+<h2 class="anchored" data-anchor-id="seven-pitfalls-reproduced-and-fixed">Seven pitfalls, reproduced and fixed</h2>
+<section id="computing-the-same-graph-twice" class="level3">
+<h3 class="anchored" data-anchor-id="computing-the-same-graph-twice">1. Computing the same graph twice</h3>
+<p>Each <code>.compute()</code> runs its graph from the start. Two statistics of the same lazy array computed one after the other read the file twice; <code>dask.compute</code> (or <code>pdist.compute</code>) shares the work.</p>
+<div id="cb04a400" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T14:54:59.919973Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T14:54:59.919870Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T14:55:03.241424Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T14:55:03.240618Z&quot;}}" data-execution_count="6">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>lazy <span class="op">=</span> dd.gp_raster(<span class="st">"preci"</span>)  <span class="co"># lazy</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> time.perf_counter()<span class="op">;</span> a, b <span class="op">=</span> <span class="bu">float</span>(lazy.mean()), <span class="bu">float</span>(lazy.std())<span class="op">;</span> twice <span class="op">=</span> time.perf_counter() <span class="op">-</span> t  <span class="co"># two passes</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> time.perf_counter()<span class="op">;</span> a2, b2 <span class="op">=</span> dask.compute(lazy.mean(), lazy.std())<span class="op">;</span> once <span class="op">=</span> time.perf_counter() <span class="op">-</span> t  <span class="co"># one shared pass</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"two .compute() calls </span><span class="sc">{</span>twice<span class="sc">:.2f}</span><span class="ss"> s | one dask.compute </span><span class="sc">{</span>once<span class="sc">:.2f}</span><span class="ss"> s | same values: </span><span class="sc">{</span>np<span class="sc">.</span>isclose(a, a2) <span class="kw">and</span> np<span class="sc">.</span>isclose(b, b2)<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># result</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>two .compute() calls 1.93 s | one dask.compute 1.37 s | same values: True</code></pre>
+</div>
+</div>
+</section>
+<section id="tiny-chunks" class="level3">
+<h3 class="anchored" data-anchor-id="tiny-chunks">2. Tiny chunks</h3>
+<p>Notebook 01 measured it: 256 pixel chunks were about nine times slower than 2048 pixel chunks for the same slope. Check <code>data.npartitions</code> and the task count before running a big job.</p>
+</section>
+<section id="moving-data-to-the-host-between-gpu-steps" class="level3">
+<h3 class="anchored" data-anchor-id="moving-data-to-the-host-between-gpu-steps">3. Moving data to the host between GPU steps</h3>
+<p>A chain of GPU operations on host data copies every intermediate result to the host and back. Moving the input once and keeping intermediates on the device avoids that.</p>
+<div id="33d3b6b7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T14:55:03.242877Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T14:55:03.242780Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T14:55:06.453054Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T14:55:06.452366Z&quot;}}" data-execution_count="7">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># needs a GPU</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    chain <span class="op">=</span> <span class="kw">lambda</span> d: pdist.raster.hillshade(pdist.raster.focal(d, <span class="st">"mean"</span>, size<span class="op">=</span><span class="dv">5</span>, compute<span class="op">=</span><span class="st">"gpu"</span>), compute<span class="op">=</span><span class="st">"gpu"</span>)  <span class="co"># two GPU steps</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> time.perf_counter()<span class="op">;</span> chain(dem)<span class="op">;</span> sync()<span class="op">;</span> host <span class="op">=</span> time.perf_counter() <span class="op">-</span> t  <span class="co"># host in, host between, host out</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> time.perf_counter()<span class="op">;</span> out <span class="op">=</span> pdist.to_cpu(chain(pdist.to_gpu(dem)))<span class="op">;</span> sync()<span class="op">;</span> device <span class="op">=</span> time.perf_counter() <span class="op">-</span> t  <span class="co"># one copy in, one out</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"host input: </span><span class="sc">{</span>host<span class="sc">:.2f}</span><span class="ss"> s | data kept on the GPU: </span><span class="sc">{</span>device<span class="sc">:.2f}</span><span class="ss"> s"</span>)  <span class="co"># result</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>host input: 2.13 s | data kept on the GPU: 1.08 s</code></pre>
+</div>
+</div>
+</section>
+<section id="reading-a-gpu-result-with-numpy" class="level3">
+<h3 class="anchored" data-anchor-id="reading-a-gpu-result-with-numpy">4. Reading a GPU result with NumPy</h3>
+<p>Results stay on the GPU when the input was on the GPU. NumPy cannot read CuPy memory directly; move results with <code>pdist.to_cpu</code> (or <code>.get()</code>), and check with <code>pdist.is_gpu</code>.</p>
+<div id="711308b5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T14:55:06.454808Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T14:55:06.454687Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T14:55:06.478709Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T14:55:06.478293Z&quot;}}" data-execution_count="8">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># needs a GPU</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> pdist.raster.slope(pdist.to_gpu(win))  <span class="co"># a GPU result</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:  <span class="co"># the mistake</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        np.asarray(r.data)  <span class="co"># NumPy on CuPy memory</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">TypeError</span> <span class="im">as</span> e:  <span class="co"># what happens</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"np.asarray on a CuPy array:"</span>, <span class="bu">str</span>(e)[:<span class="dv">90</span>])  <span class="co"># message</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"is_gpu:"</span>, pdist.is_gpu(r), <span class="st">"| after to_cpu:"</span>, pdist.is_gpu(pdist.to_cpu(r)), <span class="bu">type</span>(pdist.to_cpu(r).data).<span class="va">__name__</span>)  <span class="co"># the fix</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>np.asarray on a CuPy array: Implicit conversion to a NumPy array is not allowed. Please use `.get()` to construct a Nu
+is_gpu: True | after to_cpu: False ndarray</code></pre>
+</div>
+</div>
+</section>
+<section id="computeauto-on-a-machine-with-a-gpu" class="level3">
+<h3 class="anchored" data-anchor-id="computeauto-on-a-machine-with-a-gpu">5. <code>compute="auto"</code> on a machine with a GPU</h3>
+<p><code>"auto"</code> picks the GPU whenever one exists, also inside the worker processes of a CPU cluster. While writing notebook 01 this silently turned a “CPU cluster” comparison into a GPU one, and four worker processes competed for the GPU’s memory. Pass <code>compute="cpu"</code> explicitly when measuring the CPU, or set the default for a whole session.</p>
+<div id="ba6b5eac" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T14:55:06.480527Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T14:55:06.480423Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T14:55:06.483766Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T14:55:06.483097Z&quot;}}" data-execution_count="9">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"auto on this machine:"</span>, pdist.explain(<span class="st">"raster.slope"</span>)[<span class="st">"uses"</span>])  <span class="co"># GPU when present</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>pdist.set_defaults(compute<span class="op">=</span><span class="st">"cpu"</span>)  <span class="co"># every call now defaults to the CPU</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"after set_defaults(compute='cpu'):"</span>, pdist.explain(<span class="st">"raster.slope"</span>)[<span class="st">"uses"</span>])  <span class="co"># CPU</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>pdist.set_defaults(compute<span class="op">=</span><span class="st">"auto"</span>)  <span class="co"># back to the default</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>auto on this machine: gpu
+after set_defaults(compute='cpu'): cpu</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>Defaults(compute='auto', npartitions=None, chunks='auto')</code></pre>
+</div>
+</div>
+</section>
+<section id="importing-cudf-or-cuml-changes-cupys-memory-allocator" class="level3">
+<h3 class="anchored" data-anchor-id="importing-cudf-or-cuml-changes-cupys-memory-allocator">6. Importing cuDF or cuML changes CuPy’s memory allocator</h3>
+<p>Importing <code>cudf</code> or <code>cuml</code> calls <code>cupy.cuda.set_allocator(rmm_cupy_allocator)</code>. Without an RMM pool every CuPy allocation then becomes a <code>cudaMalloc</code>, which made chunked GPU work about four times slower while this chapter was written, and memory already cached by CuPy’s pool is stranded. GeoLattice imports RAPIDS libraries through <code>geolattice.distributed._backend.rapids</code>, which restores the previous allocator, and <code>pdist.capabilities()</code> only checks that the packages are installed. If you import cuDF yourself, restore the allocator afterwards or configure an RMM pool.</p>
+<div id="015d3e79" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T14:55:06.485758Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T14:55:06.485635Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T14:55:08.393425Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T14:55:08.392841Z&quot;}}" data-execution_count="10">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># needs a GPU and RAPIDS</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> subprocess, sys  <span class="co"># a fresh Python process, so cuDF is imported for the first time</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    probe <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="st">import time, numpy as np, cupy as cp</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="st">import geolattice.distributed as pdist</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="st">x = pdist.to_gpu(np.random.default_rng(0).random((8192, 8192), dtype=np.float32))</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="st">def best():</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="st">    ts = []</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="st">    for _ in range(4):</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="st">        cp.cuda.Device().synchronize(); t = time.perf_counter()</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="st">        pdist.raster.slope(x, res=90.0, compute="gpu"); cp.cuda.Device().synchronize()</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="st">        ts.append(time.perf_counter() - t)</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="st">    return min(ts[1:])</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="st">before = cp.cuda.get_allocator(); a = best()</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="st">import cudf</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="st">switched = cp.cuda.get_allocator() is not before; b = best()</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="st">cp.cuda.set_allocator(before); c = best()</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="st">print(switched, a, b, c)</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>  <span class="co"># times slope before and after a plain import of cuDF, then after restoring the pool</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> subprocess.run([sys.executable, <span class="st">"-c"</span>, probe], capture_output<span class="op">=</span><span class="va">True</span>, text<span class="op">=</span><span class="va">True</span>).stdout.split()  <span class="co"># run it</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    switched, t_pool, t_rmm, t_fixed <span class="op">=</span> out[<span class="dv">0</span>] <span class="op">==</span> <span class="st">"True"</span>, <span class="op">*</span><span class="bu">map</span>(<span class="bu">float</span>, out[<span class="dv">1</span>:<span class="dv">4</span>])  <span class="co"># parse</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"allocator switched by import cudf: </span><span class="sc">{</span>switched<span class="sc">}</span><span class="ss"> | slope of 67 million pixels: CuPy pool </span><span class="sc">{</span>t_pool<span class="sc">:.3f}</span><span class="ss"> s, "</span>  <span class="co"># result</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"after import </span><span class="sc">{</span>t_rmm<span class="sc">:.3f}</span><span class="ss"> s (</span><span class="sc">{</span>t_rmm <span class="op">/</span> t_pool<span class="sc">:.1f}</span><span class="ss">x), restored </span><span class="sc">{</span>t_fixed<span class="sc">:.3f}</span><span class="ss"> s"</span>)  <span class="co"># slowdown and fix</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">IndexError</span>                                Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[10]</span><span class="ansi-green-fg">, line 21</span>
+<span class="ansi-green-fg">     17</span> cp.cuda.set_allocator(before); c = best()
+<span class="ansi-green-fg">     18</span> print(switched, a, b, c)
+<span class="ansi-green-fg">     19</span> """  # times slope before and after a plain import of cuDF, then after restoring the pool
+<span class="ansi-green-fg">     20</span>     out = subprocess.run([sys.executable, <span class="ansi-yellow-fg">"-c"</span>, probe], capture_output=<span style="font-weight:bold;color:rgb(0,135,0)">True</span>, text=<span style="font-weight:bold;color:rgb(0,135,0)">True</span>).stdout.split()  <span style="font-style:italic;color:rgb(95,135,135)"># run it</span>
+<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">21</span>     switched, t_pool, t_rmm, t_fixed = out[<span class="ansi-green-fg">0</span>] == <span class="ansi-yellow-fg">"True"</span>, *map(float, out[<span class="ansi-green-fg">1</span>:<span class="ansi-green-fg">4</span>])  <span style="font-style:italic;color:rgb(95,135,135)"># parse</span>
+<span class="ansi-green-fg">     22</span>     print(f"allocator switched by import cudf: {switched} | slope of 67 million pixels: CuPy pool {t_pool:.3f} s, "  # result
+<span class="ansi-green-fg">     23</span>           f"after import {t_rmm:.3f} s ({t_rmm / t_pool:.1f}x), restored {t_fixed:.3f} s")  # slowdown and fix
+
+<span class="ansi-red-fg">IndexError</span>: list index out of range</pre>
+</div>
+</div>
+</div>
+</section>
+<section id="worker-memory-limits-gdals-cache-and-spilling" class="level3">
+<h3 class="anchored" data-anchor-id="worker-memory-limits-gdals-cache-and-spilling">7. Worker memory limits, GDAL’s cache and spilling</h3>
+<p>A worker that exceeds 60 % of its memory limit writes results to disk (spills), and at 95 % its nanny restarts it. While this notebook was written, workers limited to a few hundred megabytes or a gigabyte or two died again and again while doing nothing but reading GeoTIFFs. The cause was GDAL: it caches decoded raster blocks up to 5 % of the machine’s RAM <strong>in every process</strong>, here 6.6 GB per worker, far above the limit. <code>pdist.start("local", memory_limit=...)</code> now caps GDAL’s cache in the workers at a tenth of an explicit limit (set <code>GDAL_CACHEMAX</code> yourself to override). With that, a small limit produces what it should: spilling, and a slower job.</p>
+<div id="4576c078" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T14:55:08.395518Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T14:55:08.395412Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T14:55:15.965963Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T14:55:15.965152Z&quot;}}" data-execution_count="11">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> limit <span class="kw">in</span> [<span class="st">"1.5GB"</span>, <span class="st">"6GB"</span>]:  <span class="co"># too little and enough memory per worker</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pdist.start(<span class="st">"local"</span>, n_workers<span class="op">=</span><span class="dv">2</span>, threads_per_worker<span class="op">=</span><span class="dv">2</span>, memory_limit<span class="op">=</span>limit, dashboard<span class="op">=</span><span class="va">False</span>) <span class="im">as</span> s:  <span class="co"># GDAL cache capped</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        t <span class="op">=</span> time.perf_counter()  <span class="co"># start</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> pdist.persist(dd.gp_raster(<span class="st">"elev"</span>, chunks<span class="op">=</span>{<span class="st">"y"</span>: <span class="dv">1024</span>, <span class="st">"x"</span>: <span class="dv">1024</span>}))  <span class="co"># 1 GB into worker memory</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        <span class="im">from</span> dask.distributed <span class="im">import</span> wait<span class="op">;</span> wait(p.data)  <span class="co"># until loaded</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>        v <span class="op">=</span> <span class="bu">float</span>(pdist.raster.slope(p, compute<span class="op">=</span><span class="st">"cpu"</span>).mean())  <span class="co"># use it</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        secs <span class="op">=</span> time.perf_counter() <span class="op">-</span> t  <span class="co"># elapsed</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        spilled <span class="op">=</span> <span class="bu">sum</span>(w.get(<span class="st">"metrics"</span>, {}).get(<span class="st">"spilled_bytes"</span>, {}).get(<span class="st">"disk"</span>, <span class="dv">0</span>) <span class="cf">for</span> w <span class="kw">in</span> s.client.scheduler_info()[<span class="st">"workers"</span>].values())  <span class="co"># bytes on disk</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>        used <span class="op">=</span> [w[<span class="st">"memory_gb"</span>] <span class="cf">for</span> w <span class="kw">in</span> pdist.memory_report()[<span class="st">"workers"</span>].values()]  <span class="co"># memory per worker</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"memory limit </span><span class="sc">{</span>limit<span class="sc">:&gt;5}</span><span class="ss"> per worker: </span><span class="sc">{</span>secs<span class="sc">:.1f}</span><span class="ss"> s, spilled to disk </span><span class="sc">{</span>spilled <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.2f}</span><span class="ss"> GB, worker memory </span><span class="sc">{</span>used<span class="sc">}</span><span class="ss"> GB"</span>)  <span class="co"># result</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KilledWorker</span>                              Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[11]</span><span class="ansi-green-fg">, line 6</span>
+<span class="ansi-green-fg">      2</span>     <span style="font-weight:bold;color:rgb(0,135,0)">with</span> pdist.start(<span class="ansi-yellow-fg">"local"</span>, n_workers=<span class="ansi-green-fg">2</span>, threads_per_worker=<span class="ansi-green-fg">2</span>, memory_limit=limit, dashboard=<span style="font-weight:bold;color:rgb(0,135,0)">False</span>) <span style="font-weight:bold;color:rgb(0,135,0)">as</span> s:  <span style="font-style:italic;color:rgb(95,135,135)"># GDAL cache capped</span>
+<span class="ansi-green-fg">      3</span>         t = time.perf_counter()  <span style="font-style:italic;color:rgb(95,135,135)"># start</span>
+<span class="ansi-green-fg">      4</span>         p = pdist.persist(dd.gp_raster(<span class="ansi-yellow-fg">"elev"</span>, chunks={<span class="ansi-yellow-fg">"y"</span>: <span class="ansi-green-fg">1024</span>, <span class="ansi-yellow-fg">"x"</span>: <span class="ansi-green-fg">1024</span>}))  <span style="font-style:italic;color:rgb(95,135,135)"># 1 GB into worker memory</span>
+<span class="ansi-green-fg">      5</span>         <span style="font-weight:bold;color:rgb(0,135,0)">from</span> dask.distributed <span style="font-weight:bold;color:rgb(0,135,0)">import</span> wait; wait(p.data)  <span style="font-style:italic;color:rgb(95,135,135)"># until loaded</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">6</span>         v = float(pdist.raster.slope(p, compute=<span class="ansi-yellow-fg">"cpu"</span>).mean())  <span style="font-style:italic;color:rgb(95,135,135)"># use it</span>
+<span class="ansi-green-fg">      7</span>         secs = time.perf_counter() - t  <span style="font-style:italic;color:rgb(95,135,135)"># elapsed</span>
+<span class="ansi-green-fg">      8</span>         spilled = sum(w.get(<span class="ansi-yellow-fg">"metrics"</span>, {}).get(<span class="ansi-yellow-fg">"spilled_bytes"</span>, {}).get(<span class="ansi-yellow-fg">"disk"</span>, <span class="ansi-green-fg">0</span>) <span style="font-weight:bold;color:rgb(0,135,0)">for</span> w <span style="font-weight:bold;color:rgb(0,135,0)">in</span> s.client.scheduler_info()[<span class="ansi-yellow-fg">"workers"</span>].values())  <span style="font-style:italic;color:rgb(95,135,135)"># bytes on disk</span>
+<span class="ansi-green-fg">      9</span>         used = [w[<span class="ansi-yellow-fg">"memory_gb"</span>] <span style="font-weight:bold;color:rgb(0,135,0)">for</span> w <span style="font-weight:bold;color:rgb(0,135,0)">in</span> pdist.memory_report()[<span class="ansi-yellow-fg">"workers"</span>].values()]  <span style="font-style:italic;color:rgb(95,135,135)"># memory per worker</span>
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/.pyenv/versions/3.11.16/lib/python3.11/site-packages/xarray/core/common.py:158</span>, in <span class="ansi-cyan-fg">AbstractArray.__float__</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-fg">    157</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span><span style="color:rgb(188,188,188)"> </span><span class="ansi-blue-fg">__float__</span>(<span style="color:rgb(0,135,0)">self</span>: Any) -&gt; <span style="color:rgb(0,135,0)">float</span>:
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">158</span>     <span style="font-weight:bold;color:rgb(0,135,0)">return</span> <span style="color:rgb(0,135,0)">float</span>(<span class="ansi-black-fg ansi-yellow-bg">self</span><span class="ansi-black-fg ansi-yellow-bg">.</span><span class="ansi-black-fg ansi-yellow-bg">values</span>)
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/.pyenv/versions/3.11.16/lib/python3.11/site-packages/xarray/core/dataarray.py:803</span>, in <span class="ansi-cyan-fg">DataArray.values</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-fg">    790</span> <span style="color:rgb(175,0,255)">@property</span>
+<span class="ansi-green-fg">    791</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span><span style="color:rgb(188,188,188)"> </span><span class="ansi-blue-fg">values</span>(<span style="color:rgb(0,135,0)">self</span>) -&gt; np.ndarray:
+<span class="ansi-green-fg">    792</span> <span style="color:rgb(188,188,188)">    </span><span style="font-style:italic" class="ansi-yellow-fg">"""</span>
+<span class="ansi-green-fg">    793</span> <span style="font-style:italic" class="ansi-yellow-fg">    The array's data converted to numpy.ndarray.</span>
+<span class="ansi-green-fg">    794</span> 
+<span class="ansi-green-fg">   (...)</span><span class="ansi-green-fg">    801</span> <span style="font-style:italic" class="ansi-yellow-fg">    to this array may be reflected in the DataArray as well.</span>
+<span class="ansi-green-fg">    802</span> <span style="font-style:italic" class="ansi-yellow-fg">    """</span>
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">803</span>     <span style="font-weight:bold;color:rgb(0,135,0)">return</span> <span class="ansi-black-fg ansi-yellow-bg">self</span><span class="ansi-black-fg ansi-yellow-bg">.</span><span class="ansi-black-fg ansi-yellow-bg">variable</span><span class="ansi-black-fg ansi-yellow-bg">.</span><span class="ansi-black-fg ansi-yellow-bg">values</span>
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/.pyenv/versions/3.11.16/lib/python3.11/site-packages/xarray/core/variable.py:555</span>, in <span class="ansi-cyan-fg">Variable.values</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-fg">    552</span> <span style="color:rgb(175,0,255)">@property</span>
+<span class="ansi-green-fg">    553</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span><span style="color:rgb(188,188,188)"> </span><span class="ansi-blue-fg">values</span>(<span style="color:rgb(0,135,0)">self</span>) -&gt; np.ndarray:
+<span class="ansi-green-fg">    554</span> <span style="color:rgb(188,188,188)">    </span><span style="font-style:italic" class="ansi-yellow-fg">"""The variable's data as a numpy.ndarray"""</span>
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">555</span>     <span style="font-weight:bold;color:rgb(0,135,0)">return</span> <span class="ansi-black-fg ansi-yellow-bg">_as_array_or_item</span><span class="ansi-black-fg ansi-yellow-bg">(</span><span class="ansi-black-fg ansi-yellow-bg">self</span><span class="ansi-black-fg ansi-yellow-bg">.</span><span class="ansi-black-fg ansi-yellow-bg">_data</span><span class="ansi-black-fg ansi-yellow-bg">)</span>
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/.pyenv/versions/3.11.16/lib/python3.11/site-packages/xarray/core/variable.py:335</span>, in <span class="ansi-cyan-fg">_as_array_or_item</span><span class="ansi-blue-fg">(data)</span>
+<span class="ansi-green-fg">    321</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span><span style="color:rgb(188,188,188)"> </span><span class="ansi-blue-fg">_as_array_or_item</span>(data):
+<span class="ansi-green-fg">    322</span> <span style="color:rgb(188,188,188)">    </span><span style="font-style:italic" class="ansi-yellow-fg">"""Return the given values as a numpy array, or as an individual item if</span>
+<span class="ansi-green-fg">    323</span> <span style="font-style:italic" class="ansi-yellow-fg">    it's a 0d datetime64 or timedelta64 array.</span>
+<span class="ansi-green-fg">    324</span> 
+<span class="ansi-green-fg">   (...)</span><span class="ansi-green-fg">    333</span> <span style="font-style:italic" class="ansi-yellow-fg">    TODO: remove this (replace with np.asarray) once these issues are fixed</span>
+<span class="ansi-green-fg">    334</span> <span style="font-style:italic" class="ansi-yellow-fg">    """</span>
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">335</span>     data = np.asarray(data)
+<span class="ansi-green-fg">    336</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> data.ndim == <span class="ansi-green-fg">0</span>:
+<span class="ansi-green-fg">    337</span>         kind = data.dtype.kind
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/.pyenv/versions/3.11.16/lib/python3.11/site-packages/dask/array/core.py:1720</span>, in <span class="ansi-cyan-fg">Array.__array__</span><span class="ansi-blue-fg">(self, dtype, copy, **kwargs)</span>
+<span class="ansi-green-fg">   1713</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> copy <span style="font-weight:bold;color:rgb(175,0,255)">is</span> <span style="font-weight:bold;color:rgb(0,135,0)">False</span>:
+<span class="ansi-green-fg">   1714</span>     warnings.warn(
+<span class="ansi-green-fg">   1715</span>         <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">Can</span><span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">t acquire a memory view of a Dask array. </span><span class="ansi-yellow-fg">"</span>
+<span class="ansi-green-fg">   1716</span>         <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">This will raise in the future.</span><span class="ansi-yellow-fg">"</span>,
+<span class="ansi-green-fg">   1717</span>         <span style="font-weight:bold;color:rgb(215,95,95)">FutureWarning</span>,
+<span class="ansi-green-fg">   1718</span>     )
+<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">1720</span> x = <span class="ansi-black-fg ansi-yellow-bg">self</span><span class="ansi-black-fg ansi-yellow-bg">.</span><span class="ansi-black-fg ansi-yellow-bg">compute</span><span class="ansi-black-fg ansi-yellow-bg">(</span><span class="ansi-black-fg ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">   1722</span> <span style="font-style:italic;color:rgb(95,135,135)"># Apply requested dtype and convert non-numpy backends to numpy.</span>
+<span class="ansi-green-fg">   1723</span> <span style="font-style:italic;color:rgb(95,135,135)"># If copy is True, numpy is going to perform its own deep copy</span>
+<span class="ansi-green-fg">   1724</span> <span style="font-style:italic;color:rgb(95,135,135)"># after this method returns.</span>
+<span class="ansi-green-fg">   1725</span> <span style="font-style:italic;color:rgb(95,135,135)"># If copy is None, finalize() ensures that the returned object</span>
+<span class="ansi-green-fg">   1726</span> <span style="font-style:italic;color:rgb(95,135,135)"># does not share memory with an object stored in the graph or on a</span>
+<span class="ansi-green-fg">   1727</span> <span style="font-style:italic;color:rgb(95,135,135)"># process-local Worker.</span>
+<span class="ansi-green-fg">   1728</span> <span style="font-weight:bold;color:rgb(0,135,0)">return</span> np.asarray(x, dtype=dtype)
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/.pyenv/versions/3.11.16/lib/python3.11/site-packages/dask/base.py:392</span>, in <span class="ansi-cyan-fg">DaskMethodsMixin.compute</span><span class="ansi-blue-fg">(self, **kwargs)</span>
+<span class="ansi-green-fg">    368</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span><span style="color:rgb(188,188,188)"> </span><span class="ansi-blue-fg">compute</span>(<span style="color:rgb(0,135,0)">self</span>, **kwargs):
+<span class="ansi-green-fg">    369</span> <span style="color:rgb(188,188,188)">    </span><span style="font-style:italic" class="ansi-yellow-fg">"""Compute this dask collection</span>
+<span class="ansi-green-fg">    370</span> 
+<span class="ansi-green-fg">    371</span> <span style="font-style:italic" class="ansi-yellow-fg">    This turns a lazy Dask collection into its in-memory equivalent.</span>
+<span class="ansi-green-fg">   (...)</span><span class="ansi-green-fg">    390</span> <span style="font-style:italic" class="ansi-yellow-fg">    dask.compute</span>
+<span class="ansi-green-fg">    391</span> <span style="font-style:italic" class="ansi-yellow-fg">    """</span>
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">392</span>     (result,) = <span class="ansi-black-fg ansi-yellow-bg">compute</span><span class="ansi-black-fg ansi-yellow-bg">(</span><span class="ansi-black-fg ansi-yellow-bg">self</span><span class="ansi-black-fg ansi-yellow-bg">,</span><span class="ansi-black-fg ansi-yellow-bg"> </span><span class="ansi-black-fg ansi-yellow-bg">traverse</span><span class="ansi-black-fg ansi-yellow-bg">=</span><span class="ansi-black-fg ansi-yellow-bg ansi-bold">False</span><span class="ansi-black-fg ansi-yellow-bg">,</span><span class="ansi-black-fg ansi-yellow-bg"> </span><span class="ansi-black-fg ansi-yellow-bg">*</span><span class="ansi-black-fg ansi-yellow-bg">*</span><span class="ansi-black-fg ansi-yellow-bg">kwargs</span><span class="ansi-black-fg ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    393</span>     <span style="font-weight:bold;color:rgb(0,135,0)">return</span> result
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/.pyenv/versions/3.11.16/lib/python3.11/site-packages/dask/base.py:769</span>, in <span class="ansi-cyan-fg">compute</span><span class="ansi-blue-fg">(traverse, optimize_graph, scheduler, get, *args, **kwargs)</span>
+<span class="ansi-green-fg">    766</span>     expr = expr.optimize()
+<span class="ansi-green-fg">    767</span>     keys = <span style="color:rgb(0,135,0)">list</span>(flatten(expr.__dask_keys__()))
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">769</span>     results = <span class="ansi-black-fg ansi-yellow-bg">schedule</span><span class="ansi-black-fg ansi-yellow-bg">(</span><span class="ansi-black-fg ansi-yellow-bg">expr</span><span class="ansi-black-fg ansi-yellow-bg">,</span><span class="ansi-black-fg ansi-yellow-bg"> </span><span class="ansi-black-fg ansi-yellow-bg">keys</span><span class="ansi-black-fg ansi-yellow-bg">,</span><span class="ansi-black-fg ansi-yellow-bg"> </span><span class="ansi-black-fg ansi-yellow-bg">*</span><span class="ansi-black-fg ansi-yellow-bg">*</span><span class="ansi-black-fg ansi-yellow-bg">kwargs</span><span class="ansi-black-fg ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    771</span> <span style="font-weight:bold;color:rgb(0,135,0)">return</span> repack(results)
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/.pyenv/versions/3.11.16/lib/python3.11/site-packages/distributed/client.py:2399</span>, in <span class="ansi-cyan-fg">Client._gather</span><span class="ansi-blue-fg">(self, futures, errors, direct, local_worker)</span>
+<span class="ansi-green-fg">   2397</span>     exception = st.exception
+<span class="ansi-green-fg">   2398</span>     traceback = st.traceback
+<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">2399</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> exception.with_traceback(traceback)
+<span class="ansi-green-fg">   2400</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> errors == <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">skip</span><span class="ansi-yellow-fg">"</span>:
+<span class="ansi-green-fg">   2401</span>     bad_keys.add(key)
+
+<span class="ansi-red-fg">KilledWorker</span>: Attempted to run task ('open_rasterio-274c502885a65212b767c261ee6f3dd7&lt;this-array&gt;-249ef7c86302823635cf5d20ad853805', 0, 1, 0) on 4 different workers, but all those workers died while running it. The last worker that attempt to run the task was tcp://127.0.0.1:43759. Inspecting worker logs is often a good next step to diagnose what went wrong. For more information see https://distributed.dask.org/en/stable/killed.html.</pre>
+</div>
+</div>
+</div>
+<p>With 1.5 GB per worker part of the persisted DEM went to disk and the job took several times longer; with 6 GB nothing spilled. A job that spills constantly needs more workers, more memory per worker, smaller chunks, or less data persisted; a worker that dies while only reading files points to a library cache, not to your data.</p>
+</section>
+</section>
+<section id="summary-and-exercises" class="level2">
+<h2 class="anchored" data-anchor-id="summary-and-exercises">Summary and exercises</h2>
+<ul>
+<li><code>check_equivalence</code> confirmed that every GPU implementation used in this chapter matched the CPU on real data: exactly for integers and geometries, to rounding for floating point.</li>
+<li>Correct timing needs warm-up, synchronisation, materialised lazy results and repeats; <code>pdist.benchmark</code> does all four.</li>
+<li>Strong scaling differed by workload: a compute-bound median scaled well, memory-bound slope did not, and the vector join was limited by its serial assembly step.</li>
+<li><code>pdist.profile</code> attributes time to task types, or writes Dask’s HTML performance report.</li>
+<li>Seven pitfalls reproduced: repeated computes, tiny chunks, host round trips between GPU steps, NumPy on GPU memory, <code>compute="auto"</code> inside CPU clusters, RAPIDS imports changing CuPy’s allocator, and GDAL’s per-process cache breaking worker memory limits.</li>
+</ul>
+<p><strong>Exercises</strong></p>
+<ol type="1">
+<li>Add <code>pdist.network.shortest_path_lengths</code> and <code>pdist.analysis.dbscan</code> (with <code>compute="gpu"</code>) to the equivalence table. What tolerance does each need?</li>
+<li>Measure strong scaling of <code>pdist.zonal_stats</code> for the counties with 1 to 24 threads. Where does it stop improving, and why?</li>
+<li>Open the HTML performance report and identify the longest task in the task stream.</li>
+<li>Repeat the spilling experiment with <code>memory_limit="1GB"</code> and with <code>GDAL_CACHEMAX</code> set to 2048 in the environment before starting the cluster. What happens to the workers?</li>
+</ol>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./08_10_apache_sedona.html" class="pagination-link" aria-label="Apache Sedona">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Apache Sedona</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./08_12_capstone_great_plains_soil_carbon_and_cropland.html" class="pagination-link" aria-label="Capstone: Great Plains Soil Carbon">
+        <span class="nav-page-text">Capstone: Great Plains Soil Carbon</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

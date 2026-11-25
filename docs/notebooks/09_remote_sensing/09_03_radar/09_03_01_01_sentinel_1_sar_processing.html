@@ -1,0 +1,3180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>sentinel_1_sar_processing – GeoLattice: Remote Sensing</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../09_03_radar/09_03_01_02_sentinel_1_grd_processing.html" rel="next">
+<link href="../09_03_radar/09_03_01_00_sentinel_1_sar.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">GeoLattice: Remote Sensing</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-foundations--optical" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Foundations &amp; Optical</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-foundations--optical">    
+        <li class="dropdown-header">Foundations</li>
+        <li>
+    <a class="dropdown-item" href="../09_01_foundations/09_01_00_remote_sensing_fundamentals.html">
+ <span class="dropdown-text">Remote Sensing Fundamentals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_01_foundations/09_01_01_the_python_geospatial_environment.html">
+ <span class="dropdown-text">The Python Geospatial Environment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_01_foundations/09_01_02_raster_and_vector_data_essentials.html">
+ <span class="dropdown-text">Raster and Vector Data Essentials</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_01_foundations/09_01_03_data_discovery_and_access.html">
+ <span class="dropdown-text">Data Discovery and Access</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_01_foundations/09_01_04_getting_access_to_remote_sensing_images.html">
+ <span class="dropdown-text">Getting Access to Remote Sensing Images</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Optical</li>
+        <li>
+    <a class="dropdown-item" href="../09_02_optical/09_02_01_introduction_to_optical_satellite_images.html">
+ <span class="dropdown-text">Introduction to Optical Satellite Images</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_02_optical/09_02_02_preprocessing_of_optical_images.html">
+ <span class="dropdown-text">Preprocessing of Optical Images</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_02_optical/09_02_03_modis_global_monitoring_every_day.html">
+ <span class="dropdown-text">Global Monitoring Every Day</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_02_optical/09_02_04_landsat_half_a_century_of_earth_observation.html">
+ <span class="dropdown-text">Landsat</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_02_optical/09_02_05_sentinel_2_red_edge_10_m_and_five_day_revisits.html">
+ <span class="dropdown-text">Sentinel-2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_02_optical/09_02_06_sentinel_3_ocean_colour_surface_temperature_and_altimetry.html">
+ <span class="dropdown-text">Sentinel-3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_02_optical/09_02_07_sentinel_5p_and_sentinel_5_mapping_air_pollution_from_orbit.html">
+ <span class="dropdown-text">Sentinel-5P and Sentinel-5</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-radar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Radar</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-radar">    
+        <li class="dropdown-header">Radar (SAR and InSAR)</li>
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_00_sar_fundamentals.html">
+ <span class="dropdown-text">SAR Fundamentals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_00_sentinel_1_sar.html">
+ <span class="dropdown-text">Sentinel-1 SAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_01_sentinel_1_sar_processing.html">
+ <span class="dropdown-text">Sentinel-1 SAR Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_02_sentinel_1_grd_processing.html">
+ <span class="dropdown-text">Sentinel-1 GRD Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_03_sentinel_1_multitemporal_grd_time_series_deforestation_around_the_rohingya_camps_2017.html">
+ <span class="dropdown-text">Sentinel-1 GRD Time Series</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_04_topographic_insar_a_dem_from_a_sentinel_1_slc_pair.html">
+ <span class="dropdown-text">Topographic InSAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_05_differential_insar_dinsar.html">
+ <span class="dropdown-text">Differential InSAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_06_sbas_small_baseline_subset_insar.html">
+ <span class="dropdown-text">SBAS InSAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_07_persistent_scatterer_insar_ps_insar.html">
+ <span class="dropdown-text">Persistent Scatterer InSAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_08_dual_pol_polarimetric_decomposition_slc.html">
+ <span class="dropdown-text">Dual-Pol Polarimetric Decomposition</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_09_interferometric_coherence_of_slcs.html">
+ <span class="dropdown-text">Interferometric Coherence of SLCs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_01_10_sentinel_1_based_indices.html">
+ <span class="dropdown-text">Sentinel-1 Based Indices</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_02_00_radarsat_constellation_mission_rcm.html">
+ <span class="dropdown-text">RADARSAT Constellation Mission</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_02_01_radarsat_constellation_mission_rcm_processing.html">
+ <span class="dropdown-text">RCM Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_02_02_radarsat_grd_data.html">
+ <span class="dropdown-text">RADARSAT GRD Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_02_03_radarsat_constellation_mission_rcm_insar_processing.html">
+ <span class="dropdown-text">RCM InSAR Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_02_04_radarsat_polarimetric_sar_polsar.html">
+ <span class="dropdown-text">RADARSAT Polarimetric SAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_02_05_compact_polarimetry_cp.html">
+ <span class="dropdown-text">Compact-polarimetry</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_03_00_nisar_nasa_isro_synthetic_aperture_radar.html">
+ <span class="dropdown-text">NISAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_03_01_nisar_processing.html">
+ <span class="dropdown-text">NISAR Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_03_02_nisar_rslc_range_doppler_single_look_complex_processing.html">
+ <span class="dropdown-text">NISAR RSLC</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_03_03_nisar_gslc_geocoded_single_look_complex_processing.html">
+ <span class="dropdown-text">NISAR GSLC</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_03_04_nisar_gcov_geocoded_polarimetric_covariance_processing.html">
+ <span class="dropdown-text">NISAR GCOV</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_03_radar/09_03_03_05_nisar_gunw_geocoded_unwrapped_interferogram.html">
+ <span class="dropdown-text">NISAR GUNW</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-uav-hyperspectral--lidar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">UAV, Hyperspectral &amp; LiDAR</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-uav-hyperspectral--lidar">    
+        <li class="dropdown-header">UAV</li>
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_01_uav_fundamentals_and_mission_planning.html">
+ <span class="dropdown-text">UAV Fundamentals and Mission Planning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_02_reading_and_inspecting_uav_imagery.html">
+ <span class="dropdown-text">Reading and Inspecting UAV Imagery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_03_photogrammetry_orthomosaic_dsm_and_dtm.html">
+ <span class="dropdown-text">Photogrammetry</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_04_rgb_vegetation_indices_and_canopy_cover.html">
+ <span class="dropdown-text">RGB Vegetation Indices and Canopy Cover</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_05_rgb_plus_nir_multispectral_analysis.html">
+ <span class="dropdown-text">RGB + NIR Multispectral Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_06_dem_correction_and_canopy_height.html">
+ <span class="dropdown-text">DEM Correction and Canopy Height</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_07_plant_counting_and_size.html">
+ <span class="dropdown-text">Plant Counting and Size</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_08_crop_health_sam_plant_masks_and_senescence_detection.html">
+ <span class="dropdown-text">Crop Health</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_09_panicle_detection_with_yolo.html">
+ <span class="dropdown-text">Panicle Detection with YOLO</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_04_uav/09_04_10_season_long_phenotyping.html">
+ <span class="dropdown-text">Season-Long Phenotyping</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Hyperspectral</li>
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_00_introduction_to_imaging_spectroscopy.html">
+ <span class="dropdown-text">Introduction to Imaging Spectroscopy</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_01_reading_and_exploring_hyperspectral_data.html">
+ <span class="dropdown-text">Reading and Exploring Hyperspectral Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_02_preprocessing_hyperspectral_cubes.html">
+ <span class="dropdown-text">Preprocessing Hyperspectral Cubes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_03_dimensionality_reduction_and_band_selection.html">
+ <span class="dropdown-text">Dimensionality Reduction and Band Selection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_04_narrowband_indices_and_vegetation_analysis.html">
+ <span class="dropdown-text">Narrowband Indices and Vegetation Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_05_biophysical_and_biochemical_trait_retrieval.html">
+ <span class="dropdown-text">Biophysical and Biochemical Trait Retrieval</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_06_spectral_libraries_and_spectral_matching.html">
+ <span class="dropdown-text">Spectral Libraries and Spectral Matching</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_07_endmember_extraction_and_spectral_unmixing.html">
+ <span class="dropdown-text">Endmember Extraction and Spectral Unmixing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_08_target_and_anomaly_detection.html">
+ <span class="dropdown-text">Target and Anomaly Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_09_greenhouse_gas_plume_detection.html">
+ <span class="dropdown-text">Greenhouse Gas Plume Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_10_thematic_applications_across_tanager_scenes.html">
+ <span class="dropdown-text">Thematic Applications Across Tanager Scenes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_05_HyperSpectral/09_05_11_deep_learning_for_hyperspectral_classification.html">
+ <span class="dropdown-text">Deep Learning for Hyperspectral Classification</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">LiDAR</li>
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_01_lidar_fundamentals.html">
+ <span class="dropdown-text">LiDAR Fundamentals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_02_lidar_processing_quality_control_cleaning_ground_classification_and_surface_models.html">
+ <span class="dropdown-text">LiDAR Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_03_terrain_and_hydrology_from_lidar_dems.html">
+ <span class="dropdown-text">Terrain and Hydrology from LiDAR DEMs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_04_forest_structure_and_individual_trees_from_lidar.html">
+ <span class="dropdown-text">Forest Structure and Individual Trees from LiDAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_05_buildings_and_urban_features_from_lidar.html">
+ <span class="dropdown-text">Buildings and Urban Features from LiDAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_06_point_cloud_classification_with_machine_learning_and_deep_learning.html">
+ <span class="dropdown-text">Point Cloud Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_07_spaceborne_lidar_gedi_and_icesat_2.html">
+ <span class="dropdown-text">Spaceborne LiDAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_06_lidar/09_06_08_large_area_lidar_processing_tiling_streaming_parallel_work_and_the_gpu.html">
+ <span class="dropdown-text">Large-Area LiDAR Processing</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-image-analysis--ai" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Image Analysis &amp; AI</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-image-analysis--ai">    
+        <li class="dropdown-header">Texture Analysis</li>
+        <li>
+    <a class="dropdown-item" href="../09_07_texture_analysis/09_07_00_texture_analysis.html">
+ <span class="dropdown-text">Texture Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_07_texture_analysis/09_07_01_texture_analysis_of_landsat_imagery_statistical_and_structural_methods.html">
+ <span class="dropdown-text">Statistical and Structural Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_07_texture_analysis/09_07_02_texture_analysis_of_landsat_imagery_transform_based_spectral_methods.html">
+ <span class="dropdown-text">Transform-Based Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_07_texture_analysis/09_07_03_texture_analysis_of_landsat_imagery_local_pattern_based_methods_lbp.html">
+ <span class="dropdown-text">Local Pattern-Based Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_07_texture_analysis/09_07_04_texture_analysis_of_landsat_imagery_model_based_methods.html">
+ <span class="dropdown-text">Model-Based Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_07_texture_analysis/09_07_05_texture_analysis_of_landsat_imagery_deep_learning_based_methods.html">
+ <span class="dropdown-text">Deep-Learning-Based Methods</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Image Super-Resolution</li>
+        <li>
+    <a class="dropdown-item" href="../09_08_image_super_resolution/09_08_00_image_super_resolution.html">
+ <span class="dropdown-text">Image Super-Resolution</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_08_image_super_resolution/09_08_01_landsat_8_to_sentinel_2_six_band_super_resolution.html">
+ <span class="dropdown-text">Landsat 8 to Sentinel-2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_08_image_super_resolution/09_08_02_sentinel_2_to_planetscope_multispectral_super_resolution.html">
+ <span class="dropdown-text">Sentinel-2 to PlanetScope</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_08_image_super_resolution/09_08_03_planetscope_to_high_resolution_naip_style_imagery_super_resolution.html">
+ <span class="dropdown-text">PlanetScope to NAIP-style Imagery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_08_image_super_resolution/09_08_04_landsat_8_sentinel_2_planetscope_and_high_resolution_imagery.html">
+ <span class="dropdown-text">Landsat 8 to High Resolution</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Image Classification</li>
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_01_01_introduction_to_image_classification.html">
+ <span class="dropdown-text">Introduction to Image Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_01_02_image_processing.html">
+ <span class="dropdown-text">Image Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_01_03_sampling_accuracy_assessment_and_reproducible_runs.html">
+ <span class="dropdown-text">Sampling and Accuracy Assessment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_02_01_classical_image_classification_pixel_based_and_object_based.html">
+ <span class="dropdown-text">Classical Image Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_02_02_image_classification_with_a_cnn_on_the_gpu_landsat_and_the_cropland_data_layer.html">
+ <span class="dropdown-text">CNN Classification on the GPU</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_02_03_deep_learning_for_sentinel_2_cnn_resnet_efficientnet_convnext_vit_and_swin_on_the_gpu.html">
+ <span class="dropdown-text">Deep Learning for Sentinel-2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_02_04_transfer_learning_and_vision_transformers_for_sentinel_2_imagenet_vs_remote_sensing_weights.html">
+ <span class="dropdown-text">Transfer Learning and Transformers</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_03_01_crop_classification_with_sentinel_1_sar_time_series_pixel_classifiers_and_deep_cnns_vv_vh_may_october_2024.html">
+ <span class="dropdown-text">Crops from Sentinel-1 Time Series</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_03_02_spatio_temporal_and_multi_sensor_crop_mapping_sentinel_2_sentinel_1_and_landsat_time_series_2020_to_2025.html">
+ <span class="dropdown-text">Multi-Sensor Crop Mapping</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_03_03_change_detection_classical_post_classification_and_deep_methods_on_landsat_and_sentinel_2_2020_to_2025.html">
+ <span class="dropdown-text">Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_04_01_semantic_segmentation_of_crop_types_from_sentinel_2_fcn_u_net_deeplabv3_plus_and_segformer_on_the_gpu.html">
+ <span class="dropdown-text">Semantic Segmentation of Crops</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_04_02_instance_segmentation_of_agricultural_fields_with_mask_r_cnn.html">
+ <span class="dropdown-text">Instance Segmentation of Fields</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_05_03_imperfect_labels_and_domain_shift.html">
+ <span class="dropdown-text">Imperfect Labels and Domain Shift</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_09_image_classification/09_09_05_04_multi_sensor_image_fusion.html">
+ <span class="dropdown-text">Multi-Sensor Image Fusion</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Object Detection</li>
+        <li>
+    <a class="dropdown-item" href="../09_10_object_detection/09_10_00_object_detection.html">
+ <span class="dropdown-text">Object Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_10_object_detection/09_10_01_object_detection_in_aerial_imagery.html">
+ <span class="dropdown-text">Object Detection in Aerial Imagery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_10_object_detection/09_10_02_field_boundary_detection_in_google_satellite_screenshots_bangladesh.html">
+ <span class="dropdown-text">Field Boundaries in Google Imagery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_10_object_detection/09_10_03_field_edge_detection_in_worldview_imagery_rgb_versus_rgb_plus_nir.html">
+ <span class="dropdown-text">Field Edges in WorldView Imagery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_10_object_detection/09_10_04_field_edge_detection_in_sentinel_2_fields_of_the_world_versus_delineate_anything.html">
+ <span class="dropdown-text">Field Edges in Sentinel-2</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Foundation Models</li>
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_00_what_foundation_models_are_and_why_remote_sensing_needs_them.html">
+ <span class="dropdown-text">What Foundation Models Are</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_01_self_supervised_pretraining_for_sentinel_2_crop_mapping.html">
+ <span class="dropdown-text">Self-Supervised Pretraining</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_02_geospatial_foundation_models_embeddings_promptable_segmentation_and_zero_shot_classification.html">
+ <span class="dropdown-text">Geospatial Foundation Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_03_from_a_geotiff_to_an_embedding_map.html">
+ <span class="dropdown-text">From a GeoTIFF to an Embedding Map</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_04_prithvi_ssl4eo_satlaspretrain_and_scale_mae_on_sentinel_2.html">
+ <span class="dropdown-text">Optical Encoders on Sentinel-2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_05_one_model_for_many_sensors_dofa_panopticon_copernicus_fm_croma_and_terramind.html">
+ <span class="dropdown-text">One Model for Many Sensors</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_06_time_in_foundation_models_prithvi_tl_anysat_presto_and_galileo.html">
+ <span class="dropdown-text">Time in Foundation Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_07_alphaearth_foundations_precomputed_embeddings_for_the_whole_planet.html">
+ <span class="dropdown-text">AlphaEarth Foundations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_08_foundation_model_embeddings_as_covariates_digital_soil_mapping_of_soc.html">
+ <span class="dropdown-text">Embeddings as Covariates</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_09_very_high_resolution_dinov3_sat_satlas_naip_scale_mae_and_sam_2.html">
+ <span class="dropdown-text">Very High Resolution Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_10_vision_language_models_zero_shot_classification_and_text_retrieval.html">
+ <span class="dropdown-text">Vision-Language Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_11_change_and_similarity_in_embedding_space.html">
+ <span class="dropdown-text">Change and Similarity in Embedding Space</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_12_weather_and_earth_system_foundation_models.html">
+ <span class="dropdown-text">Weather and Earth System Foundation Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_11_foundations_models/09_11_13_benchmarking_foundation_models_on_your_own_data.html">
+ <span class="dropdown-text">Benchmarking Foundation Models</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-energy-balance--capstones" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Energy Balance &amp; Capstones</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-energy-balance--capstones">    
+        <li class="dropdown-header">Surface Energy Balance</li>
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_00_evapotranspiration_and_the_surface_energy_balance.html">
+ <span class="dropdown-text">ET and the Energy Balance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_01_building_an_analysis_ready_stack_for_energy_balance_models.html">
+ <span class="dropdown-text">An Analysis-Ready Stack</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_02_reference_et_with_the_asce_standardized_penman_monteith_equation.html">
+ <span class="dropdown-text">Reference ET (ASCE Penman-Monteith)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_03_net_radiation_from_landsat_albedo_emissivity_and_surface_temperature.html">
+ <span class="dropdown-text">Net Radiation from Landsat</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_04_soil_heat_flux_roughness_and_aerodynamic_resistance.html">
+ <span class="dropdown-text">Soil Heat Flux and Aerodynamics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_05_sebal_solving_for_sensible_heat_with_hot_and_cold_pixels.html">
+ <span class="dropdown-text">SEBAL</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_06_metric_internal_calibration_against_reference_et.html">
+ <span class="dropdown-text">METRIC</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_07_ssebop_s_sebi_the_triangle_method_and_pt_jpl.html">
+ <span class="dropdown-text">SSEBop, S-SEBI, Triangle, PT-JPL</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_08_two_source_energy_balance_separating_soil_evaporation_and_transpiration.html">
+ <span class="dropdown-text">Two-Source Energy Balance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_09_et_at_other_resolutions_modis_sentinel_3_and_sentinel_2_with_thermal_sharpening.html">
+ <span class="dropdown-text">ET at Other Resolutions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_10_from_snapshots_to_seasonal_et_and_crop_water_use.html">
+ <span class="dropdown-text">Seasonal ET and Crop Water Use</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_11_how_good_is_the_et_map_validation_sensitivity_and_uncertainty.html">
+ <span class="dropdown-text">Validation and Uncertainty</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html">
+ <span class="dropdown-text">Capstone: Boro Rice Water Use</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Capstone Projects</li>
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html">
+ <span class="dropdown-text">Change around Pucallpa, Peru</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html">
+ <span class="dropdown-text">Fifty Years in the Bangladesh Delta</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html">
+ <span class="dropdown-text">Wildfire Burned Area</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
+ <span class="dropdown-text">Rohingya Deforestation: Sentinel-2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
+ <span class="dropdown-text">Flood Mapping in Sylhet</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
+ <span class="dropdown-text">Rohingya Deforestation: Sentinel-1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
+ <span class="dropdown-text">Ship Detection, Strait of Hormuz</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
+ <span class="dropdown-text">Crops from NISAR GCOV</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
+ <span class="dropdown-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
+ <span class="dropdown-text">Charland Monitoring, Lower Meghna</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
+ <span class="dropdown-text">Shrimp Ghers in Coastal Bangladesh</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
+ <span class="dropdown-text">Big Sur Wildfire, 2026</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
+ <span class="dropdown-text">Wetland Paddy in Bangladesh</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
+ <span class="dropdown-text">Field Edges across Four Countries</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
+ <span class="dropdown-text">Tree Biomass and Carbon from LiDAR</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
+ <span class="dropdown-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../09_03_radar/09_03_00_sar_fundamentals.html"><strong>Radar (SAR and InSAR)</strong></a></li><li class="breadcrumb-item"><a href="../09_03_radar/09_03_01_01_sentinel_1_sar_processing.html">Sentinel-1 SAR Processing</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../09_03_radar/09_03_00_sar_fundamentals.html"><strong>Radar (SAR and InSAR)</strong></a></li><li class="breadcrumb-item"><a href="../09_03_radar/09_03_01_01_sentinel_1_sar_processing.html">Sentinel-1 SAR Processing</a></li></ol></nav></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="../images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Foundations</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_01_foundations/09_01_00_remote_sensing_fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Remote Sensing Fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_01_foundations/09_01_01_the_python_geospatial_environment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The Python Geospatial Environment</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_01_foundations/09_01_02_raster_and_vector_data_essentials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raster and Vector Data Essentials</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_01_foundations/09_01_03_data_discovery_and_access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Discovery and Access</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_01_foundations/09_01_04_getting_access_to_remote_sensing_images.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting Access to Remote Sensing Images</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Optical</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_02_optical/09_02_01_introduction_to_optical_satellite_images.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Optical Satellite Images</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_02_optical/09_02_02_preprocessing_of_optical_images.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preprocessing of Optical Images</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_02_optical/09_02_03_modis_global_monitoring_every_day.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Global Monitoring Every Day</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_02_optical/09_02_04_landsat_half_a_century_of_earth_observation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Landsat</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_02_optical/09_02_05_sentinel_2_red_edge_10_m_and_five_day_revisits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_02_optical/09_02_06_sentinel_3_ocean_colour_surface_temperature_and_altimetry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_02_optical/09_02_07_sentinel_5p_and_sentinel_5_mapping_air_pollution_from_orbit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-5P and Sentinel-5</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Radar (SAR and InSAR)</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_00_sar_fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SAR Fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_00_sentinel_1_sar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 SAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_01_sentinel_1_sar_processing.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Sentinel-1 SAR Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_02_sentinel_1_grd_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 GRD Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_03_sentinel_1_multitemporal_grd_time_series_deforestation_around_the_rohingya_camps_2017.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 GRD Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_04_topographic_insar_a_dem_from_a_sentinel_1_slc_pair.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Topographic InSAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_05_differential_insar_dinsar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Differential InSAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_06_sbas_small_baseline_subset_insar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SBAS InSAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_07_persistent_scatterer_insar_ps_insar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Persistent Scatterer InSAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_08_dual_pol_polarimetric_decomposition_slc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dual-Pol Polarimetric Decomposition</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_09_interferometric_coherence_of_slcs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interferometric Coherence of SLCs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_01_10_sentinel_1_based_indices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Based Indices</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_02_00_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RADARSAT Constellation Mission</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_02_01_radarsat_constellation_mission_rcm_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RCM Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_02_02_radarsat_grd_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RADARSAT GRD Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_02_03_radarsat_constellation_mission_rcm_insar_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RCM InSAR Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_02_04_radarsat_polarimetric_sar_polsar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RADARSAT Polarimetric SAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_02_05_compact_polarimetry_cp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Compact-polarimetry</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_03_00_nisar_nasa_isro_synthetic_aperture_radar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NISAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_03_01_nisar_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NISAR Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_03_02_nisar_rslc_range_doppler_single_look_complex_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NISAR RSLC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_03_03_nisar_gslc_geocoded_single_look_complex_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NISAR GSLC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_03_04_nisar_gcov_geocoded_polarimetric_covariance_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NISAR GCOV</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_03_radar/09_03_03_05_nisar_gunw_geocoded_unwrapped_interferogram.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NISAR GUNW</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>UAV</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_01_uav_fundamentals_and_mission_planning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">UAV Fundamentals and Mission Planning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_02_reading_and_inspecting_uav_imagery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reading and Inspecting UAV Imagery</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_03_photogrammetry_orthomosaic_dsm_and_dtm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Photogrammetry</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_04_rgb_vegetation_indices_and_canopy_cover.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RGB Vegetation Indices and Canopy Cover</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_05_rgb_plus_nir_multispectral_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RGB + NIR Multispectral Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_06_dem_correction_and_canopy_height.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DEM Correction and Canopy Height</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_07_plant_counting_and_size.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Plant Counting and Size</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_08_crop_health_sam_plant_masks_and_senescence_detection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Crop Health</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_09_panicle_detection_with_yolo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panicle Detection with YOLO</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_04_uav/09_04_10_season_long_phenotyping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Season-Long Phenotyping</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Hyperspectral</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_00_introduction_to_imaging_spectroscopy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Imaging Spectroscopy</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_01_reading_and_exploring_hyperspectral_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reading and Exploring Hyperspectral Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_02_preprocessing_hyperspectral_cubes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preprocessing Hyperspectral Cubes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_03_dimensionality_reduction_and_band_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dimensionality Reduction and Band Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_04_narrowband_indices_and_vegetation_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Narrowband Indices and Vegetation Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_05_biophysical_and_biochemical_trait_retrieval.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Biophysical and Biochemical Trait Retrieval</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_06_spectral_libraries_and_spectral_matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spectral Libraries and Spectral Matching</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_07_endmember_extraction_and_spectral_unmixing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Endmember Extraction and Spectral Unmixing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_08_target_and_anomaly_detection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Target and Anomaly Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_09_greenhouse_gas_plume_detection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Greenhouse Gas Plume Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_10_thematic_applications_across_tanager_scenes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Thematic Applications Across Tanager Scenes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_05_HyperSpectral/09_05_11_deep_learning_for_hyperspectral_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Deep Learning for Hyperspectral Classification</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>LiDAR</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_01_lidar_fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">LiDAR Fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_02_lidar_processing_quality_control_cleaning_ground_classification_and_surface_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">LiDAR Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_03_terrain_and_hydrology_from_lidar_dems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Terrain and Hydrology from LiDAR DEMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_04_forest_structure_and_individual_trees_from_lidar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forest Structure and Individual Trees from LiDAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_05_buildings_and_urban_features_from_lidar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Buildings and Urban Features from LiDAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_06_point_cloud_classification_with_machine_learning_and_deep_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Point Cloud Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_07_spaceborne_lidar_gedi_and_icesat_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spaceborne LiDAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_06_lidar/09_06_08_large_area_lidar_processing_tiling_streaming_parallel_work_and_the_gpu.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Large-Area LiDAR Processing</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Texture Analysis</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_07_texture_analysis/09_07_00_texture_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Texture Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_07_texture_analysis/09_07_01_texture_analysis_of_landsat_imagery_statistical_and_structural_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistical and Structural Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_07_texture_analysis/09_07_02_texture_analysis_of_landsat_imagery_transform_based_spectral_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transform-Based Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_07_texture_analysis/09_07_03_texture_analysis_of_landsat_imagery_local_pattern_based_methods_lbp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Local Pattern-Based Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_07_texture_analysis/09_07_04_texture_analysis_of_landsat_imagery_model_based_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model-Based Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_07_texture_analysis/09_07_05_texture_analysis_of_landsat_imagery_deep_learning_based_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Deep-Learning-Based Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Image Super-Resolution</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_08_image_super_resolution/09_08_00_image_super_resolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Super-Resolution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_08_image_super_resolution/09_08_01_landsat_8_to_sentinel_2_six_band_super_resolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Landsat 8 to Sentinel-2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_08_image_super_resolution/09_08_02_sentinel_2_to_planetscope_multispectral_super_resolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-2 to PlanetScope</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_08_image_super_resolution/09_08_03_planetscope_to_high_resolution_naip_style_imagery_super_resolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PlanetScope to NAIP-style Imagery</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_08_image_super_resolution/09_08_04_landsat_8_sentinel_2_planetscope_and_high_resolution_imagery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Landsat 8 to High Resolution</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Image Classification</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_01_01_introduction_to_image_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Image Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_01_02_image_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_01_03_sampling_accuracy_assessment_and_reproducible_runs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sampling and Accuracy Assessment</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_02_01_classical_image_classification_pixel_based_and_object_based.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classical Image Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_02_02_image_classification_with_a_cnn_on_the_gpu_landsat_and_the_cropland_data_layer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CNN Classification on the GPU</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_02_03_deep_learning_for_sentinel_2_cnn_resnet_efficientnet_convnext_vit_and_swin_on_the_gpu.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Deep Learning for Sentinel-2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_02_04_transfer_learning_and_vision_transformers_for_sentinel_2_imagenet_vs_remote_sensing_weights.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transfer Learning and Transformers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_03_01_crop_classification_with_sentinel_1_sar_time_series_pixel_classifiers_and_deep_cnns_vv_vh_may_october_2024.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Crops from Sentinel-1 Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_03_02_spatio_temporal_and_multi_sensor_crop_mapping_sentinel_2_sentinel_1_and_landsat_time_series_2020_to_2025.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multi-Sensor Crop Mapping</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_03_03_change_detection_classical_post_classification_and_deep_methods_on_landsat_and_sentinel_2_2020_to_2025.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_04_01_semantic_segmentation_of_crop_types_from_sentinel_2_fcn_u_net_deeplabv3_plus_and_segformer_on_the_gpu.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Semantic Segmentation of Crops</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_04_02_instance_segmentation_of_agricultural_fields_with_mask_r_cnn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instance Segmentation of Fields</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_05_03_imperfect_labels_and_domain_shift.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Imperfect Labels and Domain Shift</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_09_image_classification/09_09_05_04_multi_sensor_image_fusion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multi-Sensor Image Fusion</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Object Detection</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_10_object_detection/09_10_00_object_detection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Object Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_10_object_detection/09_10_01_object_detection_in_aerial_imagery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Object Detection in Aerial Imagery</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_10_object_detection/09_10_02_field_boundary_detection_in_google_satellite_screenshots_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Field Boundaries in Google Imagery</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_10_object_detection/09_10_03_field_edge_detection_in_worldview_imagery_rgb_versus_rgb_plus_nir.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Field Edges in WorldView Imagery</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_10_object_detection/09_10_04_field_edge_detection_in_sentinel_2_fields_of_the_world_versus_delineate_anything.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Field Edges in Sentinel-2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Foundation Models</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_00_what_foundation_models_are_and_why_remote_sensing_needs_them.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What Foundation Models Are</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_01_self_supervised_pretraining_for_sentinel_2_crop_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Self-Supervised Pretraining</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_02_geospatial_foundation_models_embeddings_promptable_segmentation_and_zero_shot_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geospatial Foundation Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_03_from_a_geotiff_to_an_embedding_map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">From a GeoTIFF to an Embedding Map</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_04_prithvi_ssl4eo_satlaspretrain_and_scale_mae_on_sentinel_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Optical Encoders on Sentinel-2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_05_one_model_for_many_sensors_dofa_panopticon_copernicus_fm_croma_and_terramind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">One Model for Many Sensors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_06_time_in_foundation_models_prithvi_tl_anysat_presto_and_galileo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Time in Foundation Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_07_alphaearth_foundations_precomputed_embeddings_for_the_whole_planet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">AlphaEarth Foundations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_08_foundation_model_embeddings_as_covariates_digital_soil_mapping_of_soc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Embeddings as Covariates</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_09_very_high_resolution_dinov3_sat_satlas_naip_scale_mae_and_sam_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Very High Resolution Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_10_vision_language_models_zero_shot_classification_and_text_retrieval.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vision-Language Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_11_change_and_similarity_in_embedding_space.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Change and Similarity in Embedding Space</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_12_weather_and_earth_system_foundation_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weather and Earth System Foundation Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_11_foundations_models/09_11_13_benchmarking_foundation_models_on_your_own_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarking Foundation Models</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Surface Energy Balance</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_00_evapotranspiration_and_the_surface_energy_balance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ET and the Energy Balance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_01_building_an_analysis_ready_stack_for_energy_balance_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">An Analysis-Ready Stack</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_02_reference_et_with_the_asce_standardized_penman_monteith_equation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reference ET (ASCE Penman-Monteith)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_03_net_radiation_from_landsat_albedo_emissivity_and_surface_temperature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Net Radiation from Landsat</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_04_soil_heat_flux_roughness_and_aerodynamic_resistance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil Heat Flux and Aerodynamics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_05_sebal_solving_for_sensible_heat_with_hot_and_cold_pixels.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SEBAL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_06_metric_internal_calibration_against_reference_et.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">METRIC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_07_ssebop_s_sebi_the_triangle_method_and_pt_jpl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SSEBop, S-SEBI, Triangle, PT-JPL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_08_two_source_energy_balance_separating_soil_evaporation_and_transpiration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Two-Source Energy Balance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_09_et_at_other_resolutions_modis_sentinel_3_and_sentinel_2_with_thermal_sharpening.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ET at Other Resolutions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_10_from_snapshots_to_seasonal_et_and_crop_water_use.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Seasonal ET and Crop Water Use</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_11_how_good_is_the_et_map_validation_sensitivity_and_uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Validation and Uncertainty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capstone: Boro Rice Water Use</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Change around Pucallpa, Peru</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fifty Years in the Bangladesh Delta</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wildfire Burned Area</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rohingya Deforestation: Sentinel-2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Flood Mapping in Sylhet</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rohingya Deforestation: Sentinel-1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ship Detection, Strait of Hormuz</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Crops from NISAR GCOV</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Charland Monitoring, Lower Meghna</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shrimp Ghers in Coastal Bangladesh</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Big Sur Wildfire, 2026</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wetland Paddy in Bangladesh</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Field Edges across Four Countries</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tree Biomass and Carbon from LiDAR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#sentinel-1-sar-processing" id="toc-sentinel-1-sar-processing" class="nav-link active" data-scroll-target="#sentinel-1-sar-processing">Sentinel-1 SAR Processing</a>
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#core-concepts" id="toc-core-concepts" class="nav-link" data-scroll-target="#core-concepts">Core concepts</a>
+  <ul class="collapse">
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#contents" id="toc-contents" class="nav-link" data-scroll-target="#contents">Contents</a></li>
+  </ul></li>
+  <li><a href="#before-processing-selecting-scenes" id="toc-before-processing-selecting-scenes" class="nav-link" data-scroll-target="#before-processing-selecting-scenes">Before processing: selecting scenes</a></li>
+  <li><a href="#grd-backscatter-workflow-σ⁰-or-γ⁰" id="toc-grd-backscatter-workflow-σ⁰-or-γ⁰" class="nav-link" data-scroll-target="#grd-backscatter-workflow-σ⁰-or-γ⁰">GRD Backscatter Workflow (σ⁰ or γ⁰)</a></li>
+  <li><a href="#multitemporal-grd-time-series-workflow" id="toc-multitemporal-grd-time-series-workflow" class="nav-link" data-scroll-target="#multitemporal-grd-time-series-workflow">Multitemporal GRD time series workflow</a></li>
+  <li><a href="#slc-preprocessing-common-steps-for-all-phase-based-work" id="toc-slc-preprocessing-common-steps-for-all-phase-based-work" class="nav-link" data-scroll-target="#slc-preprocessing-common-steps-for-all-phase-based-work">SLC preprocessing (common steps for all phase-based work)</a>
+  <ul class="collapse">
+  <li><a href="#slc-preprocessing-steps" id="toc-slc-preprocessing-steps" class="nav-link" data-scroll-target="#slc-preprocessing-steps">SLC Preprocessing Steps</a></li>
+  </ul></li>
+  <li><a href="#differential-insar-dinsar-workflow-dinsar-vs.-insar" id="toc-differential-insar-dinsar-workflow-dinsar-vs.-insar" class="nav-link" data-scroll-target="#differential-insar-dinsar-workflow-dinsar-vs.-insar">Differential InSAR (DInSAR) Workflow: DInSAR vs.&nbsp;InSAR</a></li>
+  <li><a href="#interferometric-coherence-workflow" id="toc-interferometric-coherence-workflow" class="nav-link" data-scroll-target="#interferometric-coherence-workflow">Interferometric Coherence Workflow</a></li>
+  <li><a href="#insar-time-series-sbas-and-ps-insar" id="toc-insar-time-series-sbas-and-ps-insar" class="nav-link" data-scroll-target="#insar-time-series-sbas-and-ps-insar">InSAR Time Series (SBAS and PS-InSAR)</a></li>
+  <li><a href="#sbas-small-baseline-subset-method" id="toc-sbas-small-baseline-subset-method" class="nav-link" data-scroll-target="#sbas-small-baseline-subset-method">SBAS (Small Baseline Subset) Method</a></li>
+  <li><a href="#persistent-scatterer-ps-insar" id="toc-persistent-scatterer-ps-insar" class="nav-link" data-scroll-target="#persistent-scatterer-ps-insar">Persistent Scatterer (PS) InSAR</a></li>
+  <li><a href="#dual-pol-polarimetric-decomposition-slc" id="toc-dual-pol-polarimetric-decomposition-slc" class="nav-link" data-scroll-target="#dual-pol-polarimetric-decomposition-slc">Dual-Pol Polarimetric Decomposition (SLC)</a></li>
+  <li><a href="#ew-mode-sea-ice-workflow" id="toc-ew-mode-sea-ice-workflow" class="nav-link" data-scroll-target="#ew-mode-sea-ice-workflow">EW mode sea ice workflow</a></li>
+  <li><a href="#ship-detection-workflow-grd" id="toc-ship-detection-workflow-grd" class="nav-link" data-scroll-target="#ship-detection-workflow-grd">Ship detection workflow (GRD)</a></li>
+  <li><a href="#level-2-ocn-ocean-products" id="toc-level-2-ocn-ocean-products" class="nav-link" data-scroll-target="#level-2-ocn-ocean-products">Level-2 OCN (Ocean) Products</a></li>
+  <li><a href="#choosing-the-right-workflow" id="toc-choosing-the-right-workflow" class="nav-link" data-scroll-target="#choosing-the-right-workflow">Choosing the right workflow</a></li>
+  <li><a href="#sentinel-1-processing-with-geolattice" id="toc-sentinel-1-processing-with-geolattice" class="nav-link" data-scroll-target="#sentinel-1-processing-with-geolattice">Sentinel-1 Processing with GeoLattice</a></li>
+  <li><a href="#summary-and-conclusion" id="toc-summary-and-conclusion" class="nav-link" data-scroll-target="#summary-and-conclusion">Summary and Conclusion</a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional Resources</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/09_03_banner_rs_rader.png" class="img-fluid figure-img"></p>
+<figcaption>Banner</figcaption>
+</figure>
+</div>
+<section id="sentinel-1-sar-processing" class="level1">
+<h1>Sentinel-1 SAR Processing</h1>
+<p>The steps depend on the product (GRD or SLC) and what you want out of it (backscatter, coherence, deformation, polarimetry).</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>The workflows below use ESA SNAP operator names since they are the most common reference, with Python equivalents where useful.</p>
+</section>
+<section id="core-concepts" class="level2">
+<h2 class="anchored" data-anchor-id="core-concepts">Core concepts</h2>
+<section id="learning-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
+<ol type="1">
+<li>Select scenes with one product type, orbit direction, relative orbit, mode, and polarisation, and a temporal baseline that fits the application.</li>
+<li>Apply the GRD chain from precise orbits and noise removal through calibration, speckle filtering, terrain correction, and conversion to dB.</li>
+<li>Coregister a GRD time series, apply a multitemporal speckle filter, and compute temporal features in linear units.</li>
+<li>Prepare IW SLC data with TOPSAR-Split, an orbit file, back-geocoding, and enhanced spectral diversity.</li>
+<li>Explain how DInSAR removes topographic phase, and how coherence, SBAS, and persistent scatterers use a stack differently.</li>
+<li>Outline dual-pol decomposition, the EW sea-ice workflow, ship detection, and Level-2 ocean products.</li>
+<li>Match a monitoring goal to a product and workflow, and name the GeoLattice functions for search, GRD preprocessing, RTC, and interferograms.</li>
+</ol>
+</section>
+<section id="contents" class="level3">
+<h3 class="anchored" data-anchor-id="contents">Contents</h3>
+<ol type="1">
+<li>Before processing: selecting scenes</li>
+<li>GRD Backscatter Workflow (σ⁰ or γ⁰)</li>
+<li>Multitemporal GRD time series workflow</li>
+<li>SLC preprocessing (common steps for all phase-based work)</li>
+<li>Differential InSAR (DInSAR) Workflow: DInSAR vs.&nbsp;InSAR</li>
+<li>Interferometric Coherence Workflow</li>
+<li>InSAR Time Series (SBAS and PS-InSAR)</li>
+<li>SBAS (Small Baseline Subset) Method</li>
+<li>Persistent Scatterer (PS) InSAR</li>
+<li>Dual-Pol Polarimetric Decomposition (SLC)</li>
+<li>EW mode sea ice workflow</li>
+<li>Ship detection workflow (GRD)</li>
+<li>Level-2 OCN (Ocean) Products</li>
+<li>Choosing the right workflow</li>
+<li>Sentinel-1 Processing with GeoLattice</li>
+<li>Summary and Conclusion</li>
+<li>Additional Resources</li>
+</ol>
+</section>
+</section>
+<section id="before-processing-selecting-scenes" class="level2">
+<h2 class="anchored" data-anchor-id="before-processing-selecting-scenes">Before processing: selecting scenes</h2>
+<ol type="1">
+<li><strong>Pick the product type</strong>
+<ul>
+<li><strong>GRD (Ground Range Detected):</strong> Provides backscatter intensity data, useful for general land cover classification, crop mapping, flood detection, and ship/oil spill monitoring. It contains magnitude information only, not phase.</li>
+<li><strong>SLC (Single Look Complex):</strong> Contains both amplitude and phase information, required for applications like interferometry (InSAR for surface deformation), coherence analysis (change or stability detection), and advanced polarimetric decompositions. SLCs have finer spatial detail but require more complex processing, larger storage, and precise co-registration.</li>
+</ul></li>
+<li><strong>Keep geometry consistent</strong>
+<ul>
+<li><strong>Orbit direction:</strong> Use only ascending or only descending orbit scenes for a time series to ensure consistent viewing geometry. Mixing can cause undesirable geometry-related differences in backscatter.</li>
+<li><strong>Relative orbit (track):</strong> Use the same relative orbit number (track) when building multi-date stacks or time series, as this guarantees a nearly identical ground swath.</li>
+<li><strong>Acquisition mode:</strong> Use the same imaging mode. Interferometric Wide (IW) mode is standard for land; Extra Wide (EW) for sea ice; Stripmap (SM) for some specific sites.</li>
+<li><strong>Frame/Burst alignment (for SLC):</strong> For InSAR processing, ensure the scenes have the same burst/frame coverage and length to avoid edge artifacts or missing areas.</li>
+</ul></li>
+<li><strong>Check polarization:</strong>
+<ul>
+<li><strong>VV+VH (vertical transmit/vertical receive + vertical transmit/horizontal receive):</strong> Most common dual-pol for land surfaces, offering more information for crop types and land cover.</li>
+<li><strong>HH+HV (horizontal transmit/horizontal receive + horizontal transmit/vertical receive):</strong> Used mainly in polar or maritime regions, sensitive to sea ice and ocean phenomena.</li>
+<li>Choose scenes with the same polarization(s) to facilitate comparison and stacking.</li>
+</ul></li>
+<li><strong>Check temporal baseline:</strong>
+<ul>
+<li><strong>Coherence and InSAR applications:</strong> Select pairs with the shortest possible time interval (6 or 12 days for Sentinel-1, depending on location and date). Shorter baselines minimize surface changes that corrupt interferometric phase and maximize the likelihood of high coherence.</li>
+<li><strong>Time series analysis:</strong> Consistent and regular revisit intervals improve quality and robustness of temporal statistics/results.</li>
+</ul></li>
+<li><strong>Download precise orbit files (POEORB):</strong>
+<ul>
+<li>These files contain high-precision satellite position data, essential for accurate geocoding and InSAR. They are made available about 20 days after data acquisition.</li>
+<li>For near-real-time applications, use restituted orbits (RESORB), which are less accurate but available within hours. For any scientific or mapping application, always rerun processing with POEORB as soon as they are published.</li>
+</ul></li>
+<li><strong>Get a DEM (Digital Elevation Model):</strong>
+<ul>
+<li>A DEM is required for terrain correction and interferometric processing. The <strong>Copernicus DEM (GLO-30, 30m resolution)</strong> is currently the global standard, offering high accuracy and seamless coverage. It is freely available and recommended.</li>
+<li><strong>SRTM 1 arc-second (30m):</strong> Also works well for many areas, especially between latitudes 60°N and 56°S. For the best results in mountainous or non-SRTM regions, use GLO-30 or, if available, local high-resolution DEMs.</li>
+</ul></li>
+</ol>
+</section>
+<section id="grd-backscatter-workflow-σ⁰-or-γ⁰" class="level2">
+<h2 class="anchored" data-anchor-id="grd-backscatter-workflow-σ⁰-or-γ⁰">GRD Backscatter Workflow (σ⁰ or γ⁰)</h2>
+<p>This workflow outlines the main steps needed to process Sentinel-1 GRD (Ground Range Detected) data in order to generate backscatter images. Backscatter (σ⁰ or γ⁰) gives information about how much of the radar signal is reflected from the ground back to the satellite, which is crucial for many land applications.</p>
+<p>The process begins by reading the raw radar data and applying precise satellite position corrections. Next, it removes different types of noise, including instrument (thermal) noise and unwanted border artifacts. Afterward, the data is calibrated to turn raw digital numbers into physically meaningful backscatter values (σ⁰ or β⁰).</p>
+<p>In areas with hills or mountains, terrain-flattening optionally adjusts for the effects of slope on the radar signal, producing γ⁰ backscatter that is normalized to local ground surface. To improve image quality, a speckle filter is applied to reduce radar “graininess” without losing important detail.</p>
+<p>Terrain correction then geocodes the image, aligning it with a real-world map projection and using a digital elevation model (DEM) to account for topography. Finally, the backscatter data is converted into decibel (dB) scale for easier interpretation and analysis, and subsets can be made for the area of interest.</p>
+<p>This workflow ensures that the resulting images accurately reflect surface properties, are spatially consistent, and are ready for further analysis in GIS or remote sensing studies.</p>
+<p>Used for: land cover, crop mapping, soil moisture, forest monitoring, flood mapping.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>SNAP operator</th>
+<th>Purpose and Mathematical Details</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Read</td>
+<td>Load the GRD <code>.SAFE</code> or <code>.zip</code> file, this contains the observed radar intensity data in Digital Numbers (DN) for each pixel.</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Apply-Orbit-File</td>
+<td>Refine the satellite’s known position by applying precise orbit corrections, to improve geolocation (coordinate mapping of radar returns).</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>ThermalNoiseRemoval</td>
+<td>Remove additive instrument noise from the image, especially affecting cross-polarization (VH), typically by subtracting a noise floor estimated from calibration. If <span class="math inline">\(I_{\text{raw}}\)</span> is the raw intensity and <span class="math inline">\(N\)</span> is the thermal noise, then <span class="math inline">\(I_{\text{clean}} = I_{\text{raw}} - N\)</span>.</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Remove-GRD-Border-Noise</td>
+<td>Mask out low-intensity scenes and artifacts typically present at the scene edges after focusing, often by thresholding the pixel intensity.</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Calibration</td>
+<td>Convert DN to backscatter coefficient (<span class="math inline">\(\sigma^0\)</span> or <span class="math inline">\(\beta^0\)</span>). If <span class="math inline">\(DN\)</span> is the digital number and <span class="math inline">\(CF\)</span> is the calibration factor, <span class="math inline">\(\beta^0 = DN^2 \times CF\)</span>. <span class="math inline">\(\sigma^0\)</span> is normalized radar cross section per unit ground area. Calibration ensures results can be physically interpreted and compared across scenes.</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Terrain-Flattening (optional)</td>
+<td>In hilly terrain, radar backscatter is affected by local slope. Convert <span class="math inline">\(\beta^0\)</span> to <span class="math inline">\(\gamma^0\)</span> to correct for this: <span class="math inline">\(\gamma^0 = \frac{\beta^0}{\cos \theta_{local}}\)</span>, where <span class="math inline">\(\theta_{local}\)</span> is the local incidence angle (angle between radar and terrain normal). This produces estimates of radar backscatter as if the surface were flat, reducing topographic effects.</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Speckle-Filter</td>
+<td>Apply spatial filters (e.g., Refined Lee, Lee Sigma, Gamma-MAP) to reduce speckle noise, which is multiplicative. For example, the Lee filter’s output at a pixel is: <span class="math inline">\(I_{\text{filt}} = W \cdot I_{\text{mean}} + (1-W) \cdot I_{\text{orig}}\)</span>, where <span class="math inline">\(W\)</span> is a weighting function based on local mean and variance, and <span class="math inline">\(I_{\text{orig}}\)</span> is the original intensity.</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Terrain-Correction</td>
+<td>Geocode the raster, mapping radar image coordinates to map grid coordinates (e.g.&nbsp;UTM/WGS84) using a Digital Elevation Model (DEM) and Range-Doppler method, with pixel values resampled to a consistent ground resolution (typically 10 m). This ensures each pixel covers an equal-sized area on the ground.</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>LinearToFromdB</td>
+<td>Convert the calibrated linear backscatter to decibel (dB) scale for analysis by <span class="math inline">\([\text{dB}] = 10 \times \log_{10}(\sigma^0)\)</span>, where <span class="math inline">\(\sigma^0\)</span> is the backscatter coefficient. The dB scale emphasizes relative differences and compresses dynamic range.</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Subset / Write</td>
+<td>Clip the image (spatial subset) to the Area of Interest (AOI) and export data layers as GeoTIFF for mapping and GIS analysis.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes</strong> - For terrain flattening, always calibrate to <strong><span class="math inline">\(\beta^0\)</span></strong> (not <span class="math inline">\(\sigma^0\)</span>), since <span class="math inline">\(\beta^0\)</span> is the radar reflectivity per slant range pixel, and only then apply the terrain-flattening correction to obtain <strong><span class="math inline">\(\gamma^0\)</span></strong> for slope normalization. - If multitemporal speckle filtering will be done later, skip single-date speckle filters here, multitemporal approaches reduce noise while preserving temporal signal. - For all mathematical operations (averaging, composing, ratios, e.g.&nbsp;<span class="math inline">\(r = \frac{VH}{VV}\)</span>), use the linear (not dB) backscatter values throughout the workflow. Only convert to dB after all calculations to avoid bias, since <span class="math inline">\(10\log_{10}(\text{mean}(x)) \neq \text{mean}(10\log_{10}(x))\)</span>. - Statistical and band derivations after terrain correction (e.g., band ratio <span class="math inline">\(VH/VV\)</span> or Radar Vegetation Index <span class="math inline">\(RVI = \frac{4 \cdot VH}{VV + VH}\)</span>) should be computed using the linear backscatter values (not dB).</p>
+</section>
+<section id="multitemporal-grd-time-series-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="multitemporal-grd-time-series-workflow">Multitemporal GRD time series workflow</h2>
+<p>Used for: crop phenology, rice mapping, change detection, and deforestation monitoring using multi-temporal Sentinel-1 GRD data.</p>
+<p>Multitemporal GRD analysis leverages the temporal dimension to investigate surface change and seasonal dynamics. Each step is critical to ensuring spatial and radiometric consistency throughout the time series, enabling reliable extraction of temporal features per pixel.</p>
+<ol type="1">
+<li><strong>Run steps 1 to 5 of the GRD workflow on each scene:</strong>
+<ul>
+<li>Steps include: reading data, applying precise orbit files, removing thermal noise, masking border noise, and calibrating to backscatter coefficients (β⁰ or σ⁰) for each image.<br>
+</li>
+<li>All images should be from the same acquisition geometry (same Sentinel-1 satellite, track, frame, and orbit direction) to ensure spatial alignment and comparable incidence angles.</li>
+</ul></li>
+<li><strong>Coregister the stack:</strong>
+<ul>
+<li>Temporal co-registration ensures all images align perfectly at the pixel level over the time series.<br>
+</li>
+<li>Use SNAP <code>CreateStack</code> operator for precise co-registration of all scenes (can also terrain-correct each image to the same projected grid, which is often sufficient for land cover analysis).</li>
+</ul></li>
+<li><strong>Apply multitemporal speckle filtering:</strong>
+<ul>
+<li>Use SNAP’s <code>Multi-Temporal-Speckle-Filter</code> (e.g., Quegan filter) to reduce speckle while preserving both spatial structures and the temporal signature in each pixel.<br>
+</li>
+<li>Multitemporal filters outperform single-image filters by averaging over time, assuming temporal consistency of underlying signals.</li>
+</ul></li>
+<li><strong>Terrain correction on common grid:</strong>
+<ul>
+<li>Apply terrain correction to all images so they are geocoded to a consistent map grid (such as UTM), using a DEM (e.g., Copernicus GLO-30).<br>
+</li>
+<li>This step compensates for geometric distortions due to topography and ensures that multi-date stacking and later spatial analysis are reliable.</li>
+</ul></li>
+<li><strong>Convert to dB:</strong>
+<ul>
+<li>Transform the calibrated, terrain-corrected backscatter from linear power (<span class="math inline">\(\sigma^0\)</span> or <span class="math inline">\(\gamma^0\)</span>) to decibel scale: [dB] <span class="math inline">\(= 10 \log_{10}(\sigma^0)\)</span> per pixel.<br>
+</li>
+<li>dB values are easier to interpret for change detection, providing an intuitive measure of relative differences.</li>
+</ul></li>
+<li><strong>Build a data cube:</strong>
+<ul>
+<li>Stack all the processed images into a multi-temporal data cube, such as an <code>xarray.DataArray</code>, where the time dimension indexes dates of acquisition and spatial dimensions cover the Area of Interest.<br>
+</li>
+<li>This enables pixelwise analysis across time and facilitates downstream feature extraction and modeling.</li>
+</ul></li>
+<li><strong>Extract temporal features per pixel:</strong>
+<ul>
+<li>Calculate statistics such as mean, median, standard deviation, minimum, maximum, and percentiles for each pixel across the time axis.<br>
+</li>
+<li>Application-specific features include, for example, the date of minimum VH (useful for rice transplanting/flood detection), amplitude of seasonal change, and the speed or slope of temporal backscatter increase.</li>
+</ul></li>
+<li><strong>Optional smoothing:</strong>
+<ul>
+<li>To further reduce residual noise in the temporal signal, apply temporal smoothing filters (e.g., Savitzky-Golay filter or a running mean) to each pixel’s time series.<br>
+</li>
+<li>This is especially useful before extracting features sensitive to noise, such as change point detection.</li>
+</ul></li>
+<li><strong>Classification or modeling:</strong>
+<ul>
+<li>Use the extracted temporal features as input variables for land cover classification or change detection models.<br>
+</li>
+<li>Common algorithms include Random Forest, XGBoost, or, for time series sequence modeling, deep learning approaches like LSTM or Transformer architectures.</li>
+</ul></li>
+<li><strong>Validation:</strong>
+<ul>
+<li>Assess the accuracy of classification or change maps using ground truth from field surveys, agricultural records, or high-resolution reference imagery.</li>
+</ul></li>
+</ol>
+<p><strong>Rice mapping tip:</strong><br>
+- Rice transplanting causes a sudden decline in VH backscatter (flooded, bare soil; often below −20 dB), followed by a progressive increase as plants grow and scatter more radar energy. Detecting this sharp VH minimum and subsequent rise is a robust temporal indicator for paddy rice phenology.</p>
+</section>
+<section id="slc-preprocessing-common-steps-for-all-phase-based-work" class="level2">
+<h2 class="anchored" data-anchor-id="slc-preprocessing-common-steps-for-all-phase-based-work">SLC preprocessing (common steps for all phase-based work)</h2>
+<p>Sentinel-1 IW SLC (Single Look Complex) data are divided into 3 subswaths (IW1, IW2, IW3), and each subswath contains about 9 bursts. Each burst is an individual segment of data acquired in time and must be handled separately to avoid introducing artifacts, especially in phase analysis (e.g., for InSAR).</p>
+<section id="slc-preprocessing-steps" class="level3">
+<h3 class="anchored" data-anchor-id="slc-preprocessing-steps">SLC Preprocessing Steps</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>SNAP operator</th>
+<th>Purpose</th>
+<th>Mathematical/Technical Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>TOPSAR-Split</td>
+<td>Select subswath(s), polarization(s), and only the bursts covering your AOI (area of interest)</td>
+<td>Isolates subsets of data: If <span class="math inline">\(S(t, s)\)</span> is the signal as a function of time <span class="math inline">\(t\)</span> and subswath <span class="math inline">\(s\)</span>, this step selects <span class="math inline">\(S(t, s_{\mathrm{desired}})\)</span> and spatially subsets by burst to your AOI.</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Apply-Orbit-File</td>
+<td>Applies precise orbital information</td>
+<td>The satellite’s actual position and velocity can be denoted by <span class="math inline">\(\vec{r}(t), \vec{v}(t)\)</span>. This step refines the navigation metadata so pixel geolocation produces correct phase and amplitude geometry, reducing errors <span class="math inline">\(\Delta \vec{r}\)</span> introduced by the predicted orbit. Accurate orbits are crucial because any orbital error <span class="math inline">\(\delta \vec{r}\)</span> leads to phase errors <span class="math inline">\(\Delta \phi \approx -\frac{4\pi}{\lambda} (\delta \vec{r} \cdot \hat{l})\)</span> where <span class="math inline">\(\lambda\)</span> is radar wavelength and <span class="math inline">\(\hat{l}\)</span> is the look vector.</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Back-Geocoding</td>
+<td>Coregisters secondary (slave) image to reference (master) using precise orbits and a DEM (Digital Elevation Model)</td>
+<td>Each SLC pixel in the reference image has coordinates <span class="math inline">\((x^{(ref)}_i, y^{(ref)}_i)\)</span>; the secondary needs to be resampled so corresponding pixels align spatially. Formally, find a mapping <span class="math inline">\(T\)</span> such that <span class="math inline">\((x^{(slave)}_j, y^{(slave)}_j) \to (x^{(ref)}_i, y^{(ref)}_i)\)</span>. Back-geocoding thus matches each pixel in the slave to the reference, correcting for geometry and topography to minimize spatial misalignment, which is critical for consistent phase comparison.</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Enhanced-Spectral-Diversity (ESD)</td>
+<td>Fine azimuth (along-track) coregistration; essential for TOPS to avoid phase jumps at burst boundaries</td>
+<td>TOPS mode SLCs are acquired by rotating the beam during acquisition, which can create phase discontinuities at burst edges if bursts are not precisely aligned. Spectral diversity uses the overlap regions between bursts to estimate and correct small coregistration errors. The phase correction, <span class="math inline">\(\phi_{\text{corr}}\)</span>, is estimated using the difference between overlapping burst spectra, minimizing phase discontinuities by adjusting the azimuth alignment, i.e., <span class="math inline">\(\phi_{\text{ESD}} = \arg \left ( \sum_{k} S_1(k) S_2^*(k) \right )\)</span>, where <span class="math inline">\(S_1(k)\)</span> and <span class="math inline">\(S_2(k)\)</span> are the Fourier components in the overlap and <span class="math inline">\(^*\)</span> denotes complex conjugation.</td>
+</tr>
+</tbody>
+</table>
+<p>After these 4 preprocessing steps (TOPSAR-Split, Apply-Orbit-File, Back-Geocoding, and ESD), the coregistered SLCs are ready for advanced SAR processing, such as interferometry (measuring displacement/deformation from phase <span class="math inline">\(\phi\)</span>), coherence (computing temporal or spatial correlation), or polarimetry (analyzing scattering mechanisms by different polarizations).</p>
+</section>
+</section>
+<section id="differential-insar-dinsar-workflow-dinsar-vs.-insar" class="level2">
+<h2 class="anchored" data-anchor-id="differential-insar-dinsar-workflow-dinsar-vs.-insar">Differential InSAR (DInSAR) Workflow: DInSAR vs.&nbsp;InSAR</h2>
+<p><strong>What is DInSAR and how does it differ from conventional InSAR?</strong></p>
+<ul>
+<li><strong>InSAR (Interferometric Synthetic Aperture Radar):</strong> Uses the phase difference <span class="math inline">\(\Delta\phi\)</span> between two Synthetic Aperture Radar (SAR) images acquired from slightly different viewpoints (typically a short time apart, or in a “single-pass” configuration) to map topography. This “topographic phase” encodes the surface elevation.</li>
+<li><strong>DInSAR (Differential InSAR):</strong> Measures <em>surface deformation over time</em> by comparing two SAR images acquired at different times (from slightly different orbital positions). DInSAR removes the constant topographic phase (using a DEM or a third SAR acquisition, see below), so the remaining phase reflects only surface movement (deformation), atmospheric delays, and noise.</li>
+</ul>
+<p><strong>Key difference:</strong><br>
+- <em>InSAR measures topography; DInSAR measures temporal ground motion by removing topographic contribution.</em></p>
+<p><strong>Mathematical details</strong></p>
+<p>The observed interferometric phase at a pixel can be modeled as:</p>
+<p><span class="math inline">\(\displaystyle \phi_{\text{total}} = \phi_{\text{flat}} + \phi_{\text{topo}} + \phi_{\text{disp}} + \phi_{\text{atm}} + \phi_{\text{noise}}\)</span></p>
+<p>where: - <span class="math inline">\(\phi_{\text{flat}}\)</span>: flat-earth phase (due to imaging geometry) - <span class="math inline">\(\phi_{\text{topo}}\)</span>: phase due to surface elevation (topography) - <span class="math inline">\(\phi_{\text{disp}}\)</span>: phase due to displacement (the signal DInSAR seeks) - <span class="math inline">\(\phi_{\text{atm}}\)</span>: phase delays from atmosphere - <span class="math inline">\(\phi_{\text{noise}}\)</span>: decorrelation and noise</p>
+<p>In <em>conventional InSAR</em>, the primary outcome is <span class="math inline">\(\phi_{\text{topo}}\)</span> (topography).<br>
+In <em>DInSAR</em>, we wish to compute <span class="math inline">\(\phi_{\text{disp}}\)</span> (displacement), which requires removing both <span class="math inline">\(\phi_{\text{flat}}\)</span> and <span class="math inline">\(\phi_{\text{topo}}\)</span> (using accurate orbits and a DEM).</p>
+<p>The line-of-sight (LOS) displacement <span class="math inline">\(d_{\text{LOS}}\)</span> is related to unwrapped phase as:</p>
+<p><span class="math inline">\(\displaystyle d_{\text{LOS}} = -\frac{\lambda}{4\pi} \, \phi_{\text{unwrapped}}\)</span></p>
+<p>where: - <span class="math inline">\(\lambda\)</span> is the radar wavelength (here, <span class="math inline">\(\approx 5.55 \,\text{cm}\)</span> for Sentinel-1), - <span class="math inline">\(\phi_{\text{unwrapped}}\)</span> is the phase after flattening, topography removal, and phase unwrapping.</p>
+<p><em>Example</em>: For Sentinel-1, one full fringe (phase cycle of <span class="math inline">\(2\pi\)</span>) corresponds to <span class="math inline">\(\frac{\lambda}{2}\)</span>, so <span class="math inline">\(\approx 2.8\)</span> cm of LOS motion.</p>
+<p><strong>DInSAR Workflow Steps with Explanations</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>SNAP operator</th>
+<th>Mathematical/Technical Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 to 4</td>
+<td>(SLC preprocessing)</td>
+<td>See earlier: split SLC, orbit refinement, coregistration, spectral diversity to align images and ensure pixel correspondence. (Math: aligns <span class="math inline">\(S_1(x, y)\)</span> to <span class="math inline">\(S_2(x, y)\)</span> for pixelwise phase difference).</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>Interferogram</td>
+<td>Compute complex interferogram: <span class="math inline">\(I = S_{\mathrm{ref}} \cdot S^{*}_{\mathrm{sec}}\)</span>; phase <span class="math inline">\(\phi = \arg(I)\)</span>. Remove <span class="math inline">\(\phi_{\text{flat}}\)</span> for proper phase referencing; compute coherence as <span class="math inline">\(|\langle S_{\mathrm{ref}} S^{*}_{\mathrm{sec}}\rangle|/(\sigma_{\mathrm{ref}}\sigma_{\mathrm{sec}})\)</span> to assess reliability.</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>TOPSAR-Deburst</td>
+<td>Combine individual bursts into a continuous SLC grid (needed for Sentinel-1 IW mode, preserves phase consistency across bursts).</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>TOPSAR-Merge (if needed)</td>
+<td>Mosaic subswaths if AOI spans multiple sub-images.</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>TopoPhaseRemoval</td>
+<td>Subtract computed topographic phase <span class="math inline">\(\phi_{\text{topo}}\)</span> using a DEM and precise baseline; isolates <span class="math inline">\(\phi_{\text{disp}}\)</span>.</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td>Multilook</td>
+<td>Spatial averaging to reduce speckle and yield near-square pixels (e.g., <span class="math inline">\(4 \times 1\)</span> looks combines pixels in range and azimuth).</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>Goldstein-Phase-Filtering</td>
+<td>Apply adaptive filtering to smooth random phase noise while preserving deformation signals.</td>
+</tr>
+<tr class="even">
+<td>11</td>
+<td>SNAPHU export → unwrapping → import</td>
+<td>“Unwrap” phase so <span class="math inline">\(\phi \in \mathbb{R}\)</span>, not just <span class="math inline">\([-\pi, \pi]\)</span>. (Mathematically, integrate phase jumps to reconstruct continuous phase field.)</td>
+</tr>
+<tr class="odd">
+<td>12</td>
+<td>Phase-To-Displacement</td>
+<td>Apply <span class="math inline">\(d_{\text{LOS}} = -(\lambda/4\pi)\phi_{\text{unwrapped}}\)</span> to convert phase into meters of surface motion.</td>
+</tr>
+<tr class="even">
+<td>13</td>
+<td>Terrain-Correction</td>
+<td>Map output to geographic coordinates (orthorectification).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Quality checks and best practices</strong> - <em>Coherence masking</em>: Exclude pixels with low coherence (typically $&lt;$0.3), as noisy or rapidly changing ground conditions cause decorrelation. - <em>Baseline control</em>: Use pairs with low perpendicular baseline to reduce spatial decorrelation and minimize topographic errors. - <em>Atmospheric effects</em>: Compare phase with topography and/or meteorological data to spot and correct for stratified atmospheric delays. - <em>Multi-track processing</em>: To resolve 2D or 3D motion, combine DInSAR from ascending/descending passes; invert for up-/east-/north-components.</p>
+<p><strong>Summary Table, InSAR vs.&nbsp;DInSAR:</strong><br>
+| | InSAR | DInSAR | |–|——-|——–| | Main Output | Surface elevation (DEM) | Surface deformation (displacement map) | | Removes topography? | No | Yes, using DEM or 3-image stack | | Key Math | <span class="math inline">\(\phi \approx \phi_{\text{flat}} + \phi_{\text{topo}}\)</span> | <span class="math inline">\(\phi_{\text{disp}} = \phi - \phi_{\text{flat}} - \phi_{\text{topo}}\)</span> | | Typical application | DEM generation | Monitoring earthquakes, volcanoes, landslides, urban subsidence |</p>
+<p><strong>References:</strong><br>
+- <a href="https://doi.org/10.1029/97RG03139">Massonnet &amp; Feigl, “Radar interferometry and its application to changes in the Earth’s surface,” Rev.&nbsp;Geophys., 1998.</a><br>
+- <a href="https://sentinel.esa.int/web/sentinel/user-guides/sentinel-1-sar/interferometry">ESA Sentinel-1 InSAR Guide.</a></p>
+</section>
+<section id="interferometric-coherence-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="interferometric-coherence-workflow">Interferometric Coherence Workflow</h2>
+<p>Interferometric coherence is a measure of how similar two radar images (SLCs, or Single Look Complex data) are when observed at two different times. It quantifies, on a pixel-by-pixel basis, the degree to which ground features remain unchanged (“correlated”) versus altered between the two acquisitions.</p>
+<p>The coherence workflow typically involves preparing the SLC data (splitting bursts, aligning the images, correcting orbits), then computing the local similarity using a mathematical formula that compares the two radar signals over a small neighborhood or moving window. This results in a new image showing, for each pixel, how stable or reliable the radar signal is between the two dates, a value from 0 (completely different, very unstable or changed ground) to 1 (identical, extremely stable).</p>
+<p>Coherence maps are crucial for applications such as change detection, damage assessment after disasters, monitoring subsidence, or even tracking agricultural activity, because areas that experience change (like plowed soil, flooded fields, or collapsed buildings) will show a marked drop in coherence, while unchanged ground remains highly coherent.</p>
+<p><strong>Applications:</strong> Crop harvesting and tillage detection, urban mapping, flood extent in built-up areas, earthquake damage mapping, and more.</p>
+<p>The interferometric coherence <span class="math inline">\(\gamma\)</span> quantifies the similarity (correlation) between two complex SAR images (typically Single Look Complex, SLCs) acquired at different times. Coherence is computed as:</p>
+<p><span class="math display">\[
+\gamma = \frac{|\langle S_{\text{ref}} S^*_{\text{sec}} \rangle|}{\sqrt{ \langle |S_{\text{ref}}|^2 \rangle \langle |S_{\text{sec}}|^2 \rangle }}
+\]</span></p>
+<p>where: - <span class="math inline">\(S_{\text{ref}}\)</span> is the reference complex SAR image, - <span class="math inline">\(S_{\text{sec}}\)</span> is the secondary image, - <span class="math inline">\(S^*_{\text{sec}}\)</span> is the complex conjugate of the secondary image, - <span class="math inline">\(\langle \cdot \rangle\)</span> denotes spatial averaging over a moving window (e.g., 10 pixels in range × 3 pixels in azimuth).</p>
+<p>The denominator normalizes the correlation (so that <span class="math inline">\(0 \leq \gamma \leq 1\)</span>): - <span class="math inline">\(\gamma=1\)</span> indicates perfect correlation (no change, very stable scatterers). - <span class="math inline">\(\gamma=0\)</span> indicates complete decorrelation (temporal, volume, or geometric change).</p>
+<p><strong>Step-by-step workflow:</strong></p>
+<ol type="1">
+<li><p><strong>SLC preprocessing</strong>: Split subswaths, apply precise orbits, perform back-geocoding, and (with Sentinel-1 IW data) Enhanced Spectral Diversity (ESD) to align the images and ensure pixel correspondence. Mathematically, this ensures that <span class="math inline">\(S_{\text{ref}}(x, y)\)</span> and <span class="math inline">\(S_{\text{sec}}(x, y)\)</span> represent the same ground location.</p></li>
+<li><p><strong>Coherence operator:</strong> Calculate <span class="math inline">\(\gamma\)</span> for each pixel using a moving window (typically <span class="math inline">\(10 \times 3\)</span> pixels) as above. Spatial averaging both improves the stability of <span class="math inline">\(\gamma\)</span> and mitigates speckle noise, but at a loss of spatial detail.</p></li>
+<li><p><strong>TOPSAR-Deburst:</strong> For Sentinel-1 IW, SLC data are collected in bursts; de-bursting stacks them together, ensuring continuity of phase and coherence across burst boundaries.</p></li>
+<li><p><strong>TOPSAR-Merge (if applicable):</strong> If the Area of Interest (AOI) spans multiple sub-swaths, these are mosaicked into one continuous image.</p></li>
+<li><p><strong>Multilook (optional):</strong> Further spatial averaging (“looks”) can be applied to reduce speckle and improve radiometric quality. Mathematically, multilooking performs local averaging of both amplitude and phase, which reduces the variance of the coherence estimate while degrading resolution.</p></li>
+<li><p><strong>Terrain Correction:</strong> The resulting coherence (and other SAR products) are geocoded via orthorectification, mapping image coordinates to map coordinates using a DEM and the satellite’s geometry.</p></li>
+<li><p><strong>Build coherence time series:</strong> By pairing consecutive SLC scenes (e.g., 6 or 12 days apart for Sentinel-1), and repeating the above, a time series <span class="math inline">\(\gamma(t)\)</span> can be assembled for each pixel/patch. Time variations in <span class="math inline">\(\gamma\)</span> can then be interpreted for land cover change, agricultural practices, surface stability, or post-disaster damage.</p></li>
+</ol>
+<p><strong>Physical interpretation:</strong> - <span class="math inline">\(\gamma \approx 1\)</span>: Very stable scatterers (e.g., buildings, rocks), little or no phase change. - <span class="math inline">\(\gamma \ll 1\)</span>: Significant decorrelation due to rapid ground cover change (e.g., vegetation growth, plowing, flooding, snow, or urban destruction).</p>
+<p><strong>Practical note:</strong> A sharp drop in coherence over urban/built-up regions after an earthquake often indicates structural damage, as randomization of scatterers causes decorrelation.</p>
+</section>
+<section id="insar-time-series-sbas-and-ps-insar" class="level2">
+<h2 class="anchored" data-anchor-id="insar-time-series-sbas-and-ps-insar">InSAR Time Series (SBAS and PS-InSAR)</h2>
+<p><strong>Purpose:</strong> Detect and quantify long-term surface motions (e.g., subsidence from groundwater withdrawal, mining, or infrastructure shifts) with millimeter-per-year (mm/yr) accuracy.</p>
+<p><strong>Data Requirement:</strong> At least 20 Sentinel-1 SLC (Single Look Complex) scenes acquired from the same satellite track, spanning a year or longer. These images provide phase information essential for temporal analysis.</p>
+</section>
+<section id="sbas-small-baseline-subset-method" class="level2">
+<h2 class="anchored" data-anchor-id="sbas-small-baseline-subset-method">SBAS (Small Baseline Subset) Method</h2>
+<p>The SBAS method is a popular InSAR (Interferometric SAR) time series technique designed to track slow, long-term ground movements, such as subsidence, uplift, or landslide, with high accuracy. It works by carefully selecting pairs of radar images that are close together in both acquisition time and satellite position (“small baselines”), which helps to minimize errors from atmospheric variations and differences in imaging geometry. By analyzing a large set of these tightly spaced interferograms over time, SBAS can create displacement time-series for every pixel, helping scientists monitor ground deformation at millimeter precision over years.</p>
+<p><strong>1. Download SLC Data:</strong> Obtain <span class="math inline">\(N\)</span> SLC images <span class="math inline">\(\{S_1, S_2, \dots, S_N\}\)</span> and the corresponding precise orbit ephemerides.</p>
+<p><strong>2. Coregistration:</strong> All SLCs are geometrically aligned (coregistered) to a common reference date (say, <span class="math inline">\(S_{ref}\)</span>) so that pixels correspond spatially: <span class="math inline">\(S_k(x, y)\)</span> aligns to ground location <span class="math inline">\((x, y)\)</span> across all <span class="math inline">\(k\)</span>.</p>
+<p><strong>3. Interferogram Network Construction:</strong><br>
+Form a set of interferometric pairs <span class="math inline">\((i, j)\)</span> such that both their temporal baseline <span class="math inline">\(\Delta T_{ij}\)</span> and perpendicular spatial baseline <span class="math inline">\(\Delta B_\perp^{ij}\)</span> are below chosen thresholds. The network is typically sparse to avoid large decorrelation.</p>
+<p><strong>4. Interferogram Generation &amp; Unwrapping:</strong><br>
+For each selected <span class="math inline">\((i, j)\)</span>: - Compute the wrapped phase difference: <span class="math display">\[
+  \phi_{ij}(\mathbf{r}) = \arg\left[ S_i(\mathbf{r}) S_j^*(\mathbf{r}) \right]
+  \]</span> where <span class="math inline">\(*\)</span> denotes complex conjugate. - Apply filtering and unwrap phases in space to obtain <span class="math inline">\(\tilde{\phi}_{ij}(\mathbf{r})\)</span>.</p>
+<p><strong>5. Network Inversion for Displacement:</strong><br>
+For a stack of <span class="math inline">\(N\)</span> images, each interferogram measures relative phase changes: <span class="math display">\[
+  \tilde{\phi}_{ij} (\mathbf{r}) = \phi_j(\mathbf{r}) - \phi_i(\mathbf{r}) + \delta_{ij}(\mathbf{r})
+  \]</span> where <span class="math inline">\(\delta_{ij}\)</span> encompasses atmospheric, orbital, and noise contributions. Solve the system of equations (one per interferogram) for the phase (displacement) at each acquisition, often via least-squares or singular value decomposition (SVD) inversion. The phase is related to displacement as: <span class="math display">\[
+  d_k(\mathbf{r}) = \frac{\lambda}{4\pi} \, \phi_k(\mathbf{r})
+  \]</span> where <span class="math inline">\(\lambda\)</span> is the radar wavelength.</p>
+<p><strong>6. Atmospheric Delay Correction:</strong><br>
+Remove atmospheric artifacts by estimating <span class="math inline">\(\delta_{ij}\)</span> (with external models, e.g.&nbsp;GACOS or ERA5, or spatial filtering).</p>
+<p><strong>7. DEM Error Correction:</strong><br>
+The measured phase comprises a DEM error term; estimate a constant DEM offset for each pixel or scene and subtract it.</p>
+<p><strong>8. Velocity and Displacement Time Series:</strong><br>
+The per-date displacement estimates <span class="math inline">\(d_k(\mathbf{r})\)</span> yield a time series for every ground pixel; from the linear fit, estimate velocity: <span class="math display">\[
+  v(\mathbf{r}) = \frac{d_{N}(\mathbf{r}) - d_1(\mathbf{r})}{T_{N} - T_1}
+  \]</span> where <span class="math inline">\(T_k\)</span> is the time of scene <span class="math inline">\(k\)</span>.</p>
+<p><strong>9. Reference Point Calibration:</strong><br>
+Remove residual phase bias by “zeroing” the displacement to a non-moving reference pixel or calibrate against a GNSS station.</p>
+</section>
+<section id="persistent-scatterer-ps-insar" class="level2">
+<h2 class="anchored" data-anchor-id="persistent-scatterer-ps-insar">Persistent Scatterer (PS) InSAR</h2>
+<p>PS-InSAR stands for “Persistent Scatterer Interferometric Synthetic Aperture Radar.” It’s an advanced technique that uses a stack of SAR images to precisely measure ground movement at individual, stable point scatterers (such as buildings, rocks, or other objects that remain consistent over time) with millimeter accuracy.</p>
+<p>The method works by analyzing changes in the phase of reflected radar signals across many satellite passes, focusing only on those locations (“persistent scatterers”) that behave very consistently over time. By looking at these stable reflection points, PS-InSAR can filter out much of the noise and atmospheric effects that limit conventional InSAR, allowing for long-term ground deformation time series, even in areas with lots of vegetation or urban development.</p>
+<ol type="1">
+<li><p><strong>Coregistration:</strong> All Single Look Complex (SLC) images <span class="math inline">\(S_k\)</span> (<span class="math inline">\(k=1\dots N\)</span>) are coregistered to a common reference scene <span class="math inline">\(S_{ref}\)</span>, so that pixels correspond spatially across the stack: <span class="math inline">\(S_k(x, y)\)</span> refers to the same ground location <span class="math inline">\((x, y)\)</span> in all scenes.</p></li>
+<li><p><strong>Forming Interferograms with a Common Reference:</strong> For each subsequent SLC image <span class="math inline">\(S_k\)</span> (<span class="math inline">\(k \neq ref\)</span>), form the interferogram with respect to the reference: <span class="math display">\[
+I_k(\mathbf{r}) = S_k(\mathbf{r}) S_{ref}^*(\mathbf{r})
+\]</span> where <span class="math inline">\(\mathbf{r}\)</span> denotes pixel location, and <span class="math inline">\(^*\)</span> denotes the complex conjugate. This yields <span class="math inline">\(N - 1\)</span> interferograms, all referenced to the same epoch.</p></li>
+<li><p><strong>Selection of Persistent Scatterers:</strong> For each pixel, compute the amplitude dispersion index: <span class="math display">\[
+D_{amp}(\mathbf{r}) = \frac{\sigma_A(\mathbf{r})}{\mu_A(\mathbf{r})}
+\]</span> where <span class="math inline">\(\sigma_A\)</span> is the standard deviation and <span class="math inline">\(\mu_A\)</span> is the mean of the amplitude time series at <span class="math inline">\(\mathbf{r}\)</span>. Pixels with <span class="math inline">\(D_{amp}\)</span> below a threshold (commonly <span class="math inline">\(0.25\)</span>) are considered Persistent Scatterers (PS). Alternatively, phase stability or spectral tests can be used.</p></li>
+<li><p><strong>Parameter Estimation for PS Points:</strong> For each PS pixel, the unwrapped interferometric phase <span class="math inline">\(\tilde{\phi}_k(\mathbf{r}_{PS})\)</span> (relative to the reference) is modeled as: <span class="math display">\[
+\tilde{\phi}_k(\mathbf{r}_{PS}) = \phi_{disp}(t_k) + \phi_{DEM} + \phi_{atm}(t_k) + \phi_{noise}(t_k)
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\phi_{disp}\)</span>: phase due to displacement (to be estimated, typically linear in time for velocity, plus possible nonlinear components).</li>
+<li><span class="math inline">\(\phi_{DEM}\)</span>: phase due to DEM errors (constant per pixel).</li>
+<li><span class="math inline">\(\phi_{atm}\)</span>: atmospheric phase (varies per image).</li>
+<li><span class="math inline">\(\phi_{noise}\)</span>: residual noise. Parameter estimation is commonly done by time series analysis (e.g., Least Squares, SVD). The linear component yields mean velocity: <span class="math display">\[
+v_{PS} = \frac{\lambda}{4\pi} \cdot \text{slope}\left[\tilde{\phi}_k\right]
+\]</span> where <span class="math inline">\(\lambda\)</span> is radar wavelength.</li>
+</ul></li>
+<li><p><strong>Result:</strong> Output is a set of point-wise displacement time series <span class="math inline">\(d_k(\mathbf{r}_{PS})\)</span> and mean velocities <span class="math inline">\(v_{PS}\)</span> for each detected persistent scatterer.</p></li>
+</ol>
+<p><strong>Tools:</strong> ISCE2 <code>topsStack</code> + MintPy (SBAS for area-based, PS for point-based), SNAP → StaMPS (PS-InSAR), ASF HyP3 + MintPy (cloud), Dolphin (phase linking), NASA OPERA DISP-S1 (North America ready-made).</p>
+</section>
+<section id="dual-pol-polarimetric-decomposition-slc" class="level2">
+<h2 class="anchored" data-anchor-id="dual-pol-polarimetric-decomposition-slc">Dual-Pol Polarimetric Decomposition (SLC)</h2>
+<p>Dual-pol polarimetric decomposition is a technique used to extract detailed information about the physical and structural properties of the Earth’s surface from Synthetic Aperture Radar (SAR) data, specifically when only two polarization channels- usually VV (vertical transmit, vertical receive) and VH (vertical transmit, horizontal receive) -are available.</p>
+<p>In polarimetric SAR (PolSAR), each pixel of an image can contain complex information (amplitude and phase) about how radar signals interacted with the Earth’s surface. Dual-pol decomposition focuses on mathematically analyzing the relationships between the two available polarimetric channels (VV and VH), allowing us to infer land cover characteristics, detect and classify vegetation, map wetlands, and even gauge crop or forest structure.</p>
+<p>The process involves creating a <span class="math inline">\(2\times2\)</span> complex covariance matrix (<span class="math inline">\(\mathbf{C}_2\)</span>) at each pixel by combining the VV and VH channels. This matrix encodes both the intensity and the correlation between the two polarizations. Polarimetric decomposition methods (such as H/α decomposition) then analyze the eigenvalues and eigenvectors of this matrix to derive physically-interpretable parameters: entropy (<span class="math inline">\(H\)</span>), which measures randomness or heterogeneity of scattering; anisotropy (<span class="math inline">\(A\)</span>), which contrasts the strengths of different scattering mechanisms; and the mean alpha angle (<span class="math inline">\(\alpha\)</span>), which indicates the dominant type of scattering (surface, volume, or double-bounce) at that location.</p>
+<p>By applying dual-pol decomposition to Sentinel-1 SLC data, we can generate thematic maps that highlight differences in land cover, identify flooded areas, monitor vegetation change, or characterize surface structure, all using only the information in the VV and VH channels. This enables many advanced remote sensing applications even when full quad-polarimetric data is not available.</p>
+<p>Used for: land cover classification, vegetation structure, wetland mapping.</p>
+<p>The following workflow enables extraction of physical and structural properties of the scene using only the two dual-polarization channels (VV and VH) available in Sentinel-1 SLC data:</p>
+<ol type="1">
+<li><p><strong>TOPSAR-Split</strong>: Split both VV and VH polarization channels from the SLC product, so that <span class="math inline">\(S_{VV}(x, y)\)</span> and <span class="math inline">\(S_{VH}(x, y)\)</span> are available for all pixels <span class="math inline">\((x, y)\)</span>.</p></li>
+<li><p><strong>Apply-Orbit-File</strong>: Apply precise orbit information to correct satellite position and timing.</p></li>
+<li><p><strong>Calibration with complex output</strong>: Perform radiometric calibration to obtain calibrated backscatter values while preserving both amplitude and phase (complex values) of <span class="math inline">\(S_{VV}\)</span> and <span class="math inline">\(S_{VH}\)</span> for each pixel.</p></li>
+<li><p><strong>TOPSAR-Deburst</strong>: Merge burst-wise SLC slices into a single, seamless scene for further processing.</p></li>
+<li><p><strong>Polarimetric-Matrices (C2 covariance matrix)</strong>: For dual-pol (VV,VH), form the <span class="math inline">\(2 \times 2\)</span> complex covariance (C2) matrix for each pixel: <span class="math display">\[
+\mathbf{C}_2 =
+\begin{bmatrix}
+  \langle S_{VV} S_{VV}^* \rangle &amp; \langle S_{VV} S_{VH}^* \rangle \\
+  \langle S_{VH} S_{VV}^* \rangle &amp; \langle S_{VH} S_{VH}^* \rangle
+\end{bmatrix}
+\]</span> where <span class="math inline">\(\langle \cdot \rangle\)</span> denotes local multilook or averaging.</p></li>
+<li><p><strong>Multilook</strong>: Spatial averaging (multilooking) improves radiometric quality and reduces speckle, so all covariance/clutter statistics are estimated over a <span class="math inline">\(n \times m\)</span> pixel window: <span class="math display">\[
+\langle S_{ij} S_{kl}^* \rangle = \frac{1}{N} \sum_{n=1}^N S_{ij}^{(n)} \left(S_{kl}^{(n)}\right)^*
+\]</span></p></li>
+<li><p><strong>Polarimetric-Speckle-Filter</strong> (e.g.&nbsp;Refined Lee): Apply a polarimetric-adapted speckle filter to the C2 matrix to suppress noise while preserving polarimetric information.</p></li>
+<li><p><strong>Polarimetric-Decomposition → H-Alpha dual-pol</strong>: Perform eigenvalue/eigenvector decomposition of the (filtered) C2 matrix for each pixel, yielding the polarimetric entropy <span class="math inline">\(H\)</span>, anisotropy <span class="math inline">\(A\)</span>, and alpha angle <span class="math inline">\(\alpha\)</span>:</p>
+<ul>
+<li>Let <span class="math inline">\(\lambda_1, \lambda_2\)</span> be the normalized eigenvalues of <span class="math inline">\(C_2\)</span> (<span class="math inline">\(\lambda_1 + \lambda_2 = 1\)</span>), then:
+<ul>
+<li><strong>Entropy:</strong> <span class="math display">\[
+H = -\sum_{i=1}^2 \lambda_i \log_2 \lambda_i
+\]</span></li>
+<li><strong>Anisotropy:</strong> <span class="math display">\[
+A = \frac{\lambda_1 - \lambda_2}{\lambda_1 + \lambda_2}
+\]</span></li>
+<li><strong>Alpha angle:</strong> Weighted mean of scattering angle, from the eigenvector orientations; in dual-pol: <span class="math display">\[
+\alpha = \sum_{i=1}^2 \lambda_i \alpha_i
+\]</span> where <span class="math inline">\(\alpha_i\)</span> is derived from the eigenvector corresponding to <span class="math inline">\(\lambda_i\)</span>. These parameters help distinguish different scattering mechanisms (e.g.&nbsp;surface, volume, dihedral) via physical interpretation.</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Terrain-Correction</strong>: Geocode the results into map coordinates accounting for local terrain/topography.</p></li>
+<li><p><strong>Feature extraction and classification</strong>: The derived features <span class="math inline">\(H\)</span> (entropy), <span class="math inline">\(A\)</span> (anisotropy), <span class="math inline">\(\alpha\)</span> (alpha angle) at each pixel are used as inputs to a classification algorithm (e.g., Random Forest, SVM, or unsupervised clustering) for land cover or structure identification.</p></li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> Since Sentinel-1 only acquires VV and VH, the C2 (dual-pol) and its associated decompositions (H-Alpha dual-pol) are used, rather than full quad-pol decompositions (e.g., Freeman-Durden, Yamaguchi) which require HH and HV as well.</p>
+</blockquote>
+</section>
+<section id="ew-mode-sea-ice-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="ew-mode-sea-ice-workflow">EW mode sea ice workflow</h2>
+<ol type="1">
+<li><strong>Read EW GRDM (Ground Range Detected Medium resolution) bands (HH, HV):</strong>
+<ul>
+<li>Obtain two polarization channels: <span class="math inline">\(S_{HH}\)</span> and <span class="math inline">\(S_{HV}\)</span>, where <span class="math inline">\(S_{pq}\)</span> denotes the complex SAR signal for transmit <span class="math inline">\(p\)</span> and receive <span class="math inline">\(q\)</span> polarization.</li>
+</ul></li>
+<li><strong>Apply Orbit File:</strong>
+<ul>
+<li>Refine the satellite’s position and velocity by incorporating the precise orbit ephemeris. This improves geolocation accuracy of each pixel.</li>
+</ul></li>
+<li><strong>Thermal Noise Removal:</strong>
+<ul>
+<li>Remove additive noise from each pixel, especially important for the HV channel over sea ice. For each pixel: <span class="math display">\[
+S_{corr} = S_{raw} - N_{thermal}
+\]</span></li>
+<li>Where <span class="math inline">\(S_{raw}\)</span> is the observed signal, <span class="math inline">\(N_{thermal}\)</span> the estimated thermal noise, and <span class="math inline">\(S_{corr}\)</span> the corrected value.</li>
+</ul></li>
+<li><strong>Radiometric Calibration to <span class="math inline">\(\sigma^0\)</span>:</strong>
+<ul>
+<li>Convert DN (digital number) to calibrated backscatter coefficient <span class="math inline">\(\sigma^0\)</span>: <span class="math display">\[
+\sigma^0 = \mathrm{CF} \cdot |S_{corr}|^2
+\]</span></li>
+<li>Where <span class="math inline">\(\mathrm{CF}\)</span> is a calibration factor (depends on the product and sensor).</li>
+</ul></li>
+<li><strong>Incidence Angle Correction:</strong>
+<ul>
+<li>EW mode has a large incidence angle range (<span class="math inline">\(\theta \approx 19^\circ\)</span> to <span class="math inline">\(47^\circ\)</span>). Correct <span class="math inline">\(\sigma^0\)</span> to a reference angle <span class="math inline">\(\theta_{ref}\)</span> (e.g., <span class="math inline">\(35^\circ\)</span>): <span class="math display">\[
+\sigma^0_{ref} = \sigma^0_{obs} + f(\theta_{ref}) - f(\theta_{obs})
+\]</span></li>
+<li>Where <span class="math inline">\(f(\theta)\)</span> models the angular dependence, often empirically fit as <span class="math inline">\(f(\theta) = a\,\theta + b\,\theta^2\)</span>.</li>
+</ul></li>
+<li><strong>Speckle Filtering:</strong>
+<ul>
+<li>Apply a spatial filter (e.g.&nbsp;Lee or Frost) over a moving window of <span class="math inline">\(n \times m\)</span> pixels to suppress speckle: <span class="math display">\[
+\hat{\sigma}^0_{i,j} = \frac{1}{N} \sum_{k=1}^N \sigma^0_{i_k,j_k}
+\]</span></li>
+<li>Where <span class="math inline">\(\hat{\sigma}^0_{i,j}\)</span> is the filtered backscatter at <span class="math inline">\((i,j)\)</span>.</li>
+</ul></li>
+<li><strong>Ellipsoid/Terrain Correction (Geocoding):</strong>
+<ul>
+<li>Map the image to a cartographic projection (e.g., polar stereographic projection, EPSG:3413), correcting for topography: <span class="math display">\[
+(x,y)_{\text{map}} = f(\text{lat}(\text{range}, \text{az}), \text{lon}(\text{range}, \text{az}))
+\]</span></li>
+</ul></li>
+<li><strong>Texture Feature Extraction (GLCM) and Band Ratios:</strong>
+<ul>
+<li>Compute statistical texture features from the Gray Level Co-occurrence Matrix (GLCM), e.g.&nbsp;contrast, entropy: <span class="math display">\[
+\text{Contrast} = \sum_{i,j} (i-j)^2 \, \text{GLCM}(i,j)
+\]</span></li>
+<li>Calculate backscatter ratios: <span class="math display">\[
+R = \frac{\sigma^0_{HH}}{\sigma^0_{HV}}
+\]</span></li>
+</ul></li>
+<li><strong>Classification of Ice Types:</strong>
+<ul>
+<li>Use extracted features <span class="math inline">\([\sigma^0_{HH}, \sigma^0_{HV}, R, \text{Texture}_1, ...]\)</span> as input vectors <span class="math inline">\(\vec{x}\)</span> to a classifier: <span class="math display">\[
+\text{Class} = \mathrm{ML\,or\,CNN}(\vec{x})
+\]</span></li>
+<li>Output categories: open water, new ice, first-year ice, multi-year ice.</li>
+</ul></li>
+</ol>
+</section>
+<section id="ship-detection-workflow-grd" class="level2">
+<h2 class="anchored" data-anchor-id="ship-detection-workflow-grd">Ship detection workflow (GRD)</h2>
+<ol type="1">
+<li>Preprocessing of GRD data:
+<ul>
+<li>Apply precise orbit file corrections to improve geolocation accuracy.</li>
+<li>Radiometrically calibrate the data to convert pixel values to backscatter coefficients (sigma0).</li>
+<li>Generally avoid strong speckle filtering at this stage to preserve small ship targets, as aggressive filtering can mask point-like objects.</li>
+</ul></li>
+<li>Land-Sea Masking:
+<ul>
+<li>Mask out land areas using a detailed coastline shapefile or a Digital Elevation Model (DEM).</li>
+<li>This focuses subsequent detection steps over the sea and prevents false positives from bright land targets.</li>
+</ul></li>
+<li>Adaptive Thresholding (CFAR - Constant False Alarm Rate):
+<ul>
+<li>For each pixel, compute a local background mean or statistical distribution (in a moving window).</li>
+<li>Set a threshold based on the background, flagging pixels significantly brighter than their surroundings as potential ship candidates.</li>
+<li>Variants include CA-CFAR (cell-averaging), OS-CFAR (ordered statistics), etc.</li>
+</ul></li>
+<li>Object Discrimination:
+<ul>
+<li>Group connected detected pixels into distinct objects (“blobs”).</li>
+<li>Remove objects that are smaller than the expected ship size (likely noise) or larger than a plausible ship (likely land, islands, or bright artifacts).</li>
+<li>Additional metrics such as shape, orientation, and backscatter amplitude can be used to further refine detections.</li>
+</ul></li>
+<li>Exporting Results:
+<ul>
+<li>Extract the geolocated positions and estimated sizes/shapes of all detected ships.</li>
+<li>Output may be provided in vector format (e.g., GeoJSON, shapefiles, or CSV with coordinates, bounding boxes, and ancillary info).</li>
+</ul></li>
+<li>(Optional) Matching with AIS (Automatic Identification System) Records:
+<ul>
+<li>Some Sentinel-1 missions (C and D) carry AIS receivers, which can record transmitted vessel locations.</li>
+<li>Match detected objects with AIS records based on time and proximity to validate detections, annotate ship identities, or assess non-cooperative traffic.</li>
+</ul></li>
+</ol>
+</section>
+<section id="level-2-ocn-ocean-products" class="level2">
+<h2 class="anchored" data-anchor-id="level-2-ocn-ocean-products">Level-2 OCN (Ocean) Products</h2>
+<p>Sentinel-1’s Level-2 Ocean (OCN) products are derived data outputs generated and preprocessed by ESA, removing the need for users to perform their own processing beyond data extraction and interpretation. These products are distributed in NetCDF format and contain geolocated, value-added physical measurements ready for analysis.</p>
+<p>The main Level-2 OCN products include:</p>
+<ul>
+<li><strong>OWI (Ocean Wind Fields):</strong>
+<ul>
+<li>Provides estimates of ocean surface wind speed (in m/s) and wind direction (in degrees) at each measurement cell.</li>
+<li>Useful for marine meteorology, weather forecasting, and hazard monitoring.</li>
+<li>Includes quality flags, uncertainty metrics, geolocation, and time stamps for each wind vector cell.</li>
+<li>Generated from both Interferometric Wide (IW) and Extra Wide (EW) modes, and covers most open ocean areas observed by Sentinel-1.</li>
+</ul></li>
+<li><strong>OSW (Ocean Swell Spectra):</strong>
+<ul>
+<li>Contains estimates of ocean swell parameters, such as swell height, period, and direction, derived from SAR wave mode (WV) and stripmap mode (SM).</li>
+<li>Data is typically provided as wave spectra (energy density as a function of frequency and direction), allowing reconstruction of dominant wave fields and their long-distance propagation.</li>
+<li>Used for oceanography, coastal studies, and maritime safety assessments.</li>
+</ul></li>
+<li><strong>RVL (Radial Surface Velocity):</strong>
+<ul>
+<li>Delivers measurements of the radial component (towards or away from the sensor) of surface water velocity.</li>
+<li>Derived using Doppler centroid estimations from the SAR signal.</li>
+<li>Valuable for tracking surface currents, ocean circulation patterns, and rapidly changing conditions such as tides or river plumes.</li>
+</ul></li>
+</ul>
+<p>These Level-2 products are accompanied by detailed metadata, including timestamps, quality indicators, source orbit details, and processing history, ensuring traceability and scientific utility.</p>
+</section>
+<section id="choosing-the-right-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="choosing-the-right-workflow">Choosing the right workflow</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Goal</th>
+<th>Product</th>
+<th>Workflow</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Land cover, crops, soil moisture</td>
+<td>IW GRD</td>
+<td>GRD backscatter; multitemporal GRD time series</td>
+</tr>
+<tr class="even">
+<td>Flood extent</td>
+<td>IW GRD</td>
+<td>GRD backscatter; multitemporal GRD time series</td>
+</tr>
+<tr class="odd">
+<td>Earthquake or volcano displacement</td>
+<td>IW SLC</td>
+<td>Differential InSAR</td>
+</tr>
+<tr class="even">
+<td>Harvest, damage, urban change</td>
+<td>IW SLC</td>
+<td>Interferometric coherence</td>
+</tr>
+<tr class="odd">
+<td>Slow subsidence (mm/yr)</td>
+<td>IW SLC stack</td>
+<td>InSAR time series (SBAS and PS-InSAR)</td>
+</tr>
+<tr class="even">
+<td>Vegetation structure features</td>
+<td>IW SLC</td>
+<td>Dual-pol polarimetric decomposition</td>
+</tr>
+<tr class="odd">
+<td>Sea ice</td>
+<td>EW GRDM</td>
+<td>EW mode sea ice</td>
+</tr>
+<tr class="even">
+<td>Ships, oil spills</td>
+<td>IW/EW GRD</td>
+<td>Ship detection</td>
+</tr>
+<tr class="odd">
+<td>Ocean wind and waves</td>
+<td>Level-2 OCN</td>
+<td>Level-2 OCN products</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="sentinel-1-processing-with-geolattice" class="level2">
+<h2 class="anchored" data-anchor-id="sentinel-1-processing-with-geolattice">Sentinel-1 Processing with GeoLattice</h2>
+<p>Below are short descriptions of commonly-used functions for processing Sentinel-1 imagery:</p>
+<ul>
+<li><strong>search_sentinel1()</strong>: Searches for Sentinel-1 data by specifying criteria such as date range, area of interest, polarization, and product type.</li>
+<li><strong>download_sentinel1()</strong>: Downloads Sentinel-1 products from various repositories (e.g., ASF, Copernicus Open Access Hub) using product IDs or metadata.</li>
+<li><strong>preprocess_grd()</strong>: Performs preprocessing of Sentinel-1 GRD data, such as radiometric calibration, geocoding, and terrain correction.</li>
+<li><strong>rtc_processing()</strong>: Generates Radiometrically Terrain Corrected (RTC) products from GRD data, removing terrain-induced distortions.</li>
+<li><strong>insar_coregister()</strong>: Coregisters a stack or pair of Sentinel-1 SLC images, aligning them for interferometric processing.</li>
+<li><strong>generate_interferogram()</strong>: Generates interferograms from coregistered SLC pairs to map phase differences due to ground deformation.</li>
+<li><strong>time_series_insar()</strong>: Processes a stack of SLC images to generate time series of ground displacement (for example, using MintPy or Dolphin).</li>
+<li><strong>visualize_sar()</strong>: Loads and displays Sentinel-1 SAR products in analysis-ready formats, such as amplitude, coherence, or displacement.</li>
+<li><strong>apply_speckle_filter()</strong>: Reduces speckle noise in SAR imagery using spatial filtering techniques.</li>
+<li><strong>export_geotiff()</strong>: Saves Sentinel-1 processed products (RTC, interferogram, etc.) to GeoTIFF format for further geospatial analysis.</li>
+</ul>
+<p>These functions may be accessible via packages like <code>geolattice-sentinel1</code>, <code>pyroSAR</code>, <code>sarsen</code>, or custom scripts, depending on the workflow.</p>
+</section>
+<section id="summary-and-conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="summary-and-conclusion">Summary and Conclusion</h2>
+<p>In this section, we introduced Sentinel-1 satellite data and its key imaging modes, highlighting their relevance to a wide range of remote sensing applications. We provided a guide to selecting the appropriate Sentinel-1 product and workflow based on specific research or monitoring goals, such as land cover mapping, disaster detection, and ground deformation analysis.</p>
+<p>We also outlined common processing steps and Python-based tools used in handling Sentinel-1 data, including data searching, downloading, preprocessing, interferometric analysis, visualization, and export. These tools support efficient and reproducible workflows, making Sentinel-1 an accessible resource for geospatial analysis.</p>
+<p>By understanding the fundamentals of Sentinel-1 imagery, its workflows, and useful processing functions, users can confidently begin to leverage radar data for a wide variety of scientific and practical applications.</p>
+</section>
+<section id="additional-resources" class="level2">
+<h2 class="anchored" data-anchor-id="additional-resources">Additional Resources</h2>
+<ul>
+<li><a href="https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-1">ESA Sentinel Online: Sentinel-1 Mission</a></li>
+<li><a href="https://asf.alaska.edu/information/data-sets/sar-data-sets/sentinel-1/">ASF DAAC Sentinel-1 Guide</a></li>
+<li><a href="https://sentinel.esa.int/web/sentinel/user-guides/sentinel-1-sar">Sentinel-1 User Guide</a></li>
+<li><a href="https://scihub.copernicus.eu/">Copernicus Open Access Hub (Data Search &amp; Download)</a></li>
+<li><a href="https://search.asf.alaska.edu/#/">ASF Vertex (Search &amp; Download Portal)</a></li>
+<li><a href="https://pyrosar.readthedocs.io/en/latest/">pyroSAR Documentation</a></li>
+<li><a href="https://step.esa.int/main/toolboxes/snap/">ESA SNAP (Sentinel Application Platform)</a></li>
+<li><a href="https://mintpy.readthedocs.io/en/latest/">MintPy Documentation (InSAR Time Series)</a></li>
+<li><a href="https://github.com/opera-adt/dolphin">Dolphin InSAR Processing</a></li>
+<li><a href="https://servirglobal.net/Portals/0/Documents/Publications/SAR-HANDBOOK-COMPREHENSIVE-METHODOLOGIES-FOR-FOREST-MONITORING-AND-BIOMASS-ESTIMATION.pdf">SAR Handbook: Comprehensive Methodologies for Forest Monitoring and Biomass Estimation</a> #</li>
+</ul>
+<p><strong>Installation.</strong> This notebook needs installation option 1 (vector, raster, CRS and visualization): <code>pip install "geolattice[core]"</code>. See “Installation options” in the GeoLattice README.</p>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../09_03_radar/09_03_01_00_sentinel_1_sar.html" class="pagination-link" aria-label="Sentinel-1 SAR">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Sentinel-1 SAR</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../09_03_radar/09_03_01_02_sentinel_1_grd_processing.html" class="pagination-link" aria-label="Sentinel-1 GRD Processing">
+        <span class="nav-page-text">Sentinel-1 GRD Processing</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

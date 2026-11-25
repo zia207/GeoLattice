@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>geoprocessing_vector_data – GeoLattice: Vector &amp; Raster Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../01_vector/01_05_geometry_operation_vector_data.html" rel="next">
+<link href="../01_vector/01_03_visualizing_vector_data.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">GeoLattice: Vector &amp; Raster Data</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
+        <li class="dropdown-header">Part 1 · Vector Data</li>
+        <li>
+    <a class="dropdown-item" href="../01_vector/01_00_vector_data.html">
+ <span class="dropdown-text">Vector Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../01_vector/01_01_read_write_vector_data.html">
+ <span class="dropdown-text">Reading and Writing Vector Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../01_vector/01_02_map_projection_vector_data.html">
+ <span class="dropdown-text">Coordinate Reference Systems</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../01_vector/01_03_visualizing_vector_data.html">
+ <span class="dropdown-text">Visualizing Vector Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../01_vector/01_04_geoprocessing_vector_data.html">
+ <span class="dropdown-text">Geoprocessing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../01_vector/01_05_geometry_operation_vector_data.html">
+ <span class="dropdown-text">Geometry Operations</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Part 2 · Raster Data</li>
+        <li>
+    <a class="dropdown-item" href="../02_raster/02_00_raster_data.html">
+ <span class="dropdown-text">Raster Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../02_raster/02_01_read_write_raster_data.html">
+ <span class="dropdown-text">Reading and Writing Raster Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../02_raster/02_02_map_projection_raster.html">
+ <span class="dropdown-text">Coordinate Reference Systems</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../02_raster/02_03_basic_raster_operation.html">
+ <span class="dropdown-text">Raster Operations</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../01_vector/01_00_vector_data.html"><strong>Part 1 · Vector Data</strong></a></li><li class="breadcrumb-item"><a href="../01_vector/01_04_geoprocessing_vector_data.html">Geoprocessing</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../01_vector/01_00_vector_data.html"><strong>Part 1 · Vector Data</strong></a></li><li class="breadcrumb-item"><a href="../01_vector/01_04_geoprocessing_vector_data.html">Geoprocessing</a></li></ol></nav></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="../images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Part 1 · Vector Data</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01_vector/01_00_vector_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vector Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01_vector/01_01_read_write_vector_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reading and Writing Vector Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01_vector/01_02_map_projection_vector_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Coordinate Reference Systems</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01_vector/01_03_visualizing_vector_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualizing Vector Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01_vector/01_04_geoprocessing_vector_data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Geoprocessing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01_vector/01_05_geometry_operation_vector_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geometry Operations</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Part 2 · Raster Data</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02_raster/02_00_raster_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raster Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02_raster/02_01_read_write_raster_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reading and Writing Raster Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02_raster/02_02_map_projection_raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Coordinate Reference Systems</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02_raster/02_03_basic_raster_operation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raster Operations</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#geoprocessing" id="toc-geoprocessing" class="nav-link active" data-scroll-target="#geoprocessing">Geoprocessing</a>
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#part-1-load-and-inspect-data" id="toc-part-1-load-and-inspect-data" class="nav-link" data-scroll-target="#part-1-load-and-inspect-data">Part 1: Load and inspect data</a>
+  <ul class="collapse">
+  <li><a href="#load-us-state-and-county-shapefiles" id="toc-load-us-state-and-county-shapefiles" class="nav-link" data-scroll-target="#load-us-state-and-county-shapefiles">Load US state and county shapefiles</a></li>
+  <li><a href="#plot-them-side-by-side" id="toc-plot-them-side-by-side" class="nav-link" data-scroll-target="#plot-them-side-by-side">Plot them side by side</a></li>
+  <li><a href="#extract-a-state-by-name" id="toc-extract-a-state-by-name" class="nav-link" data-scroll-target="#extract-a-state-by-name">Extract a state by name</a></li>
+  </ul></li>
+  <li><a href="#part-2-overlay-tools" id="toc-part-2-overlay-tools" class="nav-link" data-scroll-target="#part-2-overlay-tools">Part 2: Overlay tools</a>
+  <ul class="collapse">
+  <li><a href="#clipping" id="toc-clipping" class="nav-link" data-scroll-target="#clipping">Clipping</a></li>
+  <li><a href="#union" id="toc-union" class="nav-link" data-scroll-target="#union">Union</a></li>
+  <li><a href="#dissolve" id="toc-dissolve" class="nav-link" data-scroll-target="#dissolve">Dissolve</a></li>
+  <li><a href="#intersect" id="toc-intersect" class="nav-link" data-scroll-target="#intersect">Intersect</a></li>
+  <li><a href="#erase" id="toc-erase" class="nav-link" data-scroll-target="#erase">Erase</a></li>
+  </ul></li>
+  <li><a href="#part-3-geometry-construction" id="toc-part-3-geometry-construction" class="nav-link" data-scroll-target="#part-3-geometry-construction">Part 3: Geometry construction</a>
+  <ul class="collapse">
+  <li><a href="#convex-hull" id="toc-convex-hull" class="nav-link" data-scroll-target="#convex-hull">Convex hull</a></li>
+  <li><a href="#buffer" id="toc-buffer" class="nav-link" data-scroll-target="#buffer">Buffer</a></li>
+  <li><a href="#buffer-polylines" id="toc-buffer-polylines" class="nav-link" data-scroll-target="#buffer-polylines">Buffer polylines</a></li>
+  <li><a href="#buffer-points" id="toc-buffer-points" class="nav-link" data-scroll-target="#buffer-points">Buffer points</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a>
+  <ul class="collapse">
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p style="text-align:center">
+<img src="../images/01_banner_vector.png" alt="Working with Vector Data" width="100%">
+</p>
+<section id="geoprocessing" class="level1">
+<h1>Geoprocessing</h1>
+<p>Geoprocessing is a fundamental aspect of working with geospatial data, allowing you to manipulate, analyze, and derive new spatial information from vector datasets. In this tutorial, you’ll learn how to perform common geoprocessing tasks using the GeoLattice library, which integrates GeoPandas and Shapely for efficient and intuitive spatial analysis in Python.</p>
+<p>We’ll explore tools for selecting, clipping, dissolving, intersecting, and constructing new geometries, providing practical examples for each geoprocessing operation.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>Geo-processing is a GIS operation used to manipulate spatial data. This tutorial covers the common desktop geoprocessing tools for vector layers with GeoLattice, which uses <a href="https://github.com/geopandas/geopandas">GeoPandas</a> and <a href="https://github.com/shapely/shapely">Shapely</a>.</p>
+<p>Shapefiles are opened with <code>open_vectors_data()</code>. Maps use <code>plot_layer()</code>, <code>plot_pair()</code>, and <code>style_axes()</code> from <code>geolattice.viz</code>. The geoprocessing tools are:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Select features from the attribute table</td>
+<td>filter the GeoDataFrame</td>
+</tr>
+<tr class="even">
+<td>Clip</td>
+<td><code>clip()</code></td>
+</tr>
+<tr class="odd">
+<td>Intersect</td>
+<td><code>intersect()</code></td>
+</tr>
+<tr class="even">
+<td>Union</td>
+<td><code>union()</code>, or a row bind when many files share one attribute table</td>
+</tr>
+<tr class="odd">
+<td>Dissolve</td>
+<td><code>dissolve()</code></td>
+</tr>
+<tr class="even">
+<td>Erase</td>
+<td><code>erase()</code></td>
+</tr>
+<tr class="odd">
+<td>Convex hull</td>
+<td><code>convex_hull()</code></td>
+</tr>
+<tr class="even">
+<td>Buffer</td>
+<td><code>buffer()</code></td>
+</tr>
+</tbody>
+</table>
+<p>The notebook is organized in three parts:</p>
+<ol type="1">
+<li><strong>Load and inspect data</strong>: US states, counties, soil samples, streets, and the Yellowstone boundary.</li>
+<li><strong>Overlay tools</strong>: clip, union, dissolve, intersect, and erase.</li>
+<li><strong>Geometry construction</strong>: convex hull and buffer on polygons, lines, and points.</li>
+</ol>
+<p>Sample files live in <code>Data/00_shared/vector_data/USA</code>. Written outputs land in <code>Data/00_shared/vector_data/output_folder</code>.</p>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>The next cell finds the repository root, puts it on the import path, applies the tutorial map style, and defines <code>read_layer</code> for shapefiles under <code>Data/00_shared/vector_data/USA</code>.</p>
+<p>Geoprocessing calls use <code>clip</code>, <code>union</code>, <code>dissolve</code>, <code>intersect</code>, <code>erase</code>, <code>convex_hull</code>, and <code>buffer</code> from <code>geolattice.vector</code>. Maps use <code>plot_layer</code>, <code>plot_pair</code>, and <code>style_axes</code> from <code>geolattice.viz</code>.</p>
+<p><strong>Installation.</strong> This notebook needs installation option 1 (vector, raster, CRS and visualization): <code>pip install "geolattice[core]"</code>. See “Installation options” in the GeoLattice README.</p>
+<div id="44721431" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:51.903783Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:51.903542Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:52.554828Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:52.554513Z&quot;}}" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display matplotlib figures inline in this Jupyter notebook.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard library: path search on sys.path and temporary output folders.</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys  <span class="co"># mutate sys.path so geolattice can be imported from the repo root</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tempfile  <span class="co"># create a throwaway folder for written shapefiles</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings  <span class="co"># available if a cell needs to silence noisy library warnings</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path  <span class="co"># filesystem paths for data and image folders</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Third-party GIS / data / plotting stack used throughout the notebook.</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd  <span class="co"># GeoDataFrame constructors and CRS handling</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt  <span class="co"># figure and axes creation for custom maps</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np  <span class="co"># numeric arrays for hull coordinates</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd  <span class="co"># tabular display options and concat for row-binding layers</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display  <span class="co"># rich table previews in the notebook</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial <span class="im">import</span> ConvexHull  <span class="co"># vertex order for a convex envelope of points</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="d50e6d98" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:52.560422Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:52.560224Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:52.598563Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:52.597902Z&quot;}}" data-execution_count="2">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================================</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup and helpers for geoprocessing and maps.</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Walk up from the working directory to the repo root, import GeoLattice tools,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># point DATA/IMAGES at the sample folders, and define read_layer().</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================================</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolve the current working directory to an absolute Path.</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>ROOT <span class="op">=</span> Path.cwd().resolve()</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="kw">not</span> (ROOT <span class="op">/</span> <span class="st">"Data"</span> <span class="op">/</span> <span class="st">"00_shared"</span> <span class="op">/</span> <span class="st">"vector_data"</span>).is_dir():</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ROOT.parent <span class="op">==</span> ROOT:</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">FileNotFoundError</span>(<span class="st">"Could not find Data/00_shared/vector_data from the working directory."</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    ROOT <span class="op">=</span> ROOT.parent</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, <span class="bu">str</span>(ROOT))</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Geoprocessing helpers exported from geolattice.vector.</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.vector <span class="im">import</span> (</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">buffer</span>,  <span class="co"># distance buffer around features</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    clip,  <span class="co"># cookie-cut overlay that keeps attributes of the input layer</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    convex_hull,  <span class="co"># smallest convex polygon containing points</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    dissolve,  <span class="co"># aggregate geometries that share a group key</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    erase,  <span class="co"># remove the part of a layer that falls inside another polygon</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    intersect,  <span class="co"># keep overlapping pairs and attributes from both layers</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    open_vectors_data,  <span class="co"># open a shapefile (or other vector source) as a dataset</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    union,  <span class="co"># overlay union of two layers</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Shared map styling helpers from geolattice.viz.</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.viz <span class="im">import</span> EDGE, FACE, apply_map_style, plot_layer, plot_pair, style_axes</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample vector data for this tutorial (US states, counties, etc.).</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> ROOT <span class="op">/</span> <span class="st">"Data"</span> <span class="op">/</span> <span class="st">"00_shared"</span> <span class="op">/</span> <span class="st">"vector_data"</span> <span class="op">/</span> <span class="st">"USA"</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Banner and figure assets under the repository Images folder.</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>IMAGES <span class="op">=</span> ROOT <span class="op">/</span> <span class="st">"Images"</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Fail early if the expected folders are missing.</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> DATA.is_dir(), DATA</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> IMAGES.is_dir(), IMAGES  <span class="co"># assert this folder exists</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep printed attribute tables readable in the notebook.</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">"display.max_columns"</span>, <span class="dv">12</span>)  <span class="co"># show up to 12 columns</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">"display.max_colwidth"</span>, <span class="dv">48</span>)  <span class="co"># truncate long string cells</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">"display.width"</span>, <span class="dv">120</span>)  <span class="co"># wider console wrapping for tables</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the shared GeoLattice map style (fonts, colors, spines).</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>apply_map_style()</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="co"># helper: open one shapefile under DATA as a GeoDataFrame</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> read_layer(relative):</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># short description of what read_layer returns</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Open one shapefile and return a GeoDataFrame without the reader fid."""</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build an absolute path under DATA from a relative shapefile path.</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    path <span class="op">=</span> DATA <span class="op">/</span> relative</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Open the vector dataset and convert it to a pandas/GeoPandas table.</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> open_vectors_data(path) <span class="im">as</span> dataset:</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>        frame <span class="op">=</span> dataset.to_dataframe()  <span class="co"># attribute table plus geometry column</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>        crs <span class="op">=</span> frame.crs  <span class="co"># coordinate reference system of the layer</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Drop the driver-added fid column when present so demos stay tidy.</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"fid"</span> <span class="kw">in</span> frame.columns:</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>        frame <span class="op">=</span> frame.drop(columns<span class="op">=</span><span class="st">"fid"</span>)  <span class="co"># remove the driver-added fid column</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Rebuild an explicit GeoDataFrame with the preserved CRS.</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gpd.GeoDataFrame(frame, geometry<span class="op">=</span><span class="st">"geometry"</span>, crs<span class="op">=</span>crs)</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm which folders the notebook will read from / write near.</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Data folder: </span><span class="sc">{</span>DATA<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Image folder: </span><span class="sc">{</span>IMAGES<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># print a short status line</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Data folder: /home/zia207/Github/GeoLattice/Data/00_shared/vector_data/USA
+Image folder: /home/zia207/Github/GeoLattice/Images</code></pre>
+</div>
+</div>
+</section>
+<section id="part-1-load-and-inspect-data" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-load-and-inspect-data">Part 1: Load and inspect data</h2>
+<p>We will use the following files in <code>Data/00_shared/vector_data/USA</code>:</p>
+<ul>
+<li>US State shape file (<code>US_STATE.shp</code>)</li>
+<li>US County shape file (<code>US_COUNTY.shp</code>)</li>
+<li>Point shape file of soil sampling locations (<code>CO_SOC_data.shp</code>)</li>
+<li>Line shape file (<code>Ononda_Street_PROJ.shp</code>)</li>
+<li>Boundary of Yellowstone National Park (<code>Yellow_Stone.shp</code>)</li>
+</ul>
+<p>The notebook finds the repository root and reads every file from <code>Data/00_shared/vector_data/USA</code>.</p>
+<p>The state boundaries of Colorado, Kansas, New Mexico, and Wyoming also sit in <code>Data/00_shared/vector_data/USA/GP_STATE</code>.</p>
+<section id="load-us-state-and-county-shapefiles" class="level3">
+<h3 class="anchored" data-anchor-id="load-us-state-and-county-shapefiles">Load US state and county shapefiles</h3>
+<div id="c95555c8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:52.600714Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:52.600613Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:53.021253Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:53.020373Z&quot;}}" data-execution_count="3">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the national state and county polygon layers used in later overlays.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>us_state <span class="op">=</span> read_layer(<span class="st">"US_STATE.shp"</span>)  <span class="co"># US state boundaries</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>us_county <span class="op">=</span> read_layer(<span class="st">"US_COUNTY.shp"</span>)  <span class="co"># US county boundaries</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Report feature counts for a quick sanity check.</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"States: </span><span class="sc">{</span><span class="bu">len</span>(us_state)<span class="sc">}</span><span class="ss">   Counties: </span><span class="sc">{</span><span class="bu">len</span>(us_county)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the CRS name when one is attached to the state layer.</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"CRS: </span><span class="sc">{</span>us_state<span class="sc">.</span>crs<span class="sc">.</span>name <span class="cf">if</span> us_state<span class="sc">.</span>crs <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> <span class="va">None</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>States: 49   Counties: 3108
+CRS: NAD_1983_Albers</code></pre>
+</div>
+</div>
+</section>
+<section id="plot-them-side-by-side" class="level3">
+<h3 class="anchored" data-anchor-id="plot-them-side-by-side">Plot them side by side</h3>
+<div id="8e66ae5a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:53.023234Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:53.023141Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:53.552959Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:53.552380Z&quot;}}" data-execution_count="4">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Side-by-side outline maps of the US state and county layers (no fill).</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plot_pair(us_state, us_county, [<span class="st">"US State"</span>, <span class="st">"US County"</span>], fill<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_04_geoprocessing_vector_data_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>(&lt;Figure size 1000x500 with 2 Axes&gt;,
+ array([&lt;Axes: title={'left': 'US State'}, xlabel='x', ylabel='y'&gt;,
+        &lt;Axes: title={'left': 'US County'}, xlabel='x', ylabel='y'&gt;],
+       dtype=object))</code></pre>
+</div>
+</div>
+</section>
+<section id="extract-a-state-by-name" class="level3">
+<h3 class="anchored" data-anchor-id="extract-a-state-by-name">Extract a state by name</h3>
+<div id="88c7bc00" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:53.555634Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:53.555545Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:53.558592Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:53.558276Z&quot;}}" data-execution_count="5">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Preview the STATE attribute series (names used for attribute filters below).</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>us_state[<span class="st">"STATE"</span>]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>0                  Alabama
+1                  Arizona
+2                 Colorado
+3              Connecticut
+4                  Florida
+5                  Georgia
+6                    Idaho
+7                  Indiana
+8                   Kansas
+9                Louisiana
+10           Massachusetts
+11               Minnesota
+12                Missouri
+13                 Montana
+14                  Nevada
+15              New Jersey
+16                New York
+17            North Dakota
+18                Oklahoma
+19            Pennsylvania
+20          South Carolina
+21            South Dakota
+22                   Texas
+23                 Vermont
+24           West Virginia
+25                Arkansas
+26              California
+27                Delaware
+28    District of Columbia
+29                Illinois
+30                    Iowa
+31                Kentucky
+32                   Maine
+33                Maryland
+34                Michigan
+35             Mississippi
+36                Nebraska
+37           New Hampshire
+38              New Mexico
+39          North Carolina
+40                    Ohio
+41                  Oregon
+42            Rhode Island
+43               Tennessee
+44                    Utah
+45                Virginia
+46              Washington
+47               Wisconsin
+48                 Wyoming
+Name: STATE, dtype: str</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="part-2-overlay-tools" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-overlay-tools">Part 2: Overlay tools</h2>
+<section id="clipping" class="level3">
+<h3 class="anchored" data-anchor-id="clipping">Clipping</h3>
+<p>Clipping spatial data is a basic GIS task. For vector data, it involves removing unwanted features outside of an area of interest. For example, you might want to do some geospatial modeling covering an area in New York state, but we may have data for the USA. In this case you need to apply a clipping function to remove the area outside of New York State. It acts like a cookie cutter to cut out a piece of one feature class using one or more of the features in another feature class.</p>
+<p style="text-align:center">
+<img src="../images/Geoprocessing/Clip.png" alt="Clipping" width="40%">
+</p>
+<p style="text-align:center">
+<em>Clipping</em>
+</p>
+<p>You can do this several ways. In this exercise, we will clip out other states or counties from the US State and County polygon shape files, except our area of interest (for example New York).</p>
+<p>The most direct way to select an area of interest from the attribute table is a filter on the <code>STATE</code> field.</p>
+<div id="977443a4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:53.560391Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:53.560311Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:53.664088Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:53.662941Z&quot;}}" data-execution_count="6">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter New York features from the national layers and write the state boundary.</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># NY state boundary</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>ny_state <span class="op">=</span> us_state.loc[us_state[<span class="st">"STATE"</span>] <span class="op">==</span> <span class="st">"New York"</span>].copy()  <span class="co"># one-row state polygon</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># NY county</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>ny_county <span class="op">=</span> us_county.loc[us_county[<span class="st">"STATE"</span>] <span class="op">==</span> <span class="st">"New York"</span>].copy()  <span class="co"># all NY counties</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm how many features each subset retained.</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"NY state features: </span><span class="sc">{</span><span class="bu">len</span>(ny_state)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"NY county features: </span><span class="sc">{</span><span class="bu">len</span>(ny_county)<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># print a short status line</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the first rows of the county attribute table.</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>display(ny_county.head())</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a temporary directory for demo shapefile output.</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>output_dir <span class="op">=</span> Path(tempfile.mkdtemp(prefix<span class="op">=</span><span class="st">"geoprocessing_"</span>))</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Target path for the written New York state boundary.</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>ny_path <span class="op">=</span> output_dir <span class="op">/</span> <span class="st">"NY_STATE_BD.shp"</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Persist ny_state as a shapefile for reuse outside the notebook.</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>ny_state.to_file(ny_path)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wrote </span><span class="sc">{</span>ny_path<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># print a short status line</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>NY state features: 1
+NY county features: 62</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">FIPS</th>
+<th data-quarto-table-cell-role="th">x</th>
+<th data-quarto-table-cell-role="th">y</th>
+<th data-quarto-table-cell-role="th">REGION_ID</th>
+<th data-quarto-table-cell-role="th">DIVISION_I</th>
+<th data-quarto-table-cell-role="th">STATE_ID</th>
+<th data-quarto-table-cell-role="th">COUNTY_ID</th>
+<th data-quarto-table-cell-role="th">REGION</th>
+<th data-quarto-table-cell-role="th">DIVISION</th>
+<th data-quarto-table-cell-role="th">STATE</th>
+<th data-quarto-table-cell-role="th">COUNTY</th>
+<th data-quarto-table-cell-role="th">geometry</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">46</th>
+<td>36057.0</td>
+<td>1735811.102</td>
+<td>2409536.493</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>36.0</td>
+<td>57.0</td>
+<td>Northeast</td>
+<td>Middle Atlantic</td>
+<td>New York</td>
+<td>Montgomery County</td>
+<td>POLYGON ((1725612.65 2416731.662, 1729853.60...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">71</th>
+<td>36093.0</td>
+<td>1768117.621</td>
+<td>2407434.527</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>36.0</td>
+<td>93.0</td>
+<td>Northeast</td>
+<td>Middle Atlantic</td>
+<td>New York</td>
+<td>Schenectady County</td>
+<td>POLYGON ((1751585.009 2396491.025, 1753807.9...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">131</th>
+<td>36015.0</td>
+<td>1568845.615</td>
+<td>2286060.403</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>36.0</td>
+<td>15.0</td>
+<td>Northeast</td>
+<td>Middle Atlantic</td>
+<td>New York</td>
+<td>Chemung County</td>
+<td>POLYGON ((1558752.111 2301410.105, 1567500.0...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">204</th>
+<td>36109.0</td>
+<td>1584749.021</td>
+<td>2324857.448</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>36.0</td>
+<td>109.0</td>
+<td>Northeast</td>
+<td>Middle Atlantic</td>
+<td>New York</td>
+<td>Tompkins County</td>
+<td>POLYGON ((1573557.136 2333695.351, 1570600.5...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">205</th>
+<td>36053.0</td>
+<td>1638111.937</td>
+<td>2388843.960</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>36.0</td>
+<td>53.0</td>
+<td>Northeast</td>
+<td>Middle Atlantic</td>
+<td>New York</td>
+<td>Madison County</td>
+<td>POLYGON ((1606334.986 2413095.395, 1611018.7...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Wrote /tmp/geoprocessing_ejw7ls_6/NY_STATE_BD.shp</code></pre>
+</div>
+</div>
+<p>After subsetting, <code>ny_county</code> retains both the geometry and the attribute information of the parent polygons.</p>
+<div id="378ec2bf" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:53.666358Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:53.666076Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:53.850072Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:53.849613Z&quot;}}" data-execution_count="7">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the New York state outline with its county polygons side by side.</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plot_pair(ny_state, ny_county, [<span class="st">"NY State"</span>, <span class="st">"NY County"</span>], fill<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_04_geoprocessing_vector_data_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>(&lt;Figure size 1000x500 with 2 Axes&gt;,
+ array([&lt;Axes: title={'left': 'NY State'}, xlabel='x', ylabel='y'&gt;,
+        &lt;Axes: title={'left': 'NY County'}, xlabel='x', ylabel='y'&gt;],
+       dtype=object))</code></pre>
+</div>
+</div>
+<p>You can select multiple states with the same filter. The states below are Colorado, Kansas, New Mexico, and Wyoming.</p>
+<div id="f4b7b120" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:53.851891Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:53.851799Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:53.952889Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:53.952215Z&quot;}}" data-execution_count="8">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select four Great Plains states by name for the union / dissolve demos.</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>gp_names <span class="op">=</span> [<span class="st">"Colorado"</span>, <span class="st">"Kansas"</span>, <span class="st">"New Mexico"</span>, <span class="st">"Wyoming"</span>]  <span class="co"># target state names</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep a copy of matching rows from the national state layer.</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>gp_state_subset <span class="op">=</span> us_state.loc[us_state[<span class="st">"STATE"</span>].isin(gp_names)].copy()</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Outline map of the four selected states.</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>plot_layer(gp_state_subset, <span class="st">"States of CO, KS, NM &amp; WY"</span>, fill<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_04_geoprocessing_vector_data_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>clip()</code> cuts every county to the New York boundary and keeps the attribute table of the layer being cut. <code>keep_geom_type=True</code> drops points and lines created where polygons only touch.</p>
+<p>A county whose polygon crosses the state line contributes only the piece inside New York, so the result can contain slivers of neighboring states. The attribute filter above keeps the 62 counties whose <code>STATE</code> value is New York.</p>
+<div id="5efb24c9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:53.954499Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:53.954408Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:54.119183Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:54.118470Z&quot;}}" data-execution_count="9">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clip US counties to the New York state boundary with clip().</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Clip the US county shape file with the NY State boundary</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>clip_01 <span class="op">=</span> clip(us_county, ny_state, keep_geom_type<span class="op">=</span><span class="va">True</span>)  <span class="co"># keep polygons only</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Count county pieces that survive the clip (may include border slivers).</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Clipped county pieces: </span><span class="sc">{</span><span class="bu">len</span>(clip_01)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Preview STATE / COUNTY attributes after clipping.</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>display(clip_01[[<span class="st">"STATE"</span>, <span class="st">"COUNTY"</span>]].head())</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Map the clipped counties with thin outlines.</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>plot_layer(clip_01, <span class="st">"Clip with clip()"</span>, linewidth<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Clipped county pieces: 68</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">STATE</th>
+<th data-quarto-table-cell-role="th">COUNTY</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>New York</td>
+<td>Montgomery County</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>New York</td>
+<td>Schenectady County</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>New York</td>
+<td>Chemung County</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>New York</td>
+<td>Tompkins County</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>New York</td>
+<td>Madison County</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_04_geoprocessing_vector_data_files/figure-html/cell-10-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>intersect()</code> keeps each overlapping pair, with attributes from both layers. Shared field names receive <code>_1</code> and <code>_2</code> suffixes. <code>STATE_1</code> is the New York mask and <code>STATE_2</code> / <code>COUNTY</code> come from the county layer.</p>
+<div id="77d13925" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:54.120790Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:54.120700Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:54.278894Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:54.277965Z&quot;}}" data-execution_count="10">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Intersect New York with US counties to keep attributes from both layers.</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>clip_02 <span class="op">=</span> intersect(ny_state, us_county, keep_geom_type<span class="op">=</span><span class="va">True</span>)  <span class="co"># drop non-polygon leftovers</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Report how many overlapping pieces were returned.</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Intersection features: </span><span class="sc">{</span><span class="bu">len</span>(clip_02)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Shared field names become STATE_1 (mask) and STATE_2 (county layer).</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>display(clip_02[[<span class="st">"STATE_1"</span>, <span class="st">"STATE_2"</span>, <span class="st">"COUNTY"</span>]].head())</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Map the intersection result.</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>plot_layer(clip_02, <span class="st">"Clip with intersect()"</span>, linewidth<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Intersection features: 68</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">STATE_1</th>
+<th data-quarto-table-cell-role="th">STATE_2</th>
+<th data-quarto-table-cell-role="th">COUNTY</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>New York</td>
+<td>New York</td>
+<td>Richmond County</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>New York</td>
+<td>New Jersey</td>
+<td>Union County</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>New York</td>
+<td>New York</td>
+<td>Kings County</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>New York</td>
+<td>New York</td>
+<td>Queens County</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>New York</td>
+<td>New Jersey</td>
+<td>Hudson County</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_04_geoprocessing_vector_data_files/figure-html/cell-11-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="union" class="level3">
+<h3 class="anchored" data-anchor-id="union">Union</h3>
+<p><strong>Union</strong> combines two or more spatial objects and creates new features where the geometry and attributes of the input features are retained.</p>
+<p style="text-align:center">
+<img src="../images/Geoprocessing/Union.png" alt="Union" width="40%">
+</p>
+<p style="text-align:center">
+<em>Union</em>
+</p>
+<p>We will use the state boundaries of Colorado, Kansas, New Mexico, and Wyoming. The shapefiles of these states are in <code>Data/00_shared/vector_data/USA/GP_STATE</code>.</p>
+<p><code>union()</code> here is an overlay union. Where two polygons overlap, the overlap becomes its own feature and carries attributes from both sides. Where they do not overlap, each input polygon is kept. Shared field names get <code>_1</code> and <code>_2</code> suffixes. These four states meet along borders rather than overlapping, so each state comes back as its own polygon. A shared border is a line, and <code>keep_geom_type=True</code> drops that line.</p>
+<div id="313a9ea3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:54.280605Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:54.280501Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:54.785672Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:54.785402Z&quot;}}" data-execution_count="11">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the four individual Great Plains state boundary shapefiles.</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>co <span class="op">=</span> read_layer(<span class="st">"GP_STATE/CO_STATE_BD.shp"</span>)  <span class="co"># Colorado</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>ks <span class="op">=</span> read_layer(<span class="st">"GP_STATE/KS_STATE_BD.shp"</span>)  <span class="co"># Kansas</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>nm <span class="op">=</span> read_layer(<span class="st">"GP_STATE/NM_STATE_BD.shp"</span>)  <span class="co"># New Mexico</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>wy <span class="op">=</span> read_layer(<span class="st">"GP_STATE/WY_STATE_BD.shp"</span>)  <span class="co"># Wyoming</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Overlay-union Colorado with Kansas (overlap + unique parts of each).</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>union_01 <span class="op">=</span> union(co, ks)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"CO union KS: </span><span class="sc">{</span><span class="bu">len</span>(union_01)<span class="sc">}</span><span class="ss"> features"</span>)  <span class="co"># print a short status line</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the paired STATE fields created by the overlay.</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>display(union_01[[<span class="st">"STATE_1"</span>, <span class="st">"STATE_2"</span>]])</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Map the two-state union result.</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>plot_layer(union_01, <span class="st">"Spatial union of CO and KS"</span>)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>CO union KS: 2 features</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">STATE_1</th>
+<th data-quarto-table-cell-role="th">STATE_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>Colorado</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>NaN</td>
+<td>Kansas</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_04_geoprocessing_vector_data_files/figure-html/cell-12-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>union()</code> joins two layers at a time. When every file has the same fields, binding the rows keeps one column for each field and assigns a new feature id. <code>pandas.concat</code> does that, and <code>Path.glob</code> lists the shapefiles in the folder.</p>
+<div id="239e6875" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:54.787516Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:54.787426Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:55.292502Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:55.292127Z&quot;}}" data-execution_count="12">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Row-bind every shapefile in GP_STATE into one layer with a shared schema.</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># List shapefiles under the GP_STATE folder in sorted order.</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> <span class="bu">sorted</span>((DATA <span class="op">/</span> <span class="st">"GP_STATE"</span>).glob(<span class="st">"*.shp"</span>))</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print each path relative to DATA for a readable checklist.</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>([<span class="bu">str</span>(path.relative_to(DATA)) <span class="cf">for</span> path <span class="kw">in</span> files])</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>frames <span class="op">=</span> []  <span class="co"># accumulate per-file GeoDataFrames</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>uid <span class="op">=</span> <span class="dv">1</span>  <span class="co"># running feature id assigned across files</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> path <span class="kw">in</span> files:</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read one state boundary relative to the DATA folder.</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    temp <span class="op">=</span> read_layer(path.relative_to(DATA))</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(temp)  <span class="co"># feature count in this file</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Insert a unique fid column starting at the current uid.</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    temp.insert(<span class="dv">0</span>, <span class="st">"fid"</span>, <span class="bu">list</span>(<span class="bu">range</span>(uid, uid <span class="op">+</span> n)))</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    uid <span class="op">+=</span> n  <span class="co"># advance the id counter past this file's features</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    frames.append(temp)  <span class="co"># keep the annotated frame</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Concatenate all frames into one GeoDataFrame with a shared CRS.</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>gp_state <span class="op">=</span> gpd.GeoDataFrame(</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    pd.concat(frames, ignore_index<span class="op">=</span><span class="va">True</span>),  <span class="co"># stack rows; reset the index</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    geometry<span class="op">=</span><span class="st">"geometry"</span>,  <span class="co"># name of the active geometry column</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    crs<span class="op">=</span>frames[<span class="dv">0</span>].crs,  <span class="co"># reuse CRS from the first input file</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Show attributes without the geometry WKT clutter.</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>display(gp_state.drop(columns<span class="op">=</span><span class="st">"geometry"</span>))</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Map the combined four-state layer.</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>plot_layer(gp_state, <span class="st">"Spatial union of CO, KS, NM &amp; WY"</span>)</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>['GP_STATE/CO_STATE_BD.shp', 'GP_STATE/KS_STATE_BD.shp', 'GP_STATE/NM_STATE_BD.shp', 'GP_STATE/WY_STATE_BD.shp']</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fid</th>
+<th data-quarto-table-cell-role="th">REGION_ID</th>
+<th data-quarto-table-cell-role="th">DIVISION_I</th>
+<th data-quarto-table-cell-role="th">STATE_ID</th>
+<th data-quarto-table-cell-role="th">REGION</th>
+<th data-quarto-table-cell-role="th">DIVISION</th>
+<th data-quarto-table-cell-role="th">STATE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>4.0</td>
+<td>8.0</td>
+<td>8.0</td>
+<td>West</td>
+<td>Mountain</td>
+<td>Colorado</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>2.0</td>
+<td>4.0</td>
+<td>20.0</td>
+<td>Midwest</td>
+<td>West North Central</td>
+<td>Kansas</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>4.0</td>
+<td>8.0</td>
+<td>35.0</td>
+<td>West</td>
+<td>Mountain</td>
+<td>New Mexico</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>4.0</td>
+<td>8.0</td>
+<td>56.0</td>
+<td>West</td>
+<td>Mountain</td>
+<td>Wyoming</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_04_geoprocessing_vector_data_files/figure-html/cell-13-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="dissolve" class="level3">
+<h3 class="anchored" data-anchor-id="dissolve">Dissolve</h3>
+<p><strong>Dissolve</strong> aggregates features based on an attribute. It is a tool used regularly in spatial data processing.</p>
+<p style="text-align:center">
+<img src="../images/Geoprocessing/Dissolve.png" alt="Dissolve" width="40%">
+</p>
+<p style="text-align:center">
+<em>Dissolve</em>
+</p>
+<p>One way to dissolve every polygon is to give them the same group. Cutting the centroid x coordinate across its full range makes a single bin, so every state is dissolved together.</p>
+<p><code>dissolve()</code> aggregates by one or more fields and unions the geometries in each group. With no <code>by</code> argument it dissolves the whole layer.</p>
+<div id="b214928e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:55.294094Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:55.293998Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:55.404302Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:55.403591Z&quot;}}" data-execution_count="13">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dissolve all four states by putting every feature into one centroid-x bin.</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>centroids <span class="op">=</span> gp_state.geometry.centroid  <span class="co"># one centroid point per state polygon</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>gp_binned <span class="op">=</span> gp_state.copy()  <span class="co"># work on a copy so the original layer stays intact</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cut centroid eastings into a single bin spanning min..max x.</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>gp_binned[<span class="st">"bin"</span>] <span class="op">=</span> pd.cut(</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    centroids.x,  <span class="co"># values to bin: centroid X coordinates</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    bins<span class="op">=</span>[centroids.x.<span class="bu">min</span>(), centroids.x.<span class="bu">max</span>()],  <span class="co"># one interval covering the range</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    include_lowest<span class="op">=</span><span class="va">True</span>,  <span class="co"># include the left edge so the min falls in the bin</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Dissolve geometries that share the same bin label.</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>gp_dissolve_01 <span class="op">=</span> dissolve(gp_binned, by<span class="op">=</span><span class="st">"bin"</span>)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Groups: </span><span class="sc">{</span><span class="bu">len</span>(gp_dissolve_01)<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># print a short status line</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Map the single dissolved outline.</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>plot_layer(gp_dissolve_01, <span class="st">"Dissolved state boundary"</span>)</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Groups: 1</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_04_geoprocessing_vector_data_files/figure-html/cell-14-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="f3d7d3f4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:55.405910Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:55.405823Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:55.512925Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:55.512245Z&quot;}}" data-execution_count="14">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dissolve the whole layer with no group key (one output feature).</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>gp_dissolve_02 <span class="op">=</span> dissolve(gp_state)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Features after dissolving the whole layer: </span><span class="sc">{</span><span class="bu">len</span>(gp_dissolve_02)<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># print a short status line</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Map the fully dissolved boundary.</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>plot_layer(gp_dissolve_02, <span class="st">"Dissolved state boundary - dissolve()"</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Features after dissolving the whole layer: 1</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_04_geoprocessing_vector_data_files/figure-html/cell-15-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="intersect" class="level3">
+<h3 class="anchored" data-anchor-id="intersect">Intersect</h3>
+<p><strong>Intersect</strong> computes the geometric common area of two feature classes.</p>
+<p style="text-align:center">
+<img src="../images/Geoprocessing/Intersect.png" alt="Intersect" width="40%">
+</p>
+<p style="text-align:center">
+<em>Intersect</em>
+</p>
+<p>We will use the Yellowstone National Park boundary to find which US states it covers. The park boundary is published by the National Park Service on <a href="https://catalog.data.gov/dataset/national-park-boundariesf0a4c">Data.gov</a>.</p>
+<div id="8fc9a789" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:55.514549Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:55.514463Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:55.597872Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:55.597592Z&quot;}}" data-execution_count="15">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Intersect US states with Yellowstone to find overlapping state pieces.</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>park <span class="op">=</span> read_layer(<span class="st">"Yellow_Stone.shp"</span>)  <span class="co"># Yellowstone National Park boundary</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Preview key park attributes.</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>display(park[[<span class="st">"UNIT_CODE"</span>, <span class="st">"UNIT_NAME"</span>, <span class="st">"STATE"</span>, <span class="st">"PARKNAME"</span>]])</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep only the parts of states that overlap the park polygon.</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>park_state <span class="op">=</span> intersect(us_state, park, keep_geom_type<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"States overlapping Yellowstone: </span><span class="sc">{</span><span class="bu">len</span>(park_state)<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># print a short status line</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># STATE_1 is the state layer; STATE_2 / UNIT_NAME come from the park.</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>display(park_state[[<span class="st">"STATE_1"</span>, <span class="st">"STATE_2"</span>, <span class="st">"UNIT_NAME"</span>]])</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">UNIT_CODE</th>
+<th data-quarto-table-cell-role="th">UNIT_NAME</th>
+<th data-quarto-table-cell-role="th">STATE</th>
+<th data-quarto-table-cell-role="th">PARKNAME</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>YELL</td>
+<td>Yellowstone National Park</td>
+<td>WY</td>
+<td>Yellowstone</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>States overlapping Yellowstone: 3</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">STATE_1</th>
+<th data-quarto-table-cell-role="th">STATE_2</th>
+<th data-quarto-table-cell-role="th">UNIT_NAME</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>Idaho</td>
+<td>WY</td>
+<td>Yellowstone National Park</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Montana</td>
+<td>WY</td>
+<td>Yellowstone National Park</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Wyoming</td>
+<td>WY</td>
+<td>Yellowstone National Park</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="9b9930d0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:55.599677Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:55.599590Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:55.724113Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:55.723615Z&quot;}}" data-execution_count="16">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Choropleth of Yellowstone pieces colored by state, with in-polygon labels.</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))  <span class="co"># create figure and axes</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Color each overlapping piece by STATE_1 and draw a legend.</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>park_state.plot(ax<span class="op">=</span>ax, column<span class="op">=</span><span class="st">"STATE_1"</span>, cmap<span class="op">=</span><span class="st">"rainbow"</span>, edgecolor<span class="op">=</span>EDGE, linewidth<span class="op">=</span><span class="fl">0.6</span>, legend<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Label each piece at a representative interior point.</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _, row <span class="kw">in</span> park_state.iterrows():</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    point <span class="op">=</span> row.geometry.representative_point()  <span class="co"># guaranteed interior label point</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Place the state name centered on that point.</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    ax.annotate(<span class="bu">str</span>(row[<span class="st">"STATE_1"</span>]), (point.x, point.y), ha<span class="op">=</span><span class="st">"center"</span>, va<span class="op">=</span><span class="st">"center"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply shared axis styling and title.</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>style_axes(ax, <span class="st">"Yellowstone across state boundaries"</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()  <span class="co"># reduce unused whitespace</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>plt.show()  <span class="co"># render the figure in the notebook</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_04_geoprocessing_vector_data_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="erase" class="level3">
+<h3 class="anchored" data-anchor-id="erase">Erase</h3>
+<p><code>erase()</code> removes the part of a polygon or line layer that falls inside another polygon layer. The call below erases Kansas from the four-state layer built above.</p>
+<div id="19442b2b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:55.725802Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:55.725719Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:55.824839Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:55.824457Z&quot;}}" data-execution_count="17">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Erase Kansas from the four-state layer, leaving CO, NM, and WY.</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>gp_3_state <span class="op">=</span> erase(gp_state, ks, keep_geom_type<span class="op">=</span><span class="va">True</span>)  <span class="co"># drop non-polygon leftovers</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Show remaining feature ids and state names.</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>display(gp_3_state[[<span class="st">"fid"</span>, <span class="st">"STATE"</span>]])</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Map the three remaining states.</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>plot_layer(gp_3_state, <span class="st">"States of CO, NM &amp; WY"</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fid</th>
+<th data-quarto-table-cell-role="th">STATE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>Colorado</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>3</td>
+<td>New Mexico</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>4</td>
+<td>Wyoming</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_04_geoprocessing_vector_data_files/figure-html/cell-18-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="part-3-geometry-construction" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-geometry-construction">Part 3: Geometry construction</h2>
+<section id="convex-hull" class="level3">
+<h3 class="anchored" data-anchor-id="convex-hull">Convex hull</h3>
+<p>The <strong>convex hull</strong>, also called the convex envelope or convex closure, is the smallest convex polygon that contains a set of points.</p>
+<p>Read the point shapefile, take the coordinates, and close the hull by repeating the first vertex. <code>scipy.spatial.ConvexHull</code> returns that vertex list. <code>convex_hull(..., as_one=True)</code> builds the same polygon from the whole point layer.</p>
+<div id="1bd3b590" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:55.826420Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:55.826335Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:55.847230Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:55.846728Z&quot;}}" data-execution_count="18">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a convex hull around Colorado soil-sample points two ways.</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> read_layer(<span class="st">"CO_SOC_data.shp"</span>)  <span class="co"># soil sample point locations</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Soil sample points: </span><span class="sc">{</span><span class="bu">len</span>(points)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Preview a few attribute columns.</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>display(points[[<span class="st">"ID"</span>, <span class="st">"STATE"</span>, <span class="st">"COUNTY"</span>, <span class="st">"SOC"</span>]].head())</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Stack X/Y coordinates into an (n, 2) array for SciPy.</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>xy <span class="op">=</span> np.column_stack([points.geometry.x, points.geometry.y])</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Vertex indices of the convex hull in counterclockwise order.</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>hull_index <span class="op">=</span> ConvexHull(xy).vertices</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Close the ring by appending the first hull vertex again for plotting.</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> xy[np.append(hull_index, hull_index[<span class="dv">0</span>])]</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Same hull as a one-feature GeoDataFrame via geolattice.vector.convex_hull.</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>hull_layer <span class="op">=</span> convex_hull(points, as_one<span class="op">=</span><span class="va">True</span>)  <span class="co"># one polygon for the whole layer</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Report the hull area in square metres (CRS units).</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Hull area from convex_hull(): </span><span class="sc">{</span>hull_layer<span class="sc">.</span>geometry<span class="sc">.</span>iloc[<span class="dv">0</span>]<span class="sc">.</span>area<span class="sc">:,.0f}</span><span class="ss"> square metres"</span>)</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Soil sample points: 136</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ID</th>
+<th data-quarto-table-cell-role="th">STATE</th>
+<th data-quarto-table-cell-role="th">COUNTY</th>
+<th data-quarto-table-cell-role="th">SOC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>Colorado</td>
+<td>Moffat County</td>
+<td>6.439</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>Colorado</td>
+<td>Montezuma County</td>
+<td>2.821</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>Colorado</td>
+<td>Mesa County</td>
+<td>2.760</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>Colorado</td>
+<td>Mesa County</td>
+<td>10.535</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>Colorado</td>
+<td>Garfield County</td>
+<td>5.528</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hull area from convex_hull(): 235,203,106,170 square metres</code></pre>
+</div>
+</div>
+<div id="a1a1e025" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:55.848719Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:55.848618Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:55.922133Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:55.921610Z&quot;}}" data-execution_count="19">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot soil samples as black points and the convex hull outline in red.</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))  <span class="co"># create figure and axes</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter the sample coordinates on top (higher zorder).</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>ax.scatter(xy[:, <span class="dv">0</span>], xy[:, <span class="dv">1</span>], s<span class="op">=</span><span class="dv">16</span>, c<span class="op">=</span><span class="st">"black"</span>, zorder<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw the closed hull polyline from the SciPy vertex order.</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>ax.plot(coords[:, <span class="dv">0</span>], coords[:, <span class="dv">1</span>], color<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>, zorder<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>style_axes(ax, <span class="st">"Convex hull of Colorado soil samples"</span>)  <span class="co"># apply shared axis styling and title</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()  <span class="co"># tighten subplot spacing</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>plt.show()  <span class="co"># render the figure</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_04_geoprocessing_vector_data_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="buffer" class="level3">
+<h3 class="anchored" data-anchor-id="buffer">Buffer</h3>
+<p>Buffering creates an envelope of space around selected features in vector data. It is sometimes called a zone of a specified distance around a polygon, line, or point feature. Buffering is often used for proximity analysis. In this section we create a 100 m buffer around a piece of the Onondaga County road network and a 20 km buffer around the Colorado soil-sample points. Distance is in the units of the layer coordinates. These layers are in a metre-based Albers projection, so 100 means 100 metres.</p>
+</section>
+<section id="buffer-polylines" class="level3">
+<h3 class="anchored" data-anchor-id="buffer-polylines">Buffer polylines</h3>
+<div id="cefd5a4b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:55.923834Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:55.923753Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:56.594149Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:56.593277Z&quot;}}" data-execution_count="20">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Buffer Onondaga street centerlines by 100 metres.</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>streets <span class="op">=</span> read_layer(<span class="st">"Ononda_Street_PROJ.shp"</span>)  <span class="co"># projected street segments</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Street segments: </span><span class="sc">{</span><span class="bu">len</span>(streets)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Distance is in CRS units (metres for this Albers layer).</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>street_buffer <span class="op">=</span> <span class="bu">buffer</span>(streets, <span class="dv">100</span>)  <span class="co"># one buffer polygon per segment</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Buffered segments: </span><span class="sc">{</span><span class="bu">len</span>(street_buffer)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Street segments: 999
+Buffered segments: 999</code></pre>
+</div>
+</div>
+<div id="24fb0742" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:56.596530Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:56.596429Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:56.899876Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:56.899566Z&quot;}}" data-execution_count="21">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Map the 100 m street buffers under the original red centerlines.</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Semi-transparent fill for the buffer polygons.</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>street_buffer.plot(ax<span class="op">=</span>ax, facecolor<span class="op">=</span>FACE, edgecolor<span class="op">=</span>EDGE, linewidth<span class="op">=</span><span class="fl">0.2</span>, alpha<span class="op">=</span><span class="fl">0.45</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Overlay the source streets in red.</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>streets.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>style_axes(ax, <span class="st">"100 m buffer"</span>)  <span class="co"># apply shared axis styling and title</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()  <span class="co"># tighten subplot spacing</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>plt.show()  <span class="co"># render the figure</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_04_geoprocessing_vector_data_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="buffer-points" class="level3">
+<h3 class="anchored" data-anchor-id="buffer-points">Buffer points</h3>
+<p><code>buffer()</code> builds one zone for each feature. Pass <code>dissolve=True</code> to merge those zones into one geometry. The width <code>20 * 1000</code> is a 20 km buffer.</p>
+<div id="755219a4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:56.902006Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:56.901914Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:56.918222Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:56.917763Z&quot;}}" data-execution_count="22">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Buffer each soil-sample point by 20 km (20 * 1000 metres).</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>point_buffer <span class="op">=</span> <span class="bu">buffer</span>(points, <span class="dv">20</span> <span class="op">*</span> <span class="dv">1000</span>)  <span class="co"># 20 km radius in CRS units</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Point buffers: </span><span class="sc">{</span><span class="bu">len</span>(point_buffer)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Point buffers: 136</code></pre>
+</div>
+</div>
+<div id="518d8744" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:56.919756Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:56.919673Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:57.040636Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:57.040255Z&quot;}}" data-execution_count="23">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Map the 20 km point buffers with the sample points on top.</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Light fill for the buffer circles.</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>point_buffer.plot(ax<span class="op">=</span>ax, facecolor<span class="op">=</span>FACE, edgecolor<span class="op">=</span>EDGE, linewidth<span class="op">=</span><span class="fl">0.3</span>, alpha<span class="op">=</span><span class="fl">0.35</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Red markers for the original sample locations.</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>points.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">"red"</span>, markersize<span class="op">=</span><span class="dv">8</span>, marker<span class="op">=</span><span class="st">"o"</span>)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>style_axes(ax, <span class="st">"20 km buffer"</span>)  <span class="co"># apply shared axis styling and title</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()  <span class="co"># tighten subplot spacing</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>plt.show()  <span class="co"># render the figure</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_04_geoprocessing_vector_data_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>This exercise applied the main vector geoprocessing operations to US states and counties, the Yellowstone boundary, Colorado soil-sample points, and a piece of the Onondaga County road network.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>What it does</th>
+<th>Example in this notebook</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Attribute filter</td>
+<td>Keeps features whose attributes match a condition, with geometry and attributes unchanged</td>
+<td>Counties whose <code>STATE</code> is New York</td>
+</tr>
+<tr class="even">
+<td>Clip</td>
+<td>Cuts features to a mask, like a cookie cutter, and keeps the attribute table of the layer being cut</td>
+<td>US counties cut to the New York boundary</td>
+</tr>
+<tr class="odd">
+<td>Intersect</td>
+<td>Keeps each overlapping pair and the attributes of both layers. Shared field names receive <code>_1</code> and <code>_2</code></td>
+<td>States that overlap Yellowstone National Park</td>
+</tr>
+<tr class="even">
+<td>Union</td>
+<td>Builds the overlay of two layers: the overlap, plus the part unique to each input</td>
+<td>Colorado joined with Kansas</td>
+</tr>
+<tr class="odd">
+<td>Row bind</td>
+<td>Stacks layers that share one attribute table into a single layer</td>
+<td><code>pandas.concat</code> of the four state shapefiles</td>
+</tr>
+<tr class="even">
+<td>Dissolve</td>
+<td>Unions geometries that share a group. With no <code>by</code> argument, the whole layer becomes one feature</td>
+<td>The four states dissolved into one polygon</td>
+</tr>
+<tr class="odd">
+<td>Erase</td>
+<td>Removes the part of a layer that falls inside another polygon</td>
+<td>Kansas removed from the four-state layer</td>
+</tr>
+<tr class="even">
+<td>Convex hull</td>
+<td>Builds the smallest convex polygon that contains a set of points</td>
+<td>Hull around the Colorado soil-sample points</td>
+</tr>
+<tr class="odd">
+<td>Buffer</td>
+<td>Builds a zone of a given distance around each feature. <code>dissolve=True</code> merges those zones</td>
+<td>100 m around streets and 20 km around sample points</td>
+</tr>
+</tbody>
+</table>
+<p><code>keep_geom_type=True</code> drops points and lines created where polygons only touch along a border. Buffer distance is in the units of the layer coordinates. These layers use a metre-based Albers projection, so <code>100</code> is 100 metres and <code>20 * 1000</code> is 20 kilometres.</p>
+<p>Clipping, union, dissolve, intersect, erase, convex hull, and buffer cover the usual questions asked of vector data: which features fall in an area, how layers combine, which features share an attribute, where two layers overlap, what remains after one area is removed, what polygon encloses a set of points, and what lies within a set distance.</p>
+<p>The same functions work on polygons, lines, and points. Read each shapefile with <code>open_vectors_data()</code>, then pass the resulting layer to <code>clip()</code>, <code>union()</code>, <code>dissolve()</code>, <code>intersect()</code>, <code>erase()</code>, <code>convex_hull()</code>, or <code>buffer()</code>. Check that both layers share a projected coordinate reference system before measuring a buffer or comparing areas, because the distance and the area are expressed in the units of that system.</p>
+<section id="further-reading" class="level3">
+<h3 class="anchored" data-anchor-id="further-reading">Further reading</h3>
+<p><strong>GeoLattice</strong></p>
+<ul>
+<li><code>open_vectors_data()</code> reads the shapefiles in <code>Data/00_shared/vector_data/USA</code>.</li>
+<li><code>clip()</code>, <code>union()</code>, <code>dissolve()</code>, <code>intersect()</code>, <code>erase()</code>, <code>convex_hull()</code>, and <code>buffer()</code> are in <code>geolattice.vector</code>.</li>
+</ul>
+<p><strong>Libraries used by those functions</strong></p>
+<ul>
+<li><a href="https://geopandas.org/">GeoPandas</a>: GeoDataFrames, plotting, and overlay operations. See the <a href="https://geopandas.org/en/stable/docs/user_guide/set_operations.html">set-operations guide</a>.</li>
+<li><a href="https://shapely.readthedocs.io/">Shapely</a>: geometry predicates and constructors (<code>intersection</code>, <code>union</code>, <code>difference</code>, <code>buffer</code>, <code>convex_hull</code>).</li>
+<li><a href="https://pandas.pydata.org/docs/">pandas</a>: attribute filters and <a href="https://pandas.pydata.org/docs/reference/api/pandas.concat.html"><code>concat</code></a> for binding layers that share one table.</li>
+<li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html">SciPy <code>ConvexHull</code></a>: vertex order of the convex hull drawn around the soil-sample points.</li>
+<li><a href="https://matplotlib.org/">Matplotlib</a>: the maps in this notebook.</li>
+</ul>
+<p><strong>Data</strong></p>
+<ul>
+<li>State, county, park, point, and street shapefiles are in <code>Data/00_shared/vector_data/USA</code>. The four state boundaries are in <code>Data/00_shared/vector_data/USA/GP_STATE</code>.</li>
+<li>The Yellowstone National Park boundary is published by the National Park Service on <a href="https://catalog.data.gov/dataset/national-park-boundariesf0a4c">Data.gov</a>.</li>
+</ul>
+
+
+</section>
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../01_vector/01_03_visualizing_vector_data.html" class="pagination-link" aria-label="Visualizing Vector Data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Visualizing Vector Data</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../01_vector/01_05_geometry_operation_vector_data.html" class="pagination-link" aria-label="Geometry Operations">
+        <span class="nav-page-text">Geometry Operations</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

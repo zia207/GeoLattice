@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:2000px;height:500px;overflow:hidden}
+body{font-family:'Plus Jakarta Sans',sans-serif;position:relative;
+ background:linear-gradient(105deg,#1b3a8a 0%,#21479e 45%,#2552ab 100%);color:#fff}
+.grid{position:absolute;inset:0;
+ background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px),
+ linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+ background-size:80px 80px,80px 80px,20px 20px,20px 20px}
+.bar{position:absolute;left:0;top:0;bottom:0;width:14px;background:#f5c518}
+.bignum{position:absolute;left:1120px;top:60px;font-size:520px;font-weight:800;line-height:1;color:rgba(255,255,255,.04)}
+.logo{position:absolute;left:80px;top:68px;width:68px;height:68px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center}
+.logo img{width:58px;height:58px;border-radius:50%}
+.part{position:absolute;left:172px;top:88px;font-size:22px;font-weight:800;letter-spacing:.24em;color:#f5c518}
+h1{position:absolute;left:80px;top:160px;font-size:78px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.sub{position:absolute;left:80px;top:262px;font-size:29px;font-weight:500;color:#dbe6ff}
+.chips{position:absolute;left:80px;top:323px;display:flex;gap:13px}
+.chip{border:2px solid rgba(255,255,255,.28);background:rgba(255,255,255,.07);border-radius:24px;padding:8px 18px;font-size:20.5px;font-weight:600;white-space:nowrap}
+.foot{position:absolute;left:80px;top:453px;font-size:17px;font-weight:700;letter-spacing:.2em;color:rgba(219,230,255,.55)}
+.panel{position:absolute;left:1280px;top:40px;width:656px;height:384px;border:2px solid rgba(140,175,255,.5);border-radius:18px;background:rgba(18,40,110,.55);overflow:hidden}
+.cap{position:absolute;left:1280px;width:656px;top:434px;text-align:center;font-size:18px;font-weight:600;color:#b9ccff}
+</style></head><body>
+<div class="grid"></div><div class="bar"></div>
+<div class="bignum">6</div>
+<div class="logo"><img src="../geolattice_logo.png"></div>
+<div class="part">MODULE 6 · 3 PARTS · 15 NOTEBOOKS</div>
+<h1>Spatial Databases</h1>
+<div class="sub">Store, index and query geometry at scale with PostGIS, DuckDB and cloud engines</div>
+<div class="chips">
+ <div class="chip">PostGIS</div>
+ <div class="chip">Spatial SQL</div>
+ <div class="chip">Joins</div>
+ <div class="chip">Indexing</div>
+ <div class="chip">pgRouting</div>
+ <div class="chip">DuckDB · GeoParquet</div>
+ <div class="chip">Cloud engines</div>
+</div>
+<div class="foot">SPATIAL DATABASES WITH GEOLATTICE · UPATTA ANALYTICS</div>
+
+<div class="panel">
+<svg width="656" height="384" viewBox="0 0 656 384" xmlns="http://www.w3.org/2000/svg">
+ <defs><pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="1"/></pattern></defs>
+ <rect width="656" height="384" fill="url(#g)"/>
+ <rect x="28" y="40" width="312" height="180" rx="12" fill="rgba(10,25,75,.85)" stroke="rgba(154,183,255,.45)" stroke-width="1.5"/>
+ <circle cx="46" cy="58" r="5" fill="#ff7a7a" fill-opacity=".85"/>
+ <circle cx="62" cy="58" r="5" fill="#f5c518" fill-opacity=".85"/>
+ <circle cx="78" cy="58" r="5" fill="#6fd38f" fill-opacity=".85"/>
+ <text x="44" y="94" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="13.5" font-weight="600" xml:space="preserve"><tspan fill="#9ab7ff">SELECT </tspan><tspan fill="#e8eeff">p.id, </tspan><tspan fill="#f5c518">ST_Area</tspan><tspan fill="#e8eeff">(z.geom)</tspan></text>
+ <text x="44" y="119" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="13.5" font-weight="600" xml:space="preserve"><tspan fill="#9ab7ff">FROM </tspan><tspan fill="#e8eeff">parcels p </tspan><tspan fill="#9ab7ff">JOIN </tspan><tspan fill="#e8eeff">zones z</tspan></text>
+ <text x="44" y="144" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="13.5" font-weight="600" xml:space="preserve"><tspan fill="#9ab7ff">  ON </tspan><tspan fill="#f5c518">ST_Intersects</tspan><tspan fill="#e8eeff">(p.geom, z.geom)</tspan></text>
+ <text x="44" y="169" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="13.5" font-weight="600" xml:space="preserve"><tspan fill="#9ab7ff">WHERE </tspan><tspan fill="#f5c518">ST_DWithin</tspan><tspan fill="#e8eeff">(p.geom, :pt, </tspan><tspan fill="#6fd38f">500</tspan><tspan fill="#e8eeff">)</tspan></text>
+ <text x="44" y="194" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="13.5" font-weight="600" xml:space="preserve"><tspan fill="#9ab7ff">ORDER BY </tspan><tspan fill="#e8eeff">p.geom <-> :pt </tspan><tspan fill="#9ab7ff">LIMIT </tspan><tspan fill="#6fd38f">10</tspan><tspan fill="#e8eeff">;</tspan></text>
+ <text x="28" y="26" fill="#c9d8ff" font-family="Plus Jakarta Sans" font-weight="700" font-size="17">spatial SQL</text>
+ <rect x="380" y="40" width="248" height="180" rx="12" fill="rgba(10,25,75,.85)" stroke="rgba(154,183,255,.45)" stroke-width="1.5"/>
+ <rect x="380" y="40" width="248" height="32" rx="12" fill="rgba(154,183,255,.18)"/>
+ <text x="396" y="62" fill="#fff" font-family="Plus Jakarta Sans" font-weight="700" font-size="13">id</text>
+ <text x="442" y="62" fill="#fff" font-family="Plus Jakarta Sans" font-weight="700" font-size="13">name</text>
+ <text x="550" y="62" fill="#fff" font-family="Plus Jakarta Sans" font-weight="700" font-size="13">geom</text>
+ <text x="396" y="96" fill="#dbe6ff" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="13.5" font-weight="600">1</text><text x="442" y="96" fill="#dbe6ff" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="13.5" font-weight="600">Parcel A</text>
+ <path d="M548 98 L554 81 L570 84 L572 99 Z" fill="#f5c518" fill-opacity=".3" stroke="#f5c518" stroke-width="2"/>
+ <line x1="390" y1="109" x2="618" y2="109" stroke="#c9d8ff" stroke-opacity=".18"/>
+ <text x="396" y="133" fill="#dbe6ff" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="13.5" font-weight="600">2</text><text x="442" y="133" fill="#dbe6ff" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="13.5" font-weight="600">Well 07</text>
+ <circle cx="560" cy="127" r="6" fill="#f5c518" stroke="#1b3a8a" stroke-width="2"/>
+ <line x1="390" y1="146" x2="618" y2="146" stroke="#c9d8ff" stroke-opacity=".18"/>
+ <text x="396" y="170" fill="#dbe6ff" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="13.5" font-weight="600">3</text><text x="442" y="170" fill="#dbe6ff" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="13.5" font-weight="600">Canal</text>
+ <path d="M546 171 C 556 152, 562 176, 574 157" fill="none" stroke="#9ab7ff" stroke-width="3" stroke-linecap="round"/>
+ <line x1="390" y1="183" x2="618" y2="183" stroke="#c9d8ff" stroke-opacity=".18"/>
+ <text x="396" y="207" fill="#dbe6ff" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="13.5" font-weight="600">4</text><text x="442" y="207" fill="#dbe6ff" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="13.5" font-weight="600">Parcel B</text>
+ <path d="M548 209 L554 192 L570 195 L572 210 Z" fill="#f5c518" fill-opacity=".3" stroke="#f5c518" stroke-width="2"/>
+ <text x="380" y="26" fill="#c9d8ff" font-family="Plus Jakarta Sans" font-weight="700" font-size="17">tables with geometry</text>
+ <rect x="28" y="266" width="312" height="104" rx="8" fill="none" stroke="#f5c518" stroke-width="2"/>
+ <rect x="38" y="276" width="140" height="84" rx="5" fill="#9ab7ff" fill-opacity=".06" stroke="#9ab7ff" stroke-width="1.8" stroke-dasharray="6 4"/>
+ <rect x="190" y="276" width="140" height="84" rx="5" fill="#9ab7ff" fill-opacity=".06" stroke="#9ab7ff" stroke-width="1.8" stroke-dasharray="6 4"/>
+ <rect x="46" y="284" width="58" height="34" rx="3" fill="none" stroke="#c9d8ff" stroke-opacity=".7" stroke-width="1.4"/>
+ <rect x="112" y="312" width="58" height="40" rx="3" fill="none" stroke="#c9d8ff" stroke-opacity=".7" stroke-width="1.4"/>
+ <rect x="198" y="286" width="62" height="38" rx="3" fill="none" stroke="#c9d8ff" stroke-opacity=".7" stroke-width="1.4"/>
+ <rect x="264" y="316" width="58" height="36" rx="3" fill="none" stroke="#c9d8ff" stroke-opacity=".7" stroke-width="1.4"/>
+ <path d="M52 310 L68 290 L98 296 L90 314 Z" fill="#f5c518" fill-opacity=".28" stroke="#f5c518" stroke-width="1.8"/>
+ <path d="M118 346 L138 318 L164 336 Z" fill="#f5c518" fill-opacity=".28" stroke="#f5c518" stroke-width="1.8"/>
+ <path d="M204 318 L224 292 L254 306 L238 320 Z" fill="#f5c518" fill-opacity=".28" stroke="#f5c518" stroke-width="1.8"/>
+ <circle cx="278" cy="332" r="4.5" fill="#f5c518" stroke="#1b3a8a" stroke-width="1.5"/>
+ <circle cx="296" cy="324" r="4.5" fill="#f5c518" stroke="#1b3a8a" stroke-width="1.5"/>
+ <circle cx="310" cy="342" r="4.5" fill="#f5c518" stroke="#1b3a8a" stroke-width="1.5"/>
+ <circle cx="286" cy="346" r="4.5" fill="#f5c518" stroke="#1b3a8a" stroke-width="1.5"/>
+ <text x="28" y="254" fill="#c9d8ff" font-family="Plus Jakarta Sans" font-weight="700" font-size="17">R-tree · GiST index</text>
+ <path d="M396.0 286 v50 a28.0 9 0 0 0 56 0 v-50" fill="#4f7de0" fill-opacity=".9"/><ellipse cx="424" cy="286" rx="28.0" ry="9" fill="#dbe6ff"/><path d="M396.0 311.0 a28.0 9 0 0 0 56 0" fill="none" stroke="#1b3a8a" stroke-opacity=".5" stroke-width="2"/><text x="424" y="368" fill="#dbe6ff" font-family="Plus Jakarta Sans" font-weight="700" font-size="13" text-anchor="middle">PostGIS</text>
+ <path d="M476.0 286 v50 a28.0 9 0 0 0 56 0 v-50" fill="#f5c518" fill-opacity=".9"/><ellipse cx="504" cy="286" rx="28.0" ry="9" fill="#dbe6ff"/><path d="M476.0 311.0 a28.0 9 0 0 0 56 0" fill="none" stroke="#1b3a8a" stroke-opacity=".5" stroke-width="2"/><text x="504" y="368" fill="#dbe6ff" font-family="Plus Jakarta Sans" font-weight="700" font-size="13" text-anchor="middle">DuckDB</text>
+ <path d="M556.0 286 v50 a28.0 9 0 0 0 56 0 v-50" fill="#9ab7ff" fill-opacity=".9"/><ellipse cx="584" cy="286" rx="28.0" ry="9" fill="#dbe6ff"/><path d="M556.0 311.0 a28.0 9 0 0 0 56 0" fill="none" stroke="#1b3a8a" stroke-opacity=".5" stroke-width="2"/><text x="584" y="368" fill="#dbe6ff" font-family="Plus Jakarta Sans" font-weight="700" font-size="13" text-anchor="middle">GeoParquet</text>
+ <text x="380" y="254" fill="#c9d8ff" font-family="Plus Jakarta Sans" font-weight="700" font-size="17">engines · formats</text>
+</svg>
+</div>
+<div class="cap">spatial SQL · joins · indexing · rasters · routing · space-time · cloud</div>
+</body></html>

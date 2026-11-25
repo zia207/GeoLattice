@@ -1,0 +1,2063 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>cloud_native_raster – GeoLattice: Web &amp; Cloud GIS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./07_02_cloud_native_vector.html" rel="next">
+<link href="./07_00_introduction_web_cloud_gis.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GeoLattice: Web &amp; Cloud GIS</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
+        <li class="dropdown-header">Cloud-Native Data</li>
+        <li>
+    <a class="dropdown-item" href="./07_00_introduction_web_cloud_gis.html">
+ <span class="dropdown-text">Web and Cloud GIS</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_01_cloud_native_raster.html">
+ <span class="dropdown-text">Cloud-Native Rasters</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_02_cloud_native_vector.html">
+ <span class="dropdown-text">Cloud-Native Vectors</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_03_spatial_sql.html">
+ <span class="dropdown-text">Spatial SQL</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Maps, Services and Apps</li>
+        <li>
+    <a class="dropdown-item" href="./07_04_interactive_web_maps.html">
+ <span class="dropdown-text">Interactive Web Maps</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_05_serving_maps.html">
+ <span class="dropdown-text">Serving Maps</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_06_geospatial_apis.html">
+ <span class="dropdown-text">Geospatial APIs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_07_web_apps.html">
+ <span class="dropdown-text">Web Apps</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Scale and Operations</li>
+        <li>
+    <a class="dropdown-item" href="./07_08_scalable_processing.html">
+ <span class="dropdown-text">Scalable Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_09_cloud_platforms.html">
+ <span class="dropdown-text">Cloud Platforms</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_10_devops_geospatial.html">
+ <span class="dropdown-text">DevOps for Geospatial Pipelines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_11_capstone.html">
+ <span class="dropdown-text">Capstone: Haor Flood Monitor</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_00_introduction_web_cloud_gis.html"><strong>Cloud-Native Data</strong></a></li><li class="breadcrumb-item"><a href="./07_01_cloud_native_raster.html">Cloud-Native Rasters</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_00_introduction_web_cloud_gis.html"><strong>Cloud-Native Data</strong></a></li><li class="breadcrumb-item"><a href="./07_01_cloud_native_raster.html">Cloud-Native Rasters</a></li></ol></nav></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Cloud-Native Data</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_00_introduction_web_cloud_gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Web and Cloud GIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_01_cloud_native_raster.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Cloud-Native Rasters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_02_cloud_native_vector.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cloud-Native Vectors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_03_spatial_sql.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial SQL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Maps, Services and Apps</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_04_interactive_web_maps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interactive Web Maps</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_05_serving_maps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Serving Maps</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_06_geospatial_apis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geospatial APIs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_07_web_apps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Web Apps</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Scale and Operations</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_08_scalable_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Scalable Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_09_cloud_platforms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cloud Platforms</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_10_devops_geospatial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DevOps for Geospatial Pipelines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_11_capstone.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capstone: Haor Flood Monitor</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#cloud-native-rasters-cog-zarr-and-stac" id="toc-cloud-native-rasters-cog-zarr-and-stac" class="nav-link active" data-scroll-target="#cloud-native-rasters-cog-zarr-and-stac">Cloud-Native Rasters: COG, Zarr and STAC</a>
+  <ul>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#contents" id="toc-contents" class="nav-link" data-scroll-target="#contents">Contents</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#getting-imagery-with-get_images" id="toc-getting-imagery-with-get_images" class="nav-link" data-scroll-target="#getting-imagery-with-get_images">Getting imagery with <code>get_images</code></a></li>
+  <li><a href="#is-it-cloud-optimized" id="toc-is-it-cloud-optimized" class="nav-link" data-scroll-target="#is-it-cloud-optimized">Is it cloud-optimized?</a></li>
+  <li><a href="#converting-to-cog-and-choosing-compression" id="toc-converting-to-cog-and-choosing-compression" class="nav-link" data-scroll-target="#converting-to-cog-and-choosing-compression">Converting to COG and choosing compression</a></li>
+  <li><a href="#inside-a-cog" id="toc-inside-a-cog" class="nav-link" data-scroll-target="#inside-a-cog">Inside a COG</a></li>
+  <li><a href="#web-optimized-cogs" id="toc-web-optimized-cogs" class="nav-link" data-scroll-target="#web-optimized-cogs">Web-optimized COGs</a></li>
+  <li><a href="#local-copy-versus-the-cloud-original" id="toc-local-copy-versus-the-cloud-original" class="nav-link" data-scroll-target="#local-copy-versus-the-cloud-original">Local copy versus the cloud original</a></li>
+  <li><a href="#from-files-to-a-data-cube-scale-offset-and-cloud-masks" id="toc-from-files-to-a-data-cube-scale-offset-and-cloud-masks" class="nav-link" data-scroll-target="#from-files-to-a-data-cube-scale-offset-and-cloud-masks">From files to a data cube: scale, offset and cloud masks</a></li>
+  <li><a href="#zarr-data-cubes" id="toc-zarr-data-cubes" class="nav-link" data-scroll-target="#zarr-data-cubes">Zarr data cubes</a></li>
+  <li><a href="#publishing-with-stac-and-geoparquet" id="toc-publishing-with-stac-and-geoparquet" class="nav-link" data-scroll-target="#publishing-with-stac-and-geoparquet">Publishing with STAC and GeoParquet</a></li>
+  <li><a href="#summary-and-exercises" id="toc-summary-and-exercises" class="nav-link" data-scroll-target="#summary-and-exercises">Summary and exercises</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p style="text-align:center">
+<img src="images/08_web_gis.png" alt="Web and Cloud GIS" width="100%">
+</p>
+<section id="cloud-native-rasters-cog-zarr-and-stac" class="level1">
+<h1>Cloud-Native Rasters: COG, Zarr and STAC</h1>
+<p>Notebook 08_00 showed that a cloud-optimized file lets a program read a small part of a large remote raster. This notebook is about producing and managing such files. We download Sentinel-2 imagery of Syracuse with <code>geolattice.rsense.get_images</code>, check whether the files are cloud-optimized, convert them to Cloud-Optimized GeoTIFFs (COGs) and compare compression settings, look inside a COG, build a multi-date <strong>Zarr</strong> data cube, and publish the products in a <strong>STAC</strong> catalogue whose footprints are also stored as GeoParquet.</p>
+<section id="learning-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
+<ol type="1">
+<li>Download clipped imagery with <code>get_images</code> and read its STAC metadata (scale and offset).</li>
+<li>Check files with <code>validate_cog</code> and explain each rule of the COG layout.</li>
+<li>Convert rasters with <code>to_cog</code> and choose compression, predictor and block size.</li>
+<li>Make a web-optimized COG aligned with the XYZ tile grid.</li>
+<li>Confirm that a clip read from the cloud is identical to the remote file.</li>
+<li>Build, append to and lazily read a Zarr data cube.</li>
+<li>Publish products as a STAC catalogue and index its footprints in GeoParquet.</li>
+</ol>
+</section>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Data</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sentinel-2 L2A, tile 18TVN, red/green/blue/NIR (10 m) and scene classification (20 m), clearest scene of July, August and September 2025 over Syracuse, NY</td>
+<td>Downloaded with <code>get_images</code> from Earth Search (AWS) into <code>Data/00_shared/data_web_cloud_gis/s2_syracuse_2025/</code></td>
+</tr>
+<tr class="even">
+<td>Onondaga County boundary</td>
+<td><code>Data/00_shared/vector_data/USA/NY_County_GCS.shp</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="contents" class="level3">
+<h3 class="anchored" data-anchor-id="contents">Contents</h3>
+<ol type="1">
+<li>Setup</li>
+<li>Getting imagery with <code>get_images</code></li>
+<li>Is it cloud-optimized?</li>
+<li>Converting to COG and choosing compression</li>
+<li>Inside a COG</li>
+<li>Web-optimized COGs</li>
+<li>Local copy versus the cloud original</li>
+<li>From files to a data cube: scale, offset and cloud masks</li>
+<li>Zarr data cubes</li>
+<li>Publishing with STAC and GeoParquet</li>
+<li>Summary and exercises</li>
+</ol>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p><strong>Installation.</strong> This notebook needs installation option 6 (every GeoLattice module): <code>pip install "geolattice[all]"</code>. See “Installation options” in the GeoLattice README.</p>
+<div id="bd83dfb3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:10:45.614430Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:10:45.614105Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:10:46.796639Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:10:46.796122Z&quot;}}" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup: imports, paths, and the Syracuse AOI for this COG / Zarr notebook</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>, category<span class="op">=</span><span class="pp">UserWarning</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.rsense <span class="im">as</span> rs</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.web <span class="im">as</span> web</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.rsense.get_images <span class="im">import</span> get_images, search_images</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.vector <span class="im">import</span> read_geoparquet, write_geoparquet</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Quiet GDAL logs and prepare shared working directories</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>rasterio.Env(CPL_LOG<span class="op">=</span><span class="st">"/dev/null"</span>).<span class="fu">__enter__</span>()</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">"figure.dpi"</span>: <span class="dv">110</span>, <span class="st">"axes.grid"</span>: <span class="va">False</span>})</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> Path(<span class="st">"../../../Data"</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>WORK <span class="op">=</span> DATA <span class="op">/</span> <span class="st">"00_shared"</span> <span class="op">/</span> <span class="st">"data_web_cloud_gis"</span>                     <span class="co"># downloads, shared with later notebooks</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>OUT <span class="op">=</span> WORK <span class="op">/</span> <span class="st">"08_01_outputs"</span>                           <span class="co"># products written by this notebook</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>OUT.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>AOI <span class="op">=</span> (<span class="op">-</span><span class="fl">76.22</span>, <span class="fl">42.98</span>, <span class="op">-</span><span class="fl">76.04</span>, <span class="fl">43.10</span>)                   <span class="co"># downtown Syracuse and the south end of Onondaga Lake</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"geolattice"</span>, geolattice.__version__, <span class="st">"| rsense"</span>, rs.__version__, <span class="st">"| outputs:"</span>, OUT)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>geolattice 0.3.11 | rsense 0.2.0.dev0 | outputs: ../../../data/data_web_cloud_gis/08_01_outputs</code></pre>
+</div>
+</div>
+</section>
+<section id="getting-imagery-with-get_images" class="level2">
+<h2 class="anchored" data-anchor-id="getting-imagery-with-get_images">Getting imagery with <code>get_images</code></h2>
+<p>We want the clearest Sentinel-2 scene of each summer month. <code>search_images</code> lists candidates without downloading; we keep scenes from MGRS tile <strong>18TVN</strong>, which covers the whole area, so all dates share one pixel grid, and pick the least cloudy scene per month. <code>get_images(search=..., ids=...)</code> then downloads only those scenes, clipped to the area (<code>mode="clip"</code>, the default), with the red, green, blue, NIR and scene-classification (<code>scl</code>) bands and an RGB+NIR <code>stack.tif</code>.</p>
+<p>The download runs once; later runs (and later notebooks) reuse the folder.</p>
+<div id="bc043e8e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:10:46.798309Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:10:46.798099Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:10:49.753507Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:10:49.753071Z&quot;}}" data-execution_count="2">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Search for clear Sentinel-2 scenes on tile 18TVN and download if needed</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>S2_DIR <span class="op">=</span> WORK <span class="op">/</span> <span class="st">"s2_syracuse_2025"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>found <span class="op">=</span> search_images(bbox<span class="op">=</span>AOI, dates<span class="op">=</span>(<span class="st">"2025-06-01"</span>, <span class="st">"2025-09-30"</span>), source<span class="op">=</span><span class="st">"earth-search"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                      collection<span class="op">=</span><span class="st">"sentinel-2-l2a"</span>, cloud<span class="op">=</span><span class="dv">20</span>, limit<span class="op">=</span><span class="dv">500</span>, quiet<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>cands <span class="op">=</span> pd.DataFrame(found.scenes)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>cands[<span class="st">"date"</span>] <span class="op">=</span> pd.to_datetime(cands[<span class="st">"datetime"</span>])</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>cands <span class="op">=</span> cands[cands[<span class="st">"id"</span>].<span class="bu">str</span>.contains(<span class="st">"18TVN"</span>)]</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>best <span class="op">=</span> cands.sort_values(<span class="st">"cloud"</span>).groupby(cands[<span class="st">"date"</span>].dt.month).head(<span class="dv">1</span>).sort_values(<span class="st">"date"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(found.scenes)<span class="sc">}</span><span class="ss"> scenes ≤ 20 % cloud, </span><span class="sc">{</span><span class="bu">len</span>(cands)<span class="sc">}</span><span class="ss"> on tile 18TVN; clearest per month:"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>display(best[[<span class="st">"id"</span>, <span class="st">"date"</span>, <span class="st">"cloud"</span>]].assign(cloud<span class="op">=</span><span class="kw">lambda</span> d: d.cloud.<span class="bu">round</span>(<span class="dv">2</span>)))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Download stacked RGB+NIR+SCL bands once; reuse if already on disk</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> (S2_DIR <span class="op">/</span> <span class="st">"request.json"</span>).exists() <span class="kw">or</span> <span class="bu">any</span>(<span class="kw">not</span> (S2_DIR <span class="op">/</span> sid).exists() <span class="cf">for</span> sid <span class="kw">in</span> best[<span class="st">"id"</span>]):</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> get_images(S2_DIR, search<span class="op">=</span>found, ids<span class="op">=</span><span class="bu">list</span>(best[<span class="st">"id"</span>]),</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>                        bands<span class="op">=</span>[<span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>, <span class="st">"nir"</span>, <span class="st">"scl"</span>], stack<span class="op">=</span><span class="va">True</span>, quiet<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(result, <span class="ss">f"in </span><span class="sc">{</span>time<span class="sc">.</span>perf_counter() <span class="op">-</span> t0<span class="sc">:.0f}</span><span class="ss"> s"</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Already downloaded:"</span>, S2_DIR)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> <span class="bu">sorted</span>(p.relative_to(S2_DIR) <span class="cf">for</span> p <span class="kw">in</span> S2_DIR.rglob(<span class="st">"*"</span>) <span class="cf">if</span> p.is_file())</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(files)<span class="sc">}</span><span class="ss"> files, </span><span class="sc">{</span><span class="bu">sum</span>((S2_DIR <span class="op">/</span> f).stat().st_size <span class="cf">for</span> f <span class="kw">in</span> files) <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss"> MB:"</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(<span class="st">"  "</span> <span class="op">+</span> <span class="bu">str</span>(f) <span class="cf">for</span> f <span class="kw">in</span> files))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>31 scenes ≤ 20 % cloud, 15 on tile 18TVN; clearest per month:</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">cloud</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>S2C_18TVN_20250723_0_L2A</td>
+<td>2025-07-23 16:01:45.187000+00:00</td>
+<td>13.99</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>S2C_18TVN_20250802_0_L2A</td>
+<td>2025-08-02 16:01:42.845000+00:00</td>
+<td>0.17</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">30</th>
+<td>S2B_18TVN_20250919_0_L2A</td>
+<td>2025-09-19 16:11:16.421000+00:00</td>
+<td>2.23</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Already downloaded: ../../../data/data_web_cloud_gis/s2_syracuse_2025
+24 files, 72.2 MB:
+  S2B_18TVN_20250919_0_L2A/blue.tif
+  S2B_18TVN_20250919_0_L2A/green.tif
+  S2B_18TVN_20250919_0_L2A/item.json
+  S2B_18TVN_20250919_0_L2A/nir.tif
+  S2B_18TVN_20250919_0_L2A/red.tif
+  S2B_18TVN_20250919_0_L2A/scl.tif
+  S2B_18TVN_20250919_0_L2A/stack.tif
+  S2C_18TVN_20250723_0_L2A/blue.tif
+  S2C_18TVN_20250723_0_L2A/green.tif
+  S2C_18TVN_20250723_0_L2A/item.json
+  S2C_18TVN_20250723_0_L2A/nir.tif
+  S2C_18TVN_20250723_0_L2A/red.tif
+  S2C_18TVN_20250723_0_L2A/scl.tif
+  S2C_18TVN_20250723_0_L2A/stack.tif
+  S2C_18TVN_20250802_0_L2A/blue.tif
+  S2C_18TVN_20250802_0_L2A/green.tif
+  S2C_18TVN_20250802_0_L2A/item.json
+  S2C_18TVN_20250802_0_L2A/nir.tif
+  S2C_18TVN_20250802_0_L2A/red.tif
+  S2C_18TVN_20250802_0_L2A/scl.tif
+  S2C_18TVN_20250802_0_L2A/stack.tif
+  aoi.geojson
+  request.json
+  scenes.json</code></pre>
+</div>
+</div>
+<p><code>get_images</code> records the request (<code>request.json</code>), the area (<code>aoi.geojson</code>) and, for each scene, its full STAC item (<code>item.json</code>). The item is the scene’s metadata: acquisition time, processing baseline, and for each band its data type, no-data value and the <strong>scale and offset</strong> that turn stored integers into reflectance.</p>
+<div id="1abcbe81" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:10:49.755099Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:10:49.754984Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:10:49.762145Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:10:49.761755Z&quot;}}" data-execution_count="3">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect STAC item properties and per-band raster metadata for the first scene</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>SCENES <span class="op">=</span> <span class="bu">list</span>(best[<span class="st">"id"</span>])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>item <span class="op">=</span> json.loads((S2_DIR <span class="op">/</span> SCENES[<span class="dv">0</span>] <span class="op">/</span> <span class="st">"item.json"</span>).read_text())</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>props <span class="op">=</span> item[<span class="st">"properties"</span>]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>({k: props.get(k) <span class="cf">for</span> k <span class="kw">in</span> [<span class="st">"datetime"</span>, <span class="st">"platform"</span>, <span class="st">"eo:cloud_cover"</span>, <span class="st">"s2:processing_baseline"</span>, <span class="st">"proj:code"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"earthsearch:boa_offset_applied"</span>] <span class="cf">if</span> props.get(k) <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>})</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({band: item[<span class="st">"assets"</span>][band][<span class="st">"raster:bands"</span>][<span class="dv">0</span>] <span class="cf">for</span> band <span class="kw">in</span> [<span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>, <span class="st">"nir"</span>, <span class="st">"scl"</span>]}).T</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'datetime': '2025-07-23T16:01:45.187000Z', 'platform': 'sentinel-2c', 'eo:cloud_cover': 13.994041, 's2:processing_baseline': '05.11', 'proj:code': 'EPSG:32618', 'earthsearch:boa_offset_applied': True}</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">nodata</th>
+<th data-quarto-table-cell-role="th">data_type</th>
+<th data-quarto-table-cell-role="th">spatial_resolution</th>
+<th data-quarto-table-cell-role="th">scale</th>
+<th data-quarto-table-cell-role="th">offset</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">red</th>
+<td>0</td>
+<td>uint16</td>
+<td>10</td>
+<td>0.0001</td>
+<td>-0.1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">green</th>
+<td>0</td>
+<td>uint16</td>
+<td>10</td>
+<td>0.0001</td>
+<td>-0.1</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">blue</th>
+<td>0</td>
+<td>uint16</td>
+<td>10</td>
+<td>0.0001</td>
+<td>-0.1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">nir</th>
+<td>0</td>
+<td>uint16</td>
+<td>10</td>
+<td>0.0001</td>
+<td>-0.1</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">scl</th>
+<td>0</td>
+<td>uint8</td>
+<td>20</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="is-it-cloud-optimized" class="level2">
+<h2 class="anchored" data-anchor-id="is-it-cloud-optimized">Is it cloud-optimized?</h2>
+<p><code>validate_cog</code> checks the layout rules of a COG:</p>
+<ol type="1">
+<li><strong>tiled</strong> pixels (square blocks, not full-width strips);</li>
+<li><strong>internal overviews</strong> for images larger than about 512 pixels;</li>
+<li><strong>headers first</strong>: the image file directories (IFDs) at the start, full resolution then overviews;</li>
+<li><strong>data ordered</strong> from the smallest overview to full resolution, after all headers.</li>
+</ol>
+<p>Missing overviews and a missing <code>LAYOUT=COG</code> marker are warnings; <code>strict=True</code> treats them as errors.</p>
+<div id="c071b7bf" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:10:49.763294Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:10:49.763205Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:10:49.809098Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:10:49.808794Z&quot;}}" data-execution_count="4">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Validate that the local multi-band stack is a Cloud Optimized GeoTIFF</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>stack_path <span class="op">=</span> S2_DIR <span class="op">/</span> SCENES[<span class="dv">0</span>] <span class="op">/</span> <span class="st">"stack.tif"</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>report <span class="op">=</span> web.validate_cog(stack_path)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(report)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>pd.Series({k: report.details[k] <span class="cf">for</span> k <span class="kw">in</span> [<span class="st">"size"</span>, <span class="st">"bands"</span>, <span class="st">"dtype"</span>, <span class="st">"block_size"</span>, <span class="st">"overview_count"</span>, <span class="st">"compression"</span>, <span class="st">"layout"</span>]}).to_frame(<span class="st">"value"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>../../../data/data_web_cloud_gis/s2_syracuse_2025/S2C_18TVN_20250723_0_L2A/stack.tif: NOT a valid Cloud-Optimized GeoTIFF
+  error: Some pixel data come before the image file directories.
+  warning: The image is larger than 512 px but has no internal overviews.
+  warning: No LAYOUT=COG marker: not written by GDAL's COG driver (may still be valid).</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">size</th>
+<td>(1485, 1354)</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">bands</th>
+<td>4</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">dtype</th>
+<td>UInt16</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">block_size</th>
+<td>(256, 256)</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">overview_count</th>
+<td>0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">compression</th>
+<td>DEFLATE</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">layout</th>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="41b5d7dd" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:10:49.811590Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:10:49.811463Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:10:51.035677Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:10:51.033742Z&quot;}}" data-execution_count="5">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Strict COG check on the local stack, then validate the remote red band</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"strict check:"</span>, web.validate_cog(stack_path, strict<span class="op">=</span><span class="va">True</span>).valid)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>remote <span class="op">=</span> item[<span class="st">"assets"</span>][<span class="st">"red"</span>][<span class="st">"href"</span>]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> web.cloud_env(anonymous<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    original <span class="op">=</span> web.validate_cog(remote)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The cloud original:"</span>, original.valid, {k: original.details[k] <span class="cf">for</span> k <span class="kw">in</span> [<span class="st">"size"</span>, <span class="st">"block_size"</span>, <span class="st">"overview_count"</span>, <span class="st">"compression"</span>, <span class="st">"layout"</span>]})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>strict check: False
+The cloud original: True {'size': (10980, 10980), 'block_size': (1024, 1024), 'overview_count': 4, 'compression': 'DEFLATE', 'layout': 'COG'}</code></pre>
+</div>
+</div>
+<p>The file <code>get_images</code> wrote is a tiled (256 × 256), DEFLATE-compressed GeoTIFF, which is fine for local work, but it is <strong>not</strong> a COG. It has no overviews, and GDAL’s ordinary GeoTIFF writer put the pixel data before the image file directories, so a remote reader would have to look for the headers. The source it was clipped from, the Sentinel-2 band on AWS, is a valid COG: 1,024-pixel blocks, four overviews and the <code>LAYOUT=COG</code> marker. Clipping keeps the pixels but not the layout, which is why outputs should be converted before they are published.</p>
+</section>
+<section id="converting-to-cog-and-choosing-compression" class="level2">
+<h2 class="anchored" data-anchor-id="converting-to-cog-and-choosing-compression">Converting to COG and choosing compression</h2>
+<p><code>to_cog</code> uses GDAL’s COG driver, which tiles the image, builds internal overviews and writes the parts in the right order. The main choices are compression and, for integer data, the <strong>predictor</strong>: predictor 2 stores the difference between neighbouring pixels, which are small for smooth imagery and compress better. All the options below are lossless.</p>
+<div id="8326ea83" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:10:51.039085Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:10:51.038801Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:10:52.977690Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:10:52.977208Z&quot;}}" data-execution_count="6">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rewrite the stack as COGs under several compression options and compare size/speed</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>options <span class="op">=</span> {</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"none"</span>:               <span class="bu">dict</span>(compress<span class="op">=</span><span class="st">"NONE"</span>),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"LZW"</span>:                <span class="bu">dict</span>(compress<span class="op">=</span><span class="st">"LZW"</span>),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DEFLATE"</span>:            <span class="bu">dict</span>(compress<span class="op">=</span><span class="st">"DEFLATE"</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DEFLATE + predictor"</span>: <span class="bu">dict</span>(compress<span class="op">=</span><span class="st">"DEFLATE"</span>, predictor<span class="op">=</span><span class="dv">2</span>),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ZSTD + predictor"</span>:   <span class="bu">dict</span>(compress<span class="op">=</span><span class="st">"ZSTD"</span>, predictor<span class="op">=</span><span class="dv">2</span>),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ZSTD level 15 + predictor"</span>: <span class="bu">dict</span>(compress<span class="op">=</span><span class="st">"ZSTD"</span>, predictor<span class="op">=</span><span class="dv">2</span>, level<span class="op">=</span><span class="dv">15</span>),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Uncompressed reference array for lossless checks</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(stack_path) <span class="im">as</span> src:</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    reference <span class="op">=</span> src.read()</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Write each variant, time readback, and record COG details</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, opts <span class="kw">in</span> options.items():</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    dst <span class="op">=</span> OUT <span class="op">/</span> <span class="ss">f"stack_</span><span class="sc">{</span>name<span class="sc">.</span>split()[<span class="dv">0</span>]<span class="sc">.</span>lower()<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span><span class="bu">len</span>(opts)<span class="sc">}</span><span class="ss">.tif"</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()<span class="op">;</span> web.to_cog(stack_path, dst, blocksize<span class="op">=</span><span class="dv">512</span>, <span class="op">**</span>opts)<span class="op">;</span> t_write <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> rasterio.<span class="bu">open</span>(dst) <span class="im">as</span> src:</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        back <span class="op">=</span> src.read()</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    t_read <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    rep <span class="op">=</span> web.validate_cog(dst, strict<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"option"</span>: name, <span class="st">"MB"</span>: dst.stat().st_size <span class="op">/</span> <span class="fl">1e6</span>, <span class="st">"write s"</span>: t_write, <span class="st">"read s"</span>: t_read,</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"lossless"</span>: <span class="bu">bool</span>(np.array_equal(back, reference)), <span class="st">"strict COG"</span>: rep.valid,</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"overviews"</span>: rep.details[<span class="st">"overview_count"</span>]})</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>comp <span class="op">=</span> pd.DataFrame(rows).set_index(<span class="st">"option"</span>)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>comp[<span class="st">"vs. input"</span>] <span class="op">=</span> (comp[<span class="st">"MB"</span>] <span class="op">/</span> (stack_path.stat().st_size <span class="op">/</span> <span class="fl">1e6</span>)).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Input stack.tif: </span><span class="sc">{</span>stack_path<span class="sc">.</span>stat()<span class="sc">.</span>st_size <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss"> MB (</span><span class="sc">{</span>reference<span class="sc">.</span>nbytes <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss"> MB uncompressed in memory)"</span>)</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>comp.<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Input stack.tif: 12.2 MB (16.1 MB uncompressed in memory)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">MB</th>
+<th data-quarto-table-cell-role="th">write s</th>
+<th data-quarto-table-cell-role="th">read s</th>
+<th data-quarto-table-cell-role="th">lossless</th>
+<th data-quarto-table-cell-role="th">strict COG</th>
+<th data-quarto-table-cell-role="th">overviews</th>
+<th data-quarto-table-cell-role="th">vs. input</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">option</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">none</th>
+<td>29.362</td>
+<td>0.128</td>
+<td>0.006</td>
+<td>True</td>
+<td>False</td>
+<td>2</td>
+<td>2.41</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">LZW</th>
+<td>21.749</td>
+<td>0.217</td>
+<td>0.067</td>
+<td>True</td>
+<td>True</td>
+<td>2</td>
+<td>1.78</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">DEFLATE</th>
+<td>17.198</td>
+<td>0.178</td>
+<td>0.059</td>
+<td>True</td>
+<td>True</td>
+<td>2</td>
+<td>1.41</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">DEFLATE + predictor</th>
+<td>15.928</td>
+<td>0.181</td>
+<td>0.062</td>
+<td>True</td>
+<td>True</td>
+<td>2</td>
+<td>1.31</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">ZSTD + predictor</th>
+<td>14.888</td>
+<td>0.235</td>
+<td>0.030</td>
+<td>True</td>
+<td>True</td>
+<td>2</td>
+<td>1.22</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">ZSTD level 15 + predictor</th>
+<td>14.864</td>
+<td>0.647</td>
+<td>0.031</td>
+<td>True</td>
+<td>True</td>
+<td>2</td>
+<td>1.22</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Every option is lossless (the pixels read back unchanged) and, apart from the uncompressed file, passes the strict COG check. Each file includes two overview levels, which is why even the uncompressed COG (29.4 MB) is larger than the 16.1 MB of pixels.</p>
+<ul>
+<li>The predictor helps: DEFLATE goes from 17.2 to 15.9 MB with predictor 2.</li>
+<li>ZSTD with the predictor gave the smallest file (14.9 MB) and the fastest reads.</li>
+<li>A higher ZSTD level saved almost nothing (14.86 MB) and took nearly three times as long to write.</li>
+</ul>
+<p>LZW, the old default, was the largest of the compressed files. A good general choice is ZSTD or DEFLATE with a predictor at the default level.</p>
+</section>
+<section id="inside-a-cog" class="level2">
+<h2 class="anchored" data-anchor-id="inside-a-cog">Inside a COG</h2>
+<p>The DEFLATE + predictor file is our working COG. Its byte offsets show the layout rules at work, and its overviews are ready-made reduced copies.</p>
+<div id="380452ab" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:10:52.979238Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:10:52.979138Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:10:53.538305Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:10:53.537858Z&quot;}}" data-execution_count="7">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show COG overview layout and visualize RGB at each resolution level</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>cog_path <span class="op">=</span> OUT <span class="op">/</span> <span class="st">"stack_deflate_2.tif"</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>rep <span class="op">=</span> web.validate_cog(cog_path)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>layout <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"level"</span>: [<span class="st">"full resolution"</span>] <span class="op">+</span> [<span class="ss">f"overview </span><span class="sc">{</span>i <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(rep.details[<span class="st">"overview_count"</span>])],</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"size (px)"</span>: [rep.details[<span class="st">"size"</span>]] <span class="op">+</span> rep.details[<span class="st">"overview_sizes"</span>],</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"IFD offset (byte)"</span>: rep.details[<span class="st">"ifd_offsets"</span>],</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"first tile offset (byte)"</span>: rep.details[<span class="st">"data_offsets"</span>],</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>display(layout)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Render full resolution plus each overview</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(cog_path) <span class="im">as</span> src:</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    levels <span class="op">=</span> [<span class="va">None</span>] <span class="op">+</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(src.overviews(<span class="dv">1</span>))))</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="bu">len</span>(levels), figsize<span class="op">=</span>(<span class="fl">4.2</span> <span class="op">*</span> <span class="bu">len</span>(levels), <span class="dv">4</span>))</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, lvl <span class="kw">in</span> <span class="bu">zip</span>(axes, levels):</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> rasterio.<span class="bu">open</span>(cog_path, overview_level<span class="op">=</span>lvl) <span class="cf">if</span> lvl <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> rasterio.<span class="bu">open</span>(cog_path) <span class="im">as</span> src:</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        rgb <span class="op">=</span> src.read([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]).astype(<span class="st">"float32"</span>)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    p2, p98 <span class="op">=</span> np.percentile(rgb, [<span class="dv">2</span>, <span class="dv">98</span>])</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    ax.imshow(np.clip((np.moveaxis(rgb, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>) <span class="op">-</span> p2) <span class="op">/</span> (p98 <span class="op">-</span> p2), <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"</span><span class="sc">{</span><span class="st">'full'</span> <span class="cf">if</span> lvl <span class="kw">is</span> <span class="va">None</span> <span class="cf">else</span> <span class="ss">f'overview </span><span class="sc">{</span>lvl <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">'</span><span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>rgb<span class="sc">.</span>shape[<span class="dv">2</span>]<span class="sc">}</span><span class="ss"> × </span><span class="sc">{</span>rgb<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks([])<span class="op">;</span> ax.set_yticks([])</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">level</th>
+<th data-quarto-table-cell-role="th">size (px)</th>
+<th data-quarto-table-cell-role="th">IFD offset (byte)</th>
+<th data-quarto-table-cell-role="th">first tile offset (byte)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>full resolution</td>
+<td>(1485, 1354)</td>
+<td>192</td>
+<td>3888865</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>overview 1</td>
+<td>(742, 677)</td>
+<td>1008</td>
+<td>789653</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>overview 2</td>
+<td>(371, 338)</td>
+<td>1228</td>
+<td>1556</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_01_cloud_native_raster_files/figure-html/cell-8-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The offsets show the COG rules at work:</p>
+<ul>
+<li><strong>Headers first.</strong> All three image file directories sit in the first 1.3 kB of the file (bytes 192, 1,008 and 1,228), in order full resolution, overview 1, overview 2.</li>
+<li><strong>Coarse to fine.</strong> The pixel data follow from coarsest to finest: overview 2 starts at byte 1,556, overview 1 at 0.79 MB and full resolution at 3.9 MB.</li>
+</ul>
+<p>A client that wants a small preview reads the first few kilobytes and stops. Each overview halves the size (1,485 → 742 → 371 pixels), and the three images look alike at this display size, which is exactly what makes zoomed-out views cheap.</p>
+</section>
+<section id="web-optimized-cogs" class="level2">
+<h2 class="anchored" data-anchor-id="web-optimized-cogs">Web-optimized COGs</h2>
+<p>A web map asks for tiles in Web Mercator. If the COG is already in Web Mercator <strong>and</strong> its blocks line up with the XYZ tile grid, a tile server can return blocks almost directly instead of reprojecting. <code>to_cog(..., web_optimized=True)</code> produces such a file.</p>
+<div id="66fe0274" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:10:53.546286Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:10:53.546186Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:10:53.841244Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:10:53.840738Z&quot;}}" data-execution_count="8">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a web-optimized COG aligned to the Web Mercator tile grid</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>web_cog <span class="op">=</span> web.to_cog(cog_path, OUT <span class="op">/</span> <span class="st">"stack_web_optimized.tif"</span>, web_optimized<span class="op">=</span><span class="va">True</span>, predictor<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                     overview_resampling<span class="op">=</span><span class="st">"AVERAGE"</span>, resampling<span class="op">=</span><span class="st">"BILINEAR"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(web_cog) <span class="im">as</span> src:</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> src.res[<span class="dv">0</span>]</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> src.transform</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    zoom <span class="op">=</span> <span class="bu">int</span>(<span class="bu">round</span>(np.log2(<span class="dv">2</span> <span class="op">*</span> web.tiles.ORIGIN_SHIFT <span class="op">/</span> (<span class="dv">256</span> <span class="op">*</span> res))))</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    tile_span <span class="op">=</span> <span class="dv">256</span> <span class="op">*</span> res</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    aligned <span class="op">=</span> <span class="bu">all</span>(<span class="bu">abs</span>(((v <span class="op">+</span> web.tiles.ORIGIN_SHIFT) <span class="op">/</span> tile_span) <span class="op">-</span> <span class="bu">round</span>((v <span class="op">+</span> web.tiles.ORIGIN_SHIFT) <span class="op">/</span> tile_span)) <span class="op">&lt;</span> <span class="fl">1e-6</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>                  <span class="cf">for</span> v <span class="kw">in</span> (t.c, web.tiles.ORIGIN_SHIFT <span class="op">-</span> t.f))</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"CRS </span><span class="sc">{</span>src<span class="sc">.</span>crs<span class="sc">}</span><span class="ss">, pixel </span><span class="sc">{</span>res<span class="sc">:.3f}</span><span class="ss"> m (zoom </span><span class="sc">{</span>zoom<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>web<span class="sc">.</span>tile_resolution(zoom)<span class="sc">:.3f}</span><span class="ss"> m), "</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"blocks </span><span class="sc">{</span>src<span class="sc">.</span>block_shapes[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">, size </span><span class="sc">{</span>src<span class="sc">.</span>width<span class="sc">}</span><span class="ss"> × </span><span class="sc">{</span>src<span class="sc">.</span>height<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>Path(web_cog)<span class="sc">.</span>stat()<span class="sc">.</span>st_size <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss"> MB"</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Upper-left corner on the zoom-</span><span class="sc">{</span>zoom<span class="sc">}</span><span class="ss"> tile grid: </span><span class="sc">{</span>aligned<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(web.validate_cog(web_cog, strict<span class="op">=</span><span class="va">True</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>CRS EPSG:3857, pixel 19.109 m (zoom 13: 19.109 m), blocks (512, 512), size 1536 × 1536, 8.3 MB
+Upper-left corner on the zoom-13 tile grid: True
+../../../data/data_web_cloud_gis/08_01_outputs/stack_web_optimized.tif: valid Cloud-Optimized GeoTIFF</code></pre>
+</div>
+</div>
+<p>The web-optimized copy is in Web Mercator at 19.109 m per pixel, exactly the pixel size of XYZ zoom 13. Its corner falls on the zoom-13 tile grid, and its 512-pixel blocks are whole multiples of 256-pixel tiles, so map tiles at zoom 13 and below line up with blocks and overviews.</p>
+<p>Two costs: the image was resampled from 10 m to 19 m (GDAL picks the nearest zoom level at or below the native resolution), and in Web Mercator the pixels are not equal-area. Keep the UTM COG for analysis and the web-optimized copy for display.</p>
+</section>
+<section id="local-copy-versus-the-cloud-original" class="level2">
+<h2 class="anchored" data-anchor-id="local-copy-versus-the-cloud-original">Local copy versus the cloud original</h2>
+<p><code>get_images</code> reads the area out of each remote COG with range requests. Reading the same window again straight from the cloud should give identical pixels.</p>
+<div id="16829b38" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:10:53.844912Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:10:53.844808Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:11:18.888050Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:11:18.887690Z&quot;}}" data-execution_count="9">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare a local red band to the same window read from the remote COG</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>local <span class="op">=</span> rs.read(S2_DIR <span class="op">/</span> SCENES[<span class="dv">1</span>] <span class="op">/</span> <span class="st">"red.tif"</span>).squeeze(<span class="st">"band"</span>, drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>item1 <span class="op">=</span> json.loads((S2_DIR <span class="op">/</span> SCENES[<span class="dv">1</span>] <span class="op">/</span> <span class="st">"item.json"</span>).read_text())</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> web.cloud_env(anonymous<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    remote_red <span class="op">=</span> rs.read(item1[<span class="st">"assets"</span>][<span class="st">"red"</span>][<span class="st">"href"</span>], chunks<span class="op">=</span>{<span class="st">"x"</span>: <span class="dv">1024</span>, <span class="st">"y"</span>: <span class="dv">1024</span>}) <span class="op">\</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        .squeeze(<span class="st">"band"</span>, drop<span class="op">=</span><span class="va">True</span>).rio.clip_box(<span class="op">*</span>local.rio.bounds()).compute()</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>elapsed <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>same_grid <span class="op">=</span> remote_red.shape <span class="op">==</span> local.shape <span class="kw">and</span> np.allclose(remote_red.x, local.x) <span class="kw">and</span> np.allclose(remote_red.y, local.y)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Remote clip </span><span class="sc">{</span>remote_red<span class="sc">.</span>shape<span class="sc">}</span><span class="ss"> read in </span><span class="sc">{</span>elapsed<span class="sc">:.1f}</span><span class="ss"> s; same grid: </span><span class="sc">{</span>same_grid<span class="sc">}</span><span class="ss">; "</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"identical values: </span><span class="sc">{</span><span class="bu">bool</span>(np.array_equal(remote_red.values, local.values, equal_nan<span class="op">=</span><span class="va">True</span>))<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Remote clip (1354, 1485) read in 25.0 s; same grid: True; identical values: True</code></pre>
+</div>
+</div>
+</section>
+<section id="from-files-to-a-data-cube-scale-offset-and-cloud-masks" class="level2">
+<h2 class="anchored" data-anchor-id="from-files-to-a-data-cube-scale-offset-and-cloud-masks">From files to a data cube: scale, offset and cloud masks</h2>
+<p>The three dates share one grid, so they stack into a cube with dimensions (time, y, x). The STAC item says reflectance = DN × <code>scale</code> + <code>offset</code>, with 0.0001 and −0.1. But read the metadata carefully: since processing baseline 04.00 (January 2022) ESA adds 1,000 to every Sentinel-2 L2A value, which the −0.1 offset removes, and Earth Search <strong>already removed it</strong> when it converted the data to COGs. The item flags this with <code>earthsearch:boa_offset_applied: true</code>, while <code>raster:bands</code> still lists the offset. Applying both would subtract it twice.</p>
+<p>We can check this against Planetary Computer, which keeps ESA’s original values, by reading the same scene and window from both catalogues:</p>
+<div id="7b77654d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:11:18.889913Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:11:18.889544Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:11:36.302779Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:11:36.302293Z&quot;}}" data-execution_count="10">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: compare Earth Search vs Planetary Computer DN values for the same scene</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>item_aug <span class="op">=</span> json.loads((S2_DIR <span class="op">/</span> SCENES[<span class="dv">1</span>] <span class="op">/</span> <span class="st">"item.json"</span>).read_text())</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>es_red <span class="op">=</span> rs.read(S2_DIR <span class="op">/</span> SCENES[<span class="dv">1</span>] <span class="op">/</span> <span class="st">"red.tif"</span>).squeeze(<span class="st">"band"</span>, drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    pc_items <span class="op">=</span> rs.access.stac_search(<span class="st">"sentinel-2-l2a"</span>, aoi<span class="op">=</span>AOI, dates<span class="op">=</span>(item_aug[<span class="st">"properties"</span>][<span class="st">"datetime"</span>][:<span class="dv">10</span>],) <span class="op">*</span> <span class="dv">2</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    pc_item <span class="op">=</span> <span class="bu">next</span>(it <span class="cf">for</span> it <span class="kw">in</span> pc_items <span class="cf">if</span> <span class="st">"T18TVN"</span> <span class="kw">in</span> it.<span class="bu">id</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    pc_red <span class="op">=</span> rs.read(pc_item.assets[<span class="st">"B04"</span>].href, chunks<span class="op">=</span>{<span class="st">"x"</span>: <span class="dv">1024</span>, <span class="st">"y"</span>: <span class="dv">1024</span>}).squeeze(<span class="st">"band"</span>, drop<span class="op">=</span><span class="va">True</span>) <span class="op">\</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        .rio.clip_box(<span class="op">*</span>es_red.rio.bounds()).compute()</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    diff <span class="op">=</span> (pc_red <span class="op">-</span> es_red).values</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Planetary Computer </span><span class="sc">{</span>pc_item<span class="sc">.</span><span class="bu">id</span><span class="sc">}</span><span class="ch">\n</span><span class="ss">  PC − Earth Search DN: median </span><span class="sc">{</span>np<span class="sc">.</span>nanmedian(diff)<span class="sc">:.0f}</span><span class="ss">, "</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"range </span><span class="sc">{</span>np<span class="sc">.</span>nanmin(diff)<span class="sc">:.0f}</span><span class="ss"> to </span><span class="sc">{</span>np<span class="sc">.</span>nanmax(diff)<span class="sc">:.0f}</span><span class="ss">; "</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"median red DN: PC </span><span class="sc">{</span><span class="bu">float</span>(pc_red.median())<span class="sc">:.0f}</span><span class="ss">, Earth Search </span><span class="sc">{</span><span class="bu">float</span>(es_red.median())<span class="sc">:.0f}</span><span class="ss">"</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> exc:</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Planetary Computer not reachable, skipped:"</span>, <span class="bu">type</span>(exc).<span class="va">__name__</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"earthsearch:boa_offset_applied ="</span>, item_aug[<span class="st">"properties"</span>].get(<span class="st">"earthsearch:boa_offset_applied"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Planetary Computer S2C_MSIL2A_20250802T154951_R054_T18TVN_20250802T212214
+  PC − Earth Search DN: median 1000, range 1000 to 1000; median red DN: PC 1662, Earth Search 662
+earthsearch:boa_offset_applied = True</code></pre>
+</div>
+</div>
+<p>For the same scene, every pixel on Planetary Computer is exactly 1,000 higher than on Earth Search (median red 1,662 against 662), and the Earth Search item reports <code>earthsearch:boa_offset_applied = True</code>. So for Earth Search the correct conversion is DN × 0.0001, with no further offset. Applying the −0.1 offset as well would make the red reflectance about −0.03 and NDVI meaningless (an earlier draft of this notebook did exactly that). When a dataset is available from more than one provider, check which conventions each one uses.</p>
+<p>The scene classification is at 20 m and must be resampled to 10 m with nearest-neighbour before it can mask clouds (classes 3 cloud shadow, 8-9 cloud, 10 cirrus).</p>
+<div id="0bd5e979" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:11:36.304492Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:11:36.304396Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:11:36.828869Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:11:36.828453Z&quot;}}" data-execution_count="11">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a multi-date reflectance cube, cloud mask, and NDVI for all scenes</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>BANDS <span class="op">=</span> [<span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>, <span class="st">"nir"</span>]</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>CLOUDY <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>]</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>layers <span class="op">=</span> []</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Scale each band to reflectance and flag clear (non-cloudy) pixels</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sid <span class="kw">in</span> SCENES:</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    meta <span class="op">=</span> json.loads((S2_DIR <span class="op">/</span> sid <span class="op">/</span> <span class="st">"item.json"</span>).read_text())</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    when <span class="op">=</span> pd.Timestamp(meta[<span class="st">"properties"</span>][<span class="st">"datetime"</span>]).tz_convert(<span class="va">None</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    bands <span class="op">=</span> {}</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> b <span class="kw">in</span> BANDS:</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        rb <span class="op">=</span> meta[<span class="st">"assets"</span>][b][<span class="st">"raster:bands"</span>][<span class="dv">0</span>]</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        offset <span class="op">=</span> <span class="fl">0.0</span> <span class="cf">if</span> meta[<span class="st">"properties"</span>].get(<span class="st">"earthsearch:boa_offset_applied"</span>) <span class="cf">else</span> rb.get(<span class="st">"offset"</span>, <span class="fl">0.0</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        da <span class="op">=</span> rs.read(S2_DIR <span class="op">/</span> sid <span class="op">/</span> <span class="ss">f"</span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">.tif"</span>).squeeze(<span class="st">"band"</span>, drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        bands[b] <span class="op">=</span> (da <span class="op">*</span> rb.get(<span class="st">"scale"</span>, <span class="fl">1.0</span>) <span class="op">+</span> offset).astype(<span class="st">"float32"</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    scl <span class="op">=</span> rs.read(S2_DIR <span class="op">/</span> sid <span class="op">/</span> <span class="st">"scl.tif"</span>, masked<span class="op">=</span><span class="va">False</span>).squeeze(<span class="st">"band"</span>, drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    scl <span class="op">=</span> scl.rio.reproject_match(bands[<span class="st">"red"</span>], resampling<span class="op">=</span>rasterio.enums.Resampling.nearest)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    ds <span class="op">=</span> xr.Dataset(bands)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    ds[<span class="st">"clear"</span>] <span class="op">=</span> <span class="op">~</span>scl.isin(CLOUDY) <span class="op">&amp;</span> (scl <span class="op">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    layers.append(ds.expand_dims(time<span class="op">=</span>[when]))</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Concatenate along time and compute cloud-masked NDVI</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>cube <span class="op">=</span> xr.concat(layers, dim<span class="op">=</span><span class="st">"time"</span>).rio.write_crs(layers[<span class="dv">0</span>].rio.crs)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>cube[<span class="st">"ndvi"</span>] <span class="op">=</span> ((cube.nir <span class="op">-</span> cube.red) <span class="op">/</span> (cube.nir <span class="op">+</span> cube.red)).where(cube.clear)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>cube <span class="op">=</span> cube.drop_vars(<span class="st">"spatial_ref"</span>, errors<span class="op">=</span><span class="st">"ignore"</span>).rio.write_crs(layers[<span class="dv">0</span>].rio.crs)</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> v <span class="kw">in</span> cube.data_vars:                     <span class="co"># drop scale/offset attributes inherited from the files</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    cube[v].attrs, cube[v].encoding <span class="op">=</span> {}, {}</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cube)</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"clear (%)"</span>: (cube.clear.mean([<span class="st">"x"</span>, <span class="st">"y"</span>]) <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>).to_series(),</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>              <span class="st">"median NDVI"</span>: cube.ndvi.median([<span class="st">"x"</span>, <span class="st">"y"</span>]).<span class="bu">round</span>(<span class="dv">3</span>).to_series(),</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>              <span class="st">"median red reflectance"</span>: cube.red.median([<span class="st">"x"</span>, <span class="st">"y"</span>]).<span class="bu">round</span>(<span class="dv">4</span>).to_series()})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;xarray.Dataset&gt; Size: 127MB
+Dimensions:      (time: 3, y: 1354, x: 1485)
+Coordinates:
+  * time         (time) datetime64[us] 24B 2025-07-23T16:01:45.187000 ... 202...
+  * y            (y) float64 11kB 4.773e+06 4.773e+06 ... 4.759e+06 4.759e+06
+  * x            (x) float64 12kB 4.005e+05 4.005e+05 ... 4.154e+05 4.154e+05
+    spatial_ref  int64 8B 0
+Data variables:
+    red          (time, y, x) float32 24MB 0.0142 0.0137 ... 0.0369 0.0353
+    green        (time, y, x) float32 24MB 0.0314 0.032 0.0315 ... 0.049 0.0485
+    blue         (time, y, x) float32 24MB 0.027 0.0274 0.027 ... 0.0294 0.0286
+    nir          (time, y, x) float32 24MB 0.0122 0.0121 ... 0.2944 0.2984
+    clear        (time, y, x) bool 6MB True True True True ... True True True
+    ndvi         (time, y, x) float32 24MB -0.07576 -0.06202 ... 0.7772 0.7884</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">clear (%)</th>
+<th data-quarto-table-cell-role="th">median NDVI</th>
+<th data-quarto-table-cell-role="th">median red reflectance</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">time</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2025-07-23 16:01:45.187</th>
+<td>96.6</td>
+<td>0.621</td>
+<td>0.0618</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2025-08-02 16:01:42.845</th>
+<td>100.0</td>
+<td>0.610</td>
+<td>0.0662</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2025-09-19 16:11:16.421</th>
+<td>100.0</td>
+<td>0.664</td>
+<td>0.0439</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="fe08253e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:11:36.830393Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:11:36.830302Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:11:37.745470Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:11:37.744929Z&quot;}}" data-execution_count="12">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot true-color RGB and masked NDVI for each date in the cube</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="bu">len</span>(SCENES), figsize<span class="op">=</span>(<span class="fl">5.2</span> <span class="op">*</span> <span class="bu">len</span>(SCENES), <span class="fl">9.5</span>))</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j, t <span class="kw">in</span> <span class="bu">enumerate</span>(cube.time.values):</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> cube.sel(time<span class="op">=</span>t)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    rgb <span class="op">=</span> np.stack([s.red, s.green, s.blue], <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>, j].imshow(np.clip(rgb <span class="op">/</span> <span class="fl">0.25</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>, j].set_title(<span class="ss">f"</span><span class="sc">{</span>pd<span class="sc">.</span>Timestamp(t)<span class="sc">:</span><span class="op">%</span>d <span class="op">%</span>b <span class="op">%</span>Y<span class="sc">}</span><span class="ss">, true colour"</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    im <span class="op">=</span> axes[<span class="dv">1</span>, j].imshow(s.ndvi, cmap<span class="op">=</span><span class="st">"RdYlGn"</span>, vmin<span class="op">=-</span><span class="fl">0.2</span>, vmax<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>, j].set_title(<span class="st">"NDVI (clouds and shadows masked)"</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a <span class="kw">in</span> axes.ravel():</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    a.set_xticks([])<span class="op">;</span> a.set_yticks([])</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>fig.colorbar(im, ax<span class="op">=</span>axes[<span class="dv">1</span>], shrink<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">"NDVI"</span>)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_01_cloud_native_raster_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>After correct scaling the values are realistic: median red reflectance of 0.04-0.07 and median NDVI of 0.61-0.66 for a city with dense tree cover. The scene classification marked 3.4% of the 23 July scene as cloud or shadow: the cumulus clouds in the south-east and their shadows, now holes in the NDVI map. August and September were fully clear.</p>
+<p>Onondaga Lake is negative in July (about −0.09) and September (about −0.2), but slightly positive on 2 August (about +0.06). Water is normally negative, so on that date the lake was more reflective in the NIR, which would fit greenish water (for example an algal bloom) or thin haze. A single scene cannot tell which. Downtown, roads and the large bright site in the south-east stay low in every scene.</p>
+</section>
+<section id="zarr-data-cubes" class="level2">
+<h2 class="anchored" data-anchor-id="zarr-data-cubes">Zarr data cubes</h2>
+<p>GeoTIFF stores one raster per file; a <strong>Zarr</strong> store holds an n-dimensional array cut into compressed <strong>chunks</strong>, one object per chunk, so a cube of any size can be read in parallel and in pieces from disk or object storage. <code>rs.scale.to_zarr_cube</code> writes with spatial chunks and the whole time axis together (good for time series) and can <strong>append</strong> new dates, the usual pattern for monitoring.</p>
+<div id="d1b08933" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:11:37.754298Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:11:37.754178Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:11:38.297372Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:11:38.296911Z&quot;}}" data-execution_count="13">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Persist the cube as Zarr in two appends, then verify contents and size</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>store <span class="op">=</span> OUT <span class="op">/</span> <span class="st">"syracuse_s2_2025.zarr"</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> store.exists():</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    shutil.rmtree(store)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>zcube <span class="op">=</span> cube[[<span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>, <span class="st">"nir"</span>, <span class="st">"ndvi"</span>]]</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>rs.scale.to_zarr_cube(zcube.isel(time<span class="op">=</span><span class="bu">slice</span>(<span class="dv">0</span>, <span class="dv">2</span>)), store, chunks<span class="op">=</span>{<span class="st">"x"</span>: <span class="dv">512</span>, <span class="st">"y"</span>: <span class="dv">512</span>})          <span class="co"># July and August</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>rs.scale.to_zarr_cube(zcube.isel(time<span class="op">=</span><span class="bu">slice</span>(<span class="dv">2</span>, <span class="dv">3</span>)), store, append_dim<span class="op">=</span><span class="st">"time"</span>)                     <span class="co"># September arrives later</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> rs.scale.open_cube(store)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dimensions:"</span>, <span class="bu">dict</span>(z.sizes), <span class="st">"| NDVI chunks:"</span>, z.ndvi.data.chunksize, <span class="st">"| CRS:"</span>, z.rio.crs)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Identical to the in-memory cube:"</span>, <span class="bu">bool</span>(np.allclose(z.ndvi.values, zcube.ndvi.values, equal_nan<span class="op">=</span><span class="va">True</span>)))</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare Zarr store size to the original band GeoTIFFs</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>objects <span class="op">=</span> [p <span class="cf">for</span> p <span class="kw">in</span> store.rglob(<span class="st">"*"</span>) <span class="cf">if</span> p.is_file()]</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>zarr_mb <span class="op">=</span> <span class="bu">sum</span>(p.stat().st_size <span class="cf">for</span> p <span class="kw">in</span> objects) <span class="op">/</span> <span class="fl">1e6</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>tif_mb <span class="op">=</span> <span class="bu">sum</span>((S2_DIR <span class="op">/</span> sid <span class="op">/</span> <span class="ss">f"</span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">.tif"</span>).stat().st_size <span class="cf">for</span> sid <span class="kw">in</span> SCENES <span class="cf">for</span> b <span class="kw">in</span> BANDS) <span class="op">/</span> <span class="fl">1e6</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Zarr store: </span><span class="sc">{</span><span class="bu">len</span>(objects)<span class="sc">}</span><span class="ss"> objects, </span><span class="sc">{</span>zarr_mb<span class="sc">:.1f}</span><span class="ss"> MB (four bands + NDVI); "</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"the 12 downloaded band GeoTIFFs: </span><span class="sc">{</span>tif_mb<span class="sc">:.1f}</span><span class="ss"> MB"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dimensions: {'time': 3, 'y': 1354, 'x': 1485} | NDVI chunks: (2, 512, 512) | CRS: EPSG:32618
+Identical to the in-memory cube: True
+Zarr store: 104 objects, 76.0 MB (four bands + NDVI); the 12 downloaded band GeoTIFFs: 36.0 MB</code></pre>
+</div>
+</div>
+<div id="fa9ebc5b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:11:38.299362Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:11:38.299047Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:11:38.334924Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:11:38.334460Z&quot;}}" data-execution_count="14">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lazily sample NDVI time series at a few lon/lat points from the Zarr cube</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyproj <span class="im">import</span> Transformer</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>to_utm <span class="op">=</span> Transformer.from_crs(<span class="dv">4326</span>, z.rio.crs, always_xy<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> {<span class="st">"Onondaga Lake"</span>: (<span class="op">-</span><span class="fl">76.200</span>, <span class="fl">43.080</span>), <span class="st">"Downtown Syracuse"</span>: (<span class="op">-</span><span class="fl">76.150</span>, <span class="fl">43.048</span>),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Residential south side"</span>: (<span class="op">-</span><span class="fl">76.165</span>, <span class="fl">43.031</span>)}</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>series <span class="op">=</span> {name: z.ndvi.sel(x<span class="op">=</span>to_utm.transform(<span class="op">*</span>ll)[<span class="dv">0</span>], y<span class="op">=</span>to_utm.transform(<span class="op">*</span>ll)[<span class="dv">1</span>], method<span class="op">=</span><span class="st">"nearest"</span>).load().to_series()</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> name, ll <span class="kw">in</span> points.items()}</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Three pixel time series read lazily in </span><span class="sc">{</span>time<span class="sc">.</span>perf_counter() <span class="op">-</span> t0<span class="sc">:.2f}</span><span class="ss"> s"</span>)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(series).<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Three pixel time series read lazily in 0.03 s</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Onondaga Lake</th>
+<th data-quarto-table-cell-role="th">Downtown Syracuse</th>
+<th data-quarto-table-cell-role="th">Residential south side</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">time</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2025-07-23 16:01:45.187</th>
+<td>-0.086</td>
+<td>0.114</td>
+<td>0.725</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2025-08-02 16:01:42.845</th>
+<td>0.062</td>
+<td>0.124</td>
+<td>0.712</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2025-09-19 16:11:16.421</th>
+<td>-0.197</td>
+<td>0.038</td>
+<td>0.528</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The Zarr store holds the three dates in 104 chunk objects. Appending September extended the time axis without rewriting July and August, and the store reads back identical values. The NDVI chunks are 2 × 512 × 512: the time chunk comes from the first write, which held two dates. Pixel time series were read lazily in a few hundredths of a second, because each touches only one spatial chunk.</p>
+<p>The store (76 MB) is larger than the 12 downloaded band files (36 MB) because we stored float32 reflectance and NDVI rather than 16-bit integers. Storing the integers with their scale factor would roughly halve it, which is the usual practice for large cubes.</p>
+<p>The three points show the expected contrasts:</p>
+<ul>
+<li>Onondaga Lake: about −0.09, +0.06, −0.20.</li>
+<li>Downtown: about 0.11, 0.12, 0.04.</li>
+<li>A tree-lined residential area: about 0.72 in July and August, falling to 0.53 by 19 September.</li>
+</ul>
+</section>
+<section id="publishing-with-stac-and-geoparquet" class="level2">
+<h2 class="anchored" data-anchor-id="publishing-with-stac-and-geoparquet">Publishing with STAC and GeoParquet</h2>
+<p>Products need a catalogue so others can find them. We write one NDVI COG per date and describe them with <code>rs.scale.export_stac</code>, which records each file’s footprint, date, projection and our own properties. The item footprints also go into a GeoParquet table, a compact index that can be filtered by bounding box without opening the catalogue (the idea behind <em>stac-geoparquet</em>).</p>
+<div id="0981e222" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:11:38.336313Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:11:38.336223Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:11:38.875727Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:11:38.874978Z&quot;}}" data-execution_count="15">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write per-date NDVI COGs and export a small STAC catalog for them</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>ndvi_files, dates <span class="op">=</span> [], []</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> cube.time.values:</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    when <span class="op">=</span> pd.Timestamp(t)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    path <span class="op">=</span> OUT <span class="op">/</span> <span class="ss">f"ndvi_syracuse_</span><span class="sc">{</span>when<span class="sc">:</span><span class="op">%</span>Y<span class="op">%</span>m<span class="op">%</span>d<span class="sc">}</span><span class="ss">.tif"</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    rs.write(cube.ndvi.sel(time<span class="op">=</span>t).rio.write_crs(cube.rio.crs).rio.write_nodata(np.nan), path)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    ndvi_files.append(path)<span class="op">;</span> dates.append(when.tz_localize(<span class="st">"UTC"</span>).to_pydatetime())</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"All NDVI products are valid COGs:"</span>, <span class="bu">all</span>(web.validate_cog(p).valid <span class="cf">for</span> p <span class="kw">in</span> ndvi_files))</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a STAC catalog pointing at the NDVI assets</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>catalog_dir <span class="op">=</span> OUT <span class="op">/</span> <span class="st">"stac"</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> catalog_dir.exists():</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    shutil.rmtree(catalog_dir)</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>cat_path <span class="op">=</span> rs.scale.export_stac(ndvi_files, catalog_dir, collection_id<span class="op">=</span><span class="st">"syracuse-ndvi-2025"</span>,</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>                                description<span class="op">=</span><span class="st">"Cloud-masked Sentinel-2 NDVI, Syracuse NY, summer 2025"</span>,</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>                                datetimes<span class="op">=</span>dates, properties<span class="op">=</span>{<span class="st">"platform"</span>: <span class="st">"sentinel-2"</span>, <span class="st">"product"</span>: <span class="st">"NDVI"</span>,</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>                                                             <span class="st">"source_collection"</span>: <span class="st">"sentinel-2-l2a"</span>})</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Imports and configuration</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pystac</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>catalog <span class="op">=</span> pystac.Catalog.from_file(<span class="bu">str</span>(cat_path))</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>items <span class="op">=</span> <span class="bu">list</span>(<span class="bu">next</span>(catalog.get_children()).get_items())</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>pd.DataFrame([{<span class="st">"id"</span>: it.<span class="bu">id</span>, <span class="st">"datetime"</span>: it.datetime, <span class="st">"bbox"</span>: np.<span class="bu">round</span>(it.bbox, <span class="dv">3</span>).tolist(),</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>               <span class="st">"proj"</span>: it.properties.get(<span class="st">"proj:code"</span>) <span class="kw">or</span> it.properties.get(<span class="st">"proj:epsg"</span>),</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>               <span class="st">"asset"</span>: Path(it.assets[<span class="st">"data"</span>].get_absolute_href()).name} <span class="cf">for</span> it <span class="kw">in</span> items])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>All NDVI products are valid COGs: True</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">datetime</th>
+<th data-quarto-table-cell-role="th">bbox</th>
+<th data-quarto-table-cell-role="th">proj</th>
+<th data-quarto-table-cell-role="th">asset</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>ndvi_syracuse_20250723</td>
+<td>2025-07-23 16:01:45.187000+00:00</td>
+<td>[-76.222, 42.978, -76.038, 43.102]</td>
+<td>EPSG:32618</td>
+<td>ndvi_syracuse_20250723.tif</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>ndvi_syracuse_20250802</td>
+<td>2025-08-02 16:01:42.845000+00:00</td>
+<td>[-76.222, 42.978, -76.038, 43.102]</td>
+<td>EPSG:32618</td>
+<td>ndvi_syracuse_20250802.tif</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>ndvi_syracuse_20250919</td>
+<td>2025-09-19 16:11:16.421000+00:00</td>
+<td>[-76.222, 42.978, -76.038, 43.102]</td>
+<td>EPSG:32618</td>
+<td>ndvi_syracuse_20250919.tif</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="8da50ed9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T16:11:38.877065Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T16:11:38.876967Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T16:11:38.954128Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T16:11:38.952855Z&quot;}}" data-execution_count="16">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Index STAC items in GeoParquet, then bbox-query downtown Syracuse NDVI</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> gpd.GeoDataFrame(</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    [{<span class="st">"id"</span>: it.<span class="bu">id</span>, <span class="st">"datetime"</span>: pd.Timestamp(it.datetime), <span class="st">"product"</span>: it.properties[<span class="st">"product"</span>],</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">"href"</span>: it.assets[<span class="st">"data"</span>].get_absolute_href()} <span class="cf">for</span> it <span class="kw">in</span> items],</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    geometry<span class="op">=</span>[<span class="bu">__import__</span>(<span class="st">"shapely.geometry"</span>, fromlist<span class="op">=</span>[<span class="st">"shape"</span>]).shape(it.geometry) <span class="cf">for</span> it <span class="kw">in</span> items], crs<span class="op">=</span><span class="dv">4326</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>index_path <span class="op">=</span> write_geoparquet(OUT <span class="op">/</span> <span class="st">"syracuse_ndvi_items.parquet"</span>, index)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(web.geoparquet_info(index_path)[<span class="st">"num_rows"</span>], <span class="st">"items indexed in"</span>, Path(index_path).name)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Spatial filter the index and summarize August NDVI downtown</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>downtown <span class="op">=</span> (<span class="op">-</span><span class="fl">76.16</span>, <span class="fl">43.04</span>, <span class="op">-</span><span class="fl">76.14</span>, <span class="fl">43.06</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>hits <span class="op">=</span> read_geoparquet(index_path, bbox<span class="op">=</span>downtown)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>august <span class="op">=</span> hits[hits[<span class="st">"datetime"</span>].dt.month <span class="op">==</span> <span class="dv">8</span>]</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Items over downtown:"</span>, <span class="bu">len</span>(hits), <span class="st">"| in August:"</span>, <span class="bu">list</span>(august[<span class="st">"id"</span>]))</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>ndvi_aug <span class="op">=</span> rs.read(august[<span class="st">"href"</span>].iloc[<span class="dv">0</span>]).squeeze(<span class="st">"band"</span>, drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Imports and configuration</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyproj <span class="im">import</span> Transformer</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> Transformer.from_crs(<span class="dv">4326</span>, ndvi_aug.rio.crs, always_xy<span class="op">=</span><span class="va">True</span>).transform_bounds(<span class="op">*</span>downtown)</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean August NDVI over downtown: </span><span class="sc">{</span><span class="bu">float</span>(ndvi_aug.rio.clip_box(<span class="op">*</span>b).mean())<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>3 items indexed in syracuse_ndvi_items.parquet
+Items over downtown: 3 | in August: ['ndvi_syracuse_20250802']
+Mean August NDVI over downtown: 0.292</code></pre>
+</div>
+</div>
+<p>Each NDVI product is a valid COG. The STAC catalogue records every item’s footprint, date and projection (EPSG:32618), and links to its file. The GeoParquet index answers a footprint and date query (items over downtown in August) without opening the catalogue, then the matching COG is read: the mean August NDVI over a 2 × 2 km downtown box is 0.29, a mix of buildings, streets and street trees.</p>
+<p>The same pattern scales to thousands of products: a STAC API or a stac-geoparquet table for discovery, and COGs or Zarr for the data.</p>
+</section>
+<section id="summary-and-exercises" class="level2">
+<h2 class="anchored" data-anchor-id="summary-and-exercises">Summary and exercises</h2>
+<p><strong>Key ideas</strong></p>
+<ul>
+<li><code>get_images</code> downloads clipped scenes with their STAC items; the item carries the scale, offset and no-data needed to use the pixels correctly.</li>
+<li>A COG is tiled, has internal overviews, and keeps headers first and pixels ordered from coarse to fine; <code>validate_cog</code> checks each rule and <code>to_cog</code> produces it.</li>
+<li>Lossless DEFLATE or ZSTD with a predictor is a good default; web-optimized COGs align with the XYZ tile grid.</li>
+<li>Zarr stores n-dimensional cubes as chunked objects and supports appending new dates.</li>
+<li>STAC describes products for discovery; a GeoParquet index of the footprints makes searches fast.</li>
+</ul>
+<p><strong>What we found</strong></p>
+<ul>
+<li><code>get_images</code> downloaded three clipped Sentinel-2 scenes (72 MB). The clips are tiled but are not COGs; <code>to_cog</code> fixed that.</li>
+<li>ZSTD or DEFLATE with a predictor made the smallest lossless COGs (14.9-15.9 MB from 16.1 MB of pixels plus two overview levels).</li>
+<li>A remote re-read of the same window from AWS was pixel-identical to the download.</li>
+<li>Earth Search has already removed Sentinel-2’s +1,000 offset (Planetary Computer has not), even though its item still lists it. Getting this wrong makes reflectance negative.</li>
+<li>The Zarr cube appended a new date without rewriting, and a STAC catalogue with a GeoParquet index made the NDVI products searchable.</li>
+</ul>
+<p><strong>Exercises</strong></p>
+<ol type="1">
+<li>Recompress the stack with <code>blocksize=256</code> and compare file size and the number of tiles a 512 × 512 window touches.</li>
+<li>Add <code>compress="LERC"</code> (lossy with a maximum error) or <code>"WEBP"</code> on an 8-bit RGB copy, and measure the size and the largest pixel error.</li>
+<li>Use <code>search_images</code> to add the clearest 18TVN scene of October 2025, download it with <code>get_images</code>, and append it to the Zarr cube.</li>
+<li>Write the NDVI cube to Zarr with chunks of <code>{"time": 1, "x": 256, "y": 256}</code> and time reading one full map versus one pixel’s time series. Which chunking suits which question?</li>
+<li>Open the STAC catalogue in another tool (QGIS’s STAC browser or <code>pystac-client</code>) and check that the assets resolve.</li>
+</ol>
+<p><strong>References</strong></p>
+<ul>
+<li>Cloud-Optimized GeoTIFF specification (OGC 21-026). https://docs.ogc.org/is/21-026/21-026.html</li>
+<li>GDAL COG driver documentation. https://gdal.org/drivers/raster/cog.html</li>
+<li>Zarr specification v2/v3. https://zarr.dev</li>
+<li>STAC specification and best practices. https://stacspec.org</li>
+<li>Cloud-Native Geospatial Foundation. <em>Cloud-Optimized Geospatial Formats Guide</em>. https://guide.cloudnativegeo.org</li>
+</ul>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./07_00_introduction_web_cloud_gis.html" class="pagination-link" aria-label="Web and Cloud GIS">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Web and Cloud GIS</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./07_02_cloud_native_vector.html" class="pagination-link" aria-label="Cloud-Native Vectors">
+        <span class="nav-page-text">Cloud-Native Vectors</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

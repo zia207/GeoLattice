@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>spatial_statistics_and_clustering – GeoLattice: Distributed Spatial Computing</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./08_07_networks.html" rel="next">
+<link href="./08_05_rasters_and_vectors_together.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GeoLattice: Distributed Spatial Computing</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
+        <li class="dropdown-header">Foundations</li>
+        <li>
+    <a class="dropdown-item" href="./08_00_distributed_spatial_computing_fundamentals.html">
+ <span class="dropdown-text">Fundamentals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_01_sessions_and_clusters.html">
+ <span class="dropdown-text">Sessions and Clusters</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_02_distributed_input_and_output.html">
+ <span class="dropdown-text">Parallel Input and Output</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Processing at Scale</li>
+        <li>
+    <a class="dropdown-item" href="./08_03_raster_processing_at_scale.html">
+ <span class="dropdown-text">Rasters at Scale</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_04_vector_processing_at_scale.html">
+ <span class="dropdown-text">Vectors at Scale</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_05_rasters_and_vectors_together.html">
+ <span class="dropdown-text">Rasters and Vectors Together</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_06_spatial_statistics_and_clustering.html">
+ <span class="dropdown-text">Spatial Statistics and Clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_07_networks.html">
+ <span class="dropdown-text">Networks</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_08_hydrology.html">
+ <span class="dropdown-text">Hydrology</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Models, Spark and Tuning</li>
+        <li>
+    <a class="dropdown-item" href="./08_09_machine_learning.html">
+ <span class="dropdown-text">Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_10_apache_sedona.html">
+ <span class="dropdown-text">Apache Sedona</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_11_diagnostics_and_performance.html">
+ <span class="dropdown-text">Diagnostics and Performance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_12_capstone_great_plains_soil_carbon_and_cropland.html">
+ <span class="dropdown-text">Capstone: Great Plains Soil Carbon</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08_03_raster_processing_at_scale.html"><strong>Processing at Scale</strong></a></li><li class="breadcrumb-item"><a href="./08_06_spatial_statistics_and_clustering.html">Spatial Statistics and Clustering</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08_03_raster_processing_at_scale.html"><strong>Processing at Scale</strong></a></li><li class="breadcrumb-item"><a href="./08_06_spatial_statistics_and_clustering.html">Spatial Statistics and Clustering</a></li></ol></nav></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Foundations</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_00_distributed_spatial_computing_fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_01_sessions_and_clusters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sessions and Clusters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_02_distributed_input_and_output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parallel Input and Output</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Processing at Scale</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_03_raster_processing_at_scale.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rasters at Scale</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_04_vector_processing_at_scale.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vectors at Scale</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_05_rasters_and_vectors_together.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rasters and Vectors Together</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_06_spatial_statistics_and_clustering.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Spatial Statistics and Clustering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_07_networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Networks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_08_hydrology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hydrology</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Models, Spark and Tuning</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_09_machine_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine Learning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_10_apache_sedona.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apache Sedona</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_11_diagnostics_and_performance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Diagnostics and Performance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_12_capstone_great_plains_soil_carbon_and_cropland.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capstone: Great Plains Soil Carbon</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#spatial-weights-autocorrelation-hot-spots-and-clustering-for-large-data" id="toc-spatial-weights-autocorrelation-hot-spots-and-clustering-for-large-data" class="nav-link active" data-scroll-target="#spatial-weights-autocorrelation-hot-spots-and-clustering-for-large-data">Spatial Weights, Autocorrelation, Hot Spots and Clustering for Large Data</a>
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a>
+  <ul class="collapse">
+  <li><a href="#why-spatial-statistics-get-expensive" id="toc-why-spatial-statistics-get-expensive" class="nav-link" data-scroll-target="#why-spatial-statistics-get-expensive">Why spatial statistics get expensive</a></li>
+  <li><a href="#spatial-weights" id="toc-spatial-weights" class="nav-link" data-scroll-target="#spatial-weights">Spatial weights</a></li>
+  <li><a href="#global-and-local-statistics" id="toc-global-and-local-statistics" class="nav-link" data-scroll-target="#global-and-local-statistics">Global and local statistics</a></li>
+  <li><a href="#clustering-points" id="toc-clustering-points" class="nav-link" data-scroll-target="#clustering-points">Clustering points</a></li>
+  </ul></li>
+  <li><a href="#spatial-statistics-with-geolattice" id="toc-spatial-statistics-with-geolattice" class="nav-link" data-scroll-target="#spatial-statistics-with-geolattice">Spatial Statistics with GeoLattice</a>
+  <ul class="collapse">
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#contents" id="toc-contents" class="nav-link" data-scroll-target="#contents">Contents</a></li>
+  </ul></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#weights-for-counties" id="toc-weights-for-counties" class="nav-link" data-scroll-target="#weights-for-counties">Weights for counties</a></li>
+  <li><a href="#global-autocorrelation-of-county-ndvi" id="toc-global-autocorrelation-of-county-ndvi" class="nav-link" data-scroll-target="#global-autocorrelation-of-county-ndvi">Global autocorrelation of county NDVI</a></li>
+  <li><a href="#local-statistics-lisa-clusters-and-hot-spots" id="toc-local-statistics-lisa-clusters-and-hot-spots" class="nav-link" data-scroll-target="#local-statistics-lisa-clusters-and-hot-spots">Local statistics: LISA clusters and hot spots</a></li>
+  <li><a href="#from-a-thousand-to-a-million-observations" id="toc-from-a-thousand-to-a-million-observations" class="nav-link" data-scroll-target="#from-a-thousand-to-a-million-observations">From a thousand to a million observations</a></li>
+  <li><a href="#settlements-from-building-centroids" id="toc-settlements-from-building-centroids" class="nav-link" data-scroll-target="#settlements-from-building-centroids">Settlements from building centroids</a></li>
+  <li><a href="#building-density-surface" id="toc-building-density-surface" class="nav-link" data-scroll-target="#building-density-surface">Building density surface</a></li>
+  <li><a href="#summary-and-exercises" id="toc-summary-and-exercises" class="nav-link" data-scroll-target="#summary-and-exercises">Summary and exercises</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/09_distributed_spatial_datas.png" class="img-fluid figure-img"></p>
+<figcaption>Banner</figcaption>
+</figure>
+</div>
+<section id="spatial-weights-autocorrelation-hot-spots-and-clustering-for-large-data" class="level1">
+<h1>Spatial Weights, Autocorrelation, Hot Spots and Clustering for Large Data</h1>
+<p>Spatial statistics ask how values relate to the values around them. Moran’s I, local indicators of spatial association (LISA) and Getis-Ord hot spots are routine for a few hundred counties, but their cost grows quickly: every observation needs its neighbours, and significance comes from 999 random permutations of the data. With a million building footprints, a naive implementation runs for hours. This notebook computes spatial weights, global and local autocorrelation, hot spots, density-based clusters and kernel density surfaces with <code>geolattice.distributed.analysis</code>, checks every statistic against PySAL’s <code>esda</code>, and measures how the cost grows from a thousand to a million observations on the CPU and on the GPU.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<section id="why-spatial-statistics-get-expensive" class="level3">
+<h3 class="anchored" data-anchor-id="why-spatial-statistics-get-expensive">Why spatial statistics get expensive</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Naive cost</th>
+<th>What makes it tractable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Spatial weights</td>
+<td>compare every pair: <code>n^2</code></td>
+<td>k-nearest neighbours with a KD-tree, contiguity with a spatial join: about <code>n log n</code></td>
+</tr>
+<tr class="even">
+<td>Global statistic (Moran’s I)</td>
+<td>one sparse product <code>z' W z</code></td>
+<td>cheap: proportional to the number of neighbour pairs</td>
+</tr>
+<tr class="odd">
+<td>999 permutations of a global statistic</td>
+<td>999 sparse products</td>
+<td>batch the permutations as columns of one matrix: a few sparse matrix products</td>
+</tr>
+<tr class="even">
+<td>Local statistics (LISA, G*) with permutations</td>
+<td>999 permutations for each of <code>n</code> observations</td>
+<td>conditional permutation with shared random draws, computed in blocks</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="spatial-weights" class="level3">
+<h3 class="anchored" data-anchor-id="spatial-weights">Spatial weights</h3>
+<p>A weights matrix <code>W</code> lists, for each observation, its neighbours: polygons that share an edge (<strong>rook</strong>) or a point (<strong>queen</strong>), the <code>k</code> nearest points (<strong>knn</strong>), or all points within a distance (<strong>distance band</strong>, binary or inverse distance). It is stored <strong>sparse</strong>: a million observations with 8 neighbours each need 8 million entries, not 10^12. <strong>Row standardisation</strong> divides each row by its sum, so the spatial lag <code>W y</code> is the mean of the neighbours.</p>
+</section>
+<section id="global-and-local-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="global-and-local-statistics">Global and local statistics</h3>
+<ul>
+<li><strong>Moran’s I</strong>: <code>I = (n / S0) (z' W z) / (z' z)</code>, with <code>z</code> the deviations from the mean. Positive when similar values cluster.</li>
+<li><strong>Geary’s C</strong>: based on squared differences between neighbours; below 1 means positive autocorrelation.</li>
+<li><strong>Local Moran’s I (LISA)</strong>: <code>I_i = z_i (W z)_i / m2</code>, one value per observation, with quadrants HH (high among high), LL, HL and LH.</li>
+<li><strong>Getis-Ord G*</strong>: the share of the total in each neighbourhood (including the observation itself), as a z-score: positive for hot spots, negative for cold spots.</li>
+</ul>
+<p>Inference compares the observed statistic with its distribution under random permutations of the values (the pseudo p-value <code>p_sim</code>), or with a normal approximation.</p>
+</section>
+<section id="clustering-points" class="level3">
+<h3 class="anchored" data-anchor-id="clustering-points">Clustering points</h3>
+<ul>
+<li><strong>DBSCAN</strong> groups points that have at least <code>min_samples</code> neighbours within <code>eps</code>; the rest is noise. One distance scale for all clusters.</li>
+<li><strong>HDBSCAN</strong> builds DBSCAN for every <code>eps</code> at once and keeps the most stable clusters; it finds dense and sparse clusters together.</li>
+<li><strong>k-means</strong> splits points into <code>k</code> groups around centres; every point belongs to a group.</li>
+<li><strong>Kernel density estimation (KDE)</strong> spreads each point over a smooth kernel and sums them on a grid.</li>
+</ul>
+</section>
+</section>
+<section id="spatial-statistics-with-geolattice" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-statistics-with-geolattice">Spatial Statistics with GeoLattice</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Returns</th>
+<th>Engine (CPU / GPU)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pdist.analysis.weights(gdf, kind=, k=, threshold=)</code></td>
+<td>a <code>Weights</code> object (SciPy CSR matrix, ids)</td>
+<td>KD-tree or partitioned <code>sjoin</code> / CuPy knn</td>
+</tr>
+<tr class="even">
+<td><code>morans_i</code>, <code>gearys_c</code></td>
+<td><code>GlobalResult</code> with statistic, expectation, variance, <code>z_norm</code>, <code>p_norm</code>, <code>p_sim</code></td>
+<td>batched permutations with NumPy / CuPy sparse products</td>
+</tr>
+<tr class="odd">
+<td><code>local_morans</code>, <code>getis_ord_local</code></td>
+<td>DataFrame with one row per observation</td>
+<td>conditional permutations in blocks, NumPy / CuPy</td>
+</tr>
+<tr class="even">
+<td><code>dbscan</code>, <code>hdbscan</code>, <code>kmeans</code></td>
+<td>cluster labels (and centres)</td>
+<td>scikit-learn / cuML</td>
+</tr>
+<tr class="odd">
+<td><code>kde(points, like, bandwidth=)</code></td>
+<td>density surface on the grid of <code>like</code></td>
+<td>chunk by chunk, NumPy / CuPy</td>
+</tr>
+</tbody>
+</table>
+<p><code>Weights</code> has <code>row_standardize()</code>, <code>binary()</code>, <code>cardinalities</code>, <code>islands</code>, <code>to_libpysal()</code> and <code>to_gpu()</code>. Statistics equal <code>esda</code>’s for the same weights; permutation p-values agree in distribution (the random draws differ).</p>
+<section id="learning-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
+<ol type="1">
+<li>Explain why spatial statistics scale badly without sparse weights and batched permutations.</li>
+<li>Build queen, rook and k-nearest-neighbour weights and compare them with <code>libpysal</code>.</li>
+<li>Compute Moran’s I, Geary’s C, LISA and G* and check them against <code>esda</code>.</li>
+<li>Measure how the cost grows from 10^3 to 10^6 observations on CPU and GPU.</li>
+<li>Cluster building centroids with DBSCAN, HDBSCAN and k-means, and compare scikit-learn with cuML.</li>
+<li>Compute a kernel density surface of 1.6 million buildings.</li>
+</ol>
+</section>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dataset</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Great Plains counties</td>
+<td>225 polygons; mean NDVI of each from the 90 m raster (<code>pdist.zonal_stats</code>)</td>
+</tr>
+<tr class="even">
+<td>Kansas building footprints</td>
+<td>1.6 million polygons; centroids and footprint areas</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="contents" class="level3">
+<h3 class="anchored" data-anchor-id="contents">Contents</h3>
+<ul>
+<li>Setup</li>
+<li>Weights for counties</li>
+<li>Global autocorrelation of county NDVI</li>
+<li>Local statistics: LISA clusters and hot spots</li>
+<li>From a thousand to a million observations</li>
+<li>Settlements from building centroids</li>
+<li>Building density surface</li>
+<li>Summary and exercises</li>
+</ul>
+</section>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<div id="4d60be12" class="cell" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings  <span class="co"># warning control</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)  <span class="co"># hide routine library warnings</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os  <span class="co"># environment and CPU count</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time  <span class="co"># wall-clock timing</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path  <span class="co"># file paths</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt  <span class="co"># figures</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np  <span class="co"># arrays</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd  <span class="co"># tables</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd  <span class="co"># vector data</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr  <span class="co"># labelled rasters</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice  <span class="co"># GeoLattice</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.distributed <span class="im">as</span> pdist  <span class="co"># distributed and GPU spatial computing</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dist_data <span class="im">as</span> dd  <span class="co"># chapter helper: paths, cached downloads, timers</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">"figure.dpi"</span>: <span class="dv">110</span>})  <span class="co"># figure resolution</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">"display.width"</span>, <span class="dv">140</span>)  <span class="co"># wider printed tables</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>OUT <span class="op">=</span> Path(<span class="st">"outputs"</span>)  <span class="co"># results and scratch files written by this chapter</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>OUT.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)  <span class="co"># create it if needed</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>caps <span class="op">=</span> pdist.capabilities()  <span class="co"># engines and GPUs on this machine</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"GeoLattice"</span>, geolattice.__version__, <span class="st">"|"</span>, os.cpu_count(), <span class="st">"CPU cores |"</span>, caps[<span class="st">"gpus"</span>], <span class="st">"GPU(s)"</span>,  <span class="co"># versions</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"(</span><span class="sc">{</span>caps<span class="sc">.</span>get(<span class="st">'gpu_memory_total'</span>, <span class="dv">0</span>) <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.0f}</span><span class="ss"> GB)"</span> <span class="cf">if</span> caps[<span class="st">"gpus"</span>] <span class="cf">else</span> <span class="st">""</span>)  <span class="co"># GPU memory</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> esda  <span class="co"># PySAL exploratory spatial data analysis, the reference</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> libpysal  <span class="co"># PySAL weights</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> adjusted_rand_score  <span class="co"># agreement of two clusterings</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sync():  <span class="co"># wait for queued GPU work so timings are real</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># only with a GPU</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        <span class="im">import</span> cupy <span class="im">as</span> cp  <span class="co"># GPU arrays</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        cp.cuda.Device().synchronize()  <span class="co"># block until done</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> timed(fn):  <span class="co"># wall time and result of one call</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> time.perf_counter()<span class="op">;</span> out <span class="op">=</span> fn()<span class="op">;</span> sync()<span class="op">;</span> <span class="cf">return</span> time.perf_counter() <span class="op">-</span> t, out  <span class="co"># time it</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>GeoLattice 0.3.49 | 24 CPU cores | 1 GPU(s) (17 GB)</code></pre>
+</div>
+</div>
+</section>
+<section id="weights-for-counties" class="level2">
+<h2 class="anchored" data-anchor-id="weights-for-counties">Weights for counties</h2>
+<p>Queen and rook contiguity for the 225 Great Plains counties come from a partitioned spatial join with the <code>touches</code> predicate (rook keeps pairs that share a boundary segment, not just a point). <code>libpysal</code> computes the same from the polygons’ shared vertices.</p>
+<div id="6d5d914c" class="cell" data-execution_count="2">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>counties <span class="op">=</span> dd.gp_counties()  <span class="co"># 225 counties, EPSG:5070</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>wq <span class="op">=</span> pdist.analysis.weights(counties, <span class="st">"queen"</span>)  <span class="co"># queen contiguity, row-standardised</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>wr <span class="op">=</span> pdist.analysis.weights(counties, <span class="st">"rook"</span>)  <span class="co"># rook contiguity</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>wk <span class="op">=</span> pdist.analysis.weights(counties, <span class="st">"knn"</span>, k<span class="op">=</span><span class="dv">6</span>)  <span class="co"># 6 nearest centroids</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>lq <span class="op">=</span> libpysal.weights.Queen.from_dataframe(counties, use_index<span class="op">=</span><span class="va">False</span>)  <span class="co"># the reference</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> libpysal.weights.Rook.from_dataframe(counties, use_index<span class="op">=</span><span class="va">False</span>)  <span class="co"># the reference</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>same <span class="op">=</span> <span class="kw">lambda</span> w, l: (w.binary().sparse <span class="op">!=</span> l.sparse).nnz <span class="op">==</span> <span class="dv">0</span>  <span class="co"># identical neighbour sets?</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"queen: mean </span><span class="sc">{</span>wq<span class="sc">.</span>cardinalities<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss"> neighbours, islands </span><span class="sc">{</span><span class="bu">len</span>(wq.islands)<span class="sc">}</span><span class="ss">, same as libpysal: </span><span class="sc">{</span>same(wq, lq)<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># queen</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"rook:  mean </span><span class="sc">{</span>wr<span class="sc">.</span>cardinalities<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss"> neighbours, same as libpysal: </span><span class="sc">{</span>same(wr, lr)<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># rook</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"knn:   </span><span class="sc">{</span>wk<span class="sc">.</span>cardinalities<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>wk<span class="sc">.</span>cardinalities<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss"> neighbours, </span><span class="sc">{</span>wk<span class="sc">.</span>sparse<span class="sc">.</span>nnz<span class="sc">}</span><span class="ss"> entries"</span>)  <span class="co"># knn</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>queen: mean 5.39 neighbours, islands 0, same as libpysal: True
+rook:  mean 5.19 neighbours, same as libpysal: True
+knn:   6 to 6 neighbours, 1350 entries</code></pre>
+</div>
+</div>
+<p>GeoLattice and libpysal find the same neighbours. Queen counties have one more neighbour on average than rook counties: the corner contacts of the township and range grid, where four counties meet at a point.</p>
+</section>
+<section id="global-autocorrelation-of-county-ndvi" class="level2">
+<h2 class="anchored" data-anchor-id="global-autocorrelation-of-county-ndvi">Global autocorrelation of county NDVI</h2>
+<p>The variable is each county’s mean NDVI, from <code>pdist.zonal_stats</code> on the 262 million pixel NDVI raster.</p>
+<div id="153c78ec" class="cell" data-execution_count="3">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ndvi <span class="op">=</span> pdist.zonal_stats(counties, dd.gp_raster(<span class="st">"ndvi"</span>), stats<span class="op">=</span>[<span class="st">"mean"</span>])[<span class="st">"mean"</span>].values  <span class="co"># county mean NDVI</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>wl <span class="op">=</span> wq.to_libpysal()  <span class="co"># the same weights as a libpysal W</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>wl.transform <span class="op">=</span> <span class="st">"r"</span>  <span class="co"># row-standardised, as wq</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>mi <span class="op">=</span> pdist.analysis.morans_i(ndvi, wq, permutations<span class="op">=</span><span class="dv">999</span>, seed<span class="op">=</span><span class="dv">0</span>)  <span class="co"># GeoLattice</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ref <span class="op">=</span> esda.Moran(ndvi, wl, permutations<span class="op">=</span><span class="dv">999</span>)  <span class="co"># esda</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>gc <span class="op">=</span> pdist.analysis.gearys_c(ndvi, wq, permutations<span class="op">=</span><span class="dv">999</span>, seed<span class="op">=</span><span class="dv">0</span>)  <span class="co"># GeoLattice Geary</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>gref <span class="op">=</span> esda.Geary(ndvi, wl, permutations<span class="op">=</span><span class="dv">999</span>)  <span class="co"># esda Geary</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"GeoLattice"</span>: [mi.statistic, mi.expected, mi.variance_norm, mi.z_norm, mi.p_sim, gc.statistic, gc.z_norm, gc.p_sim],  <span class="co"># ours</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>              <span class="st">"esda"</span>: [ref.I, ref.EI, ref.VI_norm, ref.z_norm, ref.p_sim, gref.C, gref.z_rand, gref.p_sim]},  <span class="co"># theirs (Geary z under randomisation)</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>             index<span class="op">=</span>[<span class="st">"Moran I"</span>, <span class="st">"E[I]"</span>, <span class="st">"Var[I] (normal)"</span>, <span class="st">"z (normal)"</span>, <span class="st">"p_sim"</span>, <span class="st">"Geary C"</span>, <span class="st">"Geary z (randomisation)"</span>, <span class="st">"Geary p_sim"</span>]).<span class="bu">round</span>(<span class="dv">5</span>)  <span class="co"># table</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">GeoLattice</th>
+<th data-quarto-table-cell-role="th">esda</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Moran I</th>
+<td>0.86805</td>
+<td>0.86805</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">E[I]</th>
+<td>-0.00446</td>
+<td>-0.00446</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Var[I] (normal)</th>
+<td>0.00171</td>
+<td>0.00171</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">z (normal)</th>
+<td>21.11459</td>
+<td>21.11459</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">p_sim</th>
+<td>0.00100</td>
+<td>0.00100</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Geary C</th>
+<td>0.13319</td>
+<td>0.13319</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Geary z (randomisation)</th>
+<td>-20.36067</td>
+<td>-20.36067</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Geary p_sim</th>
+<td>0.00100</td>
+<td>0.00100</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The statistics, their expectations, variances and z-scores are identical; the permutation p-values are both the smallest possible with 999 permutations (0.001), because no permutation came near the observed value. County NDVI is strongly autocorrelated (I near 0.9): the gradient from the humid east to the dry west dominates.</p>
+</section>
+<section id="local-statistics-lisa-clusters-and-hot-spots" class="level2">
+<h2 class="anchored" data-anchor-id="local-statistics-lisa-clusters-and-hot-spots">Local statistics: LISA clusters and hot spots</h2>
+<div id="27d784ef" class="cell" data-execution_count="4">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lisa <span class="op">=</span> pdist.analysis.local_morans(ndvi, wq, permutations<span class="op">=</span><span class="dv">999</span>, seed<span class="op">=</span><span class="dv">0</span>)  <span class="co"># LISA</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lref <span class="op">=</span> esda.Moran_Local(ndvi, wl, permutations<span class="op">=</span><span class="dv">999</span>, seed<span class="op">=</span><span class="dv">0</span>)  <span class="co"># esda</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> pdist.analysis.getis_ord_local(ndvi, wq, star<span class="op">=</span><span class="va">True</span>)  <span class="co"># G*</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>gref <span class="op">=</span> esda.G_Local(ndvi, wq.binary().to_libpysal(), transform<span class="op">=</span><span class="st">"B"</span>, star<span class="op">=</span><span class="va">True</span>, permutations<span class="op">=</span><span class="dv">0</span>)  <span class="co"># esda G* with binary weights, as GeoLattice</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"LISA Is equal to esda:"</span>, np.allclose(lisa.Is, lref.Is), <span class="st">"| quadrants equal:"</span>, <span class="bu">bool</span>((lisa.q.values <span class="op">==</span> lref.q).<span class="bu">all</span>()))  <span class="co"># check</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"G* z-scores equal to esda:"</span>, np.allclose(g.Zs, gref.Zs))  <span class="co"># check</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"significant LISA (p_sim &lt; 0.05): GeoLattice </span><span class="sc">{</span><span class="bu">int</span>((lisa.p_sim <span class="op">&lt;</span> <span class="fl">0.05</span>).<span class="bu">sum</span>())<span class="sc">}</span><span class="ss">, esda </span><span class="sc">{</span><span class="bu">int</span>((lref.p_sim <span class="op">&lt;</span> <span class="fl">0.05</span>).<span class="bu">sum</span>())<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># inference</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>LISA Is equal to esda: True | quadrants equal: True
+G* z-scores equal to esda: True
+significant LISA (p_sim &lt; 0.05): GeoLattice 99, esda 94</code></pre>
+</div>
+</div>
+<div id="1780d512" class="cell" data-execution_count="5">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>lab <span class="op">=</span> {<span class="dv">1</span>: <span class="st">"HH (high, high)"</span>, <span class="dv">2</span>: <span class="st">"LH"</span>, <span class="dv">3</span>: <span class="st">"LL (low, low)"</span>, <span class="dv">4</span>: <span class="st">"HL"</span>}  <span class="co"># quadrant names</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>counties[<span class="st">"ndvi"</span>] <span class="op">=</span> ndvi  <span class="co"># county mean NDVI</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>counties[<span class="st">"lisa"</span>] <span class="op">=</span> np.where(lisa.p_sim <span class="op">&lt;</span> <span class="fl">0.05</span>, lisa.q.<span class="bu">map</span>(lab), <span class="st">"not significant"</span>)  <span class="co"># significant quadrants</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>counties[<span class="st">"gstar"</span>] <span class="op">=</span> g.Zs.values  <span class="co"># hot spot z-scores</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">17</span>, <span class="fl">5.2</span>))  <span class="co"># three maps</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>counties.plot(<span class="st">"ndvi"</span>, ax<span class="op">=</span>ax[<span class="dv">0</span>], cmap<span class="op">=</span><span class="st">"YlGn"</span>, legend<span class="op">=</span><span class="va">True</span>, legend_kwds<span class="op">=</span>{<span class="st">"shrink"</span>: <span class="fl">0.6</span>, <span class="st">"label"</span>: <span class="st">"mean NDVI"</span>})  <span class="co"># variable</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> {<span class="st">"HH (high, high)"</span>: <span class="st">"#d7191c"</span>, <span class="st">"LL (low, low)"</span>: <span class="st">"#2c7bb6"</span>, <span class="st">"LH"</span>: <span class="st">"#abd9e9"</span>, <span class="st">"HL"</span>: <span class="st">"#fdae61"</span>, <span class="st">"not significant"</span>: <span class="st">"#eeeeee"</span>}  <span class="co"># palette</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k, v <span class="kw">in</span> colors.items():  <span class="co"># one layer per class</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    sub <span class="op">=</span> counties[counties.lisa <span class="op">==</span> k]  <span class="co"># its counties</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(sub):  <span class="co"># draw if any</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        sub.plot(ax<span class="op">=</span>ax[<span class="dv">1</span>], color<span class="op">=</span>v, edgecolor<span class="op">=</span><span class="st">"grey"</span>, linewidth<span class="op">=</span><span class="fl">0.2</span>, label<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">len</span>(sub)<span class="sc">}</span><span class="ss">)"</span>)  <span class="co"># map</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].legend(fontsize<span class="op">=</span><span class="dv">7</span>, loc<span class="op">=</span><span class="st">"lower left"</span>)  <span class="co"># legend</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>counties.plot(<span class="st">"gstar"</span>, ax<span class="op">=</span>ax[<span class="dv">2</span>], cmap<span class="op">=</span><span class="st">"RdBu_r"</span>, vmin<span class="op">=-</span><span class="dv">6</span>, vmax<span class="op">=</span><span class="dv">6</span>, legend<span class="op">=</span><span class="va">True</span>, legend_kwds<span class="op">=</span>{<span class="st">"shrink"</span>: <span class="fl">0.6</span>, <span class="st">"label"</span>: <span class="st">"G* z-score"</span>})  <span class="co"># hot spots</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a, t <span class="kw">in</span> <span class="bu">zip</span>(ax, [<span class="st">"County mean NDVI"</span>, <span class="st">"LISA clusters (p_sim &lt; 0.05)"</span>, <span class="st">"Getis-Ord G* hot and cold spots"</span>]):  <span class="co"># titles</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    a.set_title(t)<span class="op">;</span> a.set_axis_off()  <span class="co"># labels</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()  <span class="co"># draw</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08_06_spatial_statistics_and_clustering_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The local values equal esda’s; the counts of significant counties differ slightly because the permutations use different random draws. Eastern Kansas forms a high-high cluster and hot spot of vegetation, joined by a small high-high cluster of forested counties in the Colorado mountains. New Mexico, most of Wyoming and the dry plains of south-eastern Colorado form low-low clusters and cold spots.</p>
+</section>
+<section id="from-a-thousand-to-a-million-observations" class="level2">
+<h2 class="anchored" data-anchor-id="from-a-thousand-to-a-million-observations">From a thousand to a million observations</h2>
+<p>The same statistics on Kansas buildings: the variable is the logarithm of footprint area, the weights are the 8 nearest neighbours of each building’s representative point. Samples of 10^3 to 10^6 buildings show how each step scales on the CPU and the GPU, with esda for comparison where it finishes in reasonable time.</p>
+<div id="4263a2fd" class="cell" data-execution_count="6">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>bld <span class="op">=</span> pdist.vector.to_crs(dd.kansas_buildings(), <span class="dv">5070</span>)  <span class="co"># 1.6 million buildings in metres</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>bld[<span class="st">"log_area"</span>] <span class="op">=</span> np.log(pdist.vector.area(bld))  <span class="co"># log footprint area</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>pts <span class="op">=</span> bld.set_geometry(bld.geometry.representative_point())  <span class="co"># one point per building</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []  <span class="co"># timings</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> [<span class="dv">1_000</span>, <span class="dv">10_000</span>, <span class="dv">100_000</span>, <span class="dv">1_000_000</span>]:  <span class="co"># sample sizes</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> pts.sample(n, random_state<span class="op">=</span><span class="dv">0</span>)  <span class="co"># random sample</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> s.log_area.values  <span class="co"># the variable</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> {<span class="st">"n"</span>: n}  <span class="co"># one row</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    r[<span class="st">"weights knn CPU"</span>], w <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.analysis.weights(s, <span class="st">"knn"</span>, k<span class="op">=</span><span class="dv">8</span>, compute<span class="op">=</span><span class="st">"cpu"</span>))  <span class="co"># KD-tree</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> caps[<span class="st">"gpus"</span>] <span class="kw">and</span> n <span class="op">&lt;=</span> <span class="dv">100_000</span>:  <span class="co"># GPU knn is brute force: n x n distances, so only up to 10^5</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        r[<span class="st">"weights knn GPU"</span>], _ <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.analysis.weights(s, <span class="st">"knn"</span>, k<span class="op">=</span><span class="dv">8</span>, compute<span class="op">=</span><span class="st">"gpu"</span>))  <span class="co"># brute force</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    r[<span class="st">"Moran 999 CPU"</span>], m_c <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.analysis.morans_i(y, w, permutations<span class="op">=</span><span class="dv">999</span>, seed<span class="op">=</span><span class="dv">0</span>, compute<span class="op">=</span><span class="st">"cpu"</span>))  <span class="co"># batched permutations</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># GPU Moran</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        r[<span class="st">"Moran 999 GPU"</span>], m_g <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.analysis.morans_i(y, w, permutations<span class="op">=</span><span class="dv">999</span>, seed<span class="op">=</span><span class="dv">0</span>, compute<span class="op">=</span><span class="st">"gpu"</span>))  <span class="co"># on the GPU</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    r[<span class="st">"LISA 999 CPU"</span>], _ <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.analysis.local_morans(y, w, permutations<span class="op">=</span><span class="dv">999</span>, seed<span class="op">=</span><span class="dv">0</span>, compute<span class="op">=</span><span class="st">"cpu"</span>))  <span class="co"># local</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># GPU LISA</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        r[<span class="st">"LISA 999 GPU"</span>], _ <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.analysis.local_morans(y, w, permutations<span class="op">=</span><span class="dv">999</span>, seed<span class="op">=</span><span class="dv">0</span>, compute<span class="op">=</span><span class="st">"gpu"</span>))  <span class="co"># local on GPU</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">&lt;=</span> <span class="dv">100_000</span>:  <span class="co"># esda for the smaller samples</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        wl <span class="op">=</span> w.to_libpysal()<span class="op">;</span> wl.transform <span class="op">=</span> <span class="st">"r"</span>  <span class="co"># same weights</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        r[<span class="st">"esda Moran 999"</span>], e <span class="op">=</span> timed(<span class="kw">lambda</span>: esda.Moran(y, wl, permutations<span class="op">=</span><span class="dv">999</span>))  <span class="co"># reference</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        r[<span class="st">"esda LISA 999"</span>], _ <span class="op">=</span> timed(<span class="kw">lambda</span>: esda.Moran_Local(y, wl, permutations<span class="op">=</span><span class="dv">999</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>, seed<span class="op">=</span><span class="dv">0</span>))  <span class="co"># reference</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        r[<span class="st">"I equals esda"</span>] <span class="op">=</span> <span class="bu">bool</span>(np.isclose(m_c.statistic, e.I))  <span class="co"># check</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    r[<span class="st">"Moran I"</span>] <span class="op">=</span> m_c.statistic  <span class="co"># the statistic</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    rows.append(r)  <span class="co"># keep</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>scale <span class="op">=</span> pd.DataFrame(rows).set_index(<span class="st">"n"</span>)  <span class="co"># table</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>scale.<span class="bu">round</span>(<span class="dv">3</span>)  <span class="co"># show</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">weights knn CPU</th>
+<th data-quarto-table-cell-role="th">weights knn GPU</th>
+<th data-quarto-table-cell-role="th">Moran 999 CPU</th>
+<th data-quarto-table-cell-role="th">Moran 999 GPU</th>
+<th data-quarto-table-cell-role="th">LISA 999 CPU</th>
+<th data-quarto-table-cell-role="th">LISA 999 GPU</th>
+<th data-quarto-table-cell-role="th">esda Moran 999</th>
+<th data-quarto-table-cell-role="th">esda LISA 999</th>
+<th data-quarto-table-cell-role="th">I equals esda</th>
+<th data-quarto-table-cell-role="th">Moran I</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">n</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1000</th>
+<td>0.005</td>
+<td>0.024</td>
+<td>0.023</td>
+<td>0.014</td>
+<td>0.069</td>
+<td>0.014</td>
+<td>0.022</td>
+<td>31.623</td>
+<td>True</td>
+<td>0.107</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">10000</th>
+<td>0.016</td>
+<td>0.099</td>
+<td>0.316</td>
+<td>0.041</td>
+<td>0.698</td>
+<td>0.130</td>
+<td>0.177</td>
+<td>0.358</td>
+<td>True</td>
+<td>0.100</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">100000</th>
+<td>0.142</td>
+<td>7.869</td>
+<td>3.682</td>
+<td>0.392</td>
+<td>7.055</td>
+<td>1.302</td>
+<td>2.185</td>
+<td>4.363</td>
+<td>True</td>
+<td>0.169</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1000000</th>
+<td>1.754</td>
+<td>NaN</td>
+<td>48.478</td>
+<td>4.967</td>
+<td>73.707</td>
+<td>14.789</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.246</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="d5017a51" class="cell" data-execution_count="7">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">4.8</span>))  <span class="co"># one panel</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col, style <span class="kw">in</span> [(<span class="st">"weights knn CPU"</span>, <span class="st">"o-"</span>), (<span class="st">"weights knn GPU"</span>, <span class="st">"o--"</span>), (<span class="st">"Moran 999 CPU"</span>, <span class="st">"s-"</span>), (<span class="st">"Moran 999 GPU"</span>, <span class="st">"s--"</span>), (<span class="st">"LISA 999 CPU"</span>, <span class="st">"^-"</span>),  <span class="co"># series</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                   (<span class="st">"LISA 999 GPU"</span>, <span class="st">"^--"</span>), (<span class="st">"esda Moran 999"</span>, <span class="st">"x:"</span>), (<span class="st">"esda LISA 999"</span>, <span class="st">"+:"</span>)]:  <span class="co"># esda</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> col <span class="kw">in</span> scale:  <span class="co"># present on this machine</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        ax.loglog(scale.index, scale[col], style, label<span class="op">=</span>col)  <span class="co"># time against n</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"observations"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"seconds"</span>)<span class="op">;</span> ax.legend(fontsize<span class="op">=</span><span class="dv">8</span>, ncol<span class="op">=</span><span class="dv">2</span>)  <span class="co"># labels</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Cost of spatial statistics as n grows (k = 8 neighbours, 999 permutations)"</span>)<span class="op">;</span> plt.tight_layout()<span class="op">;</span> plt.show()  <span class="co"># draw</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08_06_spatial_statistics_and_clustering_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>All costs grow roughly linearly with <code>n</code>, which is what sparse weights and batched permutations buy. The exception is the GPU’s brute-force nearest-neighbour search, which compares every pair and grows with <code>n^2</code>; it was run only up to 10^5 points, and the KD-tree is the right tool beyond that. On the CPU, GeoLattice’s batched permutations were somewhat slower than esda, whose permutation loops are compiled with numba (esda’s very first LISA call, at 10^3, includes about half a minute of that compilation). On the GPU the same batched algorithm was about ten times faster than the CPU for Moran’s I and about five times faster for LISA, and it finished the million-building case (999 permutations, 8 neighbours each) in seconds. The statistic itself agreed with esda at every size where esda was run. Building sizes are positively but weakly autocorrelated (I of 0.1 to 0.25, higher in the denser samples): neighbouring buildings tend to be of similar size, as in subdivisions, farmsteads and industrial parks.</p>
+</section>
+<section id="settlements-from-building-centroids" class="level2">
+<h2 class="anchored" data-anchor-id="settlements-from-building-centroids">Settlements from building centroids</h2>
+<p>Clusters of buildings are settlements. DBSCAN with <code>eps</code> = 100 m and 20 buildings finds compact built-up areas; HDBSCAN adapts to varying density. The 270,000 buildings of the Wichita area are clustered on the CPU (scikit-learn) and on the GPU (cuML), and the two labelings compared with the adjusted Rand index (1 = identical partitions).</p>
+<div id="d049bcfc" class="cell" data-execution_count="8">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x0, y0 <span class="op">=</span> gpd.GeoSeries.from_xy([<span class="op">-</span><span class="fl">97.34</span>], [<span class="fl">37.69</span>], crs<span class="op">=</span><span class="dv">4326</span>).to_crs(<span class="dv">5070</span>).iloc[<span class="dv">0</span>].coords[<span class="dv">0</span>]  <span class="co"># central Wichita</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>area <span class="op">=</span> pts.cx[x0 <span class="op">-</span> <span class="dv">40_000</span>:x0 <span class="op">+</span> <span class="dv">40_000</span>, y0 <span class="op">-</span> <span class="dv">40_000</span>:y0 <span class="op">+</span> <span class="dv">40_000</span>]  <span class="co"># 80 x 80 km</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(area)<span class="sc">:,}</span><span class="ss"> buildings"</span>)  <span class="co"># size</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> {}  <span class="co"># timings</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>res[<span class="st">"DBSCAN CPU"</span>], db_c <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.analysis.dbscan(area, eps<span class="op">=</span><span class="dv">100</span>, min_samples<span class="op">=</span><span class="dv">20</span>, compute<span class="op">=</span><span class="st">"cpu"</span>))  <span class="co"># scikit-learn</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># cuML</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    res[<span class="st">"DBSCAN GPU"</span>], db_g <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.analysis.dbscan(area, eps<span class="op">=</span><span class="dv">100</span>, min_samples<span class="op">=</span><span class="dv">20</span>, compute<span class="op">=</span><span class="st">"gpu"</span>))  <span class="co"># opt-in GPU</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"DBSCAN CPU vs GPU adjusted Rand index:"</span>, <span class="bu">round</span>(adjusted_rand_score(db_c, db_g), <span class="dv">4</span>))  <span class="co"># agreement</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>res[<span class="st">"HDBSCAN CPU"</span>], hd_c <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.analysis.hdbscan(area, min_cluster_size<span class="op">=</span><span class="dv">50</span>, compute<span class="op">=</span><span class="st">"cpu"</span>))  <span class="co"># scikit-learn</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># cuML</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    res[<span class="st">"HDBSCAN GPU"</span>], hd_g <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.analysis.hdbscan(area, min_cluster_size<span class="op">=</span><span class="dv">50</span>, compute<span class="op">=</span><span class="st">"gpu"</span>))  <span class="co"># cuML</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"HDBSCAN CPU vs GPU adjusted Rand index:"</span>, <span class="bu">round</span>(adjusted_rand_score(hd_c, hd_g), <span class="dv">4</span>))  <span class="co"># agreement</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>res[<span class="st">"k-means CPU"</span>], (km_c, cen) <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.analysis.kmeans(area, <span class="dv">12</span>, compute<span class="op">=</span><span class="st">"cpu"</span>))  <span class="co"># 12 groups</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># cuML</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    res[<span class="st">"k-means GPU"</span>], (km_g, _) <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.analysis.kmeans(area, <span class="dv">12</span>, compute<span class="op">=</span><span class="st">"gpu"</span>))  <span class="co"># 12 groups</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, lab <span class="kw">in</span> [(<span class="st">"DBSCAN"</span>, db_c), (<span class="st">"HDBSCAN"</span>, hd_c)]:  <span class="co"># cluster counts</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>lab<span class="sc">.</span><span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss"> clusters, </span><span class="sc">{</span>(lab <span class="op">&lt;</span> <span class="dv">0</span>)<span class="sc">.</span>mean()<span class="sc">:.1%}</span><span class="ss"> noise"</span>)  <span class="co"># summary</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>pd.Series(res, name<span class="op">=</span><span class="st">"seconds"</span>).<span class="bu">round</span>(<span class="dv">3</span>).to_frame()  <span class="co"># table</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>271,988 buildings
+[2026-11-24 09:06:37.421] [CUML] [info] Batch size limited by the chosen integer type (4 bytes). 9855 -&gt; 7895. Using the larger integer type might result in better performance
+DBSCAN CPU vs GPU adjusted Rand index: 1.0
+HDBSCAN CPU vs GPU adjusted Rand index: 0.7093
+DBSCAN: 670 clusters, 33.2% noise
+HDBSCAN: 324 clusters, 26.4% noise</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">seconds</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">DBSCAN CPU</th>
+<td>0.542</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">DBSCAN GPU</th>
+<td>25.137</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">HDBSCAN CPU</th>
+<td>124.958</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">HDBSCAN GPU</th>
+<td>7.073</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">k-means CPU</th>
+<td>2.234</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">k-means GPU</th>
+<td>1.553</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="46c862ca" class="cell" data-execution_count="9">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">18</span>, <span class="dv">6</span>))  <span class="co"># three maps</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">1</span>)  <span class="co"># random colours</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a, lab, t <span class="kw">in</span> [(ax[<span class="dv">0</span>], db_c, <span class="st">"DBSCAN, eps 100 m, 20 buildings"</span>), (ax[<span class="dv">1</span>], hd_c, <span class="st">"HDBSCAN, min cluster 50"</span>), (ax[<span class="dv">2</span>], km_c, <span class="st">"k-means, k = 12"</span>)]:  <span class="co"># panels</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    cols <span class="op">=</span> rng.random((<span class="bu">int</span>(lab.<span class="bu">max</span>()) <span class="op">+</span> <span class="dv">2</span>, <span class="dv">3</span>))  <span class="co"># one colour per cluster</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> np.where(lab.values[:, <span class="va">None</span>] <span class="op">&lt;</span> <span class="dv">0</span>, <span class="fl">0.85</span>, cols[lab.values])  <span class="co"># grey for noise</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    a.scatter(area.geometry.x, area.geometry.y, s<span class="op">=</span><span class="fl">0.05</span>, c<span class="op">=</span>c)  <span class="co"># buildings</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    a.set_title(t)<span class="op">;</span> a.set_aspect(<span class="st">"equal"</span>)<span class="op">;</span> a.set_axis_off()  <span class="co"># labels</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">2</span>].scatter(cen[:, <span class="dv">0</span>], cen[:, <span class="dv">1</span>], marker<span class="op">=</span><span class="st">"x"</span>, color<span class="op">=</span><span class="st">"k"</span>, s<span class="op">=</span><span class="dv">40</span>)  <span class="co"># k-means centres</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()  <span class="co"># draw</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08_06_spatial_statistics_and_clustering_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>DBSCAN separates Wichita and its suburbs from the surrounding small towns and farmsteads (grey noise). HDBSCAN finds many more, smaller clusters, down to individual subdivisions and villages, because it does not fix one density threshold. k-means is the odd one out: it must put every building in one of 12 groups, so it cuts the city into slices instead of finding settlements.</p>
+<p>The two engines behave very differently here, and the reasons matter.</p>
+<ul>
+<li><strong>DBSCAN</strong>: the CPU and GPU labelings agree, but scikit-learn’s KD-tree beats cuML’s brute-force neighbour search on two-dimensional points by a wide margin. GeoLattice therefore keeps DBSCAN on the CPU unless <code>compute="gpu"</code> is asked for.</li>
+<li><strong>HDBSCAN</strong>: cuML was about twenty times faster, but its partition differs from scikit-learn’s (an adjusted Rand index of about 0.7 above). Two things were found while writing this notebook. First, on raw EPSG:5070 coordinates (values in the millions of metres) cuML lost precision and agreed with scikit-learn at an index near 0; GeoLattice now subtracts the mean of the coordinates before clustering, which changes nothing mathematically. Second, even on centred coordinates cuML builds its cluster hierarchy differently (it found fewer, larger clusters), while scikit-learn’s result was stable to a 1 cm jitter of the points. cuML’s HDBSCAN is therefore opt-in: use it when speed matters more than matching the reference implementation, and check its clusters.</li>
+<li><strong>k-means</strong> gave the same groups on both, at similar speed.</li>
+</ul>
+</section>
+<section id="building-density-surface" class="level2">
+<h2 class="anchored" data-anchor-id="building-density-surface">Building density surface</h2>
+<p><code>pdist.analysis.kde</code> computes a kernel density surface on the grid of a template raster. Each chunk receives only the points within the kernel’s reach, so 1.6 million points and a statewide grid stay manageable. Here a quartic kernel with a 3 km bandwidth on a 1 km grid covering Kansas.</p>
+<div id="14488bbe" class="cell" data-execution_count="10">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>xmin, ymin, xmax, ymax <span class="op">=</span> pts.total_bounds  <span class="co"># Kansas extent</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>xs <span class="op">=</span> np.arange(xmin, xmax, <span class="dv">1000</span>) <span class="op">+</span> <span class="dv">500</span><span class="op">;</span> ys <span class="op">=</span> np.arange(ymax, ymin, <span class="op">-</span><span class="dv">1000</span>) <span class="op">-</span> <span class="dv">500</span>  <span class="co"># 1 km pixel centres</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> xr.DataArray(np.zeros((<span class="bu">len</span>(ys), <span class="bu">len</span>(xs)), np.float32), dims<span class="op">=</span>(<span class="st">"y"</span>, <span class="st">"x"</span>), coords<span class="op">=</span>{<span class="st">"y"</span>: ys, <span class="st">"x"</span>: xs}).rio.write_crs(<span class="dv">5070</span>)  <span class="co"># template</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> {}  <span class="co"># timings</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> ([<span class="st">"cpu"</span>, <span class="st">"gpu"</span>] <span class="cf">if</span> caps[<span class="st">"gpus"</span>] <span class="cf">else</span> [<span class="st">"cpu"</span>]):  <span class="co"># both targets</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    res[c], dens <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.analysis.kde(pts, grid, bandwidth<span class="op">=</span><span class="dv">3000</span>, kernel<span class="op">=</span><span class="st">"quartic"</span>, compute<span class="op">=</span>c, chunks<span class="op">=</span>(<span class="dv">64</span>, <span class="dv">64</span>)))  <span class="co"># density</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"compute=</span><span class="sc">{</span>c<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>res[c]<span class="sc">:.1f}</span><span class="ss"> s for </span><span class="sc">{</span><span class="bu">len</span>(pts)<span class="sc">:,}</span><span class="ss"> points on a </span><span class="sc">{</span>grid<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> x </span><span class="sc">{</span>grid<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> grid"</span>)  <span class="co"># time</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>dens_km2 <span class="op">=</span> dens <span class="op">*</span> <span class="fl">1e6</span>  <span class="co"># buildings per km2</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"integral </span><span class="sc">{</span><span class="bu">float</span>(dens.<span class="bu">sum</span>()) <span class="op">*</span> <span class="fl">1e6</span><span class="sc">:,.0f}</span><span class="ss"> (should be close to </span><span class="sc">{</span><span class="bu">len</span>(pts)<span class="sc">:,}</span><span class="ss">)"</span>)  <span class="co"># check: density integrates to the count</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="fl">5.5</span>))  <span class="co"># one map</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> ax.imshow(np.log10(dens_km2 <span class="op">+</span> <span class="fl">0.1</span>), extent<span class="op">=</span>dd.extent(dens), cmap<span class="op">=</span><span class="st">"magma"</span>)  <span class="co"># log density</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>plt.colorbar(im, ax<span class="op">=</span>ax, shrink<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">"log10 buildings per km2"</span>)  <span class="co"># scale</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Kernel density of 1.6 million Kansas buildings (quartic, 3 km)"</span>)<span class="op">;</span> ax.set_axis_off()<span class="op">;</span> plt.tight_layout()<span class="op">;</span> plt.show()  <span class="co"># draw</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>compute=cpu: 23.8 s for 1,605,334 points on a 353 x 652 grid
+compute=gpu: 3.2 s for 1,605,334 points on a 353 x 652 grid
+integral 1,604,789 (should be close to 1,605,334)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08_06_spatial_statistics_and_clustering_files/figure-html/cell-11-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The density integrates to the number of buildings (up to the kernels that spill over the state border), a quick check that the surface is a proper density. The towns along the highways and rivers, Wichita, Topeka, Lawrence and the Kansas City suburbs stand out against the sparse west.</p>
+</section>
+<section id="summary-and-exercises" class="level2">
+<h2 class="anchored" data-anchor-id="summary-and-exercises">Summary and exercises</h2>
+<ul>
+<li>Sparse weights, batched global permutations and blocked conditional permutations keep spatial statistics close to linear in the number of observations.</li>
+<li>GeoLattice’s contiguity weights matched libpysal’s, and Moran’s I, Geary’s C, LISA and G* matched esda; permutation p-values agree in distribution.</li>
+<li>From 10^3 to 10^6 buildings the cost grew roughly linearly. On the CPU esda was somewhat faster; the GPU was five to ten times faster than both and handled a million buildings in seconds.</li>
+<li>DBSCAN, HDBSCAN and k-means answer different questions about building clusters. cuML’s HDBSCAN was much faster than scikit-learn’s but found a different partition, so it is opt-in; for 2-D DBSCAN the CPU KD-tree is faster.</li>
+<li>A kernel density surface of 1.6 million points was computed chunk by chunk and integrates to the number of points.</li>
+</ul>
+<p><strong>Exercises</strong></p>
+<ol type="1">
+<li>Repeat the county analysis with rook and knn (k = 4) weights. How much do Moran’s I and the LISA map change?</li>
+<li>Compute G* hot spots of building size for the 100,000 building sample and map them for Wichita.</li>
+<li>Run DBSCAN with <code>eps</code> of 50, 100 and 200 m. How do the number of settlements and the noise share change?</li>
+<li>Compute the KDE with a Gaussian kernel and a 1 km bandwidth on a 250 m grid for Sedgwick County. How do CPU and GPU times change with the bandwidth?</li>
+</ol>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./08_05_rasters_and_vectors_together.html" class="pagination-link" aria-label="Rasters and Vectors Together">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Rasters and Vectors Together</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./08_07_networks.html" class="pagination-link" aria-label="Networks">
+        <span class="nav-page-text">Networks</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

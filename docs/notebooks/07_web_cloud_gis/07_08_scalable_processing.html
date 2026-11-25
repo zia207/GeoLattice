@@ -1,0 +1,2251 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>scalable_processing – GeoLattice: Web &amp; Cloud GIS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./07_09_cloud_platforms.html" rel="next">
+<link href="./07_07_web_apps.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GeoLattice: Web &amp; Cloud GIS</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
+        <li class="dropdown-header">Cloud-Native Data</li>
+        <li>
+    <a class="dropdown-item" href="./07_00_introduction_web_cloud_gis.html">
+ <span class="dropdown-text">Web and Cloud GIS</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_01_cloud_native_raster.html">
+ <span class="dropdown-text">Cloud-Native Rasters</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_02_cloud_native_vector.html">
+ <span class="dropdown-text">Cloud-Native Vectors</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_03_spatial_sql.html">
+ <span class="dropdown-text">Spatial SQL</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Maps, Services and Apps</li>
+        <li>
+    <a class="dropdown-item" href="./07_04_interactive_web_maps.html">
+ <span class="dropdown-text">Interactive Web Maps</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_05_serving_maps.html">
+ <span class="dropdown-text">Serving Maps</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_06_geospatial_apis.html">
+ <span class="dropdown-text">Geospatial APIs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_07_web_apps.html">
+ <span class="dropdown-text">Web Apps</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Scale and Operations</li>
+        <li>
+    <a class="dropdown-item" href="./07_08_scalable_processing.html">
+ <span class="dropdown-text">Scalable Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_09_cloud_platforms.html">
+ <span class="dropdown-text">Cloud Platforms</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_10_devops_geospatial.html">
+ <span class="dropdown-text">DevOps for Geospatial Pipelines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_11_capstone.html">
+ <span class="dropdown-text">Capstone: Haor Flood Monitor</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_08_scalable_processing.html"><strong>Scale and Operations</strong></a></li><li class="breadcrumb-item"><a href="./07_08_scalable_processing.html">Scalable Processing</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_08_scalable_processing.html"><strong>Scale and Operations</strong></a></li><li class="breadcrumb-item"><a href="./07_08_scalable_processing.html">Scalable Processing</a></li></ol></nav></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Cloud-Native Data</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_00_introduction_web_cloud_gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Web and Cloud GIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_01_cloud_native_raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cloud-Native Rasters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_02_cloud_native_vector.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cloud-Native Vectors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_03_spatial_sql.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial SQL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Maps, Services and Apps</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_04_interactive_web_maps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interactive Web Maps</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_05_serving_maps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Serving Maps</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_06_geospatial_apis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geospatial APIs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_07_web_apps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Web Apps</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Scale and Operations</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_08_scalable_processing.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Scalable Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_09_cloud_platforms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cloud Platforms</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_10_devops_geospatial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DevOps for Geospatial Pipelines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_11_capstone.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capstone: Haor Flood Monitor</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#scalable-processing-dask-gpus-and-batch-jobs" id="toc-scalable-processing-dask-gpus-and-batch-jobs" class="nav-link active" data-scroll-target="#scalable-processing-dask-gpus-and-batch-jobs">Scalable Processing: Dask, GPUs and Batch Jobs</a>
+  <ul>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#contents" id="toc-contents" class="nav-link" data-scroll-target="#contents">Contents</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#scaling-in-one-page" id="toc-scaling-in-one-page" class="nav-link" data-scroll-target="#scaling-in-one-page">Scaling in one page</a></li>
+  <li><a href="#the-workload-and-its-input-reading-572-images" id="toc-the-workload-and-its-input-reading-572-images" class="nav-link" data-scroll-target="#the-workload-and-its-input-reading-572-images">The workload and its input: reading 572 images</a></li>
+  <li><a href="#lazy-pipelines-with-xarray-and-dask" id="toc-lazy-pipelines-with-xarray-and-dask" class="nav-link" data-scroll-target="#lazy-pipelines-with-xarray-and-dask">Lazy pipelines with xarray and Dask</a></li>
+  <li><a href="#chunks-matter-the-same-cube-in-two-zarr-layouts" id="toc-chunks-matter-the-same-cube-in-two-zarr-layouts" class="nav-link" data-scroll-target="#chunks-matter-the-same-cube-in-two-zarr-layouts">Chunks matter: the same cube in two Zarr layouts</a></li>
+  <li><a href="#parallel-computation-with-dask" id="toc-parallel-computation-with-dask" class="nav-link" data-scroll-target="#parallel-computation-with-dask">Parallel computation with Dask</a></li>
+  <li><a href="#the-same-kernel-on-a-gpu" id="toc-the-same-kernel-on-a-gpu" class="nav-link" data-scroll-target="#the-same-kernel-on-a-gpu">The same kernel on a GPU</a></li>
+  <li><a href="#the-result-greening-and-browning-of-bangladesh" id="toc-the-result-greening-and-browning-of-bangladesh" class="nav-link" data-scroll-target="#the-result-greening-and-browning-of-bangladesh">The result: greening and browning of Bangladesh</a></li>
+  <li><a href="#reading-from-the-cloud-in-parallel" id="toc-reading-from-the-cloud-in-parallel" class="nav-link" data-scroll-target="#reading-from-the-cloud-in-parallel">Reading from the cloud in parallel</a></li>
+  <li><a href="#batch-jobs-the-serverless-pattern-and-what-a-run-costs" id="toc-batch-jobs-the-serverless-pattern-and-what-a-run-costs" class="nav-link" data-scroll-target="#batch-jobs-the-serverless-pattern-and-what-a-run-costs">Batch jobs: the serverless pattern, and what a run costs</a></li>
+  <li><a href="#summary-and-exercises" id="toc-summary-and-exercises" class="nav-link" data-scroll-target="#summary-and-exercises">Summary and exercises</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p style="text-align:center">
+<img src="images/08_web_gis.png" alt="Web and Cloud GIS" width="100%">
+</p>
+<section id="scalable-processing-dask-gpus-and-batch-jobs" class="level1">
+<h1>Scalable Processing: Dask, GPUs and Batch Jobs</h1>
+<p>Earlier notebooks ran on one core. Cloud GIS work quickly outgrows that: a national time series has hundreds of images, a trend test compares every date with every other date in every pixel, and a continental mosaic reads terabytes from object storage. This notebook takes one real workload and scales it, measuring every step on this machine, so the effect of each technique is visible:</p>
+<blockquote class="blockquote">
+<p><strong>Where in Bangladesh is vegetation getting greener or browner?</strong> For every 1 km land pixel, estimate the trend of monthly NDVI anomalies from 25 years of MODIS images (2000-2024) with the Theil-Sen estimator.</p>
+</blockquote>
+<p>The Theil-Sen slope is the median of the slopes between all pairs of dates. With about 300 months, that is about 44,000 slopes per pixel, and Bangladesh has about 146,000 land pixels: some 6.5 billion slopes. The calculation is simple, embarrassingly parallel and heavy, a typical cloud-scale job.</p>
+<section id="learning-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
+<ol type="1">
+<li>Find where time goes (input/output, computation, memory bandwidth, network) before parallelising.</li>
+<li>Build lazy, chunked pipelines with xarray and Dask, and choose chunk shapes for the access pattern (Zarr).</li>
+<li>Scale a per-pixel computation across processes with Dask, and read the speed-up curve (Amdahl’s law).</li>
+<li>Move the same kernel to a GPU with CuPy and compare cost and speed.</li>
+<li>Read many cloud-hosted COGs in parallel, and measure when the network becomes the limit.</li>
+<li>Split work into independent batch jobs (the pattern behind serverless and cloud batch services), and estimate what a run costs.</li>
+</ol>
+</section>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Data</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>MODIS 16-day NDVI, 1 km, Bangladesh, 2000-2024 (572 GeoTIFFs)</td>
+<td><code>Data/00_shared/data_remote_sensing/MODIS/MODIS_NDVI_BD/</code></td>
+</tr>
+<tr class="even">
+<td>Sentinel-2 L2A red band over Syracuse, NY, April-October 2025</td>
+<td>Earth Search STAC (AWS <code>sentinel-cogs</code>), read remotely</td>
+</tr>
+<tr class="odd">
+<td>District boundaries of Bangladesh (for the summary)</td>
+<td><code>Data/00_shared/data_web_cloud_gis/08_03_outputs/districts.gpkg</code> (Notebook 08_03)</td>
+</tr>
+</tbody>
+</table>
+<p>Install: <code>pip install "dask[distributed]" xarray rioxarray zarr pystac-client</code>, and <code>cupy-cuda13x</code> (or the CuPy build for your CUDA version) for Section 6. The GPU section is skipped on machines without a CUDA GPU.</p>
+</section>
+<section id="contents" class="level3">
+<h3 class="anchored" data-anchor-id="contents">Contents</h3>
+<ol type="1">
+<li>Setup</li>
+<li>Scaling in one page</li>
+<li>The workload and its input: reading 572 images</li>
+<li>Lazy pipelines with xarray and Dask</li>
+<li>Chunks matter: the same cube in two Zarr layouts</li>
+<li>Parallel computation with Dask</li>
+<li>The same kernel on a GPU</li>
+<li>The result: greening and browning of Bangladesh</li>
+<li>Reading from the cloud in parallel</li>
+<li>Batch jobs: the serverless pattern, and what a run costs</li>
+<li>Summary and exercises</li>
+</ol>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p><strong>Installation.</strong> This notebook needs installation option 6 (every GeoLattice module): <code>pip install "geolattice[all]"</code>. See “Installation options” in the GeoLattice README. It also uses <code>psutil</code>, which no GeoLattice option installs: <code>pip install psutil</code>.</p>
+<div id="22954bd2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T02:44:02.468075Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T02:44:02.467841Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T02:44:04.068791Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T02:44:04.068283Z&quot;}}" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Imports, quiet logging, paths, optional GPU, and MODIS inventory for scalable NDVI work</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> subprocess</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> concurrent.futures <span class="im">import</span> ProcessPoolExecutor, ThreadPoolExecutor</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name <span class="kw">in</span> [<span class="st">"distributed"</span>, <span class="st">"tornado"</span>, <span class="st">"tornado.application"</span>, <span class="st">"asyncio"</span>]:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    logging.getLogger(name).setLevel(logging.CRITICAL)     <span class="co"># keep cluster start/stop messages out of the output</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> psutil</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.features <span class="im">import</span> geometry_mask</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> mapping</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zarr</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dask</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dask.array <span class="im">as</span> da</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dask.distributed <span class="im">import</span> Client, LocalCluster</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> osgeo <span class="im">import</span> gdal</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.web <span class="im">as</span> web</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Output folder, GPU probe, and list of MODIS GeoTIFF inputs</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>gdal.UseExceptions()</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">"figure.dpi"</span>: <span class="dv">110</span>})</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> Path(<span class="st">"../../../Data"</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>WEB <span class="op">=</span> DATA <span class="op">/</span> <span class="st">"00_shared"</span> <span class="op">/</span> <span class="st">"data_web_cloud_gis"</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>MODIS <span class="op">=</span> DATA <span class="op">/</span> <span class="st">"00_shared"</span> <span class="op">/</span> <span class="st">"data_remote_sensing"</span> <span class="op">/</span> <span class="st">"MODIS"</span> <span class="op">/</span> <span class="st">"MODIS_NDVI_BD"</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>OUT <span class="op">=</span> WEB <span class="op">/</span> <span class="st">"08_08_outputs"</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> OUT.exists():</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    shutil.rmtree(OUT)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>OUT.mkdir(parents<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> cupy <span class="im">as</span> cp</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    GPU <span class="op">=</span> cp.cuda.runtime.getDeviceCount() <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    cp, GPU <span class="op">=</span> <span class="va">None</span>, <span class="va">False</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> <span class="bu">sorted</span>(MODIS.glob(<span class="st">"ndvi_*.tif"</span>), key<span class="op">=</span><span class="kw">lambda</span> p: (<span class="bu">int</span>(p.stem.split(<span class="st">"_"</span>)[<span class="dv">1</span>]), <span class="bu">int</span>(p.stem.split(<span class="st">"_"</span>)[<span class="dv">2</span>])))</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>dates <span class="op">=</span> pd.to_datetime([<span class="ss">f"</span><span class="sc">{</span>p<span class="sc">.</span>stem<span class="sc">.</span>split(<span class="st">'_'</span>)[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>p<span class="sc">.</span>stem<span class="sc">.</span>split(<span class="st">'_'</span>)[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> p <span class="kw">in</span> files], <span class="bu">format</span><span class="op">=</span><span class="st">"%Y-%j"</span>)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>mem <span class="op">=</span> psutil.virtual_memory()</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"geolattice </span><span class="sc">{</span>geolattice<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss"> | Dask </span><span class="sc">{</span>dask<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss"> | xarray </span><span class="sc">{</span>xr<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss"> | Zarr </span><span class="sc">{</span>zarr<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"CPU: </span><span class="sc">{</span>psutil<span class="sc">.</span>cpu_count(logical<span class="op">=</span><span class="va">False</span>)<span class="sc">}</span><span class="ss"> physical cores, </span><span class="sc">{</span>psutil<span class="sc">.</span>cpu_count()<span class="sc">}</span><span class="ss"> logical | RAM </span><span class="sc">{</span>mem<span class="sc">.</span>total <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.0f}</span><span class="ss"> GB"</span>)</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"GPU:"</span>, cp.cuda.runtime.getDeviceProperties(<span class="dv">0</span>)[<span class="st">"name"</span>].decode() <span class="op">+</span> <span class="ss">f", </span><span class="sc">{</span>cp<span class="sc">.</span>cuda<span class="sc">.</span>Device(<span class="dv">0</span>)<span class="sc">.</span>mem_info[<span class="dv">1</span>] <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.0f}</span><span class="ss"> GB"</span> <span class="cf">if</span> GPU <span class="cf">else</span> <span class="st">"none"</span>)</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MODIS: </span><span class="sc">{</span><span class="bu">len</span>(files)<span class="sc">}</span><span class="ss"> images, </span><span class="sc">{</span>dates[<span class="dv">0</span>]<span class="sc">.</span>date()<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>dates[<span class="op">-</span><span class="dv">1</span>]<span class="sc">.</span>date()<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span><span class="bu">sum</span>(f.stat().st_size <span class="cf">for</span> f <span class="kw">in</span> files) <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.0f}</span><span class="ss"> MB on disk"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>geolattice 0.3.11 | Dask 2026.7.1 | xarray 2026.7.0 | Zarr 3.1.6
+CPU: 16 physical cores, 24 logical | RAM 132 GB
+GPU: NVIDIA RTX A5500 Laptop GPU, 17 GB
+MODIS: 572 images, 2000-02-18 to 2024-12-18, 206 MB on disk</code></pre>
+</div>
+</div>
+</section>
+<section id="scaling-in-one-page" class="level2">
+<h2 class="anchored" data-anchor-id="scaling-in-one-page">Scaling in one page</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Bottleneck</th>
+<th>Symptom</th>
+<th>Remedy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Computation</strong> (CPU-bound)</td>
+<td>One core at 100 %</td>
+<td>Parallel processes (Dask, <code>multiprocessing</code>), vectorisation, GPUs</td>
+</tr>
+<tr class="even">
+<td><strong>Memory bandwidth</strong></td>
+<td>More cores stop helping well before all are busy</td>
+<td>Smaller chunks that fit in cache, fewer temporary arrays, GPUs (much higher bandwidth)</td>
+</tr>
+<tr class="odd">
+<td><strong>Memory capacity</strong></td>
+<td>Out-of-memory errors</td>
+<td>Chunked, lazy processing (Dask), out-of-core formats (Zarr)</td>
+</tr>
+<tr class="even">
+<td><strong>Disk or network input/output</strong></td>
+<td>Cores idle while waiting</td>
+<td>Concurrent requests, cloud-optimised formats, compute next to the data</td>
+</tr>
+<tr class="odd">
+<td><strong>Python’s GIL</strong></td>
+<td>Threads do not run Python code in parallel</td>
+<td>Processes, or libraries that release the GIL (NumPy, GDAL)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Amdahl’s law</strong>: if a fraction <em>p</em> of the work can run in parallel, <em>N</em> workers give at most a speed-up of 1 / ((1 − p) + p / N). With p = 0.95, even infinite workers give 20×. Scaling therefore starts with measuring which part of the job takes the time.</p>
+<p><strong>Tools.</strong> On one machine: <code>concurrent.futures</code>, joblib, Dask (<code>LocalCluster</code>), CuPy and RAPIDS for GPUs. On clusters: Dask (Kubernetes, HPC, Coiled, Dask Gateway), Ray, Spark with Apache Sedona. As managed services: AWS Batch, Google Cloud Run jobs and Batch, Azure Batch, serverless functions (AWS Lambda, Cloud Functions), and platforms such as Planetary Computer, Earth Engine or openEO (Notebook 08_09).</p>
+</section>
+<section id="the-workload-and-its-input-reading-572-images" class="level2">
+<h2 class="anchored" data-anchor-id="the-workload-and-its-input-reading-572-images">The workload and its input: reading 572 images</h2>
+<p>Every run starts by reading the images. The 572 GeoTIFFs (LZW-compressed, 670 × 480 pixels) are read serially, with 16 threads, and with 8 processes.</p>
+<div id="b5a96a31" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T02:44:04.070307Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T02:44:04.070043Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T02:44:12.640140Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T02:44:12.639495Z&quot;}}" data-execution_count="2">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time a naive loop that opens all 572 MODIS NDVI GeoTIFFs</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> read_one(path):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> rasterio.<span class="bu">open</span>(path) <span class="im">as</span> src:</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> src.read(<span class="dv">1</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>timings <span class="op">=</span> {}</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()<span class="op">;</span> cube <span class="op">=</span> np.stack([read_one(f) <span class="cf">for</span> f <span class="kw">in</span> files])<span class="op">;</span> timings[<span class="st">"serial"</span>] <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> ThreadPoolExecutor(<span class="dv">16</span>) <span class="im">as</span> ex:</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()<span class="op">;</span> c2 <span class="op">=</span> np.stack(<span class="bu">list</span>(ex.<span class="bu">map</span>(read_one, files)))<span class="op">;</span> timings[<span class="st">"16 threads"</span>] <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> ProcessPoolExecutor(<span class="dv">8</span>) <span class="im">as</span> ex:</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">list</span>(ex.<span class="bu">map</span>(read_one, files[:<span class="dv">8</span>]))                                     <span class="co"># start the workers first</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()<span class="op">;</span> c3 <span class="op">=</span> np.stack(<span class="bu">list</span>(ex.<span class="bu">map</span>(read_one, files, chunksize<span class="op">=</span><span class="dv">8</span>)))<span class="op">;</span> timings[<span class="st">"8 processes"</span>] <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> (c2 <span class="op">==</span> cube).<span class="bu">all</span>() <span class="kw">and</span> (c3 <span class="op">==</span> cube).<span class="bu">all</span>()</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(files[<span class="dv">0</span>]) <span class="im">as</span> src:</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    crs, transform, shape <span class="op">=</span> src.crs, src.transform, src.shape</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"cube </span><span class="sc">{</span>cube<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>cube<span class="sc">.</span>nbytes <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.0f}</span><span class="ss"> MB in memory"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>pd.Series(timings, name<span class="op">=</span><span class="st">"seconds"</span>).<span class="bu">round</span>(<span class="dv">2</span>).to_frame()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>cube (572, 670, 480), 368 MB in memory</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">seconds</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">serial</th>
+<td>3.28</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">16 threads</th>
+<td>4.36</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8 processes</th>
+<td>0.66</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Threads made reading <em>slower</em> (4.4 s against 3.3 s serially), while 8 processes made it five times faster (0.66 s). Decompressing the files releases Python’s GIL, but rasterio holds it while opening each file, so threads mostly queue for it. Separate processes each have their own interpreter and lock. Which kind of parallelism helps depends on the library, so measure it.</p>
+</section>
+<section id="lazy-pipelines-with-xarray-and-dask" class="level2">
+<h2 class="anchored" data-anchor-id="lazy-pipelines-with-xarray-and-dask">Lazy pipelines with xarray and Dask</h2>
+<p>The trend is computed on <strong>monthly anomalies</strong>: monthly mean NDVI minus that month’s long-term mean, which removes the seasonal cycle. With xarray and Dask the whole pipeline is written first and only evaluated at the end, chunk by chunk. Nothing is read until <code>.compute()</code> is called.</p>
+<div id="14b5a490" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T02:44:12.642231Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T02:44:12.642122Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T02:44:34.094014Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T02:44:34.093668Z&quot;}}" data-execution_count="3">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lazy xarray/Dask monthly anomaly pipeline vs eager NumPy on the in-memory cube</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>lazy <span class="op">=</span> xr.concat([rioxarray.open_rasterio(f, chunks<span class="op">=</span>{<span class="st">"x"</span>: <span class="dv">240</span>, <span class="st">"y"</span>: <span class="dv">335</span>}).squeeze(<span class="st">"band"</span>, drop<span class="op">=</span><span class="va">True</span>) <span class="cf">for</span> f <span class="kw">in</span> files],</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                 dim<span class="op">=</span>pd.Index(dates, name<span class="op">=</span><span class="st">"time"</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ndvi <span class="op">=</span> (lazy.where(lazy <span class="op">!=</span> <span class="dv">0</span>) <span class="op">/</span> <span class="fl">1e4</span>).astype(<span class="st">"float32"</span>)              <span class="co"># 0 marks pixels outside Bangladesh</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>monthly <span class="op">=</span> ndvi.resample(time<span class="op">=</span><span class="st">"MS"</span>).mean()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>anomaly <span class="op">=</span> monthly.groupby(<span class="st">"time.month"</span>) <span class="op">-</span> monthly.groupby(<span class="st">"time.month"</span>).mean()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>build_s <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>graph <span class="op">=</span> anomaly.data.__dask_graph__()</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"pipeline defined in </span><span class="sc">{</span>build_s<span class="sc">:.1f}</span><span class="ss"> s: </span><span class="sc">{</span><span class="bu">len</span>(graph)<span class="sc">:,}</span><span class="ss"> tasks, </span><span class="sc">{</span>anomaly<span class="sc">.</span>data<span class="sc">.</span>npartitions<span class="sc">}</span><span class="ss"> output chunks, "</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"shape </span><span class="sc">{</span>anomaly<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">, nothing computed yet"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the Dask graph with 8 threads</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dask.config.<span class="bu">set</span>(scheduler<span class="op">=</span><span class="st">"threads"</span>, num_workers<span class="op">=</span><span class="dv">8</span>):</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()<span class="op">;</span> anom_dask <span class="op">=</span> anomaly.compute()<span class="op">;</span> dask_s <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Same monthly anomalies with eager NumPy for a correctness check</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()                                              <span class="co"># the same in eager NumPy, from the cube in memory</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> cube.astype(<span class="st">"float32"</span>) <span class="op">/</span> <span class="fl">1e4</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>v[cube <span class="op">==</span> <span class="dv">0</span>] <span class="op">=</span> np.nan</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>months <span class="op">=</span> dates.to_period(<span class="st">"M"</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>codes, uniq <span class="op">=</span> pd.factorize(months)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>mon <span class="op">=</span> np.stack([np.nanmean(v[codes <span class="op">==</span> k], axis<span class="op">=</span><span class="dv">0</span>) <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(uniq))])</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>moy <span class="op">=</span> np.array([p.month <span class="cf">for</span> p <span class="kw">in</span> uniq])</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>clim <span class="op">=</span> np.stack([np.nanmean(mon[moy <span class="op">==</span> m], axis<span class="op">=</span><span class="dv">0</span>) <span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">13</span>)])</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>anom_np <span class="op">=</span> mon <span class="op">-</span> clim[moy <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>numpy_s <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Dask (read + compute, 8 threads): </span><span class="sc">{</span>dask_s<span class="sc">:.1f}</span><span class="ss"> s | NumPy on the cube already in memory: </span><span class="sc">{</span>numpy_s<span class="sc">:.1f}</span><span class="ss"> s"</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"largest difference between the two:"</span>, <span class="bu">float</span>(np.nanmax(np.<span class="bu">abs</span>(anom_dask.values <span class="op">-</span> anom_np))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>pipeline defined in 5.7 s: 31,165 tasks, 1196 output chunks, shape (299, 670, 480), nothing computed yet
+Dask (read + compute, 8 threads): 13.4 s | NumPy on the cube already in memory: 1.6 s
+largest difference between the two: 2.980232238769531e-07</code></pre>
+</div>
+</div>
+<p>The lazy pipeline is a graph of 31,165 tasks over 1,196 chunks, defined in 5.7 s without reading any pixel data (the time goes into opening the 572 file headers). Computing it with 8 threads took 13.4 s and matched NumPy to 3 × 10⁻⁷. NumPy on the cube already in memory took 1.6 s, so for data that fit in memory, eager NumPy wins. Dask’s value is elsewhere: the same code runs when the cube is 100 times larger than memory, or on a cluster. Its threaded reads also meet the rasterio GIL problem of Section 3, which a process-based scheduler avoids.</p>
+<p>The trend needs only land pixels. We keep pixels that have NDVI on at least 90 % of dates and arrange the anomalies as a matrix of months × pixels: the input of everything that follows.</p>
+<div id="36646323" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T02:44:34.095871Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T02:44:34.095757Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T02:44:34.515636Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T02:44:34.515005Z&quot;}}" data-execution_count="4">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep land pixels with good coverage; save the anomaly matrix for trend jobs</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>land <span class="op">=</span> (cube <span class="op">!=</span> <span class="dv">0</span>).mean(axis<span class="op">=</span><span class="dv">0</span>) <span class="op">&gt;=</span> <span class="fl">0.9</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.ascontiguousarray(anom_np[:, land]).astype(<span class="st">"float32"</span>)          <span class="co"># (months, pixels)</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>n_months, n_pix <span class="op">=</span> A.shape</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>pairs <span class="op">=</span> n_months <span class="op">*</span> (n_months <span class="op">-</span> <span class="dv">1</span>) <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>np.save(OUT <span class="op">/</span> <span class="st">"anomalies.npy"</span>, A)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>n_pix<span class="sc">:,}</span><span class="ss"> land pixels x </span><span class="sc">{</span>n_months<span class="sc">}</span><span class="ss"> months; </span><span class="sc">{</span>pairs<span class="sc">:,}</span><span class="ss"> pairs per pixel; "</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"</span><span class="sc">{</span>pairs <span class="op">*</span> n_pix <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.1f}</span><span class="ss"> billion slopes in total; matrix </span><span class="sc">{</span>A<span class="sc">.</span>nbytes <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.0f}</span><span class="ss"> MB"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>145,672 land pixels x 299 months; 44,551 pairs per pixel; 6.5 billion slopes in total; matrix 174 MB</code></pre>
+</div>
+</div>
+</section>
+<section id="chunks-matter-the-same-cube-in-two-zarr-layouts" class="level2">
+<h2 class="anchored" data-anchor-id="chunks-matter-the-same-cube-in-two-zarr-layouts">Chunks matter: the same cube in two Zarr layouts</h2>
+<p>Zarr stores an array as a grid of compressed chunks, each a separate object, which is how large arrays live in cloud storage. A reader fetches whole chunks, so the chunk shape decides which questions are cheap. We store the NDVI cube twice: chunked <strong>by date</strong> (one map per chunk, as images arrive) and chunked <strong>by space</strong> (all dates of a small tile per chunk, for time series), and time the two typical reads.</p>
+<div id="7b9b9b16" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T02:44:34.516958Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T02:44:34.516853Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T02:44:35.423243Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T02:44:35.422765Z&quot;}}" data-execution_count="5">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Zarr chunk layout trade-off: fast time series vs fast spatial slices</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>layouts <span class="op">=</span> {<span class="st">"by date (1 x 670 x 480)"</span>: (<span class="dv">1</span>, <span class="dv">670</span>, <span class="dv">480</span>), <span class="st">"by space (572 x 64 x 64)"</span>: (<span class="dv">572</span>, <span class="dv">64</span>, <span class="dv">64</span>)}</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>row, col <span class="op">=</span> <span class="dv">198</span>, <span class="dv">137</span>                                           <span class="co"># a pixel near Bogra</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, chunks <span class="kw">in</span> layouts.items():</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    path <span class="op">=</span> OUT <span class="op">/</span> <span class="ss">f"ndvi_</span><span class="sc">{</span>chunks[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">x</span><span class="sc">{</span>chunks[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">.zarr"</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> zarr.create_array(store<span class="op">=</span><span class="bu">str</span>(path), shape<span class="op">=</span>cube.shape, chunks<span class="op">=</span>chunks, dtype<span class="op">=</span><span class="st">"int16"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    z[:] <span class="op">=</span> cube</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    write_s <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> zarr.open_array(<span class="bu">str</span>(path), mode<span class="op">=</span><span class="st">"r"</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()<span class="op">;</span> series <span class="op">=</span> z[:, row, col]<span class="op">;</span> series_ms <span class="op">=</span> (time.perf_counter() <span class="op">-</span> t0) <span class="op">*</span> <span class="dv">1000</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()<span class="op">;</span> one_map <span class="op">=</span> z[<span class="dv">300</span>]<span class="op">;</span> map_ms <span class="op">=</span> (time.perf_counter() <span class="op">-</span> t0) <span class="op">*</span> <span class="dv">1000</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    n_files <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> p <span class="kw">in</span> path.rglob(<span class="st">"*"</span>) <span class="cf">if</span> p.is_file())</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"layout"</span>: name, <span class="st">"chunks (files)"</span>: n_files, <span class="st">"MB on disk"</span>: <span class="bu">round</span>(<span class="bu">sum</span>(p.stat().st_size <span class="cf">for</span> p <span class="kw">in</span> path.rglob(<span class="st">'*'</span>) <span class="cf">if</span> p.is_file()) <span class="op">/</span> <span class="fl">1e6</span>, <span class="dv">1</span>),</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"write s"</span>: <span class="bu">round</span>(write_s, <span class="dv">1</span>), <span class="st">"one pixel, all dates (ms)"</span>: <span class="bu">round</span>(series_ms, <span class="dv">1</span>), <span class="st">"one date, all pixels (ms)"</span>: <span class="bu">round</span>(map_ms, <span class="dv">1</span>)})</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> (series <span class="op">==</span> cube[:, row, col]).<span class="bu">all</span>() <span class="kw">and</span> (one_map <span class="op">==</span> cube[<span class="dv">300</span>]).<span class="bu">all</span>()</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>zarr_table <span class="op">=</span> pd.DataFrame(rows).set_index(<span class="st">"layout"</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>zarr_table</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">chunks (files)</th>
+<th data-quarto-table-cell-role="th">MB on disk</th>
+<th data-quarto-table-cell-role="th">write s</th>
+<th data-quarto-table-cell-role="th">one pixel, all dates (ms)</th>
+<th data-quarto-table-cell-role="th">one date, all pixels (ms)</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">layout</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">by date (1 x 670 x 480)</th>
+<td>573</td>
+<td>151.3</td>
+<td>0.4</td>
+<td>181.9</td>
+<td>1.1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">by space (572 x 64 x 64)</th>
+<td>61</td>
+<td>151.6</td>
+<td>0.2</td>
+<td>5.5</td>
+<td>41.3</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Both stores hold the same 151 MB, but the costs of the two reads swap:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Read</th>
+<th>Chunked by date</th>
+<th>Chunked by space</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>One pixel through all 572 dates</td>
+<td>182 ms (opens 572 chunks)</td>
+<td>5.5 ms (opens one chunk)</td>
+</tr>
+<tr class="even">
+<td>One map on one date</td>
+<td>1.1 ms</td>
+<td>41 ms (opens all 61 chunks)</td>
+</tr>
+</tbody>
+</table>
+<p>On object storage every chunk is a separate HTTP request, so the difference grows. Choose chunks for the dominant query: by date for map services (Notebook 08_05), by space for time-series APIs (Notebook 08_06), and compromise shapes or two copies when both matter.</p>
+</section>
+<section id="parallel-computation-with-dask" class="level2">
+<h2 class="anchored" data-anchor-id="parallel-computation-with-dask">Parallel computation with Dask</h2>
+<p>The kernel computes, for a block of pixels, the slopes between all pairs of months and takes their median. It is plain NumPy, so it runs unchanged on one core, in many processes, or (Section 7) on a GPU.</p>
+<div id="a2f75e1c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T02:44:35.424312Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T02:44:35.424215Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T02:44:49.056651Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T02:44:49.055158Z&quot;}}" data-execution_count="6">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Theil-Sen per pixel (NDVI per decade); time a 20k-pixel serial baseline</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> theil_sen(a, xp<span class="op">=</span>np):</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Median of all pairwise slopes for each column of a (months x pixels); NDVI per decade."</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> a.shape[<span class="dv">0</span>]</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    i, j <span class="op">=</span> xp.triu_indices(n, <span class="dv">1</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    slopes <span class="op">=</span> (a[j] <span class="op">-</span> a[i]) <span class="op">/</span> (j <span class="op">-</span> i).astype(<span class="st">"float32"</span>)[:, <span class="va">None</span>]</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (xp.nanmedian(slopes, axis<span class="op">=</span><span class="dv">0</span>) <span class="op">*</span> <span class="dv">120</span>).astype(<span class="st">"float32"</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>SUB <span class="op">=</span> <span class="dv">20_000</span>                                                    <span class="co"># a subset for the scaling experiments</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>ref <span class="op">=</span> np.concatenate([theil_sen(A[:, k:k <span class="op">+</span> <span class="dv">250</span>]) <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, SUB, <span class="dv">250</span>)])</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>serial_s <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"serial: </span><span class="sc">{</span>serial_s<span class="sc">:.1f}</span><span class="ss"> s for </span><span class="sc">{</span>SUB<span class="sc">:,}</span><span class="ss"> pixels = </span><span class="sc">{</span>serial_s <span class="op">/</span> SUB <span class="op">*</span> <span class="dv">1000</span><span class="sc">:.2f}</span><span class="ss"> ms per pixel; "</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"all </span><span class="sc">{</span>n_pix<span class="sc">:,}</span><span class="ss"> pixels would take about </span><span class="sc">{</span>serial_s <span class="op">/</span> SUB <span class="op">*</span> n_pix<span class="sc">:.0f}</span><span class="ss"> s"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>serial: 13.6 s for 20,000 pixels = 0.68 ms per pixel; all 145,672 pixels would take about 99 s</code></pre>
+</div>
+</div>
+<p>Dask splits the pixels into chunks and runs one task per chunk on a cluster of worker processes (<code>LocalCluster</code> here; the same code runs on a cloud cluster by pointing <code>Client</code> at it). The input is read by each worker from a memory-mapped file instead of being copied into the task graph. We vary the number of workers and the chunk size on the 20,000-pixel subset.</p>
+<div id="4b41c70a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T02:44:49.058176Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T02:44:49.058076Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T02:45:37.828045Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T02:45:37.827388Z&quot;}}" data-execution_count="7">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scale Theil-Sen with Dask LocalCluster; plot speed-up vs ideal and Amdahl curves</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>np.save(OUT <span class="op">/</span> <span class="st">"subset.npy"</span>, A[:, :SUB])</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> workers <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>]:</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> LocalCluster(n_workers<span class="op">=</span>workers, threads_per_worker<span class="op">=</span><span class="dv">1</span>, processes<span class="op">=</span><span class="va">True</span>, dashboard_address<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                      silence_logs<span class="op">=</span>logging.CRITICAL) <span class="im">as</span> cluster, Client(cluster):</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> chunk <span class="kw">in</span> ([<span class="dv">250</span>, <span class="dv">1000</span>] <span class="cf">if</span> workers <span class="kw">in</span> (<span class="dv">8</span>, <span class="dv">16</span>) <span class="cf">else</span> [<span class="dv">250</span>]):</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> da.from_array(np.load(OUT <span class="op">/</span> <span class="st">"subset.npy"</span>, mmap_mode<span class="op">=</span><span class="st">"r"</span>), chunks<span class="op">=</span>(n_months, chunk), asarray<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>            t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>            res <span class="op">=</span> x.map_blocks(theil_sen, drop_axis<span class="op">=</span><span class="dv">0</span>, dtype<span class="op">=</span><span class="st">"float32"</span>).compute()</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>            sec <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">assert</span> np.allclose(res, ref, equal_nan<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>            rows.append({<span class="st">"workers"</span>: workers, <span class="st">"chunk (pixels)"</span>: chunk, <span class="st">"tasks"</span>: SUB <span class="op">//</span> chunk, <span class="st">"seconds"</span>: sec,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"speed-up"</span>: serial_s <span class="op">/</span> sec, <span class="st">"efficiency"</span>: serial_s <span class="op">/</span> sec <span class="op">/</span> workers})</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>scaling <span class="op">=</span> pd.DataFrame(rows)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>display(scaling.<span class="bu">round</span>(<span class="dv">2</span>))</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Speed-up plot for 250-pixel chunks</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>best <span class="op">=</span> scaling[scaling[<span class="st">"chunk (pixels)"</span>] <span class="op">==</span> <span class="dv">250</span>]</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">6.5</span>, <span class="fl">3.6</span>))</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>ax.plot(best.workers, best[<span class="st">"speed-up"</span>], <span class="st">"o-"</span>, label<span class="op">=</span><span class="st">"measured (chunks of 250 pixels)"</span>)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>ax.plot(best.workers, best.workers, <span class="st">"--"</span>, color<span class="op">=</span><span class="st">"grey"</span>, label<span class="op">=</span><span class="st">"ideal"</span>)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> [<span class="fl">0.95</span>, <span class="fl">0.85</span>]:</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    ax.plot(best.workers, <span class="dv">1</span> <span class="op">/</span> ((<span class="dv">1</span> <span class="op">-</span> p) <span class="op">+</span> p <span class="op">/</span> best.workers), <span class="st">":"</span>, label<span class="op">=</span><span class="ss">f"Amdahl, p = </span><span class="sc">{</span>p<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"worker processes"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"speed-up over one core"</span>)<span class="op">;</span> ax.set_xticks(best.workers)</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Theil-Sen trend on 20,000 pixels"</span>)<span class="op">;</span> ax.legend(fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">workers</th>
+<th data-quarto-table-cell-role="th">chunk (pixels)</th>
+<th data-quarto-table-cell-role="th">tasks</th>
+<th data-quarto-table-cell-role="th">seconds</th>
+<th data-quarto-table-cell-role="th">speed-up</th>
+<th data-quarto-table-cell-role="th">efficiency</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>250</td>
+<td>80</td>
+<td>15.79</td>
+<td>0.86</td>
+<td>0.86</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>250</td>
+<td>80</td>
+<td>8.33</td>
+<td>1.64</td>
+<td>0.82</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>4</td>
+<td>250</td>
+<td>80</td>
+<td>4.79</td>
+<td>2.84</td>
+<td>0.71</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>8</td>
+<td>250</td>
+<td>80</td>
+<td>3.45</td>
+<td>3.96</td>
+<td>0.49</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>8</td>
+<td>1000</td>
+<td>20</td>
+<td>3.51</td>
+<td>3.88</td>
+<td>0.49</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>16</td>
+<td>250</td>
+<td>80</td>
+<td>4.06</td>
+<td>3.36</td>
+<td>0.21</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>16</td>
+<td>1000</td>
+<td>20</td>
+<td>3.52</td>
+<td>3.88</td>
+<td>0.24</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_08_scalable_processing_files/figure-html/cell-8-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>On one core the kernel needs 0.68 ms per pixel, about 99 s for the whole country.</p>
+<ul>
+<li><strong>Scaling was good up to 4 workers</strong> (2.8×, efficiency 0.71), then flattened: 4.0× with 8 workers and 3.4-3.9× with 16.</li>
+<li><strong>One Dask worker was slower than plain serial code</strong> (efficiency 0.86): that is the cost of the scheduler.</li>
+<li><strong>Chunk size mattered little</strong> at 8 workers (3.5 s with chunks of 250 or 1,000 pixels).</li>
+</ul>
+<p>The flat part is not Amdahl’s serial fraction; this kernel has almost none. Each task builds a temporary array of 44,551 slopes per pixel and then sorts it, so the cores compete for memory bandwidth. The laptop’s 16 physical cores also share caches and memory channels. Measured scaling, not the core count, tells you how many workers are worth paying for.</p>
+</section>
+<section id="the-same-kernel-on-a-gpu" class="level2">
+<h2 class="anchored" data-anchor-id="the-same-kernel-on-a-gpu">The same kernel on a GPU</h2>
+<p>CuPy mirrors NumPy’s interface on NVIDIA GPUs, so <code>theil_sen(a, xp=cp)</code> runs the same code there. Each block of pixels is copied to the GPU, processed, and the result copied back. We time the copy and the computation separately, then process all land pixels on the GPU and with Dask on the CPU.</p>
+<div id="0f350713" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T02:45:37.829757Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T02:45:37.829654Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T02:46:09.579067Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T02:46:09.577988Z&quot;}}" data-execution_count="8">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Full-country Theil-Sen: optional GPU, then Dask with 8 workers; compare wall times</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional CuPy path: measure copy + compute cost, then full-array timing</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> GPU:</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    theil_sen(cp.asarray(A[:, :<span class="dv">100</span>]), xp<span class="op">=</span>cp)<span class="op">;</span> cp.cuda.Device().synchronize()      <span class="co"># compile kernels once</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    rows <span class="op">=</span> []</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> block <span class="kw">in</span> [<span class="dv">1000</span>, <span class="dv">2000</span>, <span class="dv">4000</span>]:</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        blk <span class="op">=</span> A[:, :block]</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        t0 <span class="op">=</span> time.perf_counter()<span class="op">;</span> g <span class="op">=</span> cp.asarray(blk)<span class="op">;</span> cp.cuda.Device().synchronize()<span class="op">;</span> up <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        t0 <span class="op">=</span> time.perf_counter()<span class="op">;</span> r <span class="op">=</span> theil_sen(g, xp<span class="op">=</span>cp)<span class="op">;</span> cp.cuda.Device().synchronize()<span class="op">;</span> comp <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        t0 <span class="op">=</span> time.perf_counter()<span class="op">;</span> r <span class="op">=</span> r.get()<span class="op">;</span> down <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        rows.append({<span class="st">"block (pixels)"</span>: block, <span class="st">"copy to GPU ms"</span>: up <span class="op">*</span> <span class="dv">1000</span>, <span class="st">"compute ms"</span>: comp <span class="op">*</span> <span class="dv">1000</span>, <span class="st">"copy back ms"</span>: down <span class="op">*</span> <span class="dv">1000</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"ms per 1,000 pixels"</span>: (up <span class="op">+</span> comp <span class="op">+</span> down) <span class="op">/</span> block <span class="op">*</span> <span class="fl">1e6</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"GPU memory used GB"</span>: <span class="bu">round</span>((block <span class="op">*</span> pairs <span class="op">*</span> <span class="dv">4</span> <span class="op">*</span> <span class="dv">2</span>) <span class="op">/</span> <span class="fl">1e9</span>, <span class="dv">2</span>)})</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> np.allclose(r, ref[:block], equal_nan<span class="op">=</span><span class="va">True</span>, atol<span class="op">=</span><span class="fl">1e-5</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    display(pd.DataFrame(rows).<span class="bu">round</span>(<span class="dv">1</span>))</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    trend_gpu <span class="op">=</span> np.concatenate([theil_sen(cp.asarray(A[:, k:k <span class="op">+</span> <span class="dv">2000</span>]), xp<span class="op">=</span>cp).get() <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, n_pix, <span class="dv">2000</span>)])</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    gpu_full <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"GPU, all </span><span class="sc">{</span>n_pix<span class="sc">:,}</span><span class="ss"> pixels: </span><span class="sc">{</span>gpu_full<span class="sc">:.1f}</span><span class="ss"> s"</span>)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    trend_gpu, gpu_full <span class="op">=</span> <span class="va">None</span>, <span class="va">None</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No CUDA GPU: skipped"</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Dask LocalCluster over all land pixels</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> LocalCluster(n_workers<span class="op">=</span><span class="dv">8</span>, threads_per_worker<span class="op">=</span><span class="dv">1</span>, processes<span class="op">=</span><span class="va">True</span>, dashboard_address<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>                      silence_logs<span class="op">=</span>logging.CRITICAL) <span class="im">as</span> cluster, Client(cluster):</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> da.from_array(np.load(OUT <span class="op">/</span> <span class="st">"anomalies.npy"</span>, mmap_mode<span class="op">=</span><span class="st">"r"</span>), chunks<span class="op">=</span>(n_months, <span class="dv">250</span>), asarray<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    trend <span class="op">=</span> x.map_blocks(theil_sen, drop_axis<span class="op">=</span><span class="dv">0</span>, dtype<span class="op">=</span><span class="st">"float32"</span>).compute()</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    dask_full <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Dask, 8 workers, all </span><span class="sc">{</span>n_pix<span class="sc">:,}</span><span class="ss"> pixels: </span><span class="sc">{</span>dask_full<span class="sc">:.1f}</span><span class="ss"> s"</span>)</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> GPU:</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"largest difference GPU vs CPU:"</span>, <span class="bu">float</span>(np.nanmax(np.<span class="bu">abs</span>(trend_gpu <span class="op">-</span> trend))))</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>full_runs <span class="op">=</span> pd.DataFrame({<span class="st">"seconds"</span>: {<span class="st">"1 core (estimated from the subset)"</span>: serial_s <span class="op">/</span> SUB <span class="op">*</span> n_pix,</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"Dask, 8 processes"</span>: dask_full, <span class="st">"GPU (CuPy)"</span>: gpu_full}})</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>full_runs[<span class="st">"speed-up"</span>] <span class="op">=</span> full_runs.seconds.iloc[<span class="dv">0</span>] <span class="op">/</span> full_runs.seconds</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>full_runs.<span class="bu">round</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">block (pixels)</th>
+<th data-quarto-table-cell-role="th">copy to GPU ms</th>
+<th data-quarto-table-cell-role="th">compute ms</th>
+<th data-quarto-table-cell-role="th">copy back ms</th>
+<th data-quarto-table-cell-role="th">ms per 1,000 pixels</th>
+<th data-quarto-table-cell-role="th">GPU memory used GB</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1000</td>
+<td>1.1</td>
+<td>67.7</td>
+<td>0.1</td>
+<td>68.9</td>
+<td>0.4</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2000</td>
+<td>2.2</td>
+<td>135.5</td>
+<td>0.1</td>
+<td>68.9</td>
+<td>0.7</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>4000</td>
+<td>4.0</td>
+<td>269.7</td>
+<td>0.1</td>
+<td>68.4</td>
+<td>1.4</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GPU, all 145,672 pixels: 9.9 s
+Dask, 8 workers, all 145,672 pixels: 20.1 s
+largest difference GPU vs CPU: 0.0</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">seconds</th>
+<th data-quarto-table-cell-role="th">speed-up</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1 core (estimated from the subset)</th>
+<td>99.3</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Dask, 8 processes</th>
+<td>20.1</td>
+<td>4.9</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">GPU (CuPy)</th>
+<td>9.9</td>
+<td>10.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The GPU computed 1,000 pixels in about 68 ms against 680 ms on one CPU core, ten times faster. Copying to and from the GPU took only 1-4 ms per block, because each pixel’s 299 inputs produce 44,551 slopes on the GPU: much computation per byte transferred, the ideal case for a GPU. Blocks of 2,000 pixels used about 0.7 GB of the GPU’s 17 GB.</p>
+<p>Whole country:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Run</th>
+<th>Time</th>
+<th>Speed-up</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GPU</td>
+<td>9.9 s</td>
+<td>10.0×</td>
+</tr>
+<tr class="even">
+<td>Dask, 8 processes</td>
+<td>20.1 s</td>
+<td>4.9×</td>
+</tr>
+<tr class="odd">
+<td>One core (estimated)</td>
+<td>99.3 s</td>
+<td>1×</td>
+</tr>
+</tbody>
+</table>
+<p>GPU and CPU results are identical.</p>
+</section>
+<section id="the-result-greening-and-browning-of-bangladesh" class="level2">
+<h2 class="anchored" data-anchor-id="the-result-greening-and-browning-of-bangladesh">The result: greening and browning of Bangladesh</h2>
+<p>The trend values go back into the 1 km grid. Districts summarise them.</p>
+<div id="1fb20ba0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T02:46:09.581709Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T02:46:09.581502Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T02:46:10.863961Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T02:46:10.863553Z&quot;}}" data-execution_count="9">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write the trend GeoTIFF, summarize by district, and plot map + histogram</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>trend_map <span class="op">=</span> np.full(shape, np.nan, dtype<span class="op">=</span><span class="st">"float32"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>trend_map[land] <span class="op">=</span> trend</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>profile <span class="op">=</span> <span class="bu">dict</span>(driver<span class="op">=</span><span class="st">"GTiff"</span>, width<span class="op">=</span>shape[<span class="dv">1</span>], height<span class="op">=</span>shape[<span class="dv">0</span>], count<span class="op">=</span><span class="dv">1</span>, dtype<span class="op">=</span><span class="st">"float32"</span>, crs<span class="op">=</span>crs, transform<span class="op">=</span>transform,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>               nodata<span class="op">=</span>np.nan, compress<span class="op">=</span><span class="st">"deflate"</span>, tiled<span class="op">=</span><span class="va">True</span>, blockxsize<span class="op">=</span><span class="dv">256</span>, blockysize<span class="op">=</span><span class="dv">256</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(OUT <span class="op">/</span> <span class="st">"ndvi_anomaly_trend.tif"</span>, <span class="st">"w"</span>, <span class="op">**</span>profile) <span class="im">as</span> dst:</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    dst.write(trend_map, <span class="dv">1</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    dst.set_band_description(<span class="dv">1</span>, <span class="st">"Theil-Sen slope of monthly NDVI anomalies, per decade, 2000-2024"</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># District-level summary of greening and browning shares</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>districts <span class="op">=</span> gpd.read_file(WEB <span class="op">/</span> <span class="st">"08_03_outputs"</span> <span class="op">/</span> <span class="st">"districts.gpkg"</span>).to_crs(crs)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> []</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, geom <span class="kw">in</span> <span class="bu">zip</span>(districts.district, districts.geometry):</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    inside <span class="op">=</span> geometry_mask([mapping(geom)], out_shape<span class="op">=</span>shape, transform<span class="op">=</span>transform, invert<span class="op">=</span><span class="va">True</span>) <span class="op">&amp;</span> land</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> trend_map[inside]</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    summary.append({<span class="st">"district"</span>: name, <span class="st">"pixels"</span>: <span class="bu">int</span>(inside.<span class="bu">sum</span>()), <span class="st">"median trend"</span>: <span class="bu">float</span>(np.nanmedian(v)),</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"share &gt; +0.02"</span>: <span class="bu">float</span>((v <span class="op">&gt;</span> <span class="fl">0.02</span>).mean()), <span class="st">"share &lt; -0.02"</span>: <span class="bu">float</span>((v <span class="op">&lt;</span> <span class="op">-</span><span class="fl">0.02</span>).mean())})</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> pd.DataFrame(summary).set_index(<span class="st">"district"</span>)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Map and histogram of per-pixel anomaly trends</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">13</span>, <span class="dv">6</span>), gridspec_kw<span class="op">=</span>{<span class="st">"width_ratios"</span>: [<span class="fl">1.15</span>, <span class="dv">1</span>]})</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>extent <span class="op">=</span> [transform.c, transform.c <span class="op">+</span> transform.a <span class="op">*</span> shape[<span class="dv">1</span>], transform.f <span class="op">+</span> transform.e <span class="op">*</span> shape[<span class="dv">0</span>], transform.f]</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> ax[<span class="dv">0</span>].imshow(trend_map, cmap<span class="op">=</span><span class="st">"RdYlGn"</span>, vmin<span class="op">=-</span><span class="fl">0.06</span>, vmax<span class="op">=</span><span class="fl">0.06</span>, extent<span class="op">=</span>extent)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>districts.boundary.plot(ax<span class="op">=</span>ax[<span class="dv">0</span>], color<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_title(<span class="st">"Trend of monthly NDVI anomalies, 2000-2024"</span>)<span class="op">;</span> ax[<span class="dv">0</span>].set_axis_off()</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>fig.colorbar(im, ax<span class="op">=</span>ax[<span class="dv">0</span>], shrink<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">"NDVI per decade"</span>)</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].hist(trend[np.isfinite(trend)], bins<span class="op">=</span><span class="dv">80</span>, color<span class="op">=</span><span class="st">"#4a8"</span>)</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"k"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)<span class="op">;</span> ax[<span class="dv">1</span>].set_xlabel(<span class="st">"NDVI per decade"</span>)<span class="op">;</span> ax[<span class="dv">1</span>].set_ylabel(<span class="st">"pixels"</span>)</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_title(<span class="ss">f"</span><span class="sc">{</span>n_pix<span class="sc">:,}</span><span class="ss"> land pixels: median </span><span class="sc">{</span>np<span class="sc">.</span>nanmedian(trend)<span class="sc">:+.4f}</span><span class="ss"> per decade"</span>)</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"pixels greening by more than 0.02 per decade: </span><span class="sc">{</span>(trend <span class="op">&gt;</span> <span class="fl">0.02</span>)<span class="sc">.</span>mean()<span class="sc">:.1%}</span><span class="ss">; browning by more than 0.02: </span><span class="sc">{</span>(trend <span class="op">&lt;</span> <span class="op">-</span><span class="fl">0.02</span>)<span class="sc">.</span>mean()<span class="sc">:.1%}</span><span class="ss">"</span>)</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>display(pd.concat([summary.nlargest(<span class="dv">4</span>, <span class="st">"median trend"</span>), summary.nsmallest(<span class="dv">4</span>, <span class="st">"median trend"</span>)]).<span class="bu">round</span>(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_08_scalable_processing_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>pixels greening by more than 0.02 per decade: 69.5%; browning by more than 0.02: 2.6%</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">pixels</th>
+<th data-quarto-table-cell-role="th">median trend</th>
+<th data-quarto-table-cell-role="th">share &gt; +0.02</th>
+<th data-quarto-table-cell-role="th">share &lt; -0.02</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">district</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Pabna</th>
+<td>2386</td>
+<td>0.060</td>
+<td>0.953</td>
+<td>0.010</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Nawabganj</th>
+<td>1691</td>
+<td>0.056</td>
+<td>0.895</td>
+<td>0.028</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Natore</th>
+<td>1903</td>
+<td>0.051</td>
+<td>0.960</td>
+<td>0.011</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Faridpur</th>
+<td>2047</td>
+<td>0.051</td>
+<td>0.942</td>
+<td>0.022</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Bandarban</th>
+<td>4602</td>
+<td>0.004</td>
+<td>0.021</td>
+<td>0.002</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Khagrachhari</th>
+<td>2858</td>
+<td>0.004</td>
+<td>0.076</td>
+<td>0.004</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Rangamati</th>
+<td>5774</td>
+<td>0.007</td>
+<td>0.076</td>
+<td>0.014</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Khulna</th>
+<td>3600</td>
+<td>0.012</td>
+<td>0.331</td>
+<td>0.049</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Vegetation has become greener across most of Bangladesh: the median trend is +0.033 NDVI per decade, 69.5% of land pixels gained more than 0.02 per decade and only 2.6% lost that much.</p>
+<ul>
+<li><strong>Strongest greening:</strong> the north-west and centre-west (Pabna, Nawabganj, Natore, with medians of 0.05-0.06 per decade and over 89% of pixels greening) and Faridpur. These are areas of intensified, irrigated cropping.</li>
+<li><strong>Little change:</strong> the forested Chittagong Hill Tracts (Bandarban, Khagrachhari, Rangamati, medians 0.004-0.007), whose NDVI is already near its ceiling.</li>
+<li><strong>Weaker trends:</strong> the south-western coast (Khulna median 0.012, 4.9% browning).</li>
+<li><strong>Browning:</strong> concentrated along the Jamuna and Padma rivers, where channels and sandbars move, and in patches around the cities, consistent with urban growth.</li>
+</ul>
+<p>This is a statistical trend in a vegetation index. Attributing it to irrigation, cropping intensity, urbanisation or salinity needs ancillary data.</p>
+</section>
+<section id="reading-from-the-cloud-in-parallel" class="level2">
+<h2 class="anchored" data-anchor-id="reading-from-the-cloud-in-parallel">Reading from the cloud in parallel</h2>
+<p>In the cloud the input is usually remote. A STAC search finds every Sentinel-2 scene of tile 18TVN (Syracuse, NY) with less than 20 % cloud between April and October 2025; we then read the same 12 km window of the red band from 12 of them, serially and with 4, 8 and 16 threads, counting the bytes GDAL downloads. GDAL’s Python bindings release the GIL during reads, so threads can overlap the waiting.</p>
+<div id="5d3a604c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T02:46:10.865124Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T02:46:10.865021Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T02:47:44.012536Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T02:47:44.011942Z&quot;}}" data-execution_count="10">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remote COG window reads via STAC + GDAL /vsicurl; scale with thread pools</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># STAC search + GDAL config for range reads of remote COGs</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pystac_client <span class="im">import</span> Client <span class="im">as</span> STACClient</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyproj</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>BOX <span class="op">=</span> (<span class="op">-</span><span class="fl">76.20</span>, <span class="fl">43.00</span>, <span class="op">-</span><span class="fl">76.08</span>, <span class="fl">43.08</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>OPTIONS <span class="op">=</span> <span class="bu">dict</span>(GDAL_DISABLE_READDIR_ON_OPEN<span class="op">=</span><span class="st">"EMPTY_DIR"</span>, AWS_NO_SIGN_REQUEST<span class="op">=</span><span class="st">"YES"</span>, GDAL_HTTP_MULTIRANGE<span class="op">=</span><span class="st">"YES"</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>               GDAL_HTTP_MERGE_CONSECUTIVE_RANGES<span class="op">=</span><span class="st">"YES"</span>, CPL_VSIL_CURL_ALLOWED_EXTENSIONS<span class="op">=</span><span class="st">".tif"</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>               CPL_VSIL_NETWORK_STATS_ENABLED<span class="op">=</span><span class="st">"YES"</span>, VSI_CACHE<span class="op">=</span><span class="st">"FALSE"</span>, CPL_VSIL_CURL_NON_CACHED<span class="op">=</span><span class="st">"/vsicurl/"</span>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k, v <span class="kw">in</span> OPTIONS.items():</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    gdal.SetConfigOption(k, v)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Read one bbox window and return its mean</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> read_window(href):</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Read the BOX window of a remote COG band with GDAL; return its mean."</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    ds <span class="op">=</span> gdal.Open(<span class="st">"/vsicurl/"</span> <span class="op">+</span> href)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    gt <span class="op">=</span> ds.GetGeoTransform()</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    tr <span class="op">=</span> pyproj.Transformer.from_crs(<span class="dv">4326</span>, ds.GetSpatialRef().ExportToWkt(), always_xy<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    (x0, y1), (x1, y0) <span class="op">=</span> tr.transform(BOX[<span class="dv">0</span>], BOX[<span class="dv">3</span>]), tr.transform(BOX[<span class="dv">2</span>], BOX[<span class="dv">1</span>])</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    c0, r0 <span class="op">=</span> <span class="bu">int</span>((x0 <span class="op">-</span> gt[<span class="dv">0</span>]) <span class="op">/</span> gt[<span class="dv">1</span>]), <span class="bu">int</span>((y1 <span class="op">-</span> gt[<span class="dv">3</span>]) <span class="op">/</span> gt[<span class="dv">5</span>])</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    c1, r1 <span class="op">=</span> <span class="bu">int</span>((x1 <span class="op">-</span> gt[<span class="dv">0</span>]) <span class="op">/</span> gt[<span class="dv">1</span>]), <span class="bu">int</span>((y0 <span class="op">-</span> gt[<span class="dv">3</span>]) <span class="op">/</span> gt[<span class="dv">5</span>])</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(ds.GetRasterBand(<span class="dv">1</span>).ReadAsArray(c0, r0, c1 <span class="op">-</span> c0, r1 <span class="op">-</span> r0).mean())</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> downloaded():</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    stats <span class="op">=</span> json.loads(gdal.NetworkStatsGetAsSerializedJSON() <span class="kw">or</span> <span class="st">"</span><span class="sc">{}</span><span class="st">"</span>)</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(m.get(<span class="st">"downloaded_bytes"</span>, <span class="dv">0</span>) <span class="cf">for</span> m <span class="kw">in</span> stats.get(<span class="st">"methods"</span>, {}).values())</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Search Sentinel-2, then time threaded window reads</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    items <span class="op">=</span> <span class="bu">list</span>(STACClient.<span class="bu">open</span>(<span class="st">"https://earth-search.aws.element84.com/v1"</span>).search(</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>        collections<span class="op">=</span>[<span class="st">"sentinel-2-l2a"</span>], bbox<span class="op">=</span>BOX, datetime<span class="op">=</span><span class="st">"2025-04-01/2025-10-31"</span>, query<span class="op">=</span>{<span class="st">"eo:cloud_cover"</span>: {<span class="st">"lt"</span>: <span class="dv">20</span>}}).items())</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>    tile <span class="op">=</span> [it <span class="cf">for</span> it <span class="kw">in</span> items <span class="cf">if</span> it.properties.get(<span class="st">"mgrs:utm_zone"</span>) <span class="op">==</span> <span class="dv">18</span> <span class="kw">and</span> it.properties.get(<span class="st">"mgrs:grid_square"</span>) <span class="op">==</span> <span class="st">"VN"</span>]</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>    hrefs <span class="op">=</span> [it.assets[<span class="st">"red"</span>].href <span class="cf">for</span> it <span class="kw">in</span> <span class="bu">sorted</span>(tile, key<span class="op">=</span><span class="kw">lambda</span> it: it.datetime)][:<span class="dv">12</span>]</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"STAC search: </span><span class="sc">{</span><span class="bu">len</span>(items)<span class="sc">}</span><span class="ss"> scenes, </span><span class="sc">{</span><span class="bu">len</span>(tile)<span class="sc">}</span><span class="ss"> on tile 18TVN, in </span><span class="sc">{</span>time<span class="sc">.</span>perf_counter() <span class="op">-</span> t0<span class="sc">:.1f}</span><span class="ss"> s; reading </span><span class="sc">{</span><span class="bu">len</span>(hrefs)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    rows <span class="op">=</span> []</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> threads <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>]:</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>        gdal.NetworkStatsReset()</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>        t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> threads <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>            means <span class="op">=</span> [read_window(h) <span class="cf">for</span> h <span class="kw">in</span> hrefs]</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>            <span class="cf">with</span> ThreadPoolExecutor(threads) <span class="im">as</span> ex:</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>                means <span class="op">=</span> <span class="bu">list</span>(ex.<span class="bu">map</span>(read_window, hrefs))</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>        sec <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>        mb <span class="op">=</span> downloaded() <span class="op">/</span> <span class="fl">1e6</span></span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>        rows.append({<span class="st">"threads"</span>: threads, <span class="st">"seconds"</span>: sec, <span class="st">"MB downloaded"</span>: mb, <span class="st">"MB/s"</span>: mb <span class="op">/</span> sec})</span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>    remote <span class="op">=</span> pd.DataFrame(rows).set_index(<span class="st">"threads"</span>)</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>    remote[<span class="st">"speed-up"</span>] <span class="op">=</span> remote.seconds.iloc[<span class="dv">0</span>] <span class="op">/</span> remote.seconds</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>    display(remote.<span class="bu">round</span>(<span class="dv">2</span>))</span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> exc:</span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>    remote <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Remote reads skipped:"</span>, <span class="bu">type</span>(exc).<span class="va">__name__</span>, exc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>STAC search: 51 scenes, 26 on tile 18TVN, in 3.3 s; reading 12</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">seconds</th>
+<th data-quarto-table-cell-role="th">MB downloaded</th>
+<th data-quarto-table-cell-role="th">MB/s</th>
+<th data-quarto-table-cell-role="th">speed-up</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">threads</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1</th>
+<td>35.97</td>
+<td>70.29</td>
+<td>1.95</td>
+<td>1.00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">4</th>
+<td>23.65</td>
+<td>70.29</td>
+<td>2.97</td>
+<td>1.52</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>14.50</td>
+<td>70.29</td>
+<td>4.85</td>
+<td>2.48</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">16</th>
+<td>14.74</td>
+<td>70.29</td>
+<td>4.77</td>
+<td>2.44</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The 12 windows total 70.3 MB of compressed data.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Threads</th>
+<th>Time</th>
+<th>Throughput</th>
+<th>Speed-up</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>36.0 s</td>
+<td>1.95 MB/s</td>
+<td>1×</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>23.7 s</td>
+<td>2.97 MB/s</td>
+<td>1.5×</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>14.5 s</td>
+<td>4.85 MB/s</td>
+<td>2.5×</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>14.7 s</td>
+<td>4.77 MB/s</td>
+<td>2.4×</td>
+</tr>
+</tbody>
+</table>
+<p>Beyond 8 threads nothing improved: this machine’s internet link to AWS us-west-2 was saturated at about 5 MB/s. Remote work is bounded by bandwidth and latency, not by cores. Inside the same cloud region as the data, throughput is typically hundreds of MB/s, which is why large analyses run where the data are (Notebook 08_09).</p>
+<p>These numbers depend on the network and vary between runs.</p>
+</section>
+<section id="batch-jobs-the-serverless-pattern-and-what-a-run-costs" class="level2">
+<h2 class="anchored" data-anchor-id="batch-jobs-the-serverless-pattern-and-what-a-run-costs">Batch jobs: the serverless pattern, and what a run costs</h2>
+<p>Cloud batch services (AWS Batch, Google Cloud Batch and Cloud Run jobs, Azure Batch) and serverless functions all run the same unit: an <strong>independent job</strong> that reads its piece of input from object storage, writes its own output, and exits. A coordinator starts one job per piece (a <em>job array</em>) and combines the outputs. Jobs must be <strong>idempotent</strong>: re-running one gives the same output, so failed or duplicated jobs are harmless.</p>
+<p>We imitate this with separate operating-system processes: the trend calculation is split into 8 jobs by pixel range, each a fresh Python process with its own arguments, as a container would be.</p>
+<div id="fdeb43c6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T02:47:44.014309Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T02:47:44.014198Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T02:48:14.525158Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T02:48:14.524760Z&quot;}}" data-execution_count="11">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Idempotent batch jobs: split pixels across processes, re-run, and recover a "lost" part</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>job_code <span class="op">=</span> <span class="st">'''import json, sys, time</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">from pathlib import Path</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="st">import numpy as np</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="st">def theil_sen(a):</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="st">    n = a.shape[0]</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="st">    i, j = np.triu_indices(n, 1)</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="st">    return (np.nanmedian((a[j] - a[i]) / (j - i).astype("float32")[:, None], axis=0) * 120).astype("float32")</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="st">src, start, stop, out = sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), Path(sys.argv[4])</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="st">done = out.with_suffix(".json")</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="st">if done.exists():                                   # idempotent: finished jobs are skipped</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="st">    sys.exit(0)</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="st">t0 = time.perf_counter()</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="st">a = np.load(src, mmap_mode="r")</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="st">res = np.concatenate([theil_sen(np.asarray(a[:, k:min(k + 250, stop)])) for k in range(start, stop, 250)])</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="st">np.save(out, res)</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="st">done.write_text(json.dumps({"start": start, "stop": stop, "seconds": time.perf_counter() - t0}))</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>(OUT <span class="op">/</span> <span class="st">"trend_job.py"</span>).write_text(job_code)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>jobs_dir <span class="op">=</span> OUT <span class="op">/</span> <span class="st">"jobs"</span><span class="op">;</span> jobs_dir.mkdir()</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> np.linspace(<span class="dv">0</span>, n_pix, <span class="dv">9</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch one process per pixel slice</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_jobs():</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    procs <span class="op">=</span> [subprocess.Popen([sys.executable, <span class="bu">str</span>(OUT <span class="op">/</span> <span class="st">"trend_job.py"</span>), <span class="bu">str</span>(OUT <span class="op">/</span> <span class="st">"anomalies.npy"</span>), <span class="bu">str</span>(a), <span class="bu">str</span>(b),</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>                               <span class="bu">str</span>(jobs_dir <span class="op">/</span> <span class="ss">f"part_</span><span class="sc">{</span>k<span class="sc">:02d}</span><span class="ss">.npy"</span>)]) <span class="cf">for</span> k, (a, b) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(bounds[:<span class="op">-</span><span class="dv">1</span>], bounds[<span class="dv">1</span>:]))]</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [p.wait() <span class="cf">for</span> p <span class="kw">in</span> procs]</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()<span class="op">;</span> codes <span class="op">=</span> run_jobs()<span class="op">;</span> wall <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>manifest <span class="op">=</span> [json.loads(p.read_text()) <span class="cf">for</span> p <span class="kw">in</span> <span class="bu">sorted</span>(jobs_dir.glob(<span class="st">"*.json"</span>))]</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>combined <span class="op">=</span> np.concatenate([np.load(jobs_dir <span class="op">/</span> <span class="ss">f"part_</span><span class="sc">{</span>k<span class="sc">:02d}</span><span class="ss">.npy"</span>) <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">8</span>)])</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"8 jobs, exit codes </span><span class="sc">{</span>codes<span class="sc">}</span><span class="ss">: wall time </span><span class="sc">{</span>wall<span class="sc">:.1f}</span><span class="ss"> s; job times </span><span class="sc">{</span>[<span class="bu">round</span>(m[<span class="st">'seconds'</span>], <span class="dv">1</span>) <span class="cf">for</span> m <span class="kw">in</span> manifest]<span class="sc">}</span><span class="ss"> s"</span>)</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"identical to the Dask result:"</span>, np.allclose(combined, trend, equal_nan<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()<span class="op">;</span> run_jobs()<span class="op">;</span> <span class="bu">print</span>(<span class="ss">f"re-run: </span><span class="sc">{</span>time<span class="sc">.</span>perf_counter() <span class="op">-</span> t0<span class="sc">:.1f}</span><span class="ss"> s (all jobs already done, nothing recomputed)"</span>)</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>(jobs_dir <span class="op">/</span> <span class="st">"part_03.json"</span>).unlink()                 <span class="co"># pretend job 3 failed</span></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()<span class="op">;</span> run_jobs()<span class="op">;</span> <span class="bu">print</span>(<span class="ss">f"after 'losing' job 3: </span><span class="sc">{</span>time<span class="sc">.</span>perf_counter() <span class="op">-</span> t0<span class="sc">:.1f}</span><span class="ss"> s (only job 3 ran again)"</span>)</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>job_cpu_s <span class="op">=</span> <span class="bu">sum</span>(m[<span class="st">"seconds"</span>] <span class="cf">for</span> m <span class="kw">in</span> manifest)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>8 jobs, exit codes [0, 0, 0, 0, 0, 0, 0, 0]: wall time 17.1 s; job times [17.0, 16.9, 16.2, 16.8, 16.5, 16.1, 16.5, 16.8] s
+identical to the Dask result: True
+re-run: 0.1 s (all jobs already done, nothing recomputed)
+after 'losing' job 3: 13.3 s (only job 3 ran again)</code></pre>
+</div>
+</div>
+<p><strong>What would a run cost?</strong> Cloud compute is billed by resource-time. The prices below are <strong>illustrative assumptions</strong> for on-demand capacity (they vary by provider, region, purchase option and over time; check the provider’s price list). The compute times are the ones measured above.</p>
+<div id="db4dc1fc" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T02:48:14.527505Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T02:48:14.527402Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T02:48:14.535104Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T02:48:14.534803Z&quot;}}" data-execution_count="12">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Illustrative cost comparison across sequential, Dask, batch, serverless, and GPU setups</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>PRICE_VCPU_HOUR <span class="op">=</span> <span class="fl">0.045</span>        <span class="co"># assumption: USD per vCPU-hour, general-purpose on-demand instance</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>PRICE_GPU_HOUR <span class="op">=</span> <span class="fl">1.00</span>          <span class="co"># assumption: USD per hour for a single-GPU instance</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>PRICE_LAMBDA_GB_S <span class="op">=</span> <span class="fl">0.0000167</span>  <span class="co"># assumption: USD per GB-second of serverless function time</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>runs <span class="op">=</span> {</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"1 vCPU, sequential"</span>: (serial_s <span class="op">/</span> SUB <span class="op">*</span> n_pix, <span class="dv">1</span>, <span class="st">"vcpu"</span>),</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"8 vCPUs, Dask"</span>: (dask_full, <span class="dv">8</span>, <span class="st">"vcpu"</span>),</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"8 batch jobs (1 vCPU each)"</span>: (job_cpu_s <span class="op">/</span> <span class="dv">8</span>, <span class="dv">8</span>, <span class="st">"vcpu"</span>),</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"8 serverless functions (2 GB each)"</span>: (job_cpu_s <span class="op">/</span> <span class="dv">8</span>, <span class="dv">8</span>, <span class="st">"lambda"</span>),</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> GPU:</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    runs[<span class="st">"1 GPU instance"</span>] <span class="op">=</span> (gpu_full, <span class="dv">1</span>, <span class="st">"gpu"</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, (seconds, n, kind) <span class="kw">in</span> runs.items():</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    cost <span class="op">=</span> (seconds <span class="op">/</span> <span class="dv">3600</span> <span class="op">*</span> n <span class="op">*</span> PRICE_VCPU_HOUR <span class="cf">if</span> kind <span class="op">==</span> <span class="st">"vcpu"</span> <span class="cf">else</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>            seconds <span class="op">/</span> <span class="dv">3600</span> <span class="op">*</span> PRICE_GPU_HOUR <span class="cf">if</span> kind <span class="op">==</span> <span class="st">"gpu"</span> <span class="cf">else</span> seconds <span class="op">*</span> n <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> PRICE_LAMBDA_GB_S)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"setup"</span>: name, <span class="st">"wall time s"</span>: seconds, <span class="st">"resource-seconds"</span>: seconds <span class="op">*</span> n, <span class="st">"cost USD (illustrative)"</span>: cost,</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"cost per 1,000 runs USD"</span>: cost <span class="op">*</span> <span class="dv">1000</span>})</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).set_index(<span class="st">"setup"</span>).<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">wall time s</th>
+<th data-quarto-table-cell-role="th">resource-seconds</th>
+<th data-quarto-table-cell-role="th">cost USD (illustrative)</th>
+<th data-quarto-table-cell-role="th">cost per 1,000 runs USD</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">setup</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1 vCPU, sequential</th>
+<td>99.2582</td>
+<td>99.2582</td>
+<td>0.0012</td>
+<td>1.2407</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">8 vCPUs, Dask</th>
+<td>20.0724</td>
+<td>160.5790</td>
+<td>0.0020</td>
+<td>2.0072</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8 batch jobs (1 vCPU each)</th>
+<td>16.5775</td>
+<td>132.6204</td>
+<td>0.0017</td>
+<td>1.6578</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">8 serverless functions (2 GB each)</th>
+<td>16.5775</td>
+<td>132.6204</td>
+<td>0.0044</td>
+<td>4.4295</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1 GPU instance</th>
+<td>9.9080</td>
+<td>9.9080</td>
+<td>0.0028</td>
+<td>2.7522</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The 8 independent jobs finished in 17.1 s, slightly faster than Dask (20.1 s) because they skip the scheduler. Each job took about 16-17 s against roughly 12 s if it had the machine to itself: the memory-bandwidth contention of Section 6 again. Re-running did nothing (0.1 s), because every job found its completion record. After one record was deleted, only that job ran again (13.3 s). This is what makes retries and spot or preemptible instances safe.</p>
+<p>With the illustrative prices, the whole national trend costs a fraction of a cent per run, from USD 0.0012 (one vCPU, sequential) to 0.0044 (eight serverless functions). For a job this size the price hardly matters: time and simplicity decide. The ranking matters at scale:</p>
+<ul>
+<li><strong>Parallel CPU runs</strong> cost more than sequential ones, because imperfect scaling wastes resource-seconds: 161 against 99 vCPU-seconds.</li>
+<li><strong>Serverless</strong> charges a premium for its convenience.</li>
+<li><strong>A GPU</strong> is fastest, and cheaper per run than parallel CPU only when it is kept busy.</li>
+</ul>
+<p>Before scaling out to many machines, remember what the measurements showed. Most of the gain came from using this machine well (processes, the right chunk size, a GPU), and the network, not the number of cores, limited remote reads. Scale out when one machine’s memory, disk or bandwidth is exhausted, and move the computation to the data’s region rather than the data to the computation.</p>
+<div id="352f0050" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T02:48:14.536953Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T02:48:14.536864Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T02:48:14.603815Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T02:48:14.603261Z&quot;}}" data-execution_count="13">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean temporary arrays and job shards; keep durable outputs</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> OUT.glob(<span class="st">"*.zarr"</span>):</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    shutil.rmtree(p)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> [OUT <span class="op">/</span> <span class="st">"anomalies.npy"</span>, OUT <span class="op">/</span> <span class="st">"subset.npy"</span>]:</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    p.unlink()</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>shutil.rmtree(jobs_dir)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"kept:"</span>, <span class="bu">sorted</span>(p.name <span class="cf">for</span> p <span class="kw">in</span> OUT.iterdir()))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>kept: ['ndvi_anomaly_trend.tif', 'trend_job.py']</code></pre>
+</div>
+</div>
+</section>
+<section id="summary-and-exercises" class="level2">
+<h2 class="anchored" data-anchor-id="summary-and-exercises">Summary and exercises</h2>
+<p><strong>Key ideas</strong></p>
+<ul>
+<li>Measure first: the slow part may be reading, memory bandwidth or the network rather than arithmetic.</li>
+<li>Dask builds lazy, chunked pipelines that run on threads, processes or clusters with the same code.</li>
+<li>Chunk shape decides which reads are cheap: chunk for the access pattern you serve.</li>
+<li>Processes avoid the GIL; speed-up then stops at a limit set by the hardware (Amdahl’s law in practice).</li>
+<li>GPUs suit regular, data-parallel kernels; CuPy runs NumPy-style code on them with few changes.</li>
+<li>Batch jobs that are independent and idempotent are the unit of serverless and cloud batch processing; cost follows resource-time.</li>
+</ul>
+<p><strong>What we measured on one laptop-class machine (16 cores, one GPU)</strong></p>
+<ul>
+<li><strong>Reading 572 images:</strong> 3.3 s serially, 4.4 s with threads (GIL), 0.66 s with 8 processes.</li>
+<li><strong>Zarr chunks:</strong> a pixel’s time series took 182 ms chunked by date against 5.5 ms chunked by space; a single map the reverse (1.1 against 41 ms).</li>
+<li><strong>Theil-Sen on 145,672 pixels:</strong> 99 s on one core, 20.1 s with Dask (4.9×), 9.9 s on the GPU (10×). Dask scaling flattened beyond 4-8 workers (memory bandwidth).</li>
+<li><strong>Result:</strong> 69.5% of land pixels greened by more than 0.02 NDVI per decade; browning followed rivers and cities.</li>
+<li><strong>Remote reads:</strong> the network saturated at about 5 MB/s, so 8 threads gave 2.5× and 16 no more.</li>
+<li><strong>Batch jobs:</strong> 8 independent, idempotent jobs took 17.1 s and re-ran only what was missing; a full run costs well under one US cent at illustrative prices.</li>
+</ul>
+<p><strong>Exercises</strong></p>
+<ol type="1">
+<li>Replace <code>nanmedian</code> by <code>np.partition</code>-based medians (no NaNs after filtering). How much faster is the CPU kernel, and does the Dask speed-up curve change?</li>
+<li>Compute the Mann-Kendall statistic alongside the Theil-Sen slope on the GPU, and map pixels with significant trends (take care: monthly anomalies are autocorrelated).</li>
+<li>Rechunk the Zarr store to (572, 128, 128) with <code>dask.array.rechunk</code> and repeat the read timings of Section 5. What is the trade-off?</li>
+<li>Run Section 9 with rasterio instead of GDAL in the threads. Explain the difference.</li>
+<li>Using the illustrative prices, at how many runs per month does buying a GPU workstation pay off?</li>
+</ol>
+<p><strong>References</strong></p>
+<ul>
+<li>Rocklin, M. (2015). Dask: Parallel computation with blocked algorithms and task scheduling. <em>Proc. 14th Python in Science Conference</em>, 130-136.</li>
+<li>Hoyer, S. &amp; Hamman, J. (2017). xarray: N-D labeled arrays and datasets in Python. <em>Journal of Open Research Software</em>, 5(1).</li>
+<li>Abernathey, R. P. et al.&nbsp;(2021). Cloud-native repositories for big scientific data. <em>Computing in Science &amp; Engineering</em>, 23(2), 26-35.</li>
+<li>Sen, P. K. (1968). Estimates of the regression coefficient based on Kendall’s tau. <em>JASA</em>, 63, 1379-1389.</li>
+<li>Okuta, R. et al.&nbsp;(2017). CuPy: A NumPy-compatible library for NVIDIA GPU calculations. <em>Proc. LearningSys, NIPS</em>.</li>
+<li>Amdahl, G. M. (1967). Validity of the single processor approach to achieving large scale computing capabilities. <em>AFIPS Conference Proceedings</em>, 30, 483-485.</li>
+</ul>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./07_07_web_apps.html" class="pagination-link" aria-label="Web Apps">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Web Apps</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./07_09_cloud_platforms.html" class="pagination-link" aria-label="Cloud Platforms">
+        <span class="nav-page-text">Cloud Platforms</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

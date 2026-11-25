@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>cloud_platforms – GeoLattice: Web &amp; Cloud GIS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./07_10_devops_geospatial.html" rel="next">
+<link href="./07_08_scalable_processing.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GeoLattice: Web &amp; Cloud GIS</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
+        <li class="dropdown-header">Cloud-Native Data</li>
+        <li>
+    <a class="dropdown-item" href="./07_00_introduction_web_cloud_gis.html">
+ <span class="dropdown-text">Web and Cloud GIS</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_01_cloud_native_raster.html">
+ <span class="dropdown-text">Cloud-Native Rasters</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_02_cloud_native_vector.html">
+ <span class="dropdown-text">Cloud-Native Vectors</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_03_spatial_sql.html">
+ <span class="dropdown-text">Spatial SQL</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Maps, Services and Apps</li>
+        <li>
+    <a class="dropdown-item" href="./07_04_interactive_web_maps.html">
+ <span class="dropdown-text">Interactive Web Maps</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_05_serving_maps.html">
+ <span class="dropdown-text">Serving Maps</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_06_geospatial_apis.html">
+ <span class="dropdown-text">Geospatial APIs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_07_web_apps.html">
+ <span class="dropdown-text">Web Apps</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Scale and Operations</li>
+        <li>
+    <a class="dropdown-item" href="./07_08_scalable_processing.html">
+ <span class="dropdown-text">Scalable Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_09_cloud_platforms.html">
+ <span class="dropdown-text">Cloud Platforms</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_10_devops_geospatial.html">
+ <span class="dropdown-text">DevOps for Geospatial Pipelines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_11_capstone.html">
+ <span class="dropdown-text">Capstone: Haor Flood Monitor</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_08_scalable_processing.html"><strong>Scale and Operations</strong></a></li><li class="breadcrumb-item"><a href="./07_09_cloud_platforms.html">Cloud Platforms</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_08_scalable_processing.html"><strong>Scale and Operations</strong></a></li><li class="breadcrumb-item"><a href="./07_09_cloud_platforms.html">Cloud Platforms</a></li></ol></nav></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Cloud-Native Data</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_00_introduction_web_cloud_gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Web and Cloud GIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_01_cloud_native_raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cloud-Native Rasters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_02_cloud_native_vector.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cloud-Native Vectors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_03_spatial_sql.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial SQL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Maps, Services and Apps</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_04_interactive_web_maps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interactive Web Maps</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_05_serving_maps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Serving Maps</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_06_geospatial_apis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geospatial APIs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_07_web_apps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Web Apps</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Scale and Operations</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_08_scalable_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Scalable Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_09_cloud_platforms.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Cloud Platforms</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_10_devops_geospatial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DevOps for Geospatial Pipelines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_11_capstone.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capstone: Haor Flood Monitor</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#cloud-platforms-planetary-computer-earth-engine-and-copernicus-openeo" id="toc-cloud-platforms-planetary-computer-earth-engine-and-copernicus-openeo" class="nav-link active" data-scroll-target="#cloud-platforms-planetary-computer-earth-engine-and-copernicus-openeo">Cloud Platforms: Planetary Computer, Earth Engine and Copernicus openEO</a>
+  <ul>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#contents" id="toc-contents" class="nav-link" data-scroll-target="#contents">Contents</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#the-platform-landscape" id="toc-the-platform-landscape" class="nav-link" data-scroll-target="#the-platform-landscape">The platform landscape</a></li>
+  <li><a href="#three-catalogues-one-question" id="toc-three-catalogues-one-question" class="nav-link" data-scroll-target="#three-catalogues-one-question">Three catalogues, one question</a></li>
+  <li><a href="#same-scene-different-numbers-the-sentinel-2-offset" id="toc-same-scene-different-numbers-the-sentinel-2-offset" class="nav-link" data-scroll-target="#same-scene-different-numbers-the-sentinel-2-offset">Same scene, different numbers: the Sentinel-2 offset</a></li>
+  <li><a href="#compute-next-to-the-catalogue-a-cloud-free-composite-with-odc-stac" id="toc-compute-next-to-the-catalogue-a-cloud-free-composite-with-odc-stac" class="nav-link" data-scroll-target="#compute-next-to-the-catalogue-a-cloud-free-composite-with-odc-stac">Compute next to the catalogue: a cloud-free composite with odc-stac</a></li>
+  <li><a href="#beyond-imagery-ready-made-global-layers-for-a-haor-district" id="toc-beyond-imagery-ready-made-global-layers-for-a-haor-district" class="nav-link" data-scroll-target="#beyond-imagery-ready-made-global-layers-for-a-haor-district">Beyond imagery: ready-made global layers for a haor district</a></li>
+  <li><a href="#server-side-processing-with-openeo" id="toc-server-side-processing-with-openeo" class="nav-link" data-scroll-target="#server-side-processing-with-openeo">Server-side processing with openEO</a></li>
+  <li><a href="#google-earth-engine" id="toc-google-earth-engine" class="nav-link" data-scroll-target="#google-earth-engine">Google Earth Engine</a></li>
+  <li><a href="#choosing-a-platform" id="toc-choosing-a-platform" class="nav-link" data-scroll-target="#choosing-a-platform">Choosing a platform</a></li>
+  <li><a href="#summary-and-exercises" id="toc-summary-and-exercises" class="nav-link" data-scroll-target="#summary-and-exercises">Summary and exercises</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p style="text-align:center">
+<img src="images/08_web_gis.png" alt="Web and Cloud GIS" width="100%">
+</p>
+<section id="cloud-platforms-planetary-computer-earth-engine-and-copernicus-openeo" class="level1">
+<h1>Cloud Platforms: Planetary Computer, Earth Engine and Copernicus openEO</h1>
+<p>Petabytes of Earth observation data now sit in public clouds next to computers you can rent. Several platforms package that data, and they differ in where your code runs:</p>
+<ul>
+<li><strong>Catalogue plus your own compute.</strong> Microsoft Planetary Computer, Earth Search on AWS and the Copernicus Data Space Ecosystem publish STAC catalogues of cloud-optimised files. You read them with open tools (pystac-client, odc-stac, rasterio, <code>geolattice</code>) from your laptop or, better, from a machine in the same region.</li>
+<li><strong>Server-side processing.</strong> Google Earth Engine and openEO (on Copernicus Data Space and other back ends) accept a description of the computation and run it on their infrastructure; only results come back.</li>
+</ul>
+<p>This notebook works through each kind on Bangladesh. It compares three STAC catalogues on the same query, finds that they deliver <strong>different numbers for the same Sentinel-2 pixels</strong>, builds a cloud-free NDVI composite with odc-stac, summarises land cover, elevation and surface water for a haor district from Planetary Computer, and expresses the same composite as an openEO process graph and as Earth Engine code.</p>
+<section id="learning-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
+<ol type="1">
+<li>Distinguish catalogue-based from server-side cloud platforms, and what each costs in access, egress and lock-in.</li>
+<li>Search several STAC catalogues for the same data and compare what they return.</li>
+<li>Detect and correct differences in how providers store Sentinel-2 reflectance (the BOA offset).</li>
+<li>Load STAC items lazily into xarray with odc-stac, mask clouds and build composites.</li>
+<li>Use analysis-ready global datasets (ESA WorldCover, Copernicus DEM, JRC Global Surface Water).</li>
+<li>Express the same analysis for openEO and Earth Engine, and judge when to use them.</li>
+</ol>
+</section>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Data</th>
+<th>Platform</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sentinel-2 L2A, January-March 2024, over Bogra town and surrounding rice land</td>
+<td>Planetary Computer, Earth Search (AWS), Copernicus Data Space</td>
+</tr>
+<tr class="even">
+<td>ESA WorldCover 2021 (10 m), Copernicus DEM GLO-30, JRC Global Surface Water</td>
+<td>Planetary Computer</td>
+</tr>
+<tr class="odd">
+<td>District boundaries of Bangladesh</td>
+<td><code>Data/00_shared/data_web_cloud_gis/08_03_outputs/districts.gpkg</code> (Notebook 08_03)</td>
+</tr>
+</tbody>
+</table>
+<p>Everything in this notebook runs without an account except the execution of the openEO and Earth Engine computations, which need free registrations (Sections 7 and 8 explain how to enable them). Install: <code>pip install pystac-client planetary-computer odc-stac openeo earthengine-api</code>.</p>
+</section>
+<section id="contents" class="level3">
+<h3 class="anchored" data-anchor-id="contents">Contents</h3>
+<ol type="1">
+<li>Setup</li>
+<li>The platform landscape</li>
+<li>Three catalogues, one question</li>
+<li>Same scene, different numbers: the Sentinel-2 offset</li>
+<li>Compute next to the catalogue: a cloud-free composite with odc-stac</li>
+<li>Beyond imagery: ready-made global layers for a haor district</li>
+<li>Server-side processing with openEO</li>
+<li>Google Earth Engine</li>
+<li>Choosing a platform</li>
+<li>Summary and exercises</li>
+</ol>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p><strong>Installation.</strong> This notebook needs installation option 6 (every GeoLattice module): <code>pip install "geolattice[all]"</code>. See “Installation options” in the GeoLattice README. It also uses <code>geolattice[rsense-biopar]</code>, which no GeoLattice option installs: <code>pip install "geolattice[rsense-biopar]"</code>.</p>
+<div id="456ee788" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T10:59:53.686163Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T10:59:53.685923Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T10:59:55.992655Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T10:59:55.992036Z&quot;}}" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Imports, plot defaults, and output folder for this notebook</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Geospatial and cloud-STAC stack used below</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.warp <span class="im">import</span> transform_bounds</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.windows <span class="im">import</span> from_bounds</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pystac_client</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> planetary_computer</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> odc.stac</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray  <span class="co"># noqa: F401  (adds .rio to xarray)</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> openeo</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ee</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.web <span class="im">as</span> web</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">"figure.dpi"</span>: <span class="dv">110</span>})</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> Path(<span class="st">"../../../Data"</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>WEB <span class="op">=</span> DATA <span class="op">/</span> <span class="st">"00_shared"</span> <span class="op">/</span> <span class="st">"data_web_cloud_gis"</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>OUT <span class="op">=</span> WEB <span class="op">/</span> <span class="st">"08_09_outputs"</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Fresh output directory each run; districts come from Notebook 08_03</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> OUT.exists():</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    shutil.rmtree(OUT)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>OUT.mkdir(parents<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> (WEB <span class="op">/</span> <span class="st">"08_03_outputs"</span> <span class="op">/</span> <span class="st">"districts.gpkg"</span>).exists():</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">FileNotFoundError</span>(<span class="st">"districts.gpkg is missing: run Notebook 08_03 first"</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>AOI <span class="op">=</span> [<span class="fl">89.30</span>, <span class="fl">24.80</span>, <span class="fl">89.42</span>, <span class="fl">24.90</span>]            <span class="co"># 12 x 11 km: Bogra town and the rice land around it</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>SEASON <span class="op">=</span> <span class="st">"2024-01-01/2024-03-31"</span>              <span class="co"># dry (Boro rice) season</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"geolattice"</span>, geolattice.__version__, <span class="st">"| odc-stac"</span>, odc.stac.__version__, <span class="st">"| openeo"</span>, openeo.__version__, <span class="st">"| earthengine-api"</span>, ee.__version__)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>geolattice 0.3.11 | odc-stac 0.5.3 | openeo 0.53.0 | earthengine-api 1.7.49</code></pre>
+</div>
+</div>
+</section>
+<section id="the-platform-landscape" class="level2">
+<h2 class="anchored" data-anchor-id="the-platform-landscape">The platform landscape</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Platform</th>
+<th>Data</th>
+<th>Where the code runs</th>
+<th>Access</th>
+<th>Cost to you</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Microsoft Planetary Computer</strong></td>
+<td>~130 datasets as COG, Zarr, GeoParquet; STAC API</td>
+<td>Anywhere; fastest in Azure West Europe</td>
+<td>Anonymous, URLs signed by <code>planetary-computer</code></td>
+<td>Free data; your compute; egress is Microsoft’s</td>
+</tr>
+<tr class="even">
+<td><strong>Earth Search (Element 84, AWS Open Data)</strong></td>
+<td>Sentinel-1/2, Landsat, Copernicus DEM, NAIP as COGs; STAC API</td>
+<td>Anywhere; fastest in AWS us-west-2</td>
+<td>Anonymous</td>
+<td>Free data; your compute</td>
+</tr>
+<tr class="odd">
+<td><strong>Copernicus Data Space Ecosystem (CDSE)</strong></td>
+<td>The complete Copernicus archive; STAC API; S3</td>
+<td>Anywhere; or its JupyterHub, openEO, Sentinel Hub</td>
+<td>Free account for downloads and processing</td>
+<td>Free quotas, paid beyond</td>
+</tr>
+<tr class="even">
+<td><strong>Google Earth Engine</strong></td>
+<td>Multi-petabyte catalogue, ingested into Google’s own format</td>
+<td>Google’s servers (server-side API)</td>
+<td>Google Cloud project, registered for Earth Engine</td>
+<td>Free for non-commercial and research use; commercial licences</td>
+</tr>
+<tr class="odd">
+<td><strong>openEO</strong> (CDSE, VITO, EODC, …)</td>
+<td>The back end’s collections</td>
+<td>The back end’s servers, through a standard API</td>
+<td>Account with the back end</td>
+<td>Credits; free tier on CDSE</td>
+</tr>
+<tr class="even">
+<td><strong>AWS / Azure / GCP compute</strong></td>
+<td>Any of the above</td>
+<td>Virtual machines, Kubernetes, batch, serverless</td>
+<td>Cloud account</td>
+<td>Pay for compute; read data in the same region</td>
+</tr>
+</tbody>
+</table>
+<p>The trade-off: catalogue platforms give you the files and complete freedom over the analysis, with open tools that move between providers; server-side platforms remove data handling and scale automatically, but the analysis is written in their API and runs only there.</p>
+</section>
+<section id="three-catalogues-one-question" class="level2">
+<h2 class="anchored" data-anchor-id="three-catalogues-one-question">Three catalogues, one question</h2>
+<p>The same search on three STAC APIs: Sentinel-2 L2A scenes over the Bogra area, January to March 2024, under 5 % cloud.</p>
+<div id="ee190c3e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T10:59:55.994855Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T10:59:55.994579Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T11:00:00.789801Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T11:00:00.788955Z&quot;}}" data-execution_count="2">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Search three STAC catalogues for the same Sentinel-2 season and AOI</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>catalogues <span class="op">=</span> {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Planetary Computer"</span>: (<span class="st">"https://planetarycomputer.microsoft.com/api/stac/v1"</span>, planetary_computer.sign_inplace, <span class="st">"B04"</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Earth Search (AWS)"</span>: (<span class="st">"https://earth-search.aws.element84.com/v1"</span>, <span class="va">None</span>, <span class="st">"red"</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Copernicus Data Space"</span>: (<span class="st">"https://stac.dataspace.copernicus.eu/v1"</span>, <span class="va">None</span>, <span class="st">"B04_10m"</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>found, rows <span class="op">=</span> {}, []</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, (url, modifier, red) <span class="kw">in</span> catalogues.items():</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Open the catalogue and keep scenes with cloud cover under 5 %</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        client <span class="op">=</span> pystac_client.Client.<span class="bu">open</span>(url, modifier<span class="op">=</span>modifier)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        items <span class="op">=</span> <span class="bu">sorted</span>(client.search(collections<span class="op">=</span>[<span class="st">"sentinel-2-l2a"</span>], bbox<span class="op">=</span>AOI, datetime<span class="op">=</span>SEASON,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                                     query<span class="op">=</span>{<span class="st">"eo:cloud_cover"</span>: {<span class="st">"lt"</span>: <span class="dv">5</span>}}).items(), key<span class="op">=</span><span class="kw">lambda</span> i: i.datetime)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> exc:</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(name, <span class="st">"failed:"</span>, <span class="bu">type</span>(exc).<span class="va">__name__</span>, exc)<span class="op">;</span> <span class="cf">continue</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    seconds <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    found[name] <span class="op">=</span> items</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Summarize hit count, timing, dates, and where the red band is hosted</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    href <span class="op">=</span> items[<span class="dv">0</span>].assets[red].href</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"catalogue"</span>: name, <span class="st">"scenes"</span>: <span class="bu">len</span>(items), <span class="st">"search s"</span>: <span class="bu">round</span>(seconds, <span class="dv">1</span>),</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"dates"</span>: <span class="st">", "</span>.join(<span class="bu">sorted</span>({i.datetime.strftime(<span class="st">"%m-</span><span class="sc">%d</span><span class="st">"</span>) <span class="cf">for</span> i <span class="kw">in</span> items})),</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"red band served as"</span>: href.split(<span class="st">"://"</span>)[<span class="dv">0</span>] <span class="op">+</span> <span class="st">"://"</span> <span class="op">+</span> href.split(<span class="st">"/"</span>)[<span class="dv">2</span>][:<span class="dv">38</span>] <span class="op">+</span> <span class="st">"..."</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"first scene id"</span>: items[<span class="dv">0</span>].<span class="bu">id</span>})</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).set_index(<span class="st">"catalogue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">scenes</th>
+<th data-quarto-table-cell-role="th">search s</th>
+<th data-quarto-table-cell-role="th">dates</th>
+<th data-quarto-table-cell-role="th">red band served as</th>
+<th data-quarto-table-cell-role="th">first scene id</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">catalogue</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Planetary Computer</th>
+<td>7</td>
+<td>1.6</td>
+<td>01-04, 02-03, 02-18, 02-23, 02-28, 03-09</td>
+<td>https://sentinel2l2a01.blob.core.windows.net...</td>
+<td>S2B_MSIL2A_20240104T044209_R033_T45RYH_2024010...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Earth Search (AWS)</th>
+<td>6</td>
+<td>0.8</td>
+<td>01-04, 02-03, 02-18, 02-23, 02-28, 03-09</td>
+<td>https://sentinel-cogs.s3.us-west-2.amazonaws.c...</td>
+<td>S2B_45RYH_20240104_0_L2A</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Copernicus Data Space</th>
+<td>6</td>
+<td>2.3</td>
+<td>01-04, 02-03, 02-18, 02-23, 02-28, 03-09</td>
+<td>s3://eodata...</td>
+<td>S2B_MSIL2A_20240104T044209_N0510_R033_T45RYH_2...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>All three catalogues answered in 0.8-2.3 s and found the same six acquisition dates, but they are not the same thing:</p>
+<ul>
+<li><strong>Planetary Computer</strong> returned 7 items for 6 dates: one date is listed twice, as two processing runs of the same acquisition. Its files are on Azure Blob Storage, reached through signed URLs.</li>
+<li><strong>Earth Search</strong> returned 6 items with short identifiers, and public HTTPS URLs on S3.</li>
+<li><strong>Copernicus Data Space</strong> returned 6 items whose files are <code>s3://eodata</code> paths, which need CDSE credentials to read.</li>
+</ul>
+<p>A pipeline that mixes catalogues has to deduplicate by acquisition, not by item ID.</p>
+</section>
+<section id="same-scene-different-numbers-the-sentinel-2-offset" class="level2">
+<h2 class="anchored" data-anchor-id="same-scene-different-numbers-the-sentinel-2-offset">Same scene, different numbers: the Sentinel-2 offset</h2>
+<p>Since processing baseline 04.00 (January 2022), ESA stores Sentinel-2 L2A reflectance with an offset: reflectance = (DN − 1000) / 10000, so that dark pixels are not clipped at zero. Providers handle this differently. We read the same 12 × 11 km window of the red and near-infrared bands of the same scene (9 March 2024) from Planetary Computer and Earth Search.</p>
+<div id="c1de0bf1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T11:00:00.791874Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T11:00:00.791780Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T11:00:16.093638Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T11:00:16.092493Z&quot;}}" data-execution_count="3">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pick the latest date present in both Planetary Computer and Earth Search</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pc_items <span class="op">=</span> {i.datetime.date(): i <span class="cf">for</span> i <span class="kw">in</span> found[<span class="st">"Planetary Computer"</span>]}</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>es_items <span class="op">=</span> {i.datetime.date(): i <span class="cf">for</span> i <span class="kw">in</span> found[<span class="st">"Earth Search (AWS)"</span>]}</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>day <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">set</span>(pc_items) <span class="op">&amp;</span> <span class="bu">set</span>(es_items))[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>pc_item, es_item <span class="op">=</span> pc_items[day], es_items[day]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Window-read one band over the AOI without downloading the full COG</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> window(href):</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> rasterio.Env(GDAL_DISABLE_READDIR_ON_OPEN<span class="op">=</span><span class="st">"EMPTY_DIR"</span>, AWS_NO_SIGN_REQUEST<span class="op">=</span><span class="st">"YES"</span>):</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> rasterio.<span class="bu">open</span>(href) <span class="im">as</span> src:</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> src.read(<span class="dv">1</span>, window<span class="op">=</span>from_bounds(<span class="op">*</span>transform_bounds(<span class="dv">4326</span>, src.crs, <span class="op">*</span>AOI), src.transform)).astype(<span class="st">"float64"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>bands <span class="op">=</span> {<span class="st">"PC red"</span>: window(pc_item.assets[<span class="st">"B04"</span>].href), <span class="st">"PC nir"</span>: window(pc_item.assets[<span class="st">"B08"</span>].href),</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>         <span class="st">"ES red"</span>: window(es_item.assets[<span class="st">"red"</span>].href), <span class="st">"ES nir"</span>: window(es_item.assets[<span class="st">"nir"</span>].href)}</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare digital numbers where both catalogues have valid pixels</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>valid <span class="op">=</span> np.<span class="bu">all</span>([b <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">for</span> b <span class="kw">in</span> bands.values()], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>diff <span class="op">=</span> bands[<span class="st">"PC red"</span>][valid] <span class="op">-</span> bands[<span class="st">"ES red"</span>][valid]</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"scene </span><span class="sc">{</span>day<span class="sc">}</span><span class="ss">: PC </span><span class="sc">{</span>pc_item<span class="sc">.</span><span class="bu">id</span><span class="sc">}</span><span class="ss"> | ES </span><span class="sc">{</span>es_item<span class="sc">.</span><span class="bu">id</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"processing baseline: PC </span><span class="sc">{</span>pc_item<span class="sc">.</span>properties<span class="sc">.</span>get(<span class="st">'s2:processing_baseline'</span>)<span class="sc">}</span><span class="ss">, ES </span><span class="sc">{</span>es_item<span class="sc">.</span>properties<span class="sc">.</span>get(<span class="st">'s2:processing_baseline'</span>)<span class="sc">}</span><span class="ss">; "</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"ES 'earthsearch:boa_offset_applied' = </span><span class="sc">{</span>es_item<span class="sc">.</span>properties<span class="sc">.</span>get(<span class="st">'earthsearch:boa_offset_applied'</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"PC red minus ES red: median </span><span class="sc">{</span>np<span class="sc">.</span>median(diff)<span class="sc">:.0f}</span><span class="ss">, range </span><span class="sc">{</span>diff<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:.0f}</span><span class="ss"> to </span><span class="sc">{</span>diff<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.0f}</span><span class="ss"> (DN), </span><span class="sc">{</span>valid<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">:,}</span><span class="ss"> pixels"</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ES metadata for the red band:"</span>, es_item.assets[<span class="st">"red"</span>].extra_fields.get(<span class="st">"raster:bands"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>scene 2024-03-09: PC S2A_MSIL2A_20240309T043701_R033_T45RYH_20240309T091651 | ES S2A_45RYH_20240309_0_L2A
+processing baseline: PC 05.10, ES 05.10; ES 'earthsearch:boa_offset_applied' = True
+PC red minus ES red: median 1000, range 800 to 1288 (DN), 1,390,928 pixels
+ES metadata for the red band: [{'nodata': 0, 'data_type': 'uint16', 'bits_per_sample': 15, 'spatial_resolution': 10, 'scale': 0.0001, 'offset': -0.1}]</code></pre>
+</div>
+</div>
+<div id="32fbd295" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T11:00:16.095698Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T11:00:16.095596Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T11:00:16.254664Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T11:00:16.254227Z&quot;}}" data-execution_count="4">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NDVI from the same pixels under correct and incorrect reflectance recipes</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ndvi(red, nir):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (nir <span class="op">-</span> red) <span class="op">/</span> (nir <span class="op">+</span> red)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>recipes <span class="op">=</span> {</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PC, DN used as is (wrong)"</span>: ndvi(bands[<span class="st">"PC red"</span>], bands[<span class="st">"PC nir"</span>]),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PC, (DN - 1000) / 10000 (correct)"</span>: ndvi(bands[<span class="st">"PC red"</span>] <span class="op">-</span> <span class="dv">1000</span>, bands[<span class="st">"PC nir"</span>] <span class="op">-</span> <span class="dv">1000</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ES, DN / 10000 (correct: offset already applied)"</span>: ndvi(bands[<span class="st">"ES red"</span>], bands[<span class="st">"ES nir"</span>]),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ES, metadata scale and offset applied (wrong: offset twice)"</span>: ndvi(bands[<span class="st">"ES red"</span>] <span class="op">*</span> <span class="fl">1e-4</span> <span class="op">-</span> <span class="fl">0.1</span>, bands[<span class="st">"ES nir"</span>] <span class="op">*</span> <span class="fl">1e-4</span> <span class="op">-</span> <span class="fl">0.1</span>),</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Score each recipe against the correct Earth Search scaling</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>reference <span class="op">=</span> recipes[<span class="st">"ES, DN / 10000 (correct: offset already applied)"</span>][valid]</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, v <span class="kw">in</span> recipes.items():</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> v[valid]</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    ok <span class="op">=</span> np.isfinite(v) <span class="op">&amp;</span> (np.<span class="bu">abs</span>(v) <span class="op">&lt;=</span> <span class="dv">1</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"recipe"</span>: name, <span class="st">"median NDVI"</span>: np.median(v[ok]), <span class="st">"median abs. difference from correct"</span>: np.median(np.<span class="bu">abs</span>(v <span class="op">-</span> reference)),</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"impossible values (|NDVI| &gt; 1 or infinite)"</span>: <span class="dv">1</span> <span class="op">-</span> ok.mean(), <span class="st">"share of pixels NDVI &gt; 0.5"</span>: (v[ok] <span class="op">&gt;</span> <span class="fl">0.5</span>).mean()})</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).set_index(<span class="st">"recipe"</span>).<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">median NDVI</th>
+<th data-quarto-table-cell-role="th">median abs. difference from correct</th>
+<th data-quarto-table-cell-role="th">impossible values (|NDVI| &gt; 1 or infinite)</th>
+<th data-quarto-table-cell-role="th">share of pixels NDVI &gt; 0.5</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">recipe</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">PC, DN used as is (wrong)</th>
+<td>0.224</td>
+<td>0.179</td>
+<td>0.00</td>
+<td>0.013</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">PC, (DN - 1000) / 10000 (correct)</th>
+<td>0.406</td>
+<td>0.000</td>
+<td>0.00</td>
+<td>0.349</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">ES, DN / 10000 (correct: offset already applied)</th>
+<td>0.406</td>
+<td>0.000</td>
+<td>0.00</td>
+<td>0.349</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">ES, metadata scale and offset applied (wrong: offset twice)</th>
+<td>0.573</td>
+<td>1.433</td>
+<td>0.77</td>
+<td>0.578</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The two copies of the same scene, at the same processing baseline (05.10), differ by a median of <strong>exactly 1,000 DN</strong>:</p>
+<ul>
+<li><strong>Planetary Computer</strong> delivers ESA’s original values, with the offset still in them.</li>
+<li><strong>Earth Search</strong> has subtracted it (<code>boa_offset_applied: true</code>), yet its STAC metadata still advertises <code>offset: -0.1</code>.</li>
+</ul>
+<p>Individual pixels differ by 800 to 1,288, so the two copies are not bit-identical apart from the offset either.</p>
+<p>The consequences for NDVI:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Recipe</th>
+<th>Median NDVI</th>
+<th>Pixels above 0.5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Correct, from either source</td>
+<td>0.406</td>
+<td>34.9%</td>
+</tr>
+<tr class="even">
+<td>Planetary Computer DN used as is</td>
+<td>0.224</td>
+<td>1.3%</td>
+</tr>
+<tr class="odd">
+<td>Earth Search metadata offset applied (offset subtracted twice)</td>
+<td>: (77% of pixels impossible)</td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table>
+<p>Using Planetary Computer’s DN as is understates NDVI by 0.18. With the offset subtracted twice, 77% of pixels get impossible NDVI values (beyond ±1 or infinite).</p>
+<p>The rule: read <code>s2:processing_baseline</code> and the provider’s offset convention, and test one scene from each source before mixing them.</p>
+</section>
+<section id="compute-next-to-the-catalogue-a-cloud-free-composite-with-odc-stac" class="level2">
+<h2 class="anchored" data-anchor-id="compute-next-to-the-catalogue-a-cloud-free-composite-with-odc-stac">Compute next to the catalogue: a cloud-free composite with odc-stac</h2>
+<p><code>odc.stac.load</code> turns a list of STAC items into an xarray Dataset on a common grid, lazily with Dask: only the requested bands and only the area of interest are read. We load all Planetary Computer scenes of the season with up to 20 % cloud, mask clouds, shadows and water with the scene classification layer (SCL), apply the offset, and take the per-pixel median NDVI.</p>
+<div id="8d0d39e3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T11:00:16.256245Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T11:00:16.256157Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T11:00:36.872811Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T11:00:36.872209Z&quot;}}" data-execution_count="5">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lazy-load a multi-date Sentinel-2 cube over the AOI with odc-stac</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pcc <span class="op">=</span> pystac_client.Client.<span class="bu">open</span>(<span class="st">"https://planetarycomputer.microsoft.com/api/stac/v1"</span>, modifier<span class="op">=</span>planetary_computer.sign_inplace)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>items <span class="op">=</span> <span class="bu">list</span>(pcc.search(collections<span class="op">=</span>[<span class="st">"sentinel-2-l2a"</span>], bbox<span class="op">=</span>AOI, datetime<span class="op">=</span>SEASON, query<span class="op">=</span>{<span class="st">"eo:cloud_cover"</span>: {<span class="st">"lt"</span>: <span class="dv">20</span>}}).items())</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>cube <span class="op">=</span> odc.stac.load(items, bands<span class="op">=</span>[<span class="st">"B02"</span>, <span class="st">"B03"</span>, <span class="st">"B04"</span>, <span class="st">"B08"</span>, <span class="st">"SCL"</span>], bbox<span class="op">=</span>AOI, resolution<span class="op">=</span><span class="dv">10</span>, crs<span class="op">=</span><span class="st">"EPSG:32645"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                     chunks<span class="op">=</span>{}, groupby<span class="op">=</span><span class="st">"solar_day"</span>, dtype<span class="op">=</span><span class="st">"uint16"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(items)<span class="sc">}</span><span class="ss"> items -&gt; </span><span class="sc">{</span>cube<span class="sc">.</span>sizes[<span class="st">'time'</span>]<span class="sc">}</span><span class="ss"> dates, </span><span class="sc">{</span>cube<span class="sc">.</span>sizes[<span class="st">'y'</span>]<span class="sc">}</span><span class="ss"> x </span><span class="sc">{</span>cube<span class="sc">.</span>sizes[<span class="st">'x'</span>]<span class="sc">}</span><span class="ss"> pixels; "</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"lazy dataset of </span><span class="sc">{</span>cube<span class="sc">.</span>nbytes <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.0f}</span><span class="ss"> MB defined in </span><span class="sc">{</span>time<span class="sc">.</span>perf_counter() <span class="op">-</span> t0<span class="sc">:.2f}</span><span class="ss"> s"</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>cube <span class="op">=</span> cube.compute()</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"read in </span><span class="sc">{</span>time<span class="sc">.</span>perf_counter() <span class="op">-</span> t0<span class="sc">:.1f}</span><span class="ss"> s"</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Mask to clear land, convert DN to reflectance, then build a median NDVI composite</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>clear <span class="op">=</span> cube.SCL.isin([<span class="dv">4</span>, <span class="dv">5</span>])                                     <span class="co"># SCL 4 vegetation, 5 bare soil</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>refl <span class="op">=</span> {b: ((cube[b].astype(<span class="st">"float32"</span>) <span class="op">-</span> <span class="dv">1000</span>) <span class="op">/</span> <span class="fl">1e4</span>).where(clear) <span class="cf">for</span> b <span class="kw">in</span> [<span class="st">"B02"</span>, <span class="st">"B03"</span>, <span class="st">"B04"</span>, <span class="st">"B08"</span>]}</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>nd <span class="op">=</span> (refl[<span class="st">"B08"</span>] <span class="op">-</span> refl[<span class="st">"B04"</span>]) <span class="op">/</span> (refl[<span class="st">"B08"</span>] <span class="op">+</span> refl[<span class="st">"B04"</span>])</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>composite <span class="op">=</span> nd.median(<span class="st">"time"</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>n_clear <span class="op">=</span> clear.<span class="bu">sum</span>(<span class="st">"time"</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>scl_share <span class="op">=</span> pd.Series(cube.SCL.values.ravel()).<span class="bu">map</span>({<span class="dv">0</span>: <span class="st">"no data"</span>, <span class="dv">1</span>: <span class="st">"saturated"</span>, <span class="dv">2</span>: <span class="st">"dark"</span>, <span class="dv">3</span>: <span class="st">"cloud shadow"</span>, <span class="dv">4</span>: <span class="st">"vegetation"</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>                                                     <span class="dv">5</span>: <span class="st">"bare soil"</span>, <span class="dv">6</span>: <span class="st">"water"</span>, <span class="dv">7</span>: <span class="st">"unclassified"</span>, <span class="dv">8</span>: <span class="st">"cloud (medium)"</span>,</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>                                                     <span class="dv">9</span>: <span class="st">"cloud (high)"</span>, <span class="dv">10</span>: <span class="st">"thin cirrus"</span>, <span class="dv">11</span>: <span class="st">"snow"</span>}).value_counts(normalize<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"scene classification over all dates:"</span>, (scl_share <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>).head(<span class="dv">6</span>).to_dict())</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"clear observations per pixel: median </span><span class="sc">{</span><span class="bu">int</span>(n_clear.median())<span class="sc">}</span><span class="ss">, min </span><span class="sc">{</span><span class="bu">int</span>(n_clear.<span class="bu">min</span>())<span class="sc">}</span><span class="ss">; median composite NDVI </span><span class="sc">{</span><span class="bu">float</span>(composite.median())<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>10 items -&gt; 9 dates, 1129 x 1233 pixels; lazy dataset of 125 MB defined in 0.02 s
+read in 18.5 s
+scene classification over all dates: {'bare soil': 79.4, 'vegetation': 16.2, 'unclassified': 2.5, 'cloud (medium)': 0.6, 'water': 0.5, 'thin cirrus': 0.4}
+clear observations per pixel: median 9, min 0; median composite NDVI 0.449</code></pre>
+</div>
+</div>
+<div id="059acf57" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T11:00:36.874523Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T11:00:36.874231Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T11:00:37.589213Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T11:00:37.588685Z&quot;}}" data-execution_count="6">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot true colour, median NDVI, and the area NDVI time series</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>best <span class="op">=</span> <span class="bu">int</span>(clear.mean((<span class="st">"x"</span>, <span class="st">"y"</span>)).argmax())</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>rgb <span class="op">=</span> np.stack([(cube[b].isel(time<span class="op">=</span>best).astype(<span class="st">"float32"</span>) <span class="op">-</span> <span class="dv">1000</span>) <span class="op">/</span> <span class="fl">1e4</span> <span class="cf">for</span> b <span class="kw">in</span> [<span class="st">"B04"</span>, <span class="st">"B03"</span>, <span class="st">"B02"</span>]], axis<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="fl">4.6</span>))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].imshow(np.clip(rgb <span class="op">/</span> <span class="fl">0.25</span>, <span class="dv">0</span>, <span class="dv">1</span>))<span class="op">;</span> ax[<span class="dv">0</span>].set_title(<span class="ss">f"True colour, </span><span class="sc">{</span><span class="bu">str</span>(cube.time.values[best])[:<span class="dv">10</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> ax[<span class="dv">1</span>].imshow(composite, cmap<span class="op">=</span><span class="st">"RdYlGn"</span>, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="fl">0.9</span>)<span class="op">;</span> ax[<span class="dv">1</span>].set_title(<span class="st">"Median NDVI, clear pixels, Jan-Mar 2024"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>fig.colorbar(im, ax<span class="op">=</span>ax[<span class="dv">1</span>], shrink<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>monthly <span class="op">=</span> nd.median((<span class="st">"x"</span>, <span class="st">"y"</span>)).to_series()</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">2</span>].plot(monthly.index, monthly.values, <span class="st">"o-"</span>)<span class="op">;</span> ax[<span class="dv">2</span>].set_title(<span class="st">"Median NDVI of the area by date"</span>)<span class="op">;</span> ax[<span class="dv">2</span>].set_ylim(<span class="dv">0</span>, <span class="fl">0.8</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">2</span>].tick_params(axis<span class="op">=</span><span class="st">"x"</span>, rotation<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a <span class="kw">in</span> ax[:<span class="dv">2</span>]:</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    a.set_axis_off()</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Write GeoTIFF then convert and validate a Cloud Optimized GeoTIFF</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>composite.rio.write_crs(<span class="st">"EPSG:32645"</span>).rio.to_raster(OUT <span class="op">/</span> <span class="st">"bogra_ndvi_median_2024q1.tif"</span>, compress<span class="op">=</span><span class="st">"deflate"</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(web.validate_cog(web.to_cog(OUT <span class="op">/</span> <span class="st">"bogra_ndvi_median_2024q1.tif"</span>, OUT <span class="op">/</span> <span class="st">"bogra_ndvi_median_2024q1_cog.tif"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_09_cloud_platforms_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>../../../data/data_web_cloud_gis/08_09_outputs/bogra_ndvi_median_2024q1_cog.tif: valid Cloud-Optimized GeoTIFF</code></pre>
+</div>
+</div>
+<p>odc-stac defined a 125 MB lazy dataset (9 dates, 1,129 × 1,233 pixels at 10 m) in 0.02 s and read it from Azure in 18.5 s. The scene classification shows the dry season: 79.4% of observations are classed bare soil, which includes freshly transplanted and irrigated Boro fields, and 16.2% vegetation. Clouds were rare, so every pixel had a median of 9 clear observations.</p>
+<p>The median composite (NDVI 0.449) separates Bogra town and the main roads (red) from the surrounding fields and village groves (green). The date series dips on 18 January, probably from winter haze. The composite was saved as a GeoTIFF and converted with <code>geolattice.web.to_cog</code> into a valid COG, ready for the tile server of Notebook 08_05.</p>
+</section>
+<section id="beyond-imagery-ready-made-global-layers-for-a-haor-district" class="level2">
+<h2 class="anchored" data-anchor-id="beyond-imagery-ready-made-global-layers-for-a-haor-district">Beyond imagery: ready-made global layers for a haor district</h2>
+<p>Planetary Computer also hosts analysis-ready global products. For Sunamganj district, in the haor basin of the north-east, we load three of them at 30 m: <strong>ESA WorldCover 2021</strong> (land cover), <strong>Copernicus DEM GLO-30</strong> (elevation) and <strong>JRC Global Surface Water</strong> occurrence (the share of 1984-2020 Landsat observations in which each pixel was water).</p>
+<div id="bc9f6d82" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T11:00:37.590909Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T11:00:37.590808Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T11:01:04.034479Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T11:01:04.034045Z&quot;}}" data-execution_count="7">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Sunamganj districts and pull three global layers from Planetary Computer</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>districts <span class="op">=</span> gpd.read_file(WEB <span class="op">/</span> <span class="st">"08_03_outputs"</span> <span class="op">/</span> <span class="st">"districts.gpkg"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sun <span class="op">=</span> districts[districts.district <span class="op">==</span> <span class="st">"Sunamganj"</span>]</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>bbox <span class="op">=</span> <span class="bu">list</span>(sun.total_bounds)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>layers <span class="op">=</span> {<span class="st">"esa-worldcover"</span>: (<span class="st">"map"</span>, <span class="st">"nearest"</span>), <span class="st">"cop-dem-glo-30"</span>: (<span class="st">"data"</span>, <span class="st">"bilinear"</span>), <span class="st">"jrc-gsw"</span>: (<span class="st">"occurrence"</span>, <span class="st">"nearest"</span>)}</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>grids, rows <span class="op">=</span> {}, []</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> collection, (asset, resampling) <span class="kw">in</span> layers.items():</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    its <span class="op">=</span> <span class="bu">list</span>(pcc.search(collections<span class="op">=</span>[collection], bbox<span class="op">=</span>bbox).items())</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> collection <span class="op">==</span> <span class="st">"esa-worldcover"</span>:</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        its <span class="op">=</span> [i <span class="cf">for</span> i <span class="kw">in</span> its <span class="cf">if</span> <span class="st">"2021"</span> <span class="kw">in</span> i.<span class="bu">id</span>]</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    ds <span class="op">=</span> odc.stac.load(its, bands<span class="op">=</span>[asset], bbox<span class="op">=</span>bbox, resolution<span class="op">=</span><span class="dv">30</span>, crs<span class="op">=</span><span class="st">"EPSG:32646"</span>, resampling<span class="op">=</span>resampling,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>                       chunks<span class="op">=</span>{}).isel(time<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    grid <span class="op">=</span> ds[asset].compute()</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    grids[collection] <span class="op">=</span> grid</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"layer"</span>: collection, <span class="st">"items"</span>: <span class="bu">len</span>(its), <span class="st">"grid"</span>: <span class="ss">f"</span><span class="sc">{</span>grid<span class="sc">.</span>sizes[<span class="st">'y'</span>]<span class="sc">}</span><span class="ss"> x </span><span class="sc">{</span>grid<span class="sc">.</span>sizes[<span class="st">'x'</span>]<span class="sc">}</span><span class="ss">"</span>, <span class="st">"seconds"</span>: <span class="bu">round</span>(time.perf_counter() <span class="op">-</span> t0, <span class="dv">1</span>)})</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>display(pd.DataFrame(rows).set_index(<span class="st">"layer"</span>))</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Restrict raster stats to the district polygon</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.features <span class="im">import</span> geometry_mask</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>g0 <span class="op">=</span> grids[<span class="st">"esa-worldcover"</span>]</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>inside <span class="op">=</span> geometry_mask([sun.to_crs(<span class="dv">32646</span>).geometry.iloc[<span class="dv">0</span>]], out_shape<span class="op">=</span>g0.shape, transform<span class="op">=</span>g0.odc.geobox.affine, invert<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>classes <span class="op">=</span> {<span class="dv">10</span>: <span class="st">"Tree cover"</span>, <span class="dv">20</span>: <span class="st">"Shrubland"</span>, <span class="dv">30</span>: <span class="st">"Grassland"</span>, <span class="dv">40</span>: <span class="st">"Cropland"</span>, <span class="dv">50</span>: <span class="st">"Built-up"</span>, <span class="dv">60</span>: <span class="st">"Bare / sparse"</span>,</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>           <span class="dv">70</span>: <span class="st">"Snow and ice"</span>, <span class="dv">80</span>: <span class="st">"Permanent water"</span>, <span class="dv">90</span>: <span class="st">"Herbaceous wetland"</span>, <span class="dv">95</span>: <span class="st">"Mangroves"</span>, <span class="dv">100</span>: <span class="st">"Moss and lichen"</span>}</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>lc <span class="op">=</span> pd.Series(g0.values[inside]).<span class="bu">map</span>(classes).value_counts(normalize<span class="op">=</span><span class="va">True</span>).mul(<span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>dem <span class="op">=</span> grids[<span class="st">"cop-dem-glo-30"</span>].values[inside]</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>occ_grid <span class="op">=</span> grids[<span class="st">"jrc-gsw"</span>].values.astype(<span class="bu">float</span>)</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>occ_grid[occ_grid <span class="op">&gt;</span> <span class="dv">100</span>] <span class="op">=</span> np.nan                                   <span class="co"># 255 = no data</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>occ <span class="op">=</span> occ_grid[inside]</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Sunamganj district: </span><span class="sc">{</span>inside<span class="sc">.</span><span class="bu">sum</span>() <span class="op">*</span> <span class="dv">900</span> <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:,.0f}</span><span class="ss"> km² at 30 m"</span>)</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"land cover (%):"</span>, lc.to_dict())</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"elevation: median </span><span class="sc">{</span>np<span class="sc">.</span>median(dem)<span class="sc">:.1f}</span><span class="ss"> m, 90 % of the district below </span><span class="sc">{</span>np<span class="sc">.</span>percentile(dem, <span class="dv">90</span>)<span class="sc">:.1f}</span><span class="ss"> m"</span>)</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"surface water: </span><span class="sc">{</span>np<span class="sc">.</span>nanmean(occ <span class="op">&gt;</span> <span class="dv">0</span>)<span class="sc">:.1%}</span><span class="ss"> of the district was ever water (1984-2020); </span><span class="sc">{</span>np<span class="sc">.</span>nanmean(occ <span class="op">&gt;=</span> <span class="dv">50</span>)<span class="sc">:.1%}</span><span class="ss"> is water at least half the time"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">items</th>
+<th data-quarto-table-cell-role="th">grid</th>
+<th data-quarto-table-cell-role="th">seconds</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">layer</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">esa-worldcover</th>
+<td>1</td>
+<td>2391 x 2748</td>
+<td>3.1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">cop-dem-glo-30</th>
+<td>4</td>
+<td>2391 x 2748</td>
+<td>19.5</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">jrc-gsw</th>
+<td>1</td>
+<td>2391 x 2748</td>
+<td>3.5</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sunamganj district: 3,693 km² at 30 m
+land cover (%): {'Cropland': 57.6, 'Herbaceous wetland': 21.4, 'Tree cover': 12.7, 'Permanent water': 6.5, 'Grassland': 1.3, 'Built-up': 0.3, 'Bare / sparse': 0.2, 'Shrubland': 0.0}
+elevation: median 5.1 m, 90 % of the district below 9.8 m
+surface water: 78.7% of the district was ever water (1984-2020); 36.4% is water at least half the time</code></pre>
+</div>
+</div>
+<div id="0849d167" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T11:01:04.036231Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T11:01:04.036116Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T11:01:05.612371Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T11:01:05.611609Z&quot;}}" data-execution_count="8">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Side-by-side maps of land cover, elevation, and long-term water occurrence</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> plt.matplotlib.colors.ListedColormap([<span class="st">"#006400"</span>, <span class="st">"#ffbb22"</span>, <span class="st">"#ffff4c"</span>, <span class="st">"#f096ff"</span>, <span class="st">"#fa0000"</span>, <span class="st">"#b4b4b4"</span>, <span class="st">"#f0f0f0"</span>, <span class="st">"#0064c8"</span>, <span class="st">"#0096a0"</span>, <span class="st">"#00cf75"</span>, <span class="st">"#fae6a0"</span>])</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>lc_img <span class="op">=</span> np.where(inside, g0.values, np.nan)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>codes <span class="op">=</span> np.array(<span class="bu">sorted</span>(classes))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> np.searchsorted(codes, np.nan_to_num(lc_img, nan<span class="op">=</span><span class="dv">10</span>)).astype(<span class="bu">float</span>)<span class="op">;</span> idx[<span class="op">~</span>inside] <span class="op">=</span> np.nan</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].imshow(idx, cmap<span class="op">=</span>cmap, vmin<span class="op">=-</span><span class="fl">0.5</span>, vmax<span class="op">=</span><span class="fl">10.5</span>, interpolation<span class="op">=</span><span class="st">"nearest"</span>)<span class="op">;</span> ax[<span class="dv">0</span>].set_title(<span class="st">"ESA WorldCover 2021"</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> ax[<span class="dv">1</span>].imshow(np.where(inside, grids[<span class="st">"cop-dem-glo-30"</span>].values, np.nan), cmap<span class="op">=</span><span class="st">"terrain"</span>, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">40</span>)<span class="op">;</span> ax[<span class="dv">1</span>].set_title(<span class="st">"Copernicus DEM (m)"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>fig.colorbar(im, ax<span class="op">=</span>ax[<span class="dv">1</span>], shrink<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> ax[<span class="dv">2</span>].imshow(np.where(inside, occ_grid, np.nan), cmap<span class="op">=</span><span class="st">"Blues"</span>, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">100</span>)<span class="op">;</span> ax[<span class="dv">2</span>].set_title(<span class="st">"JRC water occurrence (%)"</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>fig.colorbar(im, ax<span class="op">=</span>ax[<span class="dv">2</span>], shrink<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a <span class="kw">in</span> ax:</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    a.set_axis_off()</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"Sunamganj district from Planetary Computer global layers (30 m)"</span>)<span class="op">;</span> plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_09_cloud_platforms_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Three global layers describe Sunamganj (3,693 km²) without processing a single image:</p>
+<ul>
+<li><strong>Land cover:</strong> cropland 57.6%, herbaceous wetland 21.4%, tree cover 12.7%, permanent water 6.5%.</li>
+<li><strong>Elevation:</strong> a median of only 5.1 m, with 90% of the district below 9.8 m.</li>
+<li><strong>Surface water:</strong> 78.7% of the district was water at some time between 1984 and 2020, and 36.4% is water at least half the time.</li>
+</ul>
+<p>Most of the cropland is therefore seasonally flooded: haor fields carry one Boro rice crop in the dry season and lie under water in the monsoon, the cycle seen in the NDVI series of Notebook 08_06. The DEM took longest to load (19.5 s, four 1° tiles at full 30 m resolution); the single-tile layers took about 3 s each.</p>
+</section>
+<section id="server-side-processing-with-openeo" class="level2">
+<h2 class="anchored" data-anchor-id="server-side-processing-with-openeo">Server-side processing with openEO</h2>
+<p>openEO is an open standard API for Earth observation processing, implemented by several back ends, including the Copernicus Data Space Ecosystem. A client builds a <strong>process graph</strong> (load a collection, filter, compute NDVI, reduce over time) and sends it to the back end, which runs it next to the data and returns only the result. Discovery works without an account.</p>
+<div id="07fa3332" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T11:01:05.615424Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T11:01:05.615326Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T11:01:13.979399Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T11:01:13.977817Z&quot;}}" data-execution_count="9">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Connect to Copernicus openEO and describe available collections and processes</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> openeo.<span class="ex">connect</span>(<span class="st">"https://openeo.dataspace.copernicus.eu"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>collections <span class="op">=</span> con.list_collection_ids()</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>processes <span class="op">=</span> con.list_processes()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>s2 <span class="op">=</span> con.describe_collection(<span class="st">"SENTINEL2_L2A"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"connected in </span><span class="sc">{</span>time<span class="sc">.</span>perf_counter() <span class="op">-</span> t0<span class="sc">:.1f}</span><span class="ss"> s: </span><span class="sc">{</span><span class="bu">len</span>(collections)<span class="sc">}</span><span class="ss"> collections, </span><span class="sc">{</span><span class="bu">len</span>(processes)<span class="sc">}</span><span class="ss"> processes"</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"SENTINEL2_L2A temporal extent:"</span>, s2[<span class="st">"extent"</span>][<span class="st">"temporal"</span>][<span class="st">"interval"</span>][<span class="dv">0</span>], <span class="st">"| bands:"</span>, <span class="bu">len</span>(s2[<span class="st">"cube:dimensions"</span>][<span class="st">"bands"</span>][<span class="st">"values"</span>]))</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a process graph for clear-sky median NDVI (not executed yet)</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>cube_oe <span class="op">=</span> con.load_collection(<span class="st">"SENTINEL2_L2A"</span>, spatial_extent<span class="op">=</span><span class="bu">dict</span>(<span class="bu">zip</span>([<span class="st">"west"</span>, <span class="st">"south"</span>, <span class="st">"east"</span>, <span class="st">"north"</span>], AOI)),</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>                              temporal_extent<span class="op">=</span>[<span class="st">"2024-01-01"</span>, <span class="st">"2024-03-31"</span>], bands<span class="op">=</span>[<span class="st">"B04"</span>, <span class="st">"B08"</span>, <span class="st">"SCL"</span>], max_cloud_cover<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>scl <span class="op">=</span> cube_oe.band(<span class="st">"SCL"</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>clear_oe <span class="op">=</span> (scl <span class="op">==</span> <span class="dv">4</span>) <span class="op">|</span> (scl <span class="op">==</span> <span class="dv">5</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>ndvi_oe <span class="op">=</span> cube_oe.ndvi(red<span class="op">=</span><span class="st">"B04"</span>, nir<span class="op">=</span><span class="st">"B08"</span>).mask(<span class="op">~</span>clear_oe).reduce_dimension(dimension<span class="op">=</span><span class="st">"t"</span>, reducer<span class="op">=</span><span class="st">"median"</span>)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>graph <span class="op">=</span> json.loads(ndvi_oe.to_json())[<span class="st">"process_graph"</span>]</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"process graph: </span><span class="sc">{</span><span class="bu">len</span>(graph)<span class="sc">}</span><span class="ss"> nodes -&gt;"</span>, [n[<span class="st">"process_id"</span>] <span class="cf">for</span> n <span class="kw">in</span> graph.values()])</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>_ <span class="op">=</span> (OUT <span class="op">/</span> <span class="st">"openeo_ndvi_median.json"</span>).write_text(ndvi_oe.to_json())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>connected in 7.3 s: 138 collections, 146 processes
+SENTINEL2_L2A temporal extent: ['2015-06-27T10:25:31Z', None] | bands: 21
+process graph: 5 nodes -&gt; ['load_collection', 'ndvi', 'reduce_dimension', 'mask', 'reduce_dimension']</code></pre>
+</div>
+</div>
+<div id="c7fdfaf5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T11:01:13.984042Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T11:01:13.983774Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T11:01:13.989340Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T11:01:13.988226Z&quot;}}" data-execution_count="10">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Execution needs a (free) CDSE account. Set GEOLATTICE_OPENEO=1 after `con.authenticate_oidc()` has been done once</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># interactively; the stored refresh token is then reused.</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> os.environ.get(<span class="st">"GEOLATTICE_OPENEO"</span>) <span class="op">==</span> <span class="st">"1"</span>:</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    con.authenticate_oidc()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    ndvi_oe.download(OUT <span class="op">/</span> <span class="st">"openeo_ndvi_median.tif"</span>, <span class="bu">format</span><span class="op">=</span><span class="st">"GTiff"</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"openEO result downloaded in </span><span class="sc">{</span>time<span class="sc">.</span>perf_counter() <span class="op">-</span> t0<span class="sc">:.0f}</span><span class="ss"> s"</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"openEO execution skipped (no account configured). The process graph above is complete and can be run as is."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>openEO execution skipped (no account configured). The process graph above is complete and can be run as is.</code></pre>
+</div>
+</div>
+<p>Without an account, openEO on Copernicus Data Space exposed 138 collections and 146 processes, and accepted the composite of Section 5 as a five-node process graph:</p>
+<ol type="1">
+<li>load the collection;</li>
+<li>compute NDVI;</li>
+<li>reduce the scene classification band;</li>
+<li>mask clouds;</li>
+<li>take the median over time.</li>
+</ol>
+<p>The graph, saved as JSON, is the complete, portable description of the analysis. Any openEO back end that offers the collection can run it. Execution, the only step that needs an account, was skipped here, as was the Earth Engine computation below.</p>
+</section>
+<section id="google-earth-engine" class="level2">
+<h2 class="anchored" data-anchor-id="google-earth-engine">Google Earth Engine</h2>
+<p>Earth Engine works the same way: Python objects describe a computation, which runs on Google’s servers when a result is requested. It needs a Google Cloud project registered for Earth Engine (free for research and non-commercial use) and a one-time <code>ee.Authenticate()</code>. The cell runs only when a project is configured in <code>EE_PROJECT</code>; the code is the Earth Engine version of Section 5. Note that Earth Engine’s <code>COPERNICUS/S2_SR_HARMONIZED</code> collection has already removed the offset of Section 4, another provider convention to check.</p>
+<div id="025bbb58" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-20T11:01:13.990668Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-20T11:01:13.990584Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-20T11:01:13.994516Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-20T11:01:13.994209Z&quot;}}" data-execution_count="11">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional Earth Engine run when EE_PROJECT is set in the environment</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> os.environ.get(<span class="st">"EE_PROJECT"</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> project:</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">RuntimeError</span>(<span class="st">"EE_PROJECT is not set"</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    ee.Initialize(project<span class="op">=</span>project)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    region <span class="op">=</span> ee.Geometry.Rectangle(AOI)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Mask cloudy pixels and compute NDVI on Sentinel-2 SR</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> mask_and_ndvi(img):</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        scl <span class="op">=</span> img.select(<span class="st">"SCL"</span>)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>        clear <span class="op">=</span> scl.eq(<span class="dv">4</span>).Or(scl.eq(<span class="dv">5</span>))</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> img.normalizedDifference([<span class="st">"B8"</span>, <span class="st">"B4"</span>]).rename(<span class="st">"ndvi"</span>).updateMask(clear)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    col <span class="op">=</span> (ee.ImageCollection(<span class="st">"COPERNICUS/S2_SR_HARMONIZED"</span>).filterBounds(region)</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>           .filterDate(<span class="st">"2024-01-01"</span>, <span class="st">"2024-04-01"</span>).<span class="bu">filter</span>(ee.Filter.lt(<span class="st">"CLOUDY_PIXEL_PERCENTAGE"</span>, <span class="dv">20</span>)))</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    median <span class="op">=</span> col.<span class="bu">map</span>(mask_and_ndvi).median()</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    stats <span class="op">=</span> median.reduceRegion(ee.Reducer.median(), region, scale<span class="op">=</span><span class="dv">10</span>, maxPixels<span class="op">=</span><span class="fl">1e9</span>).getInfo()</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Earth Engine: </span><span class="sc">{</span>col<span class="sc">.</span>size()<span class="sc">.</span>getInfo()<span class="sc">}</span><span class="ss"> images; median NDVI </span><span class="sc">{</span>stats[<span class="st">'ndvi'</span>]<span class="sc">:.3f}</span><span class="ss"> "</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"(odc-stac on Planetary Computer: </span><span class="sc">{</span><span class="bu">float</span>(composite.median())<span class="sc">:.3f}</span><span class="ss">)"</span>)</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> exc:</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Earth Engine skipped: </span><span class="sc">{</span>exc<span class="sc">}</span><span class="ss">. To run it: create a Cloud project registered for Earth Engine, "</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>          <span class="st">"run ee.Authenticate() once, and set EE_PROJECT."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Earth Engine skipped: EE_PROJECT is not set. To run it: create a Cloud project registered for Earth Engine, run ee.Authenticate() once, and set EE_PROJECT.</code></pre>
+</div>
+</div>
+</section>
+<section id="choosing-a-platform" class="level2">
+<h2 class="anchored" data-anchor-id="choosing-a-platform">Choosing a platform</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Catalogue + own compute (PC, Earth Search, CDSE files)</th>
+<th>Earth Engine</th>
+<th>openEO</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Who handles data access and scaling?</td>
+<td>You (Notebook 08_08)</td>
+<td>Google</td>
+<td>The back end</td>
+</tr>
+<tr class="even">
+<td>How portable is the analysis?</td>
+<td>High: STAC, COG, xarray work everywhere</td>
+<td>Low: Earth Engine API only</td>
+<td>Medium: one standard, several back ends</td>
+</tr>
+<tr class="odd">
+<td>Custom algorithms (deep learning, any Python library)</td>
+<td>Anything</td>
+<td>Limited to its operations (plus exported data)</td>
+<td>Limited to its processes (plus user-defined functions)</td>
+</tr>
+<tr class="even">
+<td>Getting results out</td>
+<td>You already have the arrays</td>
+<td>Export tasks to Drive / Cloud Storage</td>
+<td>Download or batch jobs</td>
+</tr>
+<tr class="odd">
+<td>Reproducibility</td>
+<td>Pin item IDs and library versions</td>
+<td>Collections and algorithms change server-side</td>
+<td>Process graphs are explicit JSON</td>
+</tr>
+<tr class="even">
+<td>Cost model</td>
+<td>Your compute; free data</td>
+<td>Free (non-commercial) or licensed</td>
+<td>Credits, free tier</td>
+</tr>
+<tr class="odd">
+<td>Best for</td>
+<td>Custom, reproducible, portable work; small to large areas</td>
+<td>Fast global analyses with standard operations</td>
+<td>European infrastructure, standard workflows, multi-back-end</td>
+</tr>
+</tbody>
+</table>
+<p>Whichever you use, check the data conventions (Section 4): the same “Sentinel-2 L2A” differs in offsets, harmonisation, processing version and cloud masks between providers.</p>
+</section>
+<section id="summary-and-exercises" class="level2">
+<h2 class="anchored" data-anchor-id="summary-and-exercises">Summary and exercises</h2>
+<p><strong>Key ideas</strong></p>
+<ul>
+<li>Catalogue platforms (STAC + COG) bring the data to your code; server-side platforms bring your code to the data.</li>
+<li>The same product can carry different values on different platforms; read the processing baseline and the provider’s offset convention before mixing sources.</li>
+<li>odc-stac loads only the bands, area and resolution you ask for, lazily, from any STAC API.</li>
+<li>Global analysis-ready layers (WorldCover, Copernicus DEM, JRC water) answer many questions without processing imagery at all.</li>
+<li>openEO and Earth Engine express the analysis as a graph run by the provider; discovery and graph building are free, execution needs an account.</li>
+</ul>
+<p><strong>What we found</strong></p>
+<ul>
+<li><strong>The catalogues:</strong> Planetary Computer, Earth Search and Copernicus Data Space found the same 6 dates over Bogra, but returned different item counts (7, 6, 6), identifiers and file locations.</li>
+<li><strong>The offset:</strong> Planetary Computer’s Sentinel-2 DN are 1,000 higher than Earth Search’s for the same scene. Ignoring the offset cut median NDVI from 0.406 to 0.224; applying Earth Search’s metadata offset made 77% of NDVI values impossible.</li>
+<li><strong>The composite:</strong> odc-stac built a cloud-masked composite of 9 dates at 10 m in 18.5 s.</li>
+<li><strong>Sunamganj:</strong> 57.6% cropland, a median elevation of 5.1 m, and 78.7% of the district water at some time since 1984.</li>
+<li><strong>openEO and Earth Engine:</strong> the openEO graph was built (5 nodes) and the Earth Engine code was written; both need accounts to execute.</li>
+</ul>
+<p><strong>Exercises</strong></p>
+<ol type="1">
+<li>Repeat Section 4 for a scene from 2021 (processing baseline 03.xx). What changes?</li>
+<li>Build the composite of Section 5 from Earth Search instead of Planetary Computer with odc-stac. Which band names and offset handling must change? Compare the two composites pixel by pixel.</li>
+<li>Compute the share of Sunamganj that is cropland <em>and</em> water at least 25 % of the time. What does it say about Boro rice in the haors?</li>
+<li>Add Sentinel-1 RTC (<code>sentinel-1-rtc</code> on Planetary Computer) for August 2024 and map open water in Sunamganj by thresholding VV backscatter (Notebook 08_11 does this in full).</li>
+<li>With a CDSE account, run the openEO graph of Section 7 and compare its median NDVI with Section 5.</li>
+</ol>
+<p><strong>References</strong></p>
+<ul>
+<li>Microsoft Planetary Computer. https://planetarycomputer.microsoft.com</li>
+<li>Earth Search by Element 84. https://element84.com/earth-search/</li>
+<li>Copernicus Data Space Ecosystem. https://dataspace.copernicus.eu</li>
+<li>Schramm, M. et al.&nbsp;(2021). The openEO API: Harmonising the use of Earth observation cloud services using virtual data cube functionalities. <em>Remote Sensing</em>, 13(6), 1125.</li>
+<li>Gorelick, N. et al.&nbsp;(2017). Google Earth Engine: Planetary-scale geospatial analysis for everyone. <em>Remote Sensing of Environment</em>, 202, 18-27.</li>
+<li>ESA (2022). Sentinel-2 processing baseline 04.00: provision of negative radiometric values (BOA_ADD_OFFSET).</li>
+<li>Zanaga, D. et al.&nbsp;(2022). ESA WorldCover 10 m 2021 v200. Zenodo.</li>
+<li>Pekel, J.-F. et al.&nbsp;(2016). High-resolution mapping of global surface water and its long-term changes. <em>Nature</em>, 540, 418-422.</li>
+</ul>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./07_08_scalable_processing.html" class="pagination-link" aria-label="Scalable Processing">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Scalable Processing</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./07_10_devops_geospatial.html" class="pagination-link" aria-label="DevOps for Geospatial Pipelines">
+        <span class="nav-page-text">DevOps for Geospatial Pipelines</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

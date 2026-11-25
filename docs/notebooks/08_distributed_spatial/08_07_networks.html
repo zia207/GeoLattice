@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>networks – GeoLattice: Distributed Spatial Computing</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./08_08_hydrology.html" rel="next">
+<link href="./08_06_spatial_statistics_and_clustering.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GeoLattice: Distributed Spatial Computing</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
+        <li class="dropdown-header">Foundations</li>
+        <li>
+    <a class="dropdown-item" href="./08_00_distributed_spatial_computing_fundamentals.html">
+ <span class="dropdown-text">Fundamentals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_01_sessions_and_clusters.html">
+ <span class="dropdown-text">Sessions and Clusters</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_02_distributed_input_and_output.html">
+ <span class="dropdown-text">Parallel Input and Output</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Processing at Scale</li>
+        <li>
+    <a class="dropdown-item" href="./08_03_raster_processing_at_scale.html">
+ <span class="dropdown-text">Rasters at Scale</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_04_vector_processing_at_scale.html">
+ <span class="dropdown-text">Vectors at Scale</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_05_rasters_and_vectors_together.html">
+ <span class="dropdown-text">Rasters and Vectors Together</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_06_spatial_statistics_and_clustering.html">
+ <span class="dropdown-text">Spatial Statistics and Clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_07_networks.html">
+ <span class="dropdown-text">Networks</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_08_hydrology.html">
+ <span class="dropdown-text">Hydrology</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Models, Spark and Tuning</li>
+        <li>
+    <a class="dropdown-item" href="./08_09_machine_learning.html">
+ <span class="dropdown-text">Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_10_apache_sedona.html">
+ <span class="dropdown-text">Apache Sedona</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_11_diagnostics_and_performance.html">
+ <span class="dropdown-text">Diagnostics and Performance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_12_capstone_great_plains_soil_carbon_and_cropland.html">
+ <span class="dropdown-text">Capstone: Great Plains Soil Carbon</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08_03_raster_processing_at_scale.html"><strong>Processing at Scale</strong></a></li><li class="breadcrumb-item"><a href="./08_07_networks.html">Networks</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08_03_raster_processing_at_scale.html"><strong>Processing at Scale</strong></a></li><li class="breadcrumb-item"><a href="./08_07_networks.html">Networks</a></li></ol></nav></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Foundations</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_00_distributed_spatial_computing_fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_01_sessions_and_clusters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sessions and Clusters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_02_distributed_input_and_output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parallel Input and Output</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Processing at Scale</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_03_raster_processing_at_scale.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rasters at Scale</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_04_vector_processing_at_scale.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vectors at Scale</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_05_rasters_and_vectors_together.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rasters and Vectors Together</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_06_spatial_statistics_and_clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial Statistics and Clustering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_07_networks.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Networks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_08_hydrology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hydrology</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Models, Spark and Tuning</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_09_machine_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine Learning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_10_apache_sedona.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apache Sedona</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_11_diagnostics_and_performance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Diagnostics and Performance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_12_capstone_great_plains_soil_carbon_and_cropland.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capstone: Great Plains Soil Carbon</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#shortest-paths-centrality-and-accessibility-on-large-road-networks" id="toc-shortest-paths-centrality-and-accessibility-on-large-road-networks" class="nav-link active" data-scroll-target="#shortest-paths-centrality-and-accessibility-on-large-road-networks">Shortest Paths, Centrality and Accessibility on Large Road Networks</a>
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a>
+  <ul class="collapse">
+  <li><a href="#from-lines-to-a-graph" id="toc-from-lines-to-a-graph" class="nav-link" data-scroll-target="#from-lines-to-a-graph">From lines to a graph</a></li>
+  <li><a href="#the-costs-of-the-common-questions" id="toc-the-costs-of-the-common-questions" class="nav-link" data-scroll-target="#the-costs-of-the-common-questions">The costs of the common questions</a></li>
+  <li><a href="#graphs-on-gpus" id="toc-graphs-on-gpus" class="nav-link" data-scroll-target="#graphs-on-gpus">Graphs on GPUs</a></li>
+  </ul></li>
+  <li><a href="#network-analysis-with-geolattice" id="toc-network-analysis-with-geolattice" class="nav-link" data-scroll-target="#network-analysis-with-geolattice">Network Analysis with GeoLattice</a>
+  <ul class="collapse">
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#contents" id="toc-contents" class="nav-link" data-scroll-target="#contents">Contents</a></li>
+  </ul></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#a-graph-from-road-lines" id="toc-a-graph-from-road-lines" class="nav-link" data-scroll-target="#a-graph-from-road-lines">A graph from road lines</a></li>
+  <li><a href="#travel-time-weights-and-one-route" id="toc-travel-time-weights-and-one-route" class="nav-link" data-scroll-target="#travel-time-weights-and-one-route">Travel time weights and one route</a></li>
+  <li><a href="#accessibility-travel-time-to-the-nearest-school" id="toc-accessibility-travel-time-to-the-nearest-school" class="nav-link" data-scroll-target="#accessibility-travel-time-to-the-nearest-school">Accessibility: travel time to the nearest school</a></li>
+  <li><a href="#connected-components-and-what-they-reveal" id="toc-connected-components-and-what-they-reveal" class="nav-link" data-scroll-target="#connected-components-and-what-they-reveal">Connected components and what they reveal</a></li>
+  <li><a href="#betweenness-centrality-on-cpu-and-gpu" id="toc-betweenness-centrality-on-cpu-and-gpu" class="nav-link" data-scroll-target="#betweenness-centrality-on-cpu-and-gpu">Betweenness centrality on CPU and GPU</a></li>
+  <li><a href="#when-the-gpu-is-not-used" id="toc-when-the-gpu-is-not-used" class="nav-link" data-scroll-target="#when-the-gpu-is-not-used">When the GPU is not used</a></li>
+  <li><a href="#summary-and-exercises" id="toc-summary-and-exercises" class="nav-link" data-scroll-target="#summary-and-exercises">Summary and exercises</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/09_distributed_spatial_datas.png" class="img-fluid figure-img"></p>
+<figcaption>Banner</figcaption>
+</figure>
+</div>
+<section id="shortest-paths-centrality-and-accessibility-on-large-road-networks" class="level1">
+<h1>Shortest Paths, Centrality and Accessibility on Large Road Networks</h1>
+<p>Straight-line distance is a poor guide to how far people actually travel: rivers, railways and the shape of a street grid force detours. Network analysis measures distances along roads, finds the routes through which most trips pass, and reveals parts of a network that cannot reach each other. These problems are graph problems, and some of them (betweenness centrality in particular) grow much faster than the size of the network. This notebook builds a graph of the 22,813 road segments of Wichita, Kansas, with <code>geolattice.distributed.network</code>, computes travel times from every building to the nearest school, finds the busiest junctions with betweenness centrality on the CPU (SciPy, NetworkX) and the GPU (cuGraph), and shows when GeoLattice deliberately falls back to the CPU.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<section id="from-lines-to-a-graph" class="level3">
+<h3 class="anchored" data-anchor-id="from-lines-to-a-graph">From lines to a graph</h3>
+<p>A road network is a graph: <strong>nodes</strong> are junctions and dead ends, <strong>edges</strong> are the road segments between them, each with a <strong>weight</strong> (length, or travel time). Turning lines into a graph needs the lines to be <strong>noded</strong>: two roads are connected only where they share an end point. OSMnx delivers noded, simplified networks; raw line data (a shapefile of roads) often needs noding and snapping of end points that almost meet.</p>
+</section>
+<section id="the-costs-of-the-common-questions" class="level3">
+<h3 class="anchored" data-anchor-id="the-costs-of-the-common-questions">The costs of the common questions</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Algorithm</th>
+<th>Cost for <code>n</code> nodes and <code>m</code> edges</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Shortest path from one source</td>
+<td>Dijkstra</td>
+<td>about <code>m log n</code></td>
+</tr>
+<tr class="even">
+<td>Distances from many sources (accessibility)</td>
+<td>multi-source Dijkstra, or one Dijkstra per source</td>
+<td><code>sources x m log n</code></td>
+</tr>
+<tr class="odd">
+<td>Connected parts of the network</td>
+<td>breadth-first search</td>
+<td><code>n + m</code></td>
+</tr>
+<tr class="even">
+<td>PageRank</td>
+<td>power iteration</td>
+<td><code>iterations x m</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Betweenness centrality</strong></td>
+<td>Brandes: shortest paths from every node</td>
+<td><code>n x m</code>, quadratic and more</td>
+</tr>
+</tbody>
+</table>
+<p>Betweenness counts, for each node, the share of all shortest paths that pass through it: the junctions and bridges that carry through traffic. Exact betweenness of a 16,000 node network needs 16,000 shortest-path trees. Sampling <code>k</code> source nodes gives an unbiased approximation at <code>k / n</code> of the cost.</p>
+</section>
+<section id="graphs-on-gpus" class="level3">
+<h3 class="anchored" data-anchor-id="graphs-on-gpus">Graphs on GPUs</h3>
+<p>cuGraph runs breadth-first search, single-source shortest paths, PageRank and betweenness on the GPU. Road networks are a hard case for GPUs: they are sparse, nearly planar and have long shortest paths, so each step of a search touches few nodes and the GPU’s thousands of cores have little to do at once. GPUs shine on large graphs with short paths (social and web graphs). A second limit is numerical: Brandes’ algorithm counts the shortest paths between nodes, and on grid-like networks those counts grow exponentially with distance; cuGraph stores them as 64-bit integers, which overflow on large lattices.</p>
+</section>
+</section>
+<section id="network-analysis-with-geolattice" class="level2">
+<h2 class="anchored" data-anchor-id="network-analysis-with-geolattice">Network Analysis with GeoLattice</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Returns</th>
+<th>CPU / GPU</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pdist.network.graph_from_lines(lines, weight=, tolerance=)</code></td>
+<td>a <code>Graph</code> (node coordinates, edge arrays)</td>
+<td>NumPy</td>
+</tr>
+<tr class="even">
+<td><code>shortest_path(g, source, target)</code></td>
+<td>nodes, cost and route geometry</td>
+<td>SciPy Dijkstra / cuGraph SSSP</td>
+</tr>
+<tr class="odd">
+<td><code>shortest_path_lengths(g, sources, cutoff=)</code></td>
+<td><code>(sources, n_nodes)</code> matrix of costs</td>
+<td>SciPy multi-source Dijkstra / cuGraph SSSP per source</td>
+</tr>
+<tr class="even">
+<td><code>centrality(g, kind=, k=)</code></td>
+<td>betweenness, PageRank or degree per node</td>
+<td>NetworkX / cuGraph</td>
+</tr>
+<tr class="odd">
+<td><code>components(g)</code></td>
+<td>component label per node</td>
+<td>SciPy / cuGraph</td>
+</tr>
+<tr class="even">
+<td><code>nearest_nodes(g, points)</code></td>
+<td>nearest node per point</td>
+<td><code>pdist.vector.knn</code></td>
+</tr>
+<tr class="odd">
+<td><code>max_shortest_path_count(g)</code></td>
+<td>a probe for cuGraph’s path counter overflow</td>
+<td>SciPy</td>
+</tr>
+</tbody>
+</table>
+<p>A <code>Graph</code> converts to SciPy (<code>to_scipy</code>), cuGraph (<code>to_cugraph</code>) and NetworkX (<code>to_networkx</code>), and its nodes to a GeoDataFrame (<code>nodes_gdf</code>).</p>
+<section id="learning-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
+<ol type="1">
+<li>Build a weighted graph from road lines and check its connectivity.</li>
+<li>Compute shortest routes and travel times, and compare network with straight-line distance.</li>
+<li>Measure accessibility (travel time to the nearest school) for every building of a city.</li>
+<li>Compute betweenness centrality exactly and by sampling, on CPU and GPU, and judge the approximation.</li>
+<li>Explain why road networks suit GPUs less well than other graphs, and when GeoLattice falls back to the CPU.</li>
+</ol>
+</section>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dataset</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Wichita road network</td>
+<td>22,813 drivable OpenStreetMap road segments (OSMnx, simplified, undirected), EPSG:5070</td>
+</tr>
+<tr class="even">
+<td>Wichita schools and hospitals</td>
+<td>171 schools and 12 hospitals from OpenStreetMap</td>
+</tr>
+<tr class="odd">
+<td>Kansas building footprints</td>
+<td>the 180,000 buildings inside the road network’s extent</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="contents" class="level3">
+<h3 class="anchored" data-anchor-id="contents">Contents</h3>
+<ul>
+<li>Setup</li>
+<li>A graph from road lines</li>
+<li>Travel time weights and one route</li>
+<li>Accessibility: travel time to the nearest school</li>
+<li>Connected components and what they reveal</li>
+<li>Betweenness centrality on CPU and GPU</li>
+<li>When the GPU is not used</li>
+<li>Summary and exercises</li>
+</ul>
+</section>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<div id="621ccbfe" class="cell" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings  <span class="co"># warning control</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)  <span class="co"># hide routine library warnings</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os  <span class="co"># environment and CPU count</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time  <span class="co"># wall-clock timing</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path  <span class="co"># file paths</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt  <span class="co"># figures</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np  <span class="co"># arrays</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd  <span class="co"># tables</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd  <span class="co"># vector data</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr  <span class="co"># labelled rasters</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice  <span class="co"># GeoLattice</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.distributed <span class="im">as</span> pdist  <span class="co"># distributed and GPU spatial computing</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dist_data <span class="im">as</span> dd  <span class="co"># chapter helper: paths, cached downloads, timers</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">"figure.dpi"</span>: <span class="dv">110</span>})  <span class="co"># figure resolution</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">"display.width"</span>, <span class="dv">140</span>)  <span class="co"># wider printed tables</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>OUT <span class="op">=</span> Path(<span class="st">"outputs"</span>)  <span class="co"># results and scratch files written by this chapter</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>OUT.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)  <span class="co"># create it if needed</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>caps <span class="op">=</span> pdist.capabilities()  <span class="co"># engines and GPUs on this machine</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"GeoLattice"</span>, geolattice.__version__, <span class="st">"|"</span>, os.cpu_count(), <span class="st">"CPU cores |"</span>, caps[<span class="st">"gpus"</span>], <span class="st">"GPU(s)"</span>,  <span class="co"># versions</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"(</span><span class="sc">{</span>caps<span class="sc">.</span>get(<span class="st">'gpu_memory_total'</span>, <span class="dv">0</span>) <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.0f}</span><span class="ss"> GB)"</span> <span class="cf">if</span> caps[<span class="st">"gpus"</span>] <span class="cf">else</span> <span class="st">""</span>)  <span class="co"># GPU memory</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings <span class="im">as</span> _w  <span class="co"># to show one library warning on purpose</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shapely  <span class="co"># geometry helpers</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sync():  <span class="co"># wait for queued GPU work so timings are real</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># only with a GPU</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        <span class="im">import</span> cupy <span class="im">as</span> cp  <span class="co"># GPU arrays</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        cp.cuda.Device().synchronize()  <span class="co"># block until done</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> timed(fn):  <span class="co"># wall time and result of one call</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> time.perf_counter()<span class="op">;</span> out <span class="op">=</span> fn()<span class="op">;</span> sync()<span class="op">;</span> <span class="cf">return</span> time.perf_counter() <span class="op">-</span> t, out  <span class="co"># time it</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>GeoLattice 0.3.49 | 24 CPU cores | 1 GPU(s) (17 GB)</code></pre>
+</div>
+</div>
+</section>
+<section id="a-graph-from-road-lines" class="level2">
+<h2 class="anchored" data-anchor-id="a-graph-from-road-lines">A graph from road lines</h2>
+<div id="9df7c0eb" class="cell" data-execution_count="2">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>roads <span class="op">=</span> dd.wichita_roads()  <span class="co"># 22,813 OSM road segments, EPSG:5070</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(roads)<span class="sc">:,}</span><span class="ss"> segments, </span><span class="sc">{</span>roads<span class="sc">.</span>length<span class="sc">.</span><span class="bu">sum</span>() <span class="op">/</span> <span class="dv">1000</span><span class="sc">:,.0f}</span><span class="ss"> km of road"</span>)  <span class="co"># size</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(roads.highway.value_counts().head(<span class="dv">6</span>).to_string())  <span class="co"># road classes</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> pdist.network.graph_from_lines(roads)  <span class="co"># nodes at segment end points, weight = length in metres</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"graph: </span><span class="sc">{</span>g<span class="sc">.</span>n_nodes<span class="sc">:,}</span><span class="ss"> nodes, </span><span class="sc">{</span>g<span class="sc">.</span>n_edges<span class="sc">:,}</span><span class="ss"> edges, directed: </span><span class="sc">{</span>g<span class="sc">.</span>directed<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># graph size</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>deg <span class="op">=</span> pdist.network.centrality(g, <span class="st">"degree"</span>)  <span class="co"># edges per node</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"node degree:"</span>, deg.value_counts().sort_index().to_dict())  <span class="co"># dead ends, bends, junctions</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>22,813 segments, 3,435 km of road
+highway
+residential      15702
+secondary         2631
+tertiary          2107
+unclassified      1345
+motorway_link      421
+motorway           221
+graph: 16,032 nodes, 22,813 edges, directed: False
+node degree: {1.0: 3074, 2.0: 663, 3.0: 8603, 4.0: 3640, 5.0: 49, 6.0: 3}</code></pre>
+</div>
+</div>
+<p>Most nodes are three- and four-way junctions; nodes of degree 1 are dead ends (cul-de-sacs, the edge of the city limits). OSMnx removes most nodes of degree 2 (mere bends); the few hundred left mark places where a road’s attributes, such as its name or class, change.</p>
+</section>
+<section id="travel-time-weights-and-one-route" class="level2">
+<h2 class="anchored" data-anchor-id="travel-time-weights-and-one-route">Travel time weights and one route</h2>
+<p>Length is not what drivers minimize. Each segment gets a speed from its OSM <code>maxspeed</code> tag, or a typical speed for its road class when the tag is missing, and its travel time in minutes becomes the edge weight.</p>
+<div id="3aafe53a" class="cell" data-execution_count="3">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>default_kmh <span class="op">=</span> {<span class="st">"motorway"</span>: <span class="dv">105</span>, <span class="st">"motorway_link"</span>: <span class="dv">60</span>, <span class="st">"trunk"</span>: <span class="dv">90</span>, <span class="st">"primary"</span>: <span class="dv">70</span>, <span class="st">"secondary"</span>: <span class="dv">60</span>,  <span class="co"># typical speeds by class</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>               <span class="st">"tertiary"</span>: <span class="dv">50</span>, <span class="st">"unclassified"</span>: <span class="dv">45</span>, <span class="st">"residential"</span>: <span class="dv">40</span>, <span class="st">"living_street"</span>: <span class="dv">20</span>}  <span class="co"># km/h</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>first <span class="op">=</span> <span class="kw">lambda</span> h: h.strip(<span class="st">"[]"</span>).replace(<span class="st">"'"</span>, <span class="st">""</span>).split(<span class="st">","</span>)[<span class="dv">0</span>].strip()  <span class="co"># first class of multi-class segments</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>mph <span class="op">=</span> pd.to_numeric(roads.maxspeed.<span class="bu">str</span>.extract(<span class="vs">r"</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">"</span>)[<span class="dv">0</span>], errors<span class="op">=</span><span class="st">"coerce"</span>)  <span class="co"># posted speed in mph</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>roads[<span class="st">"kmh"</span>] <span class="op">=</span> (mph <span class="op">*</span> <span class="fl">1.609</span>).fillna(roads.highway.<span class="bu">map</span>(first).<span class="bu">map</span>(default_kmh)).fillna(<span class="dv">40</span>)  <span class="co"># km/h</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>roads[<span class="st">"minutes"</span>] <span class="op">=</span> roads.length <span class="op">/</span> <span class="dv">1000</span> <span class="op">/</span> roads.kmh <span class="op">*</span> <span class="dv">60</span>  <span class="co"># travel time per segment</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>gt <span class="op">=</span> pdist.network.graph_from_lines(roads, weight<span class="op">=</span><span class="st">"minutes"</span>)  <span class="co"># same nodes, time weights</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"posted speed on </span><span class="sc">{</span>mph<span class="sc">.</span>notna()<span class="sc">.</span>mean()<span class="sc">:.0%}</span><span class="ss"> of segments; total driving time over all roads </span><span class="sc">{</span>roads<span class="sc">.</span>minutes<span class="sc">.</span><span class="bu">sum</span>() <span class="op">/</span> <span class="dv">60</span><span class="sc">:.0f}</span><span class="ss"> h"</span>)  <span class="co"># coverage</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>posted speed on 8% of segments; total driving time over all roads 76 h</code></pre>
+</div>
+</div>
+<div id="7b11b735" class="cell" data-execution_count="4">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fac <span class="op">=</span> dd.wichita_facilities()  <span class="co"># schools and hospitals</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>hosp <span class="op">=</span> fac[fac.amenity <span class="op">==</span> <span class="st">"hospital"</span>].reset_index(drop<span class="op">=</span><span class="va">True</span>)  <span class="co"># 12 hospitals</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>nodes <span class="op">=</span> gt.nodes_gdf()  <span class="co"># nodes as points</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>src <span class="op">=</span> <span class="bu">int</span>(pdist.network.nearest_nodes(gt, gpd.GeoDataFrame(geometry<span class="op">=</span>[shapely.Point(nodes.total_bounds[[<span class="dv">0</span>, <span class="dv">1</span>]] <span class="op">+</span> <span class="dv">3000</span>)], crs<span class="op">=</span><span class="dv">5070</span>))[<span class="dv">0</span>])  <span class="co"># a node near the south-west corner</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>dst <span class="op">=</span> <span class="bu">int</span>(pdist.network.nearest_nodes(gt, hosp.iloc[[<span class="dv">0</span>]])[<span class="dv">0</span>])  <span class="co"># the node nearest the first hospital</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>fast <span class="op">=</span> pdist.network.shortest_path(gt, src, dst, compute<span class="op">=</span><span class="st">"cpu"</span>)  <span class="co"># quickest route</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>short <span class="op">=</span> pdist.network.shortest_path(g, src, dst, compute<span class="op">=</span><span class="st">"cpu"</span>)  <span class="co"># shortest route</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>crow <span class="op">=</span> <span class="bu">float</span>(np.hypot(<span class="op">*</span>(gt.xy[src] <span class="op">-</span> gt.xy[dst])))  <span class="co"># straight line</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"quickest: </span><span class="sc">{</span>fast[<span class="st">'cost'</span>]<span class="sc">:.1f}</span><span class="ss"> min over </span><span class="sc">{</span>shapely<span class="sc">.</span>length(fast[<span class="st">'geometry'</span>]) <span class="op">/</span> <span class="dv">1000</span><span class="sc">:.1f}</span><span class="ss"> km | shortest: </span><span class="sc">{</span>short[<span class="st">'cost'</span>] <span class="op">/</span> <span class="dv">1000</span><span class="sc">:.1f}</span><span class="ss"> km | straight line </span><span class="sc">{</span>crow <span class="op">/</span> <span class="dv">1000</span><span class="sc">:.1f}</span><span class="ss"> km"</span>)  <span class="co"># compare</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># same route on the GPU</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    gpu <span class="op">=</span> pdist.network.shortest_path(gt, src, dst, compute<span class="op">=</span><span class="st">"gpu"</span>)  <span class="co"># cuGraph SSSP</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"cuGraph: </span><span class="sc">{</span>gpu[<span class="st">'cost'</span>]<span class="sc">:.1f}</span><span class="ss"> min, same nodes: </span><span class="sc">{</span>gpu[<span class="st">'nodes'</span>] <span class="op">==</span> fast[<span class="st">'nodes'</span>]<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># check</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))  <span class="co"># one map</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>roads.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">"lightgrey"</span>, lw<span class="op">=</span><span class="fl">0.3</span>)  <span class="co"># all roads</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>roads[roads.highway.<span class="bu">str</span>.contains(<span class="st">"motorway|primary"</span>)].plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">"grey"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)  <span class="co"># main roads</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>gpd.GeoSeries([short[<span class="st">"geometry"</span>], fast[<span class="st">"geometry"</span>]], crs<span class="op">=</span><span class="dv">5070</span>).plot(ax<span class="op">=</span>ax, color<span class="op">=</span>[<span class="st">"#2c7bb6"</span>, <span class="st">"#d7191c"</span>], lw<span class="op">=</span>[<span class="fl">2.5</span>, <span class="dv">2</span>])  <span class="co"># routes</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>ax.plot(<span class="op">*</span>gt.xy[src], <span class="st">"ko"</span>)<span class="op">;</span> ax.plot(<span class="op">*</span>gt.xy[dst], <span class="st">"r*"</span>, ms<span class="op">=</span><span class="dv">14</span>)  <span class="co"># ends</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Shortest (blue) and quickest (red) route to a hospital"</span>)<span class="op">;</span> ax.set_axis_off()<span class="op">;</span> plt.tight_layout()<span class="op">;</span> plt.show()  <span class="co"># draw</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>quickest: 27.2 min over 34.5 km | shortest: 32.6 km | straight line 25.3 km
+cuGraph: 27.2 min, same nodes: True</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08_07_networks_files/figure-html/cell-5-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The quickest route is longer than the shortest one but uses faster roads. Both are much longer than the straight line, which is the point of network analysis.</p>
+</section>
+<section id="accessibility-travel-time-to-the-nearest-school" class="level2">
+<h2 class="anchored" data-anchor-id="accessibility-travel-time-to-the-nearest-school">Accessibility: travel time to the nearest school</h2>
+<p>For every building in the network’s extent: snap it to the nearest node, then find the travel time from that node to the nearest school. One multi-source Dijkstra from all school nodes answers the second step for every node at once; <code>shortest_path_lengths</code> returns the time from each school to every node, and the minimum over schools is the time to the nearest one.</p>
+<div id="c6ab4549" class="cell" data-execution_count="5">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>schools <span class="op">=</span> fac[fac.amenity <span class="op">==</span> <span class="st">"school"</span>].reset_index(drop<span class="op">=</span><span class="va">True</span>)  <span class="co"># 171 schools</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>bld <span class="op">=</span> pdist.vector.to_crs(pdist.read_vector(dd.BUILDINGS, bbox<span class="op">=</span><span class="bu">tuple</span>(gpd.GeoSeries(shapely.box(<span class="op">*</span>roads.total_bounds), crs<span class="op">=</span><span class="dv">5070</span>).to_crs(<span class="dv">4326</span>).total_bounds)), <span class="dv">5070</span>)  <span class="co"># buildings in the extent</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>bld <span class="op">=</span> bld.set_geometry(bld.geometry.representative_point())  <span class="co"># one point per building</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>bld <span class="op">=</span> bld[bld.within(shapely.box(<span class="op">*</span>roads.total_bounds))].reset_index(drop<span class="op">=</span><span class="va">True</span>)  <span class="co"># inside the road extent</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>school_nodes <span class="op">=</span> np.unique(pdist.network.nearest_nodes(gt, schools))  <span class="co"># school locations on the graph</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> {}  <span class="co"># timings</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>t[<span class="st">"nearest node of every building"</span>], bnode <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.network.nearest_nodes(gt, bld))  <span class="co"># snap buildings</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>t[<span class="st">"Dijkstra from all schools, CPU"</span>], d_cpu <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.network.shortest_path_lengths(gt, school_nodes, compute<span class="op">=</span><span class="st">"cpu"</span>))  <span class="co"># SciPy</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># cuGraph, one SSSP per school</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    t[<span class="st">"SSSP from each school, GPU"</span>], d_gpu <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.network.shortest_path_lengths(gt, school_nodes, compute<span class="op">=</span><span class="st">"gpu"</span>))  <span class="co"># cuGraph</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"GPU equals CPU:"</span>, <span class="bu">bool</span>(np.allclose(np.where(np.isinf(d_cpu), <span class="op">-</span><span class="dv">1</span>, d_cpu), np.where(np.isinf(d_gpu), <span class="op">-</span><span class="dv">1</span>, d_gpu), atol<span class="op">=</span><span class="fl">1e-6</span>)))  <span class="co"># check</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>bld[<span class="st">"minutes"</span>] <span class="op">=</span> d_cpu.<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">0</span>)[bnode]  <span class="co"># travel time to the nearest school</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>crow <span class="op">=</span> pdist.vector.knn(bld, schools, k<span class="op">=</span><span class="dv">1</span>).distance.values  <span class="co"># straight-line distance to the nearest school</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>road_m <span class="op">=</span> pdist.network.shortest_path_lengths(g, school_nodes, compute<span class="op">=</span><span class="st">"cpu"</span>).<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">0</span>)  <span class="co"># metres by road to the nearest school</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>bld[<span class="st">"detour"</span>] <span class="op">=</span> road_m[bnode] <span class="op">/</span> np.maximum(crow, <span class="dv">50</span>)  <span class="co"># network / straight-line distance (at least 50 m)</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(bld)<span class="sc">:,}</span><span class="ss"> buildings, </span><span class="sc">{</span><span class="bu">len</span>(school_nodes)<span class="sc">}</span><span class="ss"> school nodes"</span>)  <span class="co"># sizes</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.Series(t, name<span class="op">=</span><span class="st">"seconds"</span>).<span class="bu">round</span>(<span class="dv">3</span>).to_string())  <span class="co"># timings</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bld[[<span class="st">"minutes"</span>, <span class="st">"detour"</span>]].describe(percentiles<span class="op">=</span>[<span class="fl">0.5</span>, <span class="fl">0.9</span>, <span class="fl">0.99</span>]).<span class="bu">round</span>(<span class="dv">2</span>).to_string())  <span class="co"># distributions</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>GPU equals CPU: True
+181,860 buildings, 153 school nodes
+nearest node of every building     0.131
+Dijkstra from all schools, CPU     0.265
+SSSP from each school, GPU        12.611
+         minutes     detour
+count  181860.00  181860.00
+mean        1.88       1.37
+std         1.58       0.71
+min         0.00       0.00
+50%         1.33       1.31
+90%         4.30       1.96
+99%         7.39       4.07
+max         8.93      51.34</code></pre>
+</div>
+</div>
+<div id="a9f0d961" class="cell" data-execution_count="6">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="fl">6.5</span>), gridspec_kw<span class="op">=</span>{<span class="st">"width_ratios"</span>: [<span class="fl">1.3</span>, <span class="dv">1</span>]})  <span class="co"># map and histogram</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sc <span class="op">=</span> ax[<span class="dv">0</span>].scatter(bld.geometry.x, bld.geometry.y, c<span class="op">=</span>bld.minutes, s<span class="op">=</span><span class="fl">0.2</span>, cmap<span class="op">=</span><span class="st">"viridis_r"</span>, vmax<span class="op">=</span><span class="dv">8</span>)  <span class="co"># buildings by travel time</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>schools.plot(ax<span class="op">=</span>ax[<span class="dv">0</span>], color<span class="op">=</span><span class="st">"r"</span>, marker<span class="op">=</span><span class="st">"^"</span>, markersize<span class="op">=</span><span class="dv">10</span>)  <span class="co"># schools</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.colorbar(sc, ax<span class="op">=</span>ax[<span class="dv">0</span>], shrink<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">"minutes by car to the nearest school"</span>)<span class="op">;</span> ax[<span class="dv">0</span>].set_aspect(<span class="st">"equal"</span>)<span class="op">;</span> ax[<span class="dv">0</span>].set_axis_off()  <span class="co"># labels</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].hist(bld.detour.clip(upper<span class="op">=</span><span class="dv">4</span>), bins<span class="op">=</span><span class="dv">60</span>, color<span class="op">=</span><span class="st">"#4575b4"</span>)  <span class="co"># detour factor</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].axvline(bld.detour.median(), color<span class="op">=</span><span class="st">"k"</span>, ls<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="ss">f"median </span><span class="sc">{</span>bld<span class="sc">.</span>detour<span class="sc">.</span>median()<span class="sc">:.2f}</span><span class="ss">"</span>)  <span class="co"># median</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_xlabel(<span class="st">"network distance / straight-line distance (clipped at 4)"</span>)<span class="op">;</span> ax[<span class="dv">1</span>].set_ylabel(<span class="st">"buildings"</span>)<span class="op">;</span> ax[<span class="dv">1</span>].legend()  <span class="co"># labels</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()  <span class="co"># draw</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08_07_networks_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Most buildings are within a few minutes’ drive of a school; the longest times are at the rural edges of the network. Network distance exceeded the straight line by about a third for the median building and by much more where rivers, railways and highways force detours. (The small spike at zero is buildings that snap to the same road node as a school, so their network distance is zero while the straight line is not.) On the CPU, SciPy’s multi-source Dijkstra handled all schools in one call; cuGraph ran one search per school, and on a road network of this size the GPU searches were slower, for the reasons given in the Overview. Both gave identical travel times. While this notebook was written they did not: the network contains 270 pairs of parallel segments (two roads joining the same two junctions), and cuGraph kept an arbitrary one of each pair where SciPy keeps the quicker, so some GPU travel times were up to 0.3 % too long. GeoLattice now passes only the quickest of parallel edges to cuGraph.</p>
+</section>
+<section id="connected-components-and-what-they-reveal" class="level2">
+<h2 class="anchored" data-anchor-id="connected-components-and-what-they-reveal">Connected components and what they reveal</h2>
+<p>The OSMnx network is one connected component. Components become informative when something is removed: here, all motorway segments and their ramps, as if the freeways were closed.</p>
+<div id="46fbcb7d" class="cell" data-execution_count="7">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>keep <span class="op">=</span> <span class="op">~</span>roads.highway.<span class="bu">str</span>.contains(<span class="st">"motorway"</span>)  <span class="co"># drop motorways and their links</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>g_closed <span class="op">=</span> pdist.network.graph_from_lines(roads[keep])  <span class="co"># graph without them</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>lab <span class="op">=</span> pdist.network.components(g_closed, compute<span class="op">=</span><span class="st">"gpu"</span> <span class="cf">if</span> caps[<span class="st">"gpus"</span>] <span class="cf">else</span> <span class="st">"cpu"</span>)  <span class="co"># component per node</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>sizes <span class="op">=</span> np.bincount(lab)  <span class="co"># nodes per component</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>g_closed<span class="sc">.</span>n_nodes<span class="sc">:,}</span><span class="ss"> nodes in </span><span class="sc">{</span><span class="bu">len</span>(sizes)<span class="sc">}</span><span class="ss"> components; largest </span><span class="sc">{</span>sizes<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:,}</span><span class="ss"> nodes; "</span>  <span class="co"># summary</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"</span><span class="sc">{</span>(sizes <span class="op">&lt;</span> <span class="dv">10</span>)<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss"> components with fewer than 10 nodes"</span>)  <span class="co"># fragments</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"same labels on CPU:"</span>, <span class="bu">bool</span>((pd.factorize(pdist.network.components(g_closed, compute<span class="op">=</span><span class="st">"cpu"</span>))[<span class="dv">0</span>] <span class="op">==</span> pd.factorize(lab)[<span class="dv">0</span>]).<span class="bu">all</span>()))  <span class="co"># check</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>15,729 nodes in 2 components; largest 15,727 nodes; 1 components with fewer than 10 nodes
+same labels on CPU: True</code></pre>
+</div>
+</div>
+<p>The network barely changed: without the freeways it still holds together, apart from one two-node fragment that was reachable only by a ramp. Wichita’s street grid offers an alternative to every freeway, which is itself a useful finding about the network’s redundancy. Running components on a raw network in the same way finds digitizing errors (roads that should meet but do not) before they distort an accessibility analysis.</p>
+</section>
+<section id="betweenness-centrality-on-cpu-and-gpu" class="level2">
+<h2 class="anchored" data-anchor-id="betweenness-centrality-on-cpu-and-gpu">Betweenness centrality on CPU and GPU</h2>
+<p>Exact betweenness of 16,000 nodes needs a shortest-path tree from every node. NetworkX does it in pure Python, so the comparison uses a sample of <code>k</code> source nodes (the approximation is unbiased and its error shrinks with <code>k</code>); cuGraph also computes the exact version.</p>
+<div id="681b5a32" class="cell" data-execution_count="8">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> {}  <span class="co"># timings</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>t[<span class="st">"CPU (NetworkX), k = 500"</span>], b_cpu <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.network.centrality(g, <span class="st">"betweenness"</span>, k<span class="op">=</span><span class="dv">500</span>, seed<span class="op">=</span><span class="dv">0</span>, compute<span class="op">=</span><span class="st">"cpu"</span>))  <span class="co"># sampled, CPU</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># cuGraph</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    t[<span class="st">"GPU (cuGraph), k = 500"</span>], b_gpu <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.network.centrality(g, <span class="st">"betweenness"</span>, k<span class="op">=</span><span class="dv">500</span>, seed<span class="op">=</span><span class="dv">0</span>, compute<span class="op">=</span><span class="st">"gpu"</span>))  <span class="co"># sampled, GPU</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    t[<span class="st">"GPU (cuGraph), exact"</span>], b_exact <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.network.centrality(g, <span class="st">"betweenness"</span>, compute<span class="op">=</span><span class="st">"gpu"</span>))  <span class="co"># all sources</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> scipy.stats <span class="im">import</span> spearmanr  <span class="co"># rank correlation</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"rank correlation with exact: CPU k=500"</span>, <span class="bu">round</span>(spearmanr(b_cpu, b_exact)[<span class="dv">0</span>], <span class="dv">3</span>),  <span class="co"># sampling error</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>          <span class="st">"| GPU k=500"</span>, <span class="bu">round</span>(spearmanr(b_gpu, b_exact)[<span class="dv">0</span>], <span class="dv">3</span>))  <span class="co"># same, GPU sample</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.Series(t, name<span class="op">=</span><span class="st">"seconds"</span>).<span class="bu">round</span>(<span class="dv">2</span>).to_string())  <span class="co"># timings</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>rank correlation with exact: CPU k=500 0.97 | GPU k=500 0.973
+CPU (NetworkX), k = 500    16.09
+GPU (cuGraph), k = 500      0.28
+GPU (cuGraph), exact        3.60</code></pre>
+</div>
+</div>
+<div id="221bafba" class="cell" data-execution_count="9">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>best <span class="op">=</span> b_exact <span class="cf">if</span> caps[<span class="st">"gpus"</span>] <span class="cf">else</span> b_cpu  <span class="co"># the best available estimate</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>e <span class="op">=</span> roads.copy()  <span class="co"># edges</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>e[<span class="st">"btw"</span>] <span class="op">=</span> np.maximum(best.values[g.src], best.values[g.dst])  <span class="co"># edge score from its end nodes</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">9</span>))  <span class="co"># one map</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>e.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">"lightgrey"</span>, lw<span class="op">=</span><span class="fl">0.3</span>)  <span class="co"># all roads</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> e[e.btw <span class="op">&gt;</span> e.btw.quantile(<span class="fl">0.95</span>)]  <span class="co"># the top 5 %</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>top.plot(ax<span class="op">=</span>ax, column<span class="op">=</span><span class="st">"btw"</span>, cmap<span class="op">=</span><span class="st">"inferno_r"</span>, lw<span class="op">=</span><span class="fl">1.6</span>)  <span class="co"># coloured by betweenness</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Road segments in the top 5 </span><span class="sc">% o</span><span class="st">f betweenness centrality"</span>)<span class="op">;</span> ax.set_axis_off()<span class="op">;</span> plt.tight_layout()<span class="op">;</span> plt.show()  <span class="co"># draw</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08_07_networks_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>On this network the GPU computed the exact betweenness about four times faster than NetworkX computed a 500-node sample, and the sampled values already rank nodes almost like the exact ones (Spearman correlation 0.97). The highest values trace the freeway loop around central Wichita, the east-west Kellogg corridor (US 54) and the arterials that feed them: the routes that most shortest paths share. (This is unweighted betweenness, counted in hops; it describes the network’s structure, not traffic volumes.)</p>
+</section>
+<section id="when-the-gpu-is-not-used" class="level2">
+<h2 class="anchored" data-anchor-id="when-the-gpu-is-not-used">When the GPU is not used</h2>
+<p>GeoLattice checks before sending betweenness to cuGraph. <code>max_shortest_path_count</code> probes how many equally short paths connect two distant nodes; above 10^18 cuGraph’s 64-bit counters could overflow and give wrong results, and GeoLattice runs the CPU version with a warning instead. A regular street lattice is the worst case: the number of shortest paths across an <code>n x n</code> grid grows like the binomial coefficient <code>C(2n, n)</code>.</p>
+<div id="53082961" class="cell" data-execution_count="10">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>lines <span class="op">=</span> []  <span class="co"># a 70 x 70 lattice of 100 m streets</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">71</span>):  <span class="co"># rows and columns</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">70</span>):  <span class="co"># segments</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        lines.append(shapely.LineString([(j <span class="op">*</span> <span class="dv">100</span>, i <span class="op">*</span> <span class="dv">100</span>), ((j <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> <span class="dv">100</span>, i <span class="op">*</span> <span class="dv">100</span>)]))  <span class="co"># east-west segment</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        lines.append(shapely.LineString([(i <span class="op">*</span> <span class="dv">100</span>, j <span class="op">*</span> <span class="dv">100</span>), (i <span class="op">*</span> <span class="dv">100</span>, (j <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> <span class="dv">100</span>)]))  <span class="co"># north-south segment</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> pdist.network.graph_from_lines(gpd.GeoDataFrame(geometry<span class="op">=</span>lines, crs<span class="op">=</span><span class="dv">5070</span>))  <span class="co"># the lattice graph</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"lattice: </span><span class="sc">{</span>grid<span class="sc">.</span>n_nodes<span class="sc">:,}</span><span class="ss"> nodes | max shortest-path count </span><span class="sc">{</span>pdist<span class="sc">.</span>network<span class="sc">.</span>max_shortest_path_count(grid)<span class="sc">:.2e}</span><span class="ss">"</span>  <span class="co"># overflow probe</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f" | Wichita: </span><span class="sc">{</span>pdist<span class="sc">.</span>network<span class="sc">.</span>max_shortest_path_count(g)<span class="sc">:.2e}</span><span class="ss">"</span>)  <span class="co"># the real network</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> _w.catch_warnings(record<span class="op">=</span><span class="va">True</span>) <span class="im">as</span> caught:  <span class="co"># capture the warning</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    _w.simplefilter(<span class="st">"always"</span>)  <span class="co"># make sure it is recorded</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    tb, bl <span class="op">=</span> timed(<span class="kw">lambda</span>: pdist.network.centrality(grid, <span class="st">"betweenness"</span>, k<span class="op">=</span><span class="dv">200</span>, compute<span class="op">=</span><span class="st">"gpu"</span>))  <span class="co"># asks for the GPU</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>tb<span class="sc">:.1f}</span><span class="ss"> s;"</span>, caught[<span class="dv">0</span>].message <span class="cf">if</span> caught <span class="cf">else</span> <span class="st">"no warning (no GPU on this machine)"</span>)  <span class="co"># what happened</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>lattice: 5,041 nodes | max shortest-path count 9.38e+40 | Wichita: 1.11e+05
+1.9 s; Graph has more than 1e18 equal-length shortest paths between some nodes (lattice-like network); cuGraph's int64 path counts would overflow, so betweenness runs on CPU.</code></pre>
+</div>
+</div>
+<p>The 70 x 70 lattice has about 10^40 equally short corner-to-corner paths, far beyond what a 64-bit integer holds, so the request for the GPU ran on the CPU with a warning. The Wichita network, with its irregular blocks, stays far below the limit. Silent overflow would have produced wrong centralities without any error; checking a cheap bound first is the safer design.</p>
+</section>
+<section id="summary-and-exercises" class="level2">
+<h2 class="anchored" data-anchor-id="summary-and-exercises">Summary and exercises</h2>
+<ul>
+<li><code>graph_from_lines</code> turns noded road lines into a weighted graph; travel time weights come from posted or typical speeds.</li>
+<li>Network distance to the nearest school was a third longer than the straight line for the median building, and much longer where barriers force detours.</li>
+<li>A multi-source Dijkstra on the CPU answered accessibility for all 180,000 buildings at once; on a road network of this size it beat one cuGraph search per school.</li>
+<li>Removing the freeways isolated only one two-node fragment: the street grid is redundant. Component labels find network errors and vulnerable links.</li>
+<li>cuGraph computed exact betweenness four times faster than NetworkX computed a 500-node sample, and the sample ranked nodes almost like the exact result.</li>
+<li>On lattice-like networks shortest-path counts overflow 64-bit integers; GeoLattice detects this and runs betweenness on the CPU.</li>
+</ul>
+<p><strong>Exercises</strong></p>
+<ol type="1">
+<li>Compute travel time to the nearest hospital for every building. What share of buildings is more than 10 minutes away?</li>
+<li>Compare betweenness weighted by travel time (build the NetworkX graph with <code>g.to_networkx()</code> and pass <code>weight="weight"</code>) with the unweighted version. Which roads gain importance?</li>
+<li>Remove the bridges over the Arkansas River (segments that cross it) and recompute school accessibility. Which neighbourhoods lose most?</li>
+<li>Time exact betweenness on cuGraph for random subgraphs of 2,000, 4,000, 8,000 and 16,000 nodes and fit the growth exponent.</li>
+</ol>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./08_06_spatial_statistics_and_clustering.html" class="pagination-link" aria-label="Spatial Statistics and Clustering">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Spatial Statistics and Clustering</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./08_08_hydrology.html" class="pagination-link" aria-label="Hydrology">
+        <span class="nav-page-text">Hydrology</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

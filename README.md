@@ -8,7 +8,7 @@ GeoLattice is a Python library for geospatial analysis that brings vector and ra
 
 It is built on GDAL, NumPy, SciPy, pandas, GeoPandas, Shapely and xarray, so its functions read and return the objects these libraries already use: GeoDataFrames, xarray DataArrays and Datasets, NumPy arrays and GDAL-readable files. Compute-heavy parts of the library run on the CPU by default and on a GPU (CuPy, PyTorch or JAX) when one is available, and `geolattice.distributed` runs vector and raster work on all CPU cores, a Dask cluster or Spark. Installing GeoLattice installs all of its dependencies (listed in `requirements.txt`); only GPU, cluster and Spark extras are added by name.
 
-GeoLattice comes with a set of tutorials: 360 Jupyter notebooks in eight chapters that explain each method, work through examples on real data and use the sample data in `Data/`.
+GeoLattice comes with a set of tutorials: 372 Jupyter notebooks in nine chapters that explain each method, work through examples on real data and use the sample data in `Data/`.
 
 GeoLattice was called PyGIS until version 0.3.49. See [Moving from PyGIS](#moving-from-pygis) if you have code or an environment that uses the old name.
 
@@ -251,16 +251,17 @@ The notebooks in [`Tutorials/notebooks`](Tutorials/notebooks) are organized like
 
 | Chapter | Notebooks | Topics |
 |---|---:|---|
-| [01 Vector data](Tutorials/notebooks/01_vector) | 6 | Reading and writing vector data, map projections, visualization, geoprocessing, geometry operations |
-| [02 Raster data](Tutorials/notebooks/02_raster) | 4 | Reading and writing rasters, projections, basic raster operations |
+| [01 Vector data](Tutorials/notebooks/01_02_vector_raster/01_vector) | 6 | Reading and writing vector data, map projections, visualization, geoprocessing, geometry operations |
+| [02 Raster data](Tutorials/notebooks/01_02_vector_raster/02_raster) | 4 | Reading and writing rasters, projections, basic raster operations |
 | [03 Spatial analysis](Tutorials/notebooks/03_spatial_analysis) | 51 | Terrain and hydrology, multidimensional data, multi-criteria suitability, network analysis, segregation analysis, spatial causal inference, capstones |
 | [04 Spatial statistics](Tutorials/notebooks/04_spatial_statistics) | 77 | Point patterns, spatial autocorrelation, spatial regression, spatial clusters, disease mapping, geographically weighted models, interpolation, sampling design, space-time analysis, capstones |
 | [05 Geostatistics](Tutorials/notebooks/05_geostatistics) | 55 | Variograms, kriging, regression kriging, specialized and space-time kriging, Poisson kriging, simulation, Bayesian kriging, capstones |
 | [06 Spatial databases](Tutorials/notebooks/06_spatialDB) | 15 | Spatial database concepts, spatial SQL, joins, indexing, PostGIS raster, pgRouting, DuckDB and GeoParquet, cloud engines, deployment |
 | [07 Web and cloud GIS](Tutorials/notebooks/07_web_cloud_gis) | 12 | Cloud-native raster and vector data, spatial SQL, interactive web maps, map serving, geospatial APIs, web apps, scalable processing, cloud platforms |
-| [09 Remote sensing](Tutorials/notebooks/09_remote_sensing) | 140 | Foundations, optical, radar, UAV, hyperspectral, lidar, texture analysis, super-resolution, image classification, object detection, foundation models, surface energy balance and evapotranspiration (SEBAL, METRIC, SSEBop, TSEB, seasonal crop water use), capstones |
+| [08 Distributed spatial computing](Tutorials/notebooks/08_distributed_spatial) | 13 | Sessions and clusters, parallel I/O, rasters and vectors at scale, zonal statistics, spatial statistics and clustering, networks, hydrology, machine learning on GPUs, Apache Sedona, diagnostics, capstone |
+| [09 Remote sensing](Tutorials/notebooks/09_remote_sensing) | 139 | Foundations, optical, radar, UAV, hyperspectral, lidar, texture analysis, super-resolution, image classification, object detection, foundation models, surface energy balance and evapotranspiration (SEBAL, METRIC, SSEBop, TSEB, seasonal crop water use), capstones |
 
-The sample data the notebooks read is in [`Data/`](Data/README.md), organized by chapter. HTML versions of the notebooks with all outputs are in [`docs/notebooks`](docs/notebooks) (chapters 01 to 03 so far); `Tutorials/_tools/export_notebooks_html.py` builds them.
+The sample data the notebooks read is in [`Data/`](Data/README.md), organized by chapter. HTML versions of the notebooks with all outputs are in [`docs/notebooks`](docs/notebooks) (chapters 01 to 06 so far); `Tutorials/_tools/export_notebooks_html.py` builds them.
 
 ## Documentation
 

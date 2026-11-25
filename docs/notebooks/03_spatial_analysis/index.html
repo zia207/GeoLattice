@@ -1,0 +1,2134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>GeoLattice: Spatial Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03_01_foundation/03_01_01_spatial_analysis_intruction.html" rel="next">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GeoLattice: Spatial Analysis</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-terrain--cubes" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Terrain &amp; Cubes</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-terrain--cubes">    
+        <li class="dropdown-header">Foundation</li>
+        <li>
+    <a class="dropdown-item" href="./03_01_foundation/03_01_01_spatial_analysis_intruction.html">
+ <span class="dropdown-text">Spatial Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_01_foundation/03_01_02_vector_analyis.html">
+ <span class="dropdown-text">Vector Data Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_01_foundation/03_01_03_raster_analysis.html">
+ <span class="dropdown-text">Raster Data Analysis</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Digital Terrain Modeling</li>
+        <li>
+    <a class="dropdown-item" href="./03_02_digital_terrain_modeling/03_02_00_digital_terrain_modeling_introduction.html">
+ <span class="dropdown-text">Digital Terrain Modeling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_02_digital_terrain_modeling/03_02_01_dem_preprocessing.html">
+ <span class="dropdown-text">DEM Preprocessing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_02_digital_terrain_modeling/03_02_02_terrain_analysis.html">
+ <span class="dropdown-text">Terrain Derivatives</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_02_digital_terrain_modeling/03_02_03_hydrology_modeling.html">
+ <span class="dropdown-text">Hydrology Modeling</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Multidimensional Data</li>
+        <li>
+    <a class="dropdown-item" href="./03_03_multidimentional_data/03_03_00_introduction_to_multidimentional_data.html">
+ <span class="dropdown-text">Multidimensional Raster Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_03_multidimentional_data/03_03_01_multidimensional_data_mangement.html">
+ <span class="dropdown-text">Data Management</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_03_multidimentional_data/03_03_02_multidimensional_analysis.html">
+ <span class="dropdown-text">Multidimensional Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_03_multidimentional_data/03_03_03_multidimentioanl_trend_analysis.html">
+ <span class="dropdown-text">Trend Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_03_multidimentional_data/03_03_04_multidimensional_PCA.html">
+ <span class="dropdown-text">Principal Components</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-suitability--networks" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Suitability &amp; Networks</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-suitability--networks">    
+        <li class="dropdown-header">Multi-Criteria Suitability</li>
+        <li>
+    <a class="dropdown-item" href="./03_04_multi_criteria_suitability_analysis/03_04_00_introduction_MCSM.html">
+ <span class="dropdown-text">Multi-Criteria Suitability</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_04_multi_criteria_suitability_analysis/03_04_01_00_introduction_vector_based_suitability_analysis.html">
+ <span class="dropdown-text">Vector-based Suitability</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_04_multi_criteria_suitability_analysis/03_04_01_01_deriving_criteria.html">
+ <span class="dropdown-text">Deriving Criteria</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_04_multi_criteria_suitability_analysis/03_04_01_02_categorical_suitability.html">
+ <span class="dropdown-text">Categorical Suitability</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_04_multi_criteria_suitability_analysis/03_04_01_03_weighted_suitability.html">
+ <span class="dropdown-text">Weighted Suitability</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_04_multi_criteria_suitability_analysis/03_04_02_00_fuzzy_logic_foundations.html">
+ <span class="dropdown-text">Fuzzy Logic Foundations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_04_multi_criteria_suitability_analysis/03_04_02_01_fuzzy_vector_suitability.html">
+ <span class="dropdown-text">Fuzzy Suitability for Polygons</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_04_multi_criteria_suitability_analysis/03_04_02_03_fuzzy_raster_suitability.html">
+ <span class="dropdown-text">Fuzzy Suitability for Rasters</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_04_multi_criteria_suitability_analysis/03_04_02_04_advanced_fuzzy_suitability.html">
+ <span class="dropdown-text">Advanced Fuzzy Suitability</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_04_multi_criteria_suitability_analysis/03_04_03_sensitivity_uncertainty.html">
+ <span class="dropdown-text">Sensitivity and Uncertainty</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Network Analysis</li>
+        <li>
+    <a class="dropdown-item" href="./03_05_network_analysis/03_05_00_introduction_network_analysis.html">
+ <span class="dropdown-text">Spatial Network Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_05_network_analysis/03_05_01_geographic_embedding.html">
+ <span class="dropdown-text">Geographic Embedding</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_05_network_analysis/03_05_02_osmnx_routing.html">
+ <span class="dropdown-text">Routing with OSMnx</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_05_network_analysis/03_05_03_geopandas_networks.html">
+ <span class="dropdown-text">Networks from GeoPandas</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_05_network_analysis/03_05_04_service_area_access.html">
+ <span class="dropdown-text">Service Areas and Access</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_05_network_analysis/03_05_05_flow_networks.html">
+ <span class="dropdown-text">Flow Networks</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-people--causality" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">People &amp; Causality</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-people--causality">    
+        <li class="dropdown-header">Segregation Analysis</li>
+        <li>
+    <a class="dropdown-item" href="./03_06_segregation_analysis/03_06_00_introduction_segregation_analysis.html">
+ <span class="dropdown-text">Segregation Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_06_segregation_analysis/03_06_01_single_group_indices.html">
+ <span class="dropdown-text">Single-group Indices</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_06_segregation_analysis/03_06_02_multigroup_indices.html">
+ <span class="dropdown-text">Multigroup Indices</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_06_segregation_analysis/03_06_03_local_segregation.html">
+ <span class="dropdown-text">Local Segregation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_06_segregation_analysis/03_06_04_multiscale_profiles.html">
+ <span class="dropdown-text">Multiscale Profiles</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_06_segregation_analysis/03_06_05_null_models_simulation.html">
+ <span class="dropdown-text">Null Models and Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_06_segregation_analysis/03_06_06_inference.html">
+ <span class="dropdown-text">Inference</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_06_segregation_analysis/03_06_07_decomposition_dynamics.html">
+ <span class="dropdown-text">Segregation Over Time</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Spatial Causal Inference</li>
+        <li>
+    <a class="dropdown-item" href="./03_07_spatial_causal/03_07_00_data_and_causal_setup.html">
+ <span class="dropdown-text">Spatial Causal Inference</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_07_spatial_causal/03_07_01_spatial_confounding.html">
+ <span class="dropdown-text">Spatial Confounding</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_07_spatial_causal/03_07_02_interference_spillovers.html">
+ <span class="dropdown-text">Interference and Spillovers</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_07_spatial_causal/03_07_03_spatially_varying_effects.html">
+ <span class="dropdown-text">Spatially Varying Effects</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_07_spatial_causal/03_07_04_geographic_rdd.html">
+ <span class="dropdown-text">Geographic RDD</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_07_spatial_causal/03_07_05_panel_did_synthetic_control.html">
+ <span class="dropdown-text">Panel Designs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_07_spatial_causal/03_07_06_bayesian_spatial_models.html">
+ <span class="dropdown-text">Bayesian Spatial Causal Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_07_spatial_causal/03_07_07_designing_spatial_experiments.html">
+ <span class="dropdown-text">Designing Spatial Experiments</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_07_spatial_causal/06_03_08_causal_discovery.html">
+ <span class="dropdown-text">Spatial Causal Discovery</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-capstones" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Capstones</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-capstones">    
+        <li class="dropdown-header">Capstone Projects</li>
+        <li>
+    <a class="dropdown-item" href="./03_08_capston/03_08_01_flood_susceptibility_mapping.html">
+ <span class="dropdown-text">Flood Susceptibility</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_08_capston/03_08_02_watershed_characterization.html">
+ <span class="dropdown-text">Watershed Characterization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_08_capston/03_08_03_agricultural_suitability.html">
+ <span class="dropdown-text">Agricultural Suitability</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_08_capston/03_08_04_landslide_susceptibility.html">
+ <span class="dropdown-text">Landslide Susceptibility</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_08_capston/03_08_05_habitat_suitability.html">
+ <span class="dropdown-text">Habitat Suitability</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./03_08_capston/03_08_06_farmer_networks_case_study.html">
+ <span class="dropdown-text">Farmer Networks</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Overview</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Foundation</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_01_foundation/03_01_01_spatial_analysis_intruction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_01_foundation/03_01_02_vector_analyis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vector Data Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_01_foundation/03_01_03_raster_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raster Data Analysis</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Digital Terrain Modeling</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_02_digital_terrain_modeling/03_02_00_digital_terrain_modeling_introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Digital Terrain Modeling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_02_digital_terrain_modeling/03_02_01_dem_preprocessing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DEM Preprocessing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_02_digital_terrain_modeling/03_02_02_terrain_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Terrain Derivatives</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_02_digital_terrain_modeling/03_02_03_hydrology_modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hydrology Modeling</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Multidimensional Data</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_03_multidimentional_data/03_03_00_introduction_to_multidimentional_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multidimensional Raster Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_03_multidimentional_data/03_03_01_multidimensional_data_mangement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Management</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_03_multidimentional_data/03_03_02_multidimensional_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multidimensional Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_03_multidimentional_data/03_03_03_multidimentioanl_trend_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Trend Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_03_multidimentional_data/03_03_04_multidimensional_PCA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Principal Components</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Multi-Criteria Suitability</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_04_multi_criteria_suitability_analysis/03_04_00_introduction_MCSM.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multi-Criteria Suitability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_04_multi_criteria_suitability_analysis/03_04_01_00_introduction_vector_based_suitability_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vector-based Suitability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_04_multi_criteria_suitability_analysis/03_04_01_01_deriving_criteria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Deriving Criteria</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_04_multi_criteria_suitability_analysis/03_04_01_02_categorical_suitability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Categorical Suitability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_04_multi_criteria_suitability_analysis/03_04_01_03_weighted_suitability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weighted Suitability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_04_multi_criteria_suitability_analysis/03_04_02_00_fuzzy_logic_foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fuzzy Logic Foundations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_04_multi_criteria_suitability_analysis/03_04_02_01_fuzzy_vector_suitability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fuzzy Suitability for Polygons</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_04_multi_criteria_suitability_analysis/03_04_02_03_fuzzy_raster_suitability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fuzzy Suitability for Rasters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_04_multi_criteria_suitability_analysis/03_04_02_04_advanced_fuzzy_suitability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advanced Fuzzy Suitability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_04_multi_criteria_suitability_analysis/03_04_03_sensitivity_uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sensitivity and Uncertainty</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Network Analysis</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_05_network_analysis/03_05_00_introduction_network_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial Network Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_05_network_analysis/03_05_01_geographic_embedding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geographic Embedding</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_05_network_analysis/03_05_02_osmnx_routing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Routing with OSMnx</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_05_network_analysis/03_05_03_geopandas_networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Networks from GeoPandas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_05_network_analysis/03_05_04_service_area_access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Service Areas and Access</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_05_network_analysis/03_05_05_flow_networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Flow Networks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Segregation Analysis</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_06_segregation_analysis/03_06_00_introduction_segregation_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Segregation Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_06_segregation_analysis/03_06_01_single_group_indices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Single-group Indices</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_06_segregation_analysis/03_06_02_multigroup_indices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multigroup Indices</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_06_segregation_analysis/03_06_03_local_segregation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Local Segregation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_06_segregation_analysis/03_06_04_multiscale_profiles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multiscale Profiles</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_06_segregation_analysis/03_06_05_null_models_simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Null Models and Simulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_06_segregation_analysis/03_06_06_inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Inference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_06_segregation_analysis/03_06_07_decomposition_dynamics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Segregation Over Time</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Spatial Causal Inference</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_07_spatial_causal/03_07_00_data_and_causal_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial Causal Inference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_07_spatial_causal/03_07_01_spatial_confounding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial Confounding</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_07_spatial_causal/03_07_02_interference_spillovers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interference and Spillovers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_07_spatial_causal/03_07_03_spatially_varying_effects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatially Varying Effects</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_07_spatial_causal/03_07_04_geographic_rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geographic RDD</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_07_spatial_causal/03_07_05_panel_did_synthetic_control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Panel Designs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_07_spatial_causal/03_07_06_bayesian_spatial_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian Spatial Causal Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_07_spatial_causal/03_07_07_designing_spatial_experiments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Designing Spatial Experiments</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_07_spatial_causal/06_03_08_causal_discovery.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial Causal Discovery</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_08_capston/03_08_01_flood_susceptibility_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Flood Susceptibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_08_capston/03_08_02_watershed_characterization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Watershed Characterization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_08_capston/03_08_03_agricultural_suitability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Agricultural Suitability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_08_capston/03_08_04_landslide_susceptibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Landslide Susceptibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_08_capston/03_08_05_habitat_suitability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Habitat Suitability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_08_capston/03_08_06_farmer_networks_case_study.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Farmer Networks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#geolattice" id="toc-geolattice" class="nav-link active" data-scroll-target="#geolattice">GeoLattice</a></li>
+  <li><a href="#terrain-and-hydrology" id="toc-terrain-and-hydrology" class="nav-link" data-scroll-target="#terrain-and-hydrology">Terrain and hydrology</a></li>
+  <li><a href="#multidimensional-data" id="toc-multidimensional-data" class="nav-link" data-scroll-target="#multidimensional-data">Multidimensional data</a></li>
+  <li><a href="#multi-criteria-suitability" id="toc-multi-criteria-suitability" class="nav-link" data-scroll-target="#multi-criteria-suitability">Multi-criteria suitability</a></li>
+  <li><a href="#network-analysis" id="toc-network-analysis" class="nav-link" data-scroll-target="#network-analysis">Network analysis</a></li>
+  <li><a href="#segregation-analysis" id="toc-segregation-analysis" class="nav-link" data-scroll-target="#segregation-analysis">Segregation analysis</a></li>
+  <li><a href="#spatial-causal-inference" id="toc-spatial-causal-inference" class="nav-link" data-scroll-target="#spatial-causal-inference">Spatial causal inference</a></li>
+  <li><a href="#tutorials" id="toc-tutorials" class="nav-link" data-scroll-target="#tutorials">Tutorials</a>
+  <ul>
+  <li><a href="#foundation" id="toc-foundation" class="nav-link" data-scroll-target="#foundation">Foundation</a></li>
+  <li><a href="#digital-terrain-modeling" id="toc-digital-terrain-modeling" class="nav-link" data-scroll-target="#digital-terrain-modeling">Digital terrain modeling</a></li>
+  <li><a href="#multidimensional-data-1" id="toc-multidimensional-data-1" class="nav-link" data-scroll-target="#multidimensional-data-1">Multidimensional data</a></li>
+  <li><a href="#multi-criteria-suitability-1" id="toc-multi-criteria-suitability-1" class="nav-link" data-scroll-target="#multi-criteria-suitability-1">Multi-criteria suitability</a></li>
+  <li><a href="#network-analysis-1" id="toc-network-analysis-1" class="nav-link" data-scroll-target="#network-analysis-1">Network analysis</a></li>
+  <li><a href="#segregation-analysis-1" id="toc-segregation-analysis-1" class="nav-link" data-scroll-target="#segregation-analysis-1">Segregation analysis</a></li>
+  <li><a href="#spatial-causal-inference-1" id="toc-spatial-causal-inference-1" class="nav-link" data-scroll-target="#spatial-causal-inference-1">Spatial causal inference</a></li>
+  <li><a href="#capstone-projects" id="toc-capstone-projects" class="nav-link" data-scroll-target="#capstone-projects">Capstone projects</a></li>
+  <li><a href="#quick-reference" id="toc-quick-reference" class="nav-link" data-scroll-target="#quick-reference">Quick reference</a></li>
+  </ul></li>
+  <li><a href="#sample-data" id="toc-sample-data" class="nav-link" data-scroll-target="#sample-data">Sample data</a></li>
+  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license">License</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p align="center">
+<img src="03_banner_spatial_analysis_geolattice.png" alt="Spatial Analysis with GeoLattice tutorial banner" width="100%">
+</p>
+<p>Spatial analysis turns layers into answers. It asks where water flows, which land is suitable for a crop or a clinic, how far people are from services, how groups are spread across a city and whether a policy changed outcomes in the places it reached. Every one of these questions starts from the vector and raster data of the first two chapters and adds a method built for space.</p>
+<p>These 51 notebooks are chapter 03 of the <a href="https://github.com/zia207/GeoLattice">GeoLattice</a> tutorials. They cover terrain and hydrology, multidimensional data cubes, multi-criteria suitability, spatial networks, segregation and spatial causal inference, and finish with six capstone projects, using <code>geolattice.spatial_analysis</code> with real data from the United States and Bangladesh.</p>
+<section id="geolattice" class="level2">
+<h2 class="anchored" data-anchor-id="geolattice">GeoLattice</h2>
+<p>GeoLattice is a Python library for geospatial analysis that brings vector and raster processing, spatial analysis, spatial statistics, geostatistics, spatial databases, web and cloud GIS and remote sensing together under one import. It is built on GDAL, NumPy, pandas, GeoPandas, Shapely and xarray, so its functions take and return objects these libraries already use: GeoDataFrames, xarray DataArrays, NumPy arrays and GDAL-readable files.</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td><strong>Package</strong></td>
+<td><code>geolattice</code></td>
+</tr>
+<tr class="even">
+<td><strong>Repository</strong></td>
+<td><a href="https://github.com/zia207/GeoLattice">github.com/zia207/GeoLattice</a></td>
+</tr>
+<tr class="odd">
+<td><strong>Python</strong></td>
+<td>3.10 or newer</td>
+</tr>
+<tr class="even">
+<td><strong>License</strong></td>
+<td>MIT</td>
+</tr>
+<tr class="odd">
+<td><strong>Author</strong></td>
+<td>Zia Ahmed, Upatta Analytics</td>
+</tr>
+</tbody>
+</table>
+<p>GDAL and PROJ must be installed first, with Python GDAL bindings that match the GDAL library (conda or your system package manager). Then install the spatial statistics option, which includes spatial analysis and the scikit-learn models that spatial causal inference needs:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="st">"geolattice[statistics]"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The chapter uses four imports:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.spatial_analysis <span class="im">as</span> sa</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.spatial_analysis <span class="im">import</span> network_analysis <span class="im">as</span> sna, segregation <span class="im">as</span> seg</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.spatial_analysis.spatialcausal <span class="im">as</span> sc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="terrain-and-hydrology" class="level2">
+<h2 class="anchored" data-anchor-id="terrain-and-hydrology">Terrain and hydrology</h2>
+<p>A digital elevation model (DEM) is a raster of heights. Its derivatives describe the shape of the land: slope, aspect and curvature, the position of a cell relative to its neighbours and how wet it is likely to be. Hydrology follows water over that surface: fill or breach the pits a DEM always has, give each cell a flow direction, accumulate the area that drains through it, and cut the network into streams and watersheds.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Functions (<code>sa</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Surface derivatives</td>
+<td><code>slope</code>, <code>aspect</code>, <code>hillshade</code>, <code>curvature</code>, <code>plan_curvature</code>, <code>profile_curvature</code></td>
+</tr>
+<tr class="even">
+<td>Position and ruggedness</td>
+<td><code>tpi</code>, <code>tri</code>, <code>roughness</code>, <code>twi</code>, <code>landform_classification</code>, <code>multiscale_analysis</code></td>
+</tr>
+<tr class="odd">
+<td>Visibility and contours</td>
+<td><code>viewshed</code>, <code>contours</code></td>
+</tr>
+<tr class="even">
+<td>Condition the DEM</td>
+<td><code>fill_depressions</code>, <code>breach_depressions</code></td>
+</tr>
+<tr class="odd">
+<td>Flow direction and accumulation</td>
+<td><code>d8_pointer</code>, <code>dinf_pointer</code>, <code>fd8_pointer</code>, <code>d8_flow_accumulation</code>, <code>dinf_flow_accumulation</code></td>
+</tr>
+<tr class="even">
+<td>Streams and watersheds</td>
+<td><code>extract_streams</code>, <code>stream_segmentation</code>, <code>snap_pour_points</code>, <code>watershed</code>, <code>subbasins</code>, <code>basins</code></td>
+</tr>
+<tr class="odd">
+<td>Height above drainage</td>
+<td><code>elevation_above_stream</code>, <code>wetness_index</code></td>
+</tr>
+</tbody>
+</table>
+<p>The terrain and hydrology tools read a DEM from a path and write their result to another path:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.spatial_analysis <span class="im">as</span> sa</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>sa.slope(<span class="st">"dem.tif"</span>, <span class="st">"slope.tif"</span>)                                  <span class="co"># degrees</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>sa.hillshade(<span class="st">"dem.tif"</span>, <span class="st">"hillshade.tif"</span>, azimuth<span class="op">=</span><span class="dv">315</span>, altitude<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>sa.breach_depressions(<span class="st">"dem.tif"</span>, <span class="st">"dem_breached.tif"</span>)              <span class="co"># condition the DEM</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>sa.d8_pointer(<span class="st">"dem_breached.tif"</span>, <span class="st">"d8.tif"</span>)                       <span class="co"># flow direction</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>sa.d8_flow_accumulation(<span class="st">"dem_breached.tif"</span>, <span class="st">"facc.tif"</span>)           <span class="co"># upslope cells</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>sa.extract_streams(<span class="st">"facc.tif"</span>, <span class="st">"streams.tif"</span>, threshold<span class="op">=</span><span class="dv">1000</span>)     <span class="co"># cells draining &gt; 1000 cells</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>sa.watershed(<span class="st">"d8.tif"</span>, <span class="st">"outlets.shp"</span>, <span class="st">"watersheds.tif"</span>)           <span class="co"># watershed of each outlet</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="multidimensional-data" class="level2">
+<h2 class="anchored" data-anchor-id="multidimensional-data">Multidimensional data</h2>
+<p>Climate and satellite records come as cubes: one raster per variable per time step, stored in NetCDF or Zarr. Multidimensional tools select and aggregate along time, compute anomalies against a baseline, fit a trend to every pixel and reduce many layers to a few principal components.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Functions (<code>sa</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Open and subset cubes</td>
+<td><code>MultidimensionalRaster</code>, <code>subset_multidimensional_raster</code>, <code>make_netcdf_raster_layer</code></td>
+</tr>
+<tr class="even">
+<td>Aggregate and compare</td>
+<td><code>aggregate_multidimensional_raster</code>, <code>generate_multidimensional_anomaly</code>, <code>zonal_statistics_as_table</code></td>
+</tr>
+<tr class="odd">
+<td>Trends and change</td>
+<td><code>generate_trend_raster</code>, <code>predict_using_trend_raster</code>, <code>analyze_changes_using_ccdc</code>, <code>analyze_changes_using_landtrendr</code></td>
+</tr>
+<tr class="even">
+<td>Reduce and sample</td>
+<td><code>multidimensional_principal_components</code>, <code>temporal_profile</code>, <code>sample_multidimensional</code></td>
+</tr>
+<tr class="odd">
+<td>Export</td>
+<td><code>raster_to_netcdf</code>, <code>feature_to_netcdf</code>, <code>table_to_netcdf</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="multi-criteria-suitability" class="level2">
+<h2 class="anchored" data-anchor-id="multi-criteria-suitability">Multi-criteria suitability</h2>
+<p>Suitability modelling ranks places against several criteria at once: slope, distance to roads, soil, rainfall and so on. Each criterion is put on a common scale, then the criteria are combined, either by hard rules (Boolean), by weights (weighted overlay or weighted linear combination) or by fuzzy membership, which lets a place be partly suitable. The last step tests how much the answer depends on the weights.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Functions (<code>sa</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Common scale</td>
+<td><code>suitability_reclassify</code>, <code>minmax_normalize</code>, <code>percentile_rank_normalize</code>, <code>rescale_by_function</code></td>
+</tr>
+<tr class="even">
+<td>Boolean and categorical rules</td>
+<td><code>categorical_and</code>, <code>categorical_or</code>, <code>criteria_count</code>, <code>limiting_criterion</code></td>
+</tr>
+<tr class="odd">
+<td>Weighted overlay</td>
+<td><code>weighted_overlay</code>, <code>weighted_sum</code>, <code>weighted_linear_combination</code>, <code>score_contributions</code></td>
+</tr>
+<tr class="even">
+<td>Fuzzy logic</td>
+<td><code>fuzzy_membership</code>, <code>fuzzy_overlay</code>, <code>weighted_fuzzy_overlay</code>, <code>linear</code>, <code>gaussian</code>, <code>large</code>, <code>small</code>, <code>near</code></td>
+</tr>
+<tr class="odd">
+<td>Sensitivity and sites</td>
+<td><code>monte_carlo_weights</code>, <code>perturb_weights</code>, <code>locate_regions</code>, <code>top_quantile_mask</code></td>
+</tr>
+</tbody>
+</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.spatial_analysis <span class="im">as</span> sa</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fuzzy "small" membership: close to 1 for low values, 0.5 at the midpoint</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sa.fuzzy_membership(<span class="st">"slope.tif"</span>, <span class="st">"slope_fz.tif"</span>, membership_type<span class="op">=</span><span class="st">"small"</span>, midpoint<span class="op">=</span><span class="dv">8</span>, spread<span class="op">=</span><span class="dv">5</span>)          <span class="co"># 8 degrees</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>sa.fuzzy_membership(<span class="st">"dist_road.tif"</span>, <span class="st">"road_fz.tif"</span>, membership_type<span class="op">=</span><span class="st">"small"</span>, midpoint<span class="op">=</span><span class="dv">2000</span>, spread<span class="op">=</span><span class="dv">4</span>)   <span class="co"># 2 km</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine: fuzzy AND keeps the weakest criterion; a weighted overlay trades them off</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>sa.fuzzy_overlay([<span class="st">"slope_fz.tif"</span>, <span class="st">"road_fz.tif"</span>], <span class="st">"suit_fuzzy.tif"</span>, overlay_type<span class="op">=</span><span class="st">"and"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>sa.weighted_overlay([<span class="st">"slope_class.tif"</span>, <span class="st">"road_class.tif"</span>], <span class="st">"suit_weighted.tif"</span>, weights<span class="op">=</span>[<span class="fl">0.6</span>, <span class="fl">0.4</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="network-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="network-analysis">Network analysis</h2>
+<p>A road network is a graph: intersections are nodes and road segments are edges with a length and a travel time. Network analysis finds shortest routes, the area reachable within a time budget, how well each place is served by facilities and how goods, people or a disease move along the links.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Functions (<code>sna</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Build graphs</td>
+<td><code>load_road_graph</code>, <code>lines_to_graph</code>, <code>graph_from_edgelist</code>, <code>snap_points_to_nodes</code></td>
+</tr>
+<tr class="even">
+<td>Routes and travel times</td>
+<td><code>shortest_routes</code>, <code>route_summary</code>, <code>od_travel_time_matrix</code>, <code>travel_time_matrix</code></td>
+</tr>
+<tr class="odd">
+<td>Service areas and access</td>
+<td><code>isochrone_polygons</code>, <code>cumulative_accessibility</code>, <code>two_sfca</code>, <code>population_coverage</code></td>
+</tr>
+<tr class="even">
+<td>Facility location</td>
+<td><code>nearest_facility_network</code>, <code>evaluate_candidate_sites</code>, <code>closure_impact</code></td>
+</tr>
+<tr class="odd">
+<td>Flows and structure</td>
+<td><code>fit_gravity_model</code>, <code>flow_communities</code>, <code>flow_pagerank</code>, <code>kansky_indices</code>, <code>percolation_curve</code></td>
+</tr>
+<tr class="even">
+<td>Spread on networks</td>
+<td><code>simulate_contagion</code>, <code>metapopulation_sir</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="segregation-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="segregation-analysis">Segregation analysis</h2>
+<p>Segregation measures describe how two or more groups are spread across the units of a city or region. Indices summarise the whole area, local measures map where groups are concentrated, multiscale profiles show how the answer changes with neighbourhood size, and null models and bootstraps say whether a value is larger than chance.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Functions (<code>seg</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>One call for any index</td>
+<td><code>compute</code></td>
+</tr>
+<tr class="even">
+<td>Single group and multigroup indices</td>
+<td><code>dissimilarity</code>, <code>isolation</code>, <code>exposure</code>, <code>gini</code>, <code>theil_h</code>, <code>multigroup_dissimilarity</code>, <code>simpson_diversity</code></td>
+</tr>
+<tr class="odd">
+<td>Local measures</td>
+<td><code>local_quotient</code>, <code>local_entropy</code>, <code>local_significance</code></td>
+</tr>
+<tr class="even">
+<td>Neighbourhoods and scale</td>
+<td><code>kernel_weights</code>, <code>knn_weights</code>, <code>network_weights</code>, <code>compute_profile</code></td>
+</tr>
+<tr class="odd">
+<td>Inference</td>
+<td><code>evenness_null</code>, <code>systematic_null</code>, <code>spatially_constrained_null</code>, <code>spatial_block_bootstrap</code>, <code>panel_trend_test</code></td>
+</tr>
+<tr class="even">
+<td>Change over time</td>
+<td><code>decompose_change</code>, <code>compute_panel</code>, <code>areal_interpolate</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="spatial-causal-inference" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-causal-inference">Spatial causal inference</h2>
+<p>Correlation in space is easy to find and hard to interpret. Spatial causal inference estimates the effect of a treatment when nearby places share unmeasured causes (spatial confounding), when treating one place affects its neighbours (interference and spillovers) and when the effect itself varies over space. Quasi-experiments use borders and the timing of policies, and the last two notebooks design spatial experiments and learn causal graphs.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Functions (<code>sc</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Data</td>
+<td><code>SpatialCausalData</code>, <code>SpatialPanel</code>, <code>datasets.simulate_spatial_confounding</code></td>
+</tr>
+<tr class="even">
+<td>Spatial confounding</td>
+<td><code>diagnose_spatial_confounding</code>, <code>SpatialPlus</code>, <code>moran_eigenvectors</code>, <code>compare_adjustments</code></td>
+</tr>
+<tr class="odd">
+<td>Spillovers</td>
+<td><code>ExposureMapping</code>, <code>DistanceDecayExposure</code>, <code>InterferenceEstimator</code></td>
+</tr>
+<tr class="even">
+<td>Machine learning estimators</td>
+<td><code>SpatialDML</code>, <code>SpatialDRLearner</code>, <code>GWDML</code>, <code>GWCausalForest</code></td>
+</tr>
+<tr class="odd">
+<td>Quasi-experiments</td>
+<td><code>GeographicRDD</code>, <code>SpatialDiD</code>, <code>StaggeredSpatialDiD</code>, <code>SpatialSyntheticControl</code></td>
+</tr>
+<tr class="even">
+<td>Bayesian models and experiments</td>
+<td><code>BayesianSpatialCausal</code>, <code>ClusterRandomizedDesign</code>, <code>SaturationDesign</code>, <code>power_analysis</code></td>
+</tr>
+<tr class="odd">
+<td>Causal discovery</td>
+<td><code>SpatialGranger</code>, <code>GCCM</code>, <code>SpatialNOTEARS</code></td>
+</tr>
+<tr class="even">
+<td>Inference under dependence</td>
+<td><code>standard_error</code>, <code>conley_variance</code>, <code>spatial_block_bootstrap</code></td>
+</tr>
+</tbody>
+</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.spatial_analysis.spatialcausal <span class="im">as</span> sc</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> sc.datasets.simulate_spatial_confounding(n<span class="op">=</span><span class="dv">400</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sc.diagnose_spatial_confounding(data))                 <span class="co"># Moran's I on treatment and outcome</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sc.SpatialDML(se<span class="op">=</span><span class="st">"conley"</span>, cutoff<span class="op">=</span><span class="fl">0.2</span>).fit(data).summary())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="tutorials" class="level2">
+<h2 class="anchored" data-anchor-id="tutorials">Tutorials</h2>
+<p>Start with the foundation notebooks. The topics after that can be read in any order, and the capstones combine them.</p>
+<section id="foundation" class="level3">
+<h3 class="anchored" data-anchor-id="foundation">Foundation</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./03_01_foundation/03_01_01_spatial_analysis_intruction.html">Spatial analysis</a></td>
+<td>What spatial analysis is and the questions it answers</td>
+</tr>
+<tr class="even">
+<td><a href="./03_01_foundation/03_01_02_vector_analyis.html">Vector data analysis</a></td>
+<td>Spatial analysis and attribute tools on US data</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_01_foundation/03_01_03_raster_analysis.html">Raster data analysis</a></td>
+<td>Local, focal, zonal and proximity analysis, map algebra</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="digital-terrain-modeling" class="level3">
+<h3 class="anchored" data-anchor-id="digital-terrain-modeling">Digital terrain modeling</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./03_02_digital_terrain_modeling/03_02_00_digital_terrain_modeling_introduction.html">Digital terrain modeling</a></td>
+<td>DEMs and what they measure</td>
+</tr>
+<tr class="even">
+<td><a href="./03_02_digital_terrain_modeling/03_02_01_dem_preprocessing.html">DEM preprocessing</a></td>
+<td>Metadata, clipping, resampling and terrain visualization</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_02_digital_terrain_modeling/03_02_02_terrain_analysis.html">Terrain derivatives</a></td>
+<td>Slope, aspect, curvature, TPI, landforms</td>
+</tr>
+<tr class="even">
+<td><a href="./03_02_digital_terrain_modeling/03_02_03_hydrology_modeling.html">Hydrology modeling</a></td>
+<td>Flow direction, accumulation, streams, watersheds</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="multidimensional-data-1" class="level3">
+<h3 class="anchored" data-anchor-id="multidimensional-data-1">Multidimensional data</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./03_03_multidimentional_data/03_03_00_introduction_to_multidimentional_data.html">Multidimensional raster data</a></td>
+<td>NetCDF and Zarr cubes</td>
+</tr>
+<tr class="even">
+<td><a href="./03_03_multidimentional_data/03_03_01_multidimensional_data_mangement.html">Data management</a></td>
+<td>NetCDF to multi-band rasters and back</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_03_multidimentional_data/03_03_02_multidimensional_analysis.html">Multidimensional analysis</a></td>
+<td>Seasonal and monthly means, anomalies</td>
+</tr>
+<tr class="even">
+<td><a href="./03_03_multidimentional_data/03_03_03_multidimentioanl_trend_analysis.html">Trend analysis</a></td>
+<td>Per-pixel trends and predictions</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_03_multidimentional_data/03_03_04_multidimensional_PCA.html">Principal components</a></td>
+<td>PCA across time slices</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="multi-criteria-suitability-1" class="level3">
+<h3 class="anchored" data-anchor-id="multi-criteria-suitability-1">Multi-criteria suitability</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./03_04_multi_criteria_suitability_analysis/03_04_00_introduction_MCSM.html">Multi-criteria suitability modeling</a></td>
+<td>The suitability workflow</td>
+</tr>
+<tr class="even">
+<td><a href="./03_04_multi_criteria_suitability_analysis/03_04_01_00_introduction_vector_based_suitability_analysis.html">Vector-based suitability</a></td>
+<td>Suitability on polygons</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_04_multi_criteria_suitability_analysis/03_04_01_01_deriving_criteria.html">Deriving criteria</a></td>
+<td>Criteria for clinic site selection</td>
+</tr>
+<tr class="even">
+<td><a href="./03_04_multi_criteria_suitability_analysis/03_04_01_02_categorical_suitability.html">Categorical suitability</a></td>
+<td>Boolean rules</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_04_multi_criteria_suitability_analysis/03_04_01_03_weighted_suitability.html">Weighted suitability</a></td>
+<td>Weighted overlay and ranking</td>
+</tr>
+<tr class="even">
+<td><a href="./03_04_multi_criteria_suitability_analysis/03_04_02_00_fuzzy_logic_foundations.html">Fuzzy logic foundations</a></td>
+<td>Membership functions and operators</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_04_multi_criteria_suitability_analysis/03_04_02_01_fuzzy_vector_suitability.html">Fuzzy suitability for polygons</a></td>
+<td>Fuzzy overlay on vector data</td>
+</tr>
+<tr class="even">
+<td><a href="./03_04_multi_criteria_suitability_analysis/03_04_02_03_fuzzy_raster_suitability.html">Fuzzy suitability for rasters</a></td>
+<td>Fuzzy overlay on grids</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_04_multi_criteria_suitability_analysis/03_04_02_04_advanced_fuzzy_suitability.html">Advanced fuzzy suitability</a></td>
+<td>Sensitivity, weighting and rule-based inference</td>
+</tr>
+<tr class="even">
+<td><a href="./03_04_multi_criteria_suitability_analysis/03_04_03_sensitivity_uncertainty.html">Sensitivity and uncertainty</a></td>
+<td>How stable the ranking is</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="network-analysis-1" class="level3">
+<h3 class="anchored" data-anchor-id="network-analysis-1">Network analysis</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./03_05_network_analysis/03_05_00_introduction_network_analysis.html">Spatial network analysis</a></td>
+<td>Graphs in geographic space</td>
+</tr>
+<tr class="even">
+<td><a href="./03_05_network_analysis/03_05_01_geographic_embedding.html">Geographic embedding</a></td>
+<td>Nodes and edges with locations</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_05_network_analysis/03_05_02_osmnx_routing.html">Routing with OSMnx</a></td>
+<td>Road networks, routing and accessibility</td>
+</tr>
+<tr class="even">
+<td><a href="./03_05_network_analysis/03_05_03_geopandas_networks.html">Networks from GeoPandas</a></td>
+<td>Graphs from your own lines</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_05_network_analysis/03_05_04_service_area_access.html">Service areas and access</a></td>
+<td>Isochrones and facility access</td>
+</tr>
+<tr class="even">
+<td><a href="./03_05_network_analysis/03_05_05_flow_networks.html">Flow networks</a></td>
+<td>Commuting, gravity and contagion</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="segregation-analysis-1" class="level3">
+<h3 class="anchored" data-anchor-id="segregation-analysis-1">Segregation analysis</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./03_06_segregation_analysis/03_06_00_introduction_segregation_analysis.html">Segregation analysis</a></td>
+<td>Dimensions of segregation</td>
+</tr>
+<tr class="even">
+<td><a href="./03_06_segregation_analysis/03_06_01_single_group_indices.html">Single-group indices</a></td>
+<td>Dissimilarity, isolation, exposure</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_06_segregation_analysis/03_06_02_multigroup_indices.html">Multigroup indices</a></td>
+<td>Measures for many groups</td>
+</tr>
+<tr class="even">
+<td><a href="./03_06_segregation_analysis/03_06_03_local_segregation.html">Local segregation</a></td>
+<td>Where groups concentrate</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_06_segregation_analysis/03_06_04_multiscale_profiles.html">Multiscale profiles</a></td>
+<td>Segregation by neighbourhood size</td>
+</tr>
+<tr class="even">
+<td><a href="./03_06_segregation_analysis/03_06_05_null_models_simulation.html">Null models and simulation</a></td>
+<td>What chance alone produces</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_06_segregation_analysis/03_06_06_inference.html">Inference</a></td>
+<td>Tests and confidence intervals</td>
+</tr>
+<tr class="even">
+<td><a href="./03_06_segregation_analysis/03_06_07_decomposition_dynamics.html">Segregation over time</a></td>
+<td>Boundaries, panels and decomposition</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="spatial-causal-inference-1" class="level3">
+<h3 class="anchored" data-anchor-id="spatial-causal-inference-1">Spatial causal inference</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./03_07_spatial_causal/03_07_00_data_and_causal_setup.html">Spatial causal inference</a></td>
+<td>Data and causal setup</td>
+</tr>
+<tr class="even">
+<td><a href="./03_07_spatial_causal/03_07_01_spatial_confounding.html">Spatial confounding</a></td>
+<td>Diagnose and adjust</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_07_spatial_causal/03_07_02_interference_spillovers.html">Interference and spillovers</a></td>
+<td>Direct and spillover effects</td>
+</tr>
+<tr class="even">
+<td><a href="./03_07_spatial_causal/03_07_03_spatially_varying_effects.html">Spatially varying effects</a></td>
+<td>GWDML and causal forests</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_07_spatial_causal/03_07_04_geographic_rdd.html">Geographic RDD</a></td>
+<td>Effects at a boundary</td>
+</tr>
+<tr class="even">
+<td><a href="./03_07_spatial_causal/03_07_05_panel_did_synthetic_control.html">Panel designs</a></td>
+<td>DiD with spillovers, staggered adoption, synthetic control</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_07_spatial_causal/03_07_06_bayesian_spatial_models.html">Bayesian spatial causal models</a></td>
+<td>ICAR and BYM</td>
+</tr>
+<tr class="even">
+<td><a href="./03_07_spatial_causal/03_07_07_designing_spatial_experiments.html">Designing spatial experiments</a></td>
+<td>Allocation, balance and power</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_07_spatial_causal/06_03_08_causal_discovery.html">Spatial causal discovery</a></td>
+<td>Granger, GCCM and NOTEARS</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="capstone-projects" class="level3">
+<h3 class="anchored" data-anchor-id="capstone-projects">Capstone projects</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./03_08_capston/03_08_01_flood_susceptibility_mapping.html">Flood susceptibility</a></td>
+<td>Sylhet haor basin, Bangladesh</td>
+</tr>
+<tr class="even">
+<td><a href="./03_08_capston/03_08_02_watershed_characterization.html">Watershed characterization</a></td>
+<td>Onondaga Lake watershed, New York</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_08_capston/03_08_03_agricultural_suitability.html">Agricultural suitability</a></td>
+<td>Land suitability for wheat in Bangladesh</td>
+</tr>
+<tr class="even">
+<td><a href="./03_08_capston/03_08_04_landslide_susceptibility.html">Landslide susceptibility</a></td>
+<td>Rocky Mountains and Great Plains</td>
+</tr>
+<tr class="odd">
+<td><a href="./03_08_capston/03_08_05_habitat_suitability.html">Habitat suitability</a></td>
+<td>Forest musk deer habitat and connectivity</td>
+</tr>
+<tr class="even">
+<td><a href="./03_08_capston/03_08_06_farmer_networks_case_study.html">Farmer networks</a></td>
+<td>Information networks and technology diffusion</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="quick-reference" class="level3">
+<h3 class="anchored" data-anchor-id="quick-reference">Quick reference</h3>
+<p align="center">
+<img src="03_spatial_analysis_quick_reference.png" alt="Spatial analysis quick reference for geolattice.spatial_analysis" width="100%">
+</p>
+</section>
+</section>
+<section id="sample-data" class="level2">
+<h2 class="anchored" data-anchor-id="sample-data">Sample data</h2>
+<p>The notebooks read the sample data in <a href="https://github.com/zia207/GeoLattice/tree/main/Data/03_spatial_analysis"><code>Data/03_spatial_analysis/</code></a> and <a href="https://github.com/zia207/GeoLattice/tree/main/Data/00_shared"><code>Data/00_shared/</code></a> of the repository: DEMs, a NetCDF data cube, New York and Texas suitability layers, Buffalo census blocks for segregation, a US county frame for causal inference, and the data for the six capstones (Sylhet floods, Onondaga Lake, wheat suitability in Bangladesh, Great Plains landslides and forest musk deer).</p>
+</section>
+<section id="license" class="level2">
+<h2 class="anchored" data-anchor-id="license">License</h2>
+<p>GeoLattice is released under the MIT License. See <a href="https://github.com/zia207/GeoLattice/blob/main/LICENSE">LICENSE</a>.</p>
+<p align="center">
+<br> Developed by Zia Ahmed, Upatta Analytics
+</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03_01_foundation/03_01_01_spatial_analysis_intruction.html" class="pagination-link" aria-label="Spatial Analysis">
+        <span class="nav-page-text">Spatial Analysis</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

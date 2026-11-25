@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>sessions_and_clusters – GeoLattice: Distributed Spatial Computing</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./08_02_distributed_input_and_output.html" rel="next">
+<link href="./08_00_distributed_spatial_computing_fundamentals.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GeoLattice: Distributed Spatial Computing</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
+        <li class="dropdown-header">Foundations</li>
+        <li>
+    <a class="dropdown-item" href="./08_00_distributed_spatial_computing_fundamentals.html">
+ <span class="dropdown-text">Fundamentals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_01_sessions_and_clusters.html">
+ <span class="dropdown-text">Sessions and Clusters</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_02_distributed_input_and_output.html">
+ <span class="dropdown-text">Parallel Input and Output</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Processing at Scale</li>
+        <li>
+    <a class="dropdown-item" href="./08_03_raster_processing_at_scale.html">
+ <span class="dropdown-text">Rasters at Scale</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_04_vector_processing_at_scale.html">
+ <span class="dropdown-text">Vectors at Scale</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_05_rasters_and_vectors_together.html">
+ <span class="dropdown-text">Rasters and Vectors Together</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_06_spatial_statistics_and_clustering.html">
+ <span class="dropdown-text">Spatial Statistics and Clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_07_networks.html">
+ <span class="dropdown-text">Networks</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_08_hydrology.html">
+ <span class="dropdown-text">Hydrology</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Models, Spark and Tuning</li>
+        <li>
+    <a class="dropdown-item" href="./08_09_machine_learning.html">
+ <span class="dropdown-text">Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_10_apache_sedona.html">
+ <span class="dropdown-text">Apache Sedona</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_11_diagnostics_and_performance.html">
+ <span class="dropdown-text">Diagnostics and Performance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./08_12_capstone_great_plains_soil_carbon_and_cropland.html">
+ <span class="dropdown-text">Capstone: Great Plains Soil Carbon</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08_00_distributed_spatial_computing_fundamentals.html"><strong>Foundations</strong></a></li><li class="breadcrumb-item"><a href="./08_01_sessions_and_clusters.html">Sessions and Clusters</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08_00_distributed_spatial_computing_fundamentals.html"><strong>Foundations</strong></a></li><li class="breadcrumb-item"><a href="./08_01_sessions_and_clusters.html">Sessions and Clusters</a></li></ol></nav></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Foundations</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_00_distributed_spatial_computing_fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_01_sessions_and_clusters.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Sessions and Clusters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_02_distributed_input_and_output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parallel Input and Output</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Processing at Scale</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_03_raster_processing_at_scale.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rasters at Scale</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_04_vector_processing_at_scale.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vectors at Scale</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_05_rasters_and_vectors_together.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rasters and Vectors Together</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_06_spatial_statistics_and_clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial Statistics and Clustering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_07_networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Networks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_08_hydrology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hydrology</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Models, Spark and Tuning</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_09_machine_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine Learning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_10_apache_sedona.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apache Sedona</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_11_diagnostics_and_performance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Diagnostics and Performance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_12_capstone_great_plains_soil_carbon_and_cropland.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capstone: Great Plains Soil Carbon</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#from-a-laptop-to-a-cluster-sessions-workers-and-the-dashboard" id="toc-from-a-laptop-to-a-cluster-sessions-workers-and-the-dashboard" class="nav-link active" data-scroll-target="#from-a-laptop-to-a-cluster-sessions-workers-and-the-dashboard">From a Laptop to a Cluster: Sessions, Workers and the Dashboard</a>
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a>
+  <ul class="collapse">
+  <li><a href="#the-parts-of-a-dask-cluster" id="toc-the-parts-of-a-dask-cluster" class="nav-link" data-scroll-target="#the-parts-of-a-dask-cluster">The parts of a Dask cluster</a></li>
+  <li><a href="#threads-or-processes" id="toc-threads-or-processes" class="nav-link" data-scroll-target="#threads-or-processes">Threads or processes</a></li>
+  <li><a href="#memory-limits-and-spilling" id="toc-memory-limits-and-spilling" class="nav-link" data-scroll-target="#memory-limits-and-spilling">Memory limits and spilling</a></li>
+  <li><a href="#chunk-size" id="toc-chunk-size" class="nav-link" data-scroll-target="#chunk-size">Chunk size</a></li>
+  </ul></li>
+  <li><a href="#sessions-with-geolattice" id="toc-sessions-with-geolattice" class="nav-link" data-scroll-target="#sessions-with-geolattice">Sessions with GeoLattice</a>
+  <ul class="collapse">
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#contents" id="toc-contents" class="nav-link" data-scroll-target="#contents">Contents</a></li>
+  </ul></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#the-default-threads-in-this-process" id="toc-the-default-threads-in-this-process" class="nav-link" data-scroll-target="#the-default-threads-in-this-process">The default: threads in this process</a></li>
+  <li><a href="#a-local-cluster" id="toc-a-local-cluster" class="nav-link" data-scroll-target="#a-local-cluster">A local cluster</a></li>
+  <li><a href="#threads-or-processes-1" id="toc-threads-or-processes-1" class="nav-link" data-scroll-target="#threads-or-processes-1">Threads or processes</a></li>
+  <li><a href="#scaling-a-cluster" id="toc-scaling-a-cluster" class="nav-link" data-scroll-target="#scaling-a-cluster">Scaling a cluster</a></li>
+  <li><a href="#one-worker-per-gpu" id="toc-one-worker-per-gpu" class="nav-link" data-scroll-target="#one-worker-per-gpu">One worker per GPU</a></li>
+  <li><a href="#hpc-and-cloud-clusters" id="toc-hpc-and-cloud-clusters" class="nav-link" data-scroll-target="#hpc-and-cloud-clusters">HPC and cloud clusters</a></li>
+  <li><a href="#connecting-to-a-running-scheduler" id="toc-connecting-to-a-running-scheduler" class="nav-link" data-scroll-target="#connecting-to-a-running-scheduler">Connecting to a running scheduler</a></li>
+  <li><a href="#choosing-a-chunk-size" id="toc-choosing-a-chunk-size" class="nav-link" data-scroll-target="#choosing-a-chunk-size">Choosing a chunk size</a></li>
+  <li><a href="#persist-compute-and-pulling-results" id="toc-persist-compute-and-pulling-results" class="nav-link" data-scroll-target="#persist-compute-and-pulling-results">Persist, compute and pulling results</a></li>
+  <li><a href="#a-cluster-script" id="toc-a-cluster-script" class="nav-link" data-scroll-target="#a-cluster-script">A cluster script</a></li>
+  <li><a href="#summary-and-exercises" id="toc-summary-and-exercises" class="nav-link" data-scroll-target="#summary-and-exercises">Summary and exercises</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/09_distributed_spatial_datas.png" class="img-fluid figure-img"></p>
+<figcaption>Banner</figcaption>
+</figure>
+</div>
+<section id="from-a-laptop-to-a-cluster-sessions-workers-and-the-dashboard" class="level1">
+<h1>From a Laptop to a Cluster: Sessions, Workers and the Dashboard</h1>
+<p>Notebook 00 ran everything on Dask’s threaded scheduler, which uses every core of one machine inside one Python process. That is the right default for NumPy and GDAL work, but not always enough: pure Python code is held back by the global interpreter lock, one process cannot use a second machine, and a GPU wants a worker of its own. A <strong>Dask cluster</strong> solves all three: a scheduler hands tasks to worker processes on this machine, on GPUs or on the nodes of an HPC system or a Kubernetes cluster. This notebook starts and stops clusters with <code>pdist.start</code>, compares threads and processes on two kinds of work, shows the dashboard and the job scripts that HPC clusters run, and measures the two decisions that matter most for raster work: chunk size, and when to keep data in worker memory with <code>persist</code>.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<section id="the-parts-of-a-dask-cluster" class="level3">
+<h3 class="anchored" data-anchor-id="the-parts-of-a-dask-cluster">The parts of a Dask cluster</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Part</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Client</strong></td>
+<td>your Python session; builds task graphs and submits them</td>
+</tr>
+<tr class="even">
+<td><strong>Scheduler</strong></td>
+<td>one process that tracks every task and decides which worker runs it, preferring the worker that already holds its inputs</td>
+</tr>
+<tr class="odd">
+<td><strong>Workers</strong></td>
+<td>processes that run tasks with a pool of threads, hold results in memory and send them to each other when needed</td>
+</tr>
+<tr class="even">
+<td><strong>Nanny</strong></td>
+<td>a small process per worker that restarts it if it dies or exceeds its memory limit</td>
+</tr>
+</tbody>
+</table>
+<p>With no cluster, Dask’s <strong>threaded scheduler</strong> runs the graph with a thread pool inside your own process: no scheduler, no copies, no network, but also no isolation and only one machine.</p>
+</section>
+<section id="threads-or-processes" class="level3">
+<h3 class="anchored" data-anchor-id="threads-or-processes">Threads or processes</h3>
+<p>Python’s <strong>global interpreter lock (GIL)</strong> lets only one thread run Python bytecode at a time. Compiled libraries (NumPy, SciPy, GDAL, Shapely 2, CuPy) release it during their inner loops, so threads run them in parallel. Code that loops in Python (a <code>for</code> loop over features, a function applied row by row) does not, and only separate <strong>processes</strong> run it in parallel. Processes pay for that: data crossing between them are serialized and copied.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Work</th>
+<th>Best choice</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>NumPy, SciPy, GDAL and rasterio, Shapely 2 vectorized operations</td>
+<td>threads (or few processes with many threads)</td>
+</tr>
+<tr class="even">
+<td>pure Python loops, GeoPandas <code>apply</code>, many small objects</td>
+<td>processes with one or two threads each</td>
+</tr>
+<tr class="odd">
+<td>GPU work</td>
+<td>one worker process per GPU (<code>dask-cuda</code>)</td>
+</tr>
+<tr class="even">
+<td>more memory or cores than one machine has</td>
+<td>a cluster on several machines (HPC or cloud)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="memory-limits-and-spilling" class="level3">
+<h3 class="anchored" data-anchor-id="memory-limits-and-spilling">Memory limits and spilling</h3>
+<p>Each worker has a memory limit. Above 60 % of it the worker writes (spills) results to disk, above 80 % it pauses, and at 95 % the nanny restarts it. Spilling keeps large jobs alive but slow; a job that spills constantly needs smaller chunks, more workers or <code>persist</code> used more carefully.</p>
+</section>
+<section id="chunk-size" class="level3">
+<h3 class="anchored" data-anchor-id="chunk-size">Chunk size</h3>
+<p>Every chunk is at least one task, and every task costs the scheduler roughly a millisecond of overhead plus a little memory. Tiny chunks drown the work in overhead; huge chunks leave cores idle and risk running out of memory. Dask’s guidance is chunks of about 100 MB; for moving windows the chunk must also be much wider than the halo.</p>
+</section>
+</section>
+<section id="sessions-with-geolattice" class="level2">
+<h2 class="anchored" data-anchor-id="sessions-with-geolattice">Sessions with GeoLattice</h2>
+<p><code>pdist.start(kind, ...)</code> starts or connects to a cluster, makes it the active session (every lazy operation in <code>geolattice.distributed</code> then runs on it) and returns a <code>Session</code>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><code>kind</code></th>
+<th>What starts</th>
+<th>Extra arguments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>"local"</code></td>
+<td>worker processes on this machine</td>
+<td><code>n_workers</code>, <code>threads_per_worker</code>, <code>memory_limit</code></td>
+</tr>
+<tr class="even">
+<td><code>"cuda"</code></td>
+<td>one worker per GPU with <code>dask-cuda</code></td>
+<td><code>rmm_pool_size</code>, <code>device_memory_limit</code>, …</td>
+</tr>
+<tr class="odd">
+<td><code>"auto"</code></td>
+<td><code>"cuda"</code> if a GPU and dask-cuda exist, else <code>"local"</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>"slurm"</code>, <code>"pbs"</code></td>
+<td>batch jobs that run workers, with <code>dask-jobqueue</code></td>
+<td><code>cores</code>, <code>memory</code>, <code>walltime</code>, <code>queue</code>, <code>account</code></td>
+</tr>
+<tr class="odd">
+<td><code>"kubernetes"</code></td>
+<td>worker pods with the <code>dask-kubernetes</code> operator</td>
+<td><code>image</code>, <code>resources</code>, …</td>
+</tr>
+<tr class="even">
+<td><code>"address"</code></td>
+<td>connect to a scheduler that is already running</td>
+<td><code>address="tcp://host:8786"</code></td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><code>Session</code> member</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>status()</code></td>
+<td>workers, threads, total memory, dashboard link</td>
+</tr>
+<tr class="even">
+<td><code>dashboard_link</code></td>
+<td>the live dashboard (task stream, memory, progress)</td>
+</tr>
+<tr class="odd">
+<td><code>scale(n)</code>, <code>adapt(minimum, maximum)</code></td>
+<td>fixed or load-driven number of workers</td>
+</tr>
+<tr class="even">
+<td><code>client</code>, <code>cluster</code></td>
+<td>the underlying Dask objects</td>
+</tr>
+<tr class="odd">
+<td><code>close()</code> or <code>with pdist.start(...) as s:</code></td>
+<td>shut down</td>
+</tr>
+</tbody>
+</table>
+<p><code>pdist.status()</code> and <code>pdist.dashboard_link()</code> describe the active session, and <code>pdist.plan_chunks</code>, <code>pdist.persist</code> and <code>pdist.compute</code> help with chunking and memory.</p>
+<section id="learning-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
+<ol type="1">
+<li>Describe the client, scheduler, workers and nanny, and when Dask runs without them.</li>
+<li>Choose threads or processes for a workload, and measure the difference.</li>
+<li>Start, scale and close local and GPU clusters, and connect to a running scheduler.</li>
+<li>Read the job script a SLURM or PBS cluster submits, and know what changes on Kubernetes.</li>
+<li>Choose a raster chunk size from measurements and from <code>pdist.plan_chunks</code>.</li>
+<li>Use <code>persist</code> for data that several computations reuse, and avoid pulling large results to the client.</li>
+<li>Write a cluster script with the <code>if __name__ == "__main__":</code> guard.</li>
+</ol>
+</section>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dataset</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Great Plains elevation</td>
+<td>90 m DEM, 17,196 x 15,245 pixels, from <code>Data/03_spatial_analysis/Great_plain/Raster/elev.tif</code></td>
+</tr>
+<tr class="even">
+<td>Kansas building footprints</td>
+<td>1.6 million polygons cached by <code>dd.kansas_buildings()</code> (notebook 00)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="contents" class="level3">
+<h3 class="anchored" data-anchor-id="contents">Contents</h3>
+<ul>
+<li>Setup</li>
+<li>The default: threads in this process</li>
+<li>A local cluster</li>
+<li>Threads or processes</li>
+<li>Scaling a cluster</li>
+<li>One worker per GPU</li>
+<li>HPC and cloud clusters</li>
+<li>Connecting to a running scheduler</li>
+<li>Choosing a chunk size</li>
+<li>Persist, compute and pulling results</li>
+<li>A cluster script</li>
+<li>Summary and exercises</li>
+</ul>
+</section>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<div id="3722113e" class="cell" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings  <span class="co"># warning control</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)  <span class="co"># hide routine library warnings</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os  <span class="co"># environment and CPU count</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time  <span class="co"># wall-clock timing</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path  <span class="co"># file paths</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt  <span class="co"># figures</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np  <span class="co"># arrays</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd  <span class="co"># tables</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd  <span class="co"># vector data</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr  <span class="co"># labelled rasters</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice  <span class="co"># GeoLattice</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.distributed <span class="im">as</span> pdist  <span class="co"># distributed and GPU spatial computing</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dist_data <span class="im">as</span> dd  <span class="co"># chapter helper: paths, cached downloads, timers</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">"figure.dpi"</span>: <span class="dv">110</span>})  <span class="co"># figure resolution</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">"display.width"</span>, <span class="dv">140</span>)  <span class="co"># wider printed tables</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>OUT <span class="op">=</span> Path(<span class="st">"outputs"</span>)  <span class="co"># results and scratch files written by this chapter</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>OUT.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)  <span class="co"># create it if needed</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>caps <span class="op">=</span> pdist.capabilities()  <span class="co"># engines and GPUs on this machine</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"GeoLattice"</span>, geolattice.__version__, <span class="st">"|"</span>, os.cpu_count(), <span class="st">"CPU cores |"</span>, caps[<span class="st">"gpus"</span>], <span class="st">"GPU(s)"</span>,  <span class="co"># versions</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"(</span><span class="sc">{</span>caps<span class="sc">.</span>get(<span class="st">'gpu_memory_total'</span>, <span class="dv">0</span>) <span class="op">/</span> <span class="fl">1e9</span><span class="sc">:.0f}</span><span class="ss"> GB)"</span> <span class="cf">if</span> caps[<span class="st">"gpus"</span>] <span class="cf">else</span> <span class="st">""</span>)  <span class="co"># GPU memory</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re  <span class="co"># text substitution for printed job scripts</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> subprocess  <span class="co"># run the example script</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys  <span class="co"># the current Python interpreter</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dask  <span class="co"># Dask configuration</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>GeoLattice 0.3.49 | 24 CPU cores | 1 GPU(s) (17 GB)</code></pre>
+</div>
+</div>
+</section>
+<section id="the-default-threads-in-this-process" class="level2">
+<h2 class="anchored" data-anchor-id="the-default-threads-in-this-process">The default: threads in this process</h2>
+<p>Without a session, <code>pdist.status()</code> reports Dask’s threaded scheduler: one “worker” (this process) with one thread per core.</p>
+<p>This machine has a GPU, so <code>compute="auto"</code> would put the slope chunks on it. The comparisons of threads, processes and chunk sizes below pass <code>compute="cpu"</code> so that they measure the CPU; the GPU worker gets its own section.</p>
+<div id="22a86a20" class="cell" data-execution_count="2">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pdist.status())  <span class="co"># no session yet</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dem <span class="op">=</span> dd.gp_raster(<span class="st">"elev"</span>)  <span class="co"># lazy DEM, 2048 x 2048 chunks</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dd.timer(<span class="st">"mean slope, threaded scheduler"</span>):  <span class="co"># time it</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"mean slope </span><span class="sc">{</span><span class="bu">float</span>(pdist.raster.slope(dem, compute<span class="op">=</span><span class="st">'cpu'</span>).mean())<span class="sc">:.3f}</span><span class="ss"> degrees"</span>)  <span class="co"># read, slope, reduce</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'kind': 'threads', 'workers': 1, 'threads': 24, 'dashboard': None}
+mean slope 4.484 degrees
+mean slope, threaded scheduler: 2.30 s</code></pre>
+</div>
+</div>
+</section>
+<section id="a-local-cluster" class="level2">
+<h2 class="anchored" data-anchor-id="a-local-cluster">A local cluster</h2>
+<p><code>pdist.start("local")</code> starts a scheduler and worker processes on this machine. Here 4 workers with 6 threads each use the 24 cores, each limited to 24 GB of memory.</p>
+<div id="0be231e4" class="cell" data-execution_count="3">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> pdist.start(<span class="st">"local"</span>, n_workers<span class="op">=</span><span class="dv">4</span>, threads_per_worker<span class="op">=</span><span class="dv">6</span>, memory_limit<span class="op">=</span><span class="st">"24GB"</span>)  <span class="co"># start the cluster</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(s)  <span class="co"># session and dashboard</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>st <span class="op">=</span> s.status()  <span class="co"># workers, threads, memory</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>({k: (dd.gb(v) <span class="cf">if</span> k <span class="op">==</span> <span class="st">"memory_limit"</span> <span class="cf">else</span> v) <span class="cf">for</span> k, v <span class="kw">in</span> st.items()})  <span class="co"># readable</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"active session:"</span>, pdist.get_session() <span class="kw">is</span> s)  <span class="co"># every lazy operation now runs here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;Session kind='local' dashboard='http://127.0.0.1:8787/status'&gt;
+{'kind': 'local', 'workers': 4, 'threads': 24, 'memory_limit': '96.00 GB', 'dashboard': 'http://127.0.0.1:8787/status'}
+active session: True</code></pre>
+</div>
+</div>
+<div id="63c8c811" class="cell" data-execution_count="4">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dd.timer(<span class="st">"mean slope, local cluster (4 processes x 6 threads)"</span>):  <span class="co"># same computation on the cluster</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"mean slope </span><span class="sc">{</span><span class="bu">float</span>(pdist.raster.slope(dem, compute<span class="op">=</span><span class="st">'cpu'</span>).mean())<span class="sc">:.3f}</span><span class="ss"> degrees"</span>)  <span class="co"># identical result</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>mean slope 4.484 degrees
+mean slope, local cluster (4 processes x 6 threads): 3.90 s</code></pre>
+</div>
+</div>
+<p>The result is identical, but the cluster was slower than plain threads. This workload is NumPy, which already ran in parallel on threads inside one process; on the cluster, the halo strips that neighbouring chunks exchange travel between processes, and every task goes through the scheduler. For NumPy and GDAL work on one machine the threaded scheduler is usually the fastest choice; the cluster pays off with code that holds the GIL (next section), with several machines, and when isolation and the dashboard matter. The dashboard link above opens a live view of the task stream, worker memory and progress bars; on a remote machine forward port 8787 with <code>ssh -L 8787:localhost:8787 host</code>.</p>
+</section>
+<section id="threads-or-processes-1" class="level2">
+<h2 class="anchored" data-anchor-id="threads-or-processes-1">Threads or processes</h2>
+<p>The difference appears with pure Python code. The function below computes building areas with a Python loop over the vertices (the shoelace formula), as hand-written per-feature code often does. It runs on 24 partitions of 400,000 buildings three ways: the threaded scheduler, the local cluster’s processes, and, for comparison, the vectorized <code>pdist.vector.area</code> (Shapely releases the GIL).</p>
+<div id="089135ff" class="cell" data-execution_count="5">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> shoelace_area(part):  <span class="co"># pure Python: one loop per building, one per vertex</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> []  <span class="co"># areas</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> g <span class="kw">in</span> part.geometry:  <span class="co"># each polygon</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        xy <span class="op">=</span> <span class="bu">list</span>(g.exterior.coords)  <span class="co"># its vertices as Python tuples</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        a <span class="op">=</span> <span class="fl">0.0</span>  <span class="co"># running sum</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (x0, y0), (x1, y1) <span class="kw">in</span> <span class="bu">zip</span>(xy[:<span class="op">-</span><span class="dv">1</span>], xy[<span class="dv">1</span>:]):  <span class="co"># each edge</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>            a <span class="op">+=</span> x0 <span class="op">*</span> y1 <span class="op">-</span> x1 <span class="op">*</span> y0  <span class="co"># shoelace term</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        out.append(<span class="bu">abs</span>(a) <span class="op">/</span> <span class="dv">2</span>)  <span class="co"># polygon area</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.Series(out, index<span class="op">=</span>part.index)  <span class="co"># aligned to the input</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>bld <span class="op">=</span> dd.kansas_buildings().iloc[:<span class="dv">400_000</span>].to_crs(<span class="dv">5070</span>)  <span class="co"># 400,000 buildings in metres</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>parts <span class="op">=</span> pdist.spatial_partition(bld, <span class="dv">24</span>, method<span class="op">=</span><span class="st">"none"</span>)  <span class="co"># 24 slices of rows</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>tasks <span class="op">=</span> [dask.delayed(shoelace_area)(p) <span class="cf">for</span> p <span class="kw">in</span> parts]  <span class="co"># one task per slice</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> {}  <span class="co"># seconds per way</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dask.config.<span class="bu">set</span>(scheduler<span class="op">=</span><span class="st">"threads"</span>):  <span class="co"># ignore the cluster: threads in this process</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> dd.timer(<span class="st">"pure Python, 24 threads (GIL)"</span>, res):  <span class="co"># time it</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        a_thr <span class="op">=</span> pd.concat(dask.compute(<span class="op">*</span>tasks))  <span class="co"># run</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dd.timer(<span class="st">"pure Python, 4 processes x 6 threads"</span>, res):  <span class="co"># the cluster</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    a_proc <span class="op">=</span> pd.concat(dask.compute(<span class="op">*</span>tasks))  <span class="co"># run on workers</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>pure Python, 24 threads (GIL): 3.81 s
+pure Python, 4 processes x 6 threads: 2.32 s</code></pre>
+</div>
+</div>
+<div id="fe94c4aa" class="cell" data-execution_count="6">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>s.close()  <span class="co"># close the 4 x 6 cluster</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> pdist.start(<span class="st">"local"</span>, n_workers<span class="op">=</span><span class="dv">24</span>, threads_per_worker<span class="op">=</span><span class="dv">1</span>, memory_limit<span class="op">=</span><span class="st">"4GB"</span>)  <span class="co"># one thread per process</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>s.client.wait_for_workers(<span class="dv">24</span>)  <span class="co"># wait until all have started</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dd.timer(<span class="st">"pure Python, 24 processes x 1 thread"</span>, res):  <span class="co"># one Python interpreter per core</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    a_p24 <span class="op">=</span> pd.concat(dask.compute(<span class="op">*</span>tasks))  <span class="co"># run</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dask.config.<span class="bu">set</span>(scheduler<span class="op">=</span><span class="st">"threads"</span>):  <span class="co"># back to threads for the vectorized version</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> dd.timer(<span class="st">"Shapely vectorized, 24 threads"</span>, res):  <span class="co"># compiled code releases the GIL</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        a_vec <span class="op">=</span> pdist.vector.area(bld)  <span class="co"># GEOS area</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"largest difference between methods:"</span>, <span class="bu">float</span>((a_p24 <span class="op">-</span> a_vec).<span class="bu">abs</span>().<span class="bu">max</span>()), <span class="st">"m2"</span>)  <span class="co"># same answer</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>pd.Series(res, name<span class="op">=</span><span class="st">"seconds"</span>).<span class="bu">round</span>(<span class="dv">2</span>).to_frame()  <span class="co"># table</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>pure Python, 24 processes x 1 thread: 2.02 s
+Shapely vectorized, 24 threads: 0.08 s
+largest difference between methods: 0.0003866876122629037 m2</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">seconds</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">pure Python, 24 threads (GIL)</th>
+<td>3.81</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">pure Python, 4 processes x 6 threads</th>
+<td>2.32</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">pure Python, 24 processes x 1 thread</th>
+<td>2.02</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Shapely vectorized, 24 threads</th>
+<td>0.08</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>On threads the Python loop gains little from 24 cores, because the GIL lets one thread run Python at a time. Four processes with six threads each were nearly twice as fast, and 24 single-threaded processes a little faster again, because each process has its own interpreter and its own GIL. The gain is far below 24-fold: every partition of polygons has to be pickled, sent to a worker process and unpickled there, and the areas sent back. The real lesson is in the last row: the vectorized Shapely call, which runs in C and releases the GIL, was about twenty-five times faster than the best of them. <strong>Vectorize first; reach for processes only for code that cannot be vectorized.</strong></p>
+</section>
+<section id="scaling-a-cluster" class="level2">
+<h2 class="anchored" data-anchor-id="scaling-a-cluster">Scaling a cluster</h2>
+<p><code>scale(n)</code> sets a fixed number of workers; <code>adapt(minimum, maximum)</code> adds workers while tasks are waiting and retires idle ones, which on a shared HPC system releases nodes as soon as they are not needed.</p>
+<div id="5b451575" class="cell" data-execution_count="7">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>s.scale(<span class="dv">8</span>)<span class="op">;</span> s.client.wait_for_workers(<span class="dv">8</span>)<span class="op">;</span> time.sleep(<span class="dv">2</span>)  <span class="co"># shrink to 8 workers</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"after scale(8):"</span>, s.status()[<span class="st">"workers"</span>], <span class="st">"workers"</span>)  <span class="co"># check</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>s.adapt(minimum<span class="op">=</span><span class="dv">2</span>, maximum<span class="op">=</span><span class="dv">12</span>)  <span class="co"># let load decide between 2 and 12</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"adaptive between 2 and 12 workers; now"</span>, s.status()[<span class="st">"workers"</span>])  <span class="co"># adaptive mode</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>s.close()  <span class="co"># shut down</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"after close:"</span>, pdist.status()[<span class="st">"kind"</span>])  <span class="co"># back to threads</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>after scale(8): 8 workers
+adaptive between 2 and 12 workers; now 8
+after close: threads</code></pre>
+</div>
+</div>
+</section>
+<section id="one-worker-per-gpu" class="level2">
+<h2 class="anchored" data-anchor-id="one-worker-per-gpu">One worker per GPU</h2>
+<p><code>pdist.start("cuda")</code> uses dask-cuda’s <code>LocalCUDACluster</code>: one worker process per visible GPU, each pinned to its device. Arguments such as <code>rmm_pool_size="8GB"</code> give each worker an RMM memory pool, and <code>device_memory_limit</code> makes the worker spill GPU data to host memory before the device fills up. Inside the session, <code>compute="gpu"</code> operations run on the GPU worker.</p>
+<div id="b9a7b44d" class="cell" data-execution_count="8">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> caps[<span class="st">"gpus"</span>]:  <span class="co"># needs a GPU and dask-cuda</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pdist.start(<span class="st">"cuda"</span>) <span class="im">as</span> g:  <span class="co"># one worker per GPU, closed at the end of the block</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(g, g.status()[<span class="st">"workers"</span>], <span class="st">"worker(s), GPU session:"</span>, g.is_gpu)  <span class="co"># one worker here</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> dd.timer(<span class="st">"mean slope on the GPU worker (read on the worker, slope on its GPU)"</span>):  <span class="co"># time it</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>            v <span class="op">=</span> <span class="bu">float</span>(pdist.raster.slope(dem, compute<span class="op">=</span><span class="st">"gpu"</span>).mean())  <span class="co"># chunks become CuPy on the worker</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"mean slope </span><span class="sc">{</span>v<span class="sc">:.3f}</span><span class="ss"> degrees"</span>)  <span class="co"># same answer</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:  <span class="co"># without a GPU</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"no GPU: pdist.start('auto') would start a CPU cluster instead"</span>)  <span class="co"># fallback</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;Session kind='cuda' dashboard='http://127.0.0.1:8787/status'&gt; 1 worker(s), GPU session: True
+mean slope on the GPU worker (read on the worker, slope on its GPU): 5.61 s
+mean slope 4.484 degrees</code></pre>
+</div>
+</div>
+<p>With one GPU the GPU worker has one thread, so it reads and decodes the GeoTIFF chunks one after another; the CPU sessions read them on 24 threads. That is why the whole chain (read, copy to the GPU, slope, reduce) was several times slower here than on the CPU, even though slope itself is much faster on the GPU (notebook 00). For a GPU pipeline the reading has to keep up: data already in GPU memory, a faster format (notebook 02) or several CPU threads feeding the device. On a machine with several GPUs <code>pdist.start("cuda")</code> starts one worker per device and the chunks are shared between them; here, with one, the same code runs on one.</p>
+</section>
+<section id="hpc-and-cloud-clusters" class="level2">
+<h2 class="anchored" data-anchor-id="hpc-and-cloud-clusters">HPC and cloud clusters</h2>
+<p>On an HPC system the workers run inside batch jobs. <code>pdist.start("slurm", ...)</code> creates a <code>dask_jobqueue.SLURMCluster</code>: the scheduler runs where you are (a login node or a small job), and each worker is an <code>sbatch</code> job. Starting the session without <code>n_workers</code> submits nothing, so the job script it would submit can be read on any machine. The scheduler address is replaced by <code>&lt;scheduler&gt;</code> in the printout.</p>
+<div id="e22841f6" class="cell" data-execution_count="9">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>hpc <span class="op">=</span> pdist.start(<span class="st">"slurm"</span>, cores<span class="op">=</span><span class="dv">24</span>, processes<span class="op">=</span><span class="dv">4</span>, memory<span class="op">=</span><span class="st">"96GB"</span>, walltime<span class="op">=</span><span class="st">"02:00:00"</span>,  <span class="co"># one job = 4 workers x 6 threads</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                  queue<span class="op">=</span><span class="st">"normal"</span>, account<span class="op">=</span><span class="st">"my_project"</span>,  <span class="co"># partition and allocation</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                  job_extra_directives<span class="op">=</span>[<span class="st">"--constraint=intel"</span>])  <span class="co"># any extra #SBATCH line</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(re.sub(<span class="vs">r"tcp://</span><span class="dv">\S</span><span class="op">+</span><span class="vs">"</span>, <span class="st">"tcp://&lt;scheduler&gt;"</span>, hpc.cluster.job_script()))  <span class="co"># the script sbatch would receive</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"workers now:"</span>, hpc.status()[<span class="st">"workers"</span>], <span class="st">"(nothing submitted)"</span>)  <span class="co"># no job until scale()</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>hpc.close()  <span class="co"># stop the local scheduler</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>#!/usr/bin/env bash
+
+#SBATCH -J dask-worker
+#SBATCH -p normal
+#SBATCH -A my_project
+#SBATCH -n 1
+#SBATCH --cpus-per-task=24
+#SBATCH --mem=90G
+#SBATCH -t 02:00:00
+#SBATCH --constraint=intel
+
+/home/zia207/.pyenv/versions/3.11.16/bin/python3 -m distributed.cli.dask_worker tcp://&lt;scheduler&gt; --name dummy-name --nthreads 6 --memory-limit 22.35GiB --nworkers 4 --nanny --death-timeout 60
+
+workers now: 0 (nothing submitted)</code></pre>
+</div>
+</div>
+<p>On a real cluster, <code>hpc.scale(jobs=10)</code> (or <code>pdist.start("slurm", n_workers=10, ...)</code>) would submit ten such jobs and <code>hpc.adapt(maximum_jobs=50)</code> would let the load decide. <code>kind="pbs"</code> writes the same with <code>#PBS</code> directives. Two practical rules: keep <code>cores</code> and <code>memory</code> equal to what one job really gets, and use <code>processes=</code> to split a job into several workers when the work holds the GIL.</p>
+<p>On Kubernetes, <code>pdist.start("kubernetes", image="ghcr.io/dask/dask:latest", n_workers=10, resources={"requests": {"memory": "8Gi"}})</code> asks the dask-kubernetes operator for a scheduler pod and ten worker pods. The image must contain the same Python packages (GeoLattice included) as the client. This cannot run on the build machine, which has no Kubernetes cluster, so the call is shown, not executed.</p>
+</section>
+<section id="connecting-to-a-running-scheduler" class="level2">
+<h2 class="anchored" data-anchor-id="connecting-to-a-running-scheduler">Connecting to a running scheduler</h2>
+<p>A scheduler can also be started outside Python (<code>dask scheduler</code> and <code>dask worker</code> on the command line, a Helm chart, a cloud service). <code>pdist.start("address", address=...)</code> connects to it. Here a small cluster stands in for such a service.</p>
+<div id="c2c641cd" class="cell" data-execution_count="10">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dask.distributed <span class="im">import</span> LocalCluster  <span class="co"># stand-in for a cluster started elsewhere</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>service <span class="op">=</span> LocalCluster(n_workers<span class="op">=</span><span class="dv">2</span>, threads_per_worker<span class="op">=</span><span class="dv">2</span>, dashboard_address<span class="op">=</span><span class="va">None</span>)  <span class="co"># "someone else's" cluster</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> pdist.start(<span class="st">"address"</span>, address<span class="op">=</span>service.scheduler_address)  <span class="co"># connect by address</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(s.kind, s.status()[<span class="st">"workers"</span>], <span class="st">"workers,"</span>, s.status()[<span class="st">"threads"</span>], <span class="st">"threads"</span>)  <span class="co"># what we joined</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:  <span class="co"># a session by address does not own the cluster</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    s.scale(<span class="dv">4</span>)  <span class="co"># not allowed</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">RuntimeError</span> <span class="im">as</span> e:  <span class="co"># expected</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"scale():"</span>, e)  <span class="co"># message</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>s.close()<span class="op">;</span> service.close()  <span class="co"># disconnect, then stop the stand-in</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>address 2 workers, 4 threads
+scale(): Cannot scale a cluster this session did not create</code></pre>
+</div>
+</div>
+</section>
+<section id="choosing-a-chunk-size" class="level2">
+<h2 class="anchored" data-anchor-id="choosing-a-chunk-size">Choosing a chunk size</h2>
+<p><code>pdist.plan_chunks(shape, dtype)</code> proposes square chunks of about 128 MB for the CPU, or about 5 % of free GPU memory for the GPU, and keeps them at least eight halo widths wide. The cell below measures slope with the DEM read in chunks from 256 to 8192 pixels on a side.</p>
+<div id="0a066589" class="cell" data-execution_count="11">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"CPU plan:"</span>, pdist.plan_chunks(dem.shape, <span class="st">"float32"</span>),  <span class="co"># suggested chunks</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>      <span class="st">"| GPU plan:"</span>, pdist.plan_chunks(dem.shape, <span class="st">"float32"</span>, compute<span class="op">=</span><span class="st">"gpu"</span>),  <span class="co"># GPU suggestion</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>      <span class="st">"| 3 layers:"</span>, pdist.plan_chunks((<span class="dv">3</span>,) <span class="op">+</span> dem.shape, <span class="st">"float32"</span>, n_layers<span class="op">=</span><span class="dv">3</span>))  <span class="co"># stacks get smaller chunks</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []  <span class="co"># one row per chunk size</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> [<span class="dv">256</span>, <span class="dv">512</span>, <span class="dv">1024</span>, <span class="dv">2048</span>, <span class="dv">4096</span>, <span class="dv">8192</span>]:  <span class="co"># chunk sides</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    d_c <span class="op">=</span> dd.gp_raster(<span class="st">"elev"</span>, chunks<span class="op">=</span>{<span class="st">"y"</span>: c, <span class="st">"x"</span>: c})  <span class="co"># reopen with this chunking</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    sl <span class="op">=</span> pdist.raster.slope(d_c, compute<span class="op">=</span><span class="st">"cpu"</span>)  <span class="co"># lazy slope</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> time.perf_counter()<span class="op">;</span> <span class="bu">float</span>(sl.mean())<span class="op">;</span> sec <span class="op">=</span> time.perf_counter() <span class="op">-</span> t  <span class="co"># read, slope, reduce</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"chunk"</span>: c, <span class="st">"chunk MB"</span>: c <span class="op">*</span> c <span class="op">*</span> <span class="dv">4</span> <span class="op">/</span> <span class="fl">1e6</span>, <span class="st">"chunks"</span>: d_c.data.npartitions,  <span class="co"># sizes</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"tasks"</span>: <span class="bu">len</span>(sl.mean().data.__dask_graph__()), <span class="st">"seconds"</span>: sec})  <span class="co"># graph size and time</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>chunks <span class="op">=</span> pd.DataFrame(rows).set_index(<span class="st">"chunk"</span>)  <span class="co"># table</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>chunks.<span class="bu">round</span>(<span class="dv">2</span>)  <span class="co"># show</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>CPU plan: (5632, 5632) | GPU plan: (5632, 5632) | 3 layers: (3, 1792, 1792)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">chunk MB</th>
+<th data-quarto-table-cell-role="th">chunks</th>
+<th data-quarto-table-cell-role="th">tasks</th>
+<th data-quarto-table-cell-role="th">seconds</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">chunk</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">256</th>
+<td>0.26</td>
+<td>4080</td>
+<td>77416</td>
+<td>20.40</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">512</th>
+<td>1.05</td>
+<td>1020</td>
+<td>20107</td>
+<td>7.77</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1024</th>
+<td>4.19</td>
+<td>255</td>
+<td>5412</td>
+<td>2.38</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2048</th>
+<td>16.78</td>
+<td>72</td>
+<td>1732</td>
+<td>2.23</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4096</th>
+<td>67.11</td>
+<td>20</td>
+<td>608</td>
+<td>2.40</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">8192</th>
+<td>268.44</td>
+<td>6</td>
+<td>264</td>
+<td>2.69</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="7a9f403b" class="cell" data-execution_count="12">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))  <span class="co"># one panel</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>ax.plot(chunks.index, chunks.seconds, <span class="st">"o-"</span>)  <span class="co"># time against chunk side</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c, r <span class="kw">in</span> chunks.iterrows():  <span class="co"># label each point</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    ax.annotate(<span class="ss">f"</span><span class="sc">{</span>r<span class="sc">.</span>tasks<span class="sc">:,.0f}</span><span class="ss"> tasks"</span>, (c, r.seconds), textcoords<span class="op">=</span><span class="st">"offset points"</span>, xytext<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">6</span>), fontsize<span class="op">=</span><span class="dv">8</span>)  <span class="co"># task count</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>ax.set_xscale(<span class="st">"log"</span>, base<span class="op">=</span><span class="dv">2</span>)<span class="op">;</span> ax.set_xlabel(<span class="st">"chunk side (pixels)"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"seconds"</span>)  <span class="co"># axes</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Slope and mean of the 262 million pixel DEM by chunk size"</span>)<span class="op">;</span> plt.tight_layout()<span class="op">;</span> plt.show()  <span class="co"># draw</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08_01_sessions_and_clusters_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The 256 pixel chunks (0.26 MB each) created 77,000 tasks and took about nine times longer than the best setting. In this run 2048 pixel chunks (17 MB) were fastest, with 4096 (67 MB) close behind, and 8192 pixel chunks slowed down again because six chunks cannot keep 24 threads busy. The best size is somewhat below the 100 MB rule of thumb here because slope does little work per pixel and smaller chunks stay in the CPU caches; for heavier work per pixel the optimum moves up. Measuring a few sizes, as here, takes a minute and is worth it for any job that will run for hours.</p>
+</section>
+<section id="persist-compute-and-pulling-results" class="level2">
+<h2 class="anchored" data-anchor-id="persist-compute-and-pulling-results">Persist, compute and pulling results</h2>
+<ul>
+<li><code>.compute()</code> (or <code>pdist.compute</code>) runs the graph and <strong>returns the result to the client</strong>.</li>
+<li><code>pdist.persist(x)</code> runs the graph and <strong>keeps the result in worker memory</strong>, returning a lazy handle to it. Later computations start from there instead of re-reading the files.</li>
+<li><code>.values</code> and <code>np.asarray</code> on a lazy array compute it and copy everything to the client: fine for a summary, costly for a gigabyte.</li>
+</ul>
+<div id="89bd4591" class="cell" data-execution_count="13">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> pdist.start(<span class="st">"local"</span>, n_workers<span class="op">=</span><span class="dv">4</span>, threads_per_worker<span class="op">=</span><span class="dv">6</span>, memory_limit<span class="op">=</span><span class="st">"24GB"</span>)  <span class="co"># a fresh cluster</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> {}  <span class="co"># seconds per step</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dd.timer(<span class="st">"slope and aspect from the files (two reads)"</span>, t):  <span class="co"># without persist</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">float</span>(pdist.raster.slope(dem, compute<span class="op">=</span><span class="st">"cpu"</span>).mean())<span class="op">;</span> <span class="bu">float</span>(pdist.raster.aspect(dem, compute<span class="op">=</span><span class="st">"cpu"</span>).mean())  <span class="co"># each reads the DEM</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dd.timer(<span class="st">"persist the DEM in worker memory"</span>, t):  <span class="co"># keep it on the workers</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    dem_p <span class="op">=</span> pdist.persist(dem)<span class="op">;</span> <span class="im">from</span> dask.distributed <span class="im">import</span> wait<span class="op">;</span> wait(dem_p.data)  <span class="co"># wait until loaded</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dd.timer(<span class="st">"slope and aspect from the persisted DEM"</span>, t):  <span class="co"># reuse</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">float</span>(pdist.raster.slope(dem_p, compute<span class="op">=</span><span class="st">"cpu"</span>).mean())<span class="op">;</span> <span class="bu">float</span>(pdist.raster.aspect(dem_p, compute<span class="op">=</span><span class="st">"cpu"</span>).mean())  <span class="co"># no file reads</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dd.timer(<span class="st">"pull the full slope raster to the client (.values)"</span>, t):  <span class="co"># a gigabyte over the network</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    arr <span class="op">=</span> pdist.raster.slope(dem_p, compute<span class="op">=</span><span class="st">"cpu"</span>).values  <span class="co"># computed and copied</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"pulled </span><span class="sc">{</span>dd<span class="sc">.</span>gb(arr.nbytes)<span class="sc">}</span><span class="ss">; client process now uses </span><span class="sc">{</span>dd<span class="sc">.</span>rss_gb()<span class="sc">:.1f}</span><span class="ss"> GB"</span>)  <span class="co"># what it cost</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pdist.memory_report()[<span class="st">"workers"</span>])  <span class="co"># memory on each worker</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>slope and aspect from the files (two reads): 7.17 s
+persist the DEM in worker memory: 0.62 s
+slope and aspect from the persisted DEM: 4.74 s
+pull the full slope raster to the client (.values): 2.70 s
+pulled 1.05 GB; client process now uses 10.0 GB
+{'tcp://127.0.0.1:38505': {'memory_gb': 1.751, 'limit_gb': 24.0}, 'tcp://127.0.0.1:40075': {'memory_gb': 1.503, 'limit_gb': 24.0}, 'tcp://127.0.0.1:42751': {'memory_gb': 1.339, 'limit_gb': 24.0}, 'tcp://127.0.0.1:44949': {'memory_gb': 1.262, 'limit_gb': 24.0}}</code></pre>
+</div>
+</div>
+<p>Persisting paid off as soon as the DEM was reused: the second pair of operations skipped the GeoTIFF reads and decoding and ran about a third faster. Pulling the whole slope raster to the client took 2.7 s, more than half the time of computing slope and aspect on the persisted DEM, and all of it went into serializing every chunk and sending it from the worker processes to this one. Keep large results on the workers and bring back summaries, or write them to disk from the workers with <code>pdist.write_raster</code> (notebook 02).</p>
+<div id="329a2001" class="cell" data-execution_count="14">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> dem_p, arr  <span class="co"># release worker and client memory</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>s.close()  <span class="co"># shut down</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="a-cluster-script" class="level2">
+<h2 class="anchored" data-anchor-id="a-cluster-script">A cluster script</h2>
+<p>Worker processes start by importing the main module. In a script, code at the top level would run again in every worker, so cluster code must sit under <code>if __name__ == "__main__":</code>. (Notebooks do not need the guard: their main module is the kernel.) The cell below writes such a script to <code>scripts/slope_on_cluster.py</code> and runs it.</p>
+<div id="86f3fc24" class="cell" data-execution_count="15">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>script <span class="op">=</span> Path(<span class="st">"scripts/slope_on_cluster.py"</span>)  <span class="co"># where the script goes</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>script.parent.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)  <span class="co"># create the folder</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>script.write_text(<span class="st">"""</span><span class="op">\</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="ch">\"\"\"</span><span class="st">Slope of the Great Plains DEM on a local Dask cluster, written to Zarr.</span><span class="ch">\"\"\"</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="st">import time</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="st">from pathlib import Path</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="st">import geolattice.distributed as pdist</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="st">ROOT = Path(__file__).resolve().parents[4]</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="st">DEM = ROOT / "Data" / "03_spatial_analysis" / "Great_plain" / "Raster" / "elev.tif"</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="st">OUT = Path(__file__).resolve().parents[1] / "outputs" / "gp_slope.zarr"</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="st">def main():</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="st">    with pdist.start("local", n_workers=4, threads_per_worker=6) as session:</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="st">        print("workers:", session.status()["workers"])</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="st">        t = time.perf_counter()</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="st">        dem = pdist.read_raster(DEM, chunks={"y": 2048, "x": 2048})</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="st">        slope = pdist.raster.slope(dem, compute="cpu")</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="st">        pdist.write_raster(slope, OUT)  # each worker writes its own chunks</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="st">        print(f"wrote </span><span class="sc">{OUT.name}</span><span class="st"> in {time.perf_counter() - t:.1f} s")</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a><span class="st">if __name__ == "__main__":  # worker processes import this file; only the parent runs main()</span></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="st">    main()</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)  <span class="co"># script text</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> subprocess.run([sys.executable, <span class="bu">str</span>(script)], capture_output<span class="op">=</span><span class="va">True</span>, text<span class="op">=</span><span class="va">True</span>)  <span class="co"># run it</span></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(r.stdout <span class="kw">or</span> r.stderr[<span class="op">-</span><span class="dv">1500</span>:])  <span class="co"># its output</span></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> pdist.read_zarr(OUT <span class="op">/</span> <span class="st">"gp_slope.zarr"</span>)  <span class="co"># open the result lazily</span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(z, <span class="st">"</span><span class="ch">\n</span><span class="st">chunks:"</span>, z.slope.data.chunksize)  <span class="co"># same grid, written chunk by chunk</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>workers: 4
+wrote gp_slope.zarr in 3.9 s
+
+&lt;xarray.Dataset&gt; Size: 1GB
+Dimensions:      (y: 17196, x: 15245)
+Coordinates:
+  * y            (y) float64 138kB 2.539e+06 2.539e+06 ... 9.92e+05 9.919e+05
+  * x            (x) float64 122kB -1.25e+06 -1.25e+06 ... 1.216e+05 1.217e+05
+Data variables:
+    slope        (y, x) float32 1GB dask.array&lt;chunksize=(2048, 2048), meta=np.ndarray&gt;
+    spatial_ref  int64 8B ... 
+chunks: (2048, 2048)</code></pre>
+</div>
+</div>
+<div id="b6358477" class="cell" data-execution_count="16">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil  <span class="co"># file removal</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>shutil.rmtree(OUT <span class="op">/</span> <span class="st">"gp_slope.zarr"</span>)  <span class="co"># remove the 1 GB result again</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="summary-and-exercises" class="level2">
+<h2 class="anchored" data-anchor-id="summary-and-exercises">Summary and exercises</h2>
+<ul>
+<li>A Dask cluster has a client, a scheduler, workers and nannies; without one, Dask’s threaded scheduler runs everything in this process on all cores.</li>
+<li>NumPy, GDAL and vectorized Shapely run in parallel on threads; pure Python loops need processes. Here 24 single-threaded processes ran a Python loop twice as fast as 24 threads, and a vectorized Shapely call was about twenty-five times faster again.</li>
+<li>For NumPy work on one machine the threaded scheduler beat the local cluster, which pays for moving halo strips between processes.</li>
+<li><code>pdist.start</code> starts local, GPU, SLURM, PBS and Kubernetes clusters or joins a running one; the <code>Session</code> scales, adapts, reports status and closes, also as a context manager.</li>
+<li>Chunk size matters: tiny chunks drown in task overhead and huge ones leave cores idle; measure a few sizes for long jobs.</li>
+<li><code>persist</code> keeps reused data in worker memory; <code>.values</code> copies everything to the client.</li>
+<li>Cluster scripts need the <code>if __name__ == "__main__":</code> guard.</li>
+</ul>
+<p><strong>Exercises</strong></p>
+<ol type="1">
+<li>Repeat the threads and processes comparison with <code>pdist.vector.buffer(bld, 10)</code>. Which setup wins, and why?</li>
+<li>Start a cluster with <code>memory_limit="1GB"</code> per worker and persist the DEM. Watch what the workers do (the dashboard, or <code>pdist.memory_report()</code>), and explain.</li>
+<li>Write the PBS version of the SLURM job script with <code>pdist.start("pbs", ...)</code> and compare the two.</li>
+<li>Add a <code>--workers</code> argument to <code>scripts/slope_on_cluster.py</code> and plot the run time for 1, 2, 4 and 8 workers.</li>
+</ol>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./08_00_distributed_spatial_computing_fundamentals.html" class="pagination-link" aria-label="Fundamentals">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Fundamentals</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./08_02_distributed_input_and_output.html" class="pagination-link" aria-label="Parallel Input and Output">
+        <span class="nav-page-text">Parallel Input and Output</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

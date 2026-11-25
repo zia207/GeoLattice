@@ -1,0 +1,2772 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>spatial_sql – GeoLattice: Web &amp; Cloud GIS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./07_04_interactive_web_maps.html" rel="next">
+<link href="./07_02_cloud_native_vector.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GeoLattice: Web &amp; Cloud GIS</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
+        <li class="dropdown-header">Cloud-Native Data</li>
+        <li>
+    <a class="dropdown-item" href="./07_00_introduction_web_cloud_gis.html">
+ <span class="dropdown-text">Web and Cloud GIS</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_01_cloud_native_raster.html">
+ <span class="dropdown-text">Cloud-Native Rasters</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_02_cloud_native_vector.html">
+ <span class="dropdown-text">Cloud-Native Vectors</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_03_spatial_sql.html">
+ <span class="dropdown-text">Spatial SQL</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Maps, Services and Apps</li>
+        <li>
+    <a class="dropdown-item" href="./07_04_interactive_web_maps.html">
+ <span class="dropdown-text">Interactive Web Maps</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_05_serving_maps.html">
+ <span class="dropdown-text">Serving Maps</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_06_geospatial_apis.html">
+ <span class="dropdown-text">Geospatial APIs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_07_web_apps.html">
+ <span class="dropdown-text">Web Apps</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Scale and Operations</li>
+        <li>
+    <a class="dropdown-item" href="./07_08_scalable_processing.html">
+ <span class="dropdown-text">Scalable Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_09_cloud_platforms.html">
+ <span class="dropdown-text">Cloud Platforms</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_10_devops_geospatial.html">
+ <span class="dropdown-text">DevOps for Geospatial Pipelines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./07_11_capstone.html">
+ <span class="dropdown-text">Capstone: Haor Flood Monitor</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_00_introduction_web_cloud_gis.html"><strong>Cloud-Native Data</strong></a></li><li class="breadcrumb-item"><a href="./07_03_spatial_sql.html">Spatial SQL</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_00_introduction_web_cloud_gis.html"><strong>Cloud-Native Data</strong></a></li><li class="breadcrumb-item"><a href="./07_03_spatial_sql.html">Spatial SQL</a></li></ol></nav></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Cloud-Native Data</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_00_introduction_web_cloud_gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Web and Cloud GIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_01_cloud_native_raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cloud-Native Rasters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_02_cloud_native_vector.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cloud-Native Vectors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_03_spatial_sql.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Spatial SQL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Maps, Services and Apps</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_04_interactive_web_maps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interactive Web Maps</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_05_serving_maps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Serving Maps</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_06_geospatial_apis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geospatial APIs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_07_web_apps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Web Apps</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Scale and Operations</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_08_scalable_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Scalable Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_09_cloud_platforms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cloud Platforms</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_10_devops_geospatial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DevOps for Geospatial Pipelines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_11_capstone.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capstone: Haor Flood Monitor</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#spatial-sql-duckdb-geopackage-and-postgis" id="toc-spatial-sql-duckdb-geopackage-and-postgis" class="nav-link active" data-scroll-target="#spatial-sql-duckdb-geopackage-and-postgis">Spatial SQL: DuckDB, GeoPackage and PostGIS</a>
+  <ul>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#contents" id="toc-contents" class="nav-link" data-scroll-target="#contents">Contents</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#spatial-databases-and-engines" id="toc-spatial-databases-and-engines" class="nav-link" data-scroll-target="#spatial-databases-and-engines">Spatial databases and engines</a></li>
+  <li><a href="#loading-data-into-duckdb" id="toc-loading-data-into-duckdb" class="nav-link" data-scroll-target="#loading-data-into-duckdb">Loading data into DuckDB</a></li>
+  <li><a href="#spatial-functions-and-the-axis-order-trap" id="toc-spatial-functions-and-the-axis-order-trap" class="nav-link" data-scroll-target="#spatial-functions-and-the-axis-order-trap">Spatial functions and the axis-order trap</a></li>
+  <li><a href="#attribute-joins-and-join-quality" id="toc-attribute-joins-and-join-quality" class="nav-link" data-scroll-target="#attribute-joins-and-join-quality">Attribute joins and join quality</a></li>
+  <li><a href="#dissolve-and-aggregate-from-upazilas-to-districts" id="toc-dissolve-and-aggregate-from-upazilas-to-districts" class="nav-link" data-scroll-target="#dissolve-and-aggregate-from-upazilas-to-districts">Dissolve and aggregate: from upazilas to districts</a></li>
+  <li><a href="#spatial-joins-arsenic-in-rice-fields" id="toc-spatial-joins-arsenic-in-rice-fields" class="nav-link" data-scroll-target="#spatial-joins-arsenic-in-rice-fields">Spatial joins: arsenic in rice fields</a></li>
+  <li><a href="#distance-queries-and-window-functions" id="toc-distance-queries-and-window-functions" class="nav-link" data-scroll-target="#distance-queries-and-window-functions">Distance queries and window functions</a></li>
+  <li><a href="#spatial-indexes-when-they-help" id="toc-spatial-indexes-when-they-help" class="nav-link" data-scroll-target="#spatial-indexes-when-they-help">Spatial indexes: when they help</a></li>
+  <li><a href="#from-sql-to-geopandas-and-to-files" id="toc-from-sql-to-geopandas-and-to-files" class="nav-link" data-scroll-target="#from-sql-to-geopandas-and-to-files">From SQL to GeoPandas and to files</a></li>
+  <li><a href="#a-geopackage-is-a-sqlite-database" id="toc-a-geopackage-is-a-sqlite-database" class="nav-link" data-scroll-target="#a-geopackage-is-a-sqlite-database">A GeoPackage is a SQLite database</a></li>
+  <li><a href="#postgis-and-cloud-warehouses" id="toc-postgis-and-cloud-warehouses" class="nav-link" data-scroll-target="#postgis-and-cloud-warehouses">PostGIS and cloud warehouses</a></li>
+  <li><a href="#summary-and-exercises" id="toc-summary-and-exercises" class="nav-link" data-scroll-target="#summary-and-exercises">Summary and exercises</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p style="text-align:center">
+<img src="images/08_web_gis.png" alt="Web and Cloud GIS" width="100%">
+</p>
+<section id="spatial-sql-duckdb-geopackage-and-postgis" class="level1">
+<h1>Spatial SQL: DuckDB, GeoPackage and PostGIS</h1>
+<p>SQL is the language of databases, and every major cloud data platform speaks a spatial dialect of it: PostGIS, DuckDB, BigQuery, Snowflake, Databricks and Apache Sedona all offer functions such as <code>ST_Intersects</code>, <code>ST_Area</code> and <code>ST_Union</code>. Spatial SQL lets you join, aggregate and filter millions of features close to where the data are stored, then hand a small result to Python. This notebook teaches spatial SQL on real Bangladesh data with <strong>DuckDB</strong>, an in-process database that needs no server, queries files directly and runs inside a notebook or a cloud function. It then shows that a GeoPackage is a SQLite database you can query, and how the same queries move to <strong>PostGIS</strong>, the standard spatial database for web GIS servers.</p>
+<section id="learning-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
+<ol type="1">
+<li>Load shapefiles, CSV tables and GeoParquet into DuckDB and inspect geometry columns.</li>
+<li>Use the core spatial functions: validity, area, length, centroid, buffer, transform and union.</li>
+<li>Write attribute joins, spatial joins, dissolves and window functions, and check join quality.</li>
+<li>Understand when spatial indexes help, and avoid the coordinate-axis trap of <code>ST_Transform</code>.</li>
+<li>Move results to GeoPandas and export them as GeoParquet, GeoPackage or FlatGeobuf.</li>
+<li>Query a GeoPackage with SQL through GDAL, and translate queries to PostGIS and cloud warehouses.</li>
+</ol>
+</section>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Data</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Upazila (sub-district, admin level 3) and union (admin level 4) boundaries of Bangladesh</td>
+<td><code>Data/00_shared/vector_data/Bangladesh/Shapefiles/bd_upzila_GCS.shp</code>, <code>bd_union_GCS.shp</code></td>
+</tr>
+<tr class="even">
+<td>Upazila poverty rates, keyed by upazila code</td>
+<td><code>Data/00_shared/vector_data/Bangladesh/bd_poverty.csv</code></td>
+</tr>
+<tr class="odd">
+<td>Upazila population and poverty indicators, keyed by names</td>
+<td><code>Data/00_shared/vector_data/Bangladesh/bd_upazila_indicators.csv</code></td>
+</tr>
+<tr class="even">
+<td>District rice production 2018-2019 (Aus, Aman and Boro seasons, metric tons)</td>
+<td><code>Data/00_shared/vector_data/Bangladesh/bd_district_rice_production_2018_2019_BTM.shp</code></td>
+</tr>
+<tr class="odd">
+<td>Arsenic in irrigation water, soil and rice grain at 263 rice fields in south-western Bangladesh</td>
+<td><code>Data/00_shared/vector_data/Bangladesh/bd_arsenic_data.csv</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="contents" class="level3">
+<h3 class="anchored" data-anchor-id="contents">Contents</h3>
+<ol type="1">
+<li>Setup</li>
+<li>Spatial databases and engines</li>
+<li>Loading data into DuckDB</li>
+<li>Spatial functions and the axis-order trap</li>
+<li>Attribute joins and join quality</li>
+<li>Dissolve and aggregate: from upazilas to districts</li>
+<li>Spatial joins: arsenic in rice fields</li>
+<li>Distance queries and window functions</li>
+<li>Spatial indexes: when they help</li>
+<li>From SQL to GeoPandas and to files</li>
+<li>A GeoPackage is a SQLite database</li>
+<li>PostGIS and cloud warehouses</li>
+<li>Summary and exercises</li>
+</ol>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p><strong>Installation.</strong> This notebook needs installation option 6 (every GeoLattice module): <code>pip install "geolattice[all]"</code>. See “Installation options” in the GeoLattice README.</p>
+<div id="4d2b9a76" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:25.736939Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:25.736593Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:26.598390Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:26.597576Z&quot;}}" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup: imports, paths, output folder, and an in-memory DuckDB with the spatial extension</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>, category<span class="op">=</span><span class="pp">UserWarning</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> duckdb</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.web <span class="im">as</span> web</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.vector <span class="im">import</span> read_geoparquet, write_geoparquet</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({<span class="st">"figure.dpi"</span>: <span class="dv">110</span>})</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> Path(<span class="st">"../../../Data"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>BD <span class="op">=</span> DATA <span class="op">/</span> <span class="st">"00_shared"</span> <span class="op">/</span> <span class="st">"vector_data"</span> <span class="op">/</span> <span class="st">"Bangladesh"</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>OUT <span class="op">=</span> DATA <span class="op">/</span> <span class="st">"00_shared"</span> <span class="op">/</span> <span class="st">"data_web_cloud_gis"</span> <span class="op">/</span> <span class="st">"08_03_outputs"</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> OUT.exists():</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    shutil.rmtree(OUT)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>OUT.mkdir(parents<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Connect and load DuckDB spatial; helpers return pandas / GeoDataFrames</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> duckdb.<span class="ex">connect</span>()                                   <span class="co"># an in-memory database</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"INSTALL spatial; LOAD spatial; SET enable_progress_bar = false;"</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"geolattice"</span>, geolattice.__version__, <span class="st">"| DuckDB"</span>, duckdb.__version__,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>      <span class="st">"| spatial functions:"</span>, con.sql(<span class="st">"SELECT count(DISTINCT function_name) FROM duckdb_functions() WHERE function_name LIKE 'ST_%'"</span>).fetchone()[<span class="dv">0</span>])</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> q(sql):</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Run SQL and return a pandas DataFrame."</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> con.sql(sql).df()</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> to_gdf(sql, geom<span class="op">=</span><span class="st">"geom"</span>, crs<span class="op">=</span><span class="dv">4326</span>):</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Run SQL whose result has a geometry column and return a GeoDataFrame (geometry travels as WKB)."</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> con.sql(<span class="ss">f"SELECT * EXCLUDE (</span><span class="sc">{</span>geom<span class="sc">}</span><span class="ss">), ST_AsWKB(</span><span class="sc">{</span>geom<span class="sc">}</span><span class="ss">) AS __wkb FROM (</span><span class="sc">{</span>sql<span class="sc">}</span><span class="ss">)"</span>).df()</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    geometry <span class="op">=</span> gpd.GeoSeries.from_wkb(df.pop(<span class="st">"__wkb"</span>).<span class="bu">map</span>(<span class="bu">bytes</span>), crs<span class="op">=</span>crs)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gpd.GeoDataFrame(df, geometry<span class="op">=</span>geometry.values, crs<span class="op">=</span>crs).rename_geometry(geom)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>geolattice 0.3.11 | DuckDB 1.5.5 | spatial functions: 158</code></pre>
+</div>
+</div>
+</section>
+<section id="spatial-databases-and-engines" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-databases-and-engines">Spatial databases and engines</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Engine</th>
+<th>Runs as</th>
+<th>Best for</th>
+<th>Spatial functions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>DuckDB</strong> + <code>spatial</code></td>
+<td>A library inside your program; no server</td>
+<td>Analysis of files (Parquet, GeoParquet, shapefiles, CSV) locally or over HTTP/S3</td>
+<td>~150 <code>ST_</code> functions (GEOS, PROJ, GDAL)</td>
+</tr>
+<tr class="even">
+<td><strong>PostgreSQL + PostGIS</strong></td>
+<td>A database server</td>
+<td>Multi-user web GIS back ends, transactions, OGC API and tile servers</td>
+<td>The reference implementation, several hundred functions</td>
+</tr>
+<tr class="odd">
+<td><strong>SQLite + SpatiaLite / GeoPackage</strong></td>
+<td>A file</td>
+<td>Desktop and mobile, single-user editing</td>
+<td>SpatiaLite functions; GeoPackage R-tree</td>
+</tr>
+<tr class="even">
+<td><strong>BigQuery, Snowflake, Redshift</strong></td>
+<td>Cloud data warehouses</td>
+<td>Very large tables, pay per query</td>
+<td><code>ST_</code> functions on GEOGRAPHY types</td>
+</tr>
+<tr class="odd">
+<td><strong>Databricks / Apache Sedona, Spark</strong></td>
+<td>Clusters</td>
+<td>Distributed processing of billions of features</td>
+<td><code>ST_</code> functions on Spark DataFrames</td>
+</tr>
+</tbody>
+</table>
+<p>They share the SQL/MM spatial vocabulary, so most queries move between them with small changes (Section 12). DuckDB needs nothing installed beyond <code>pip install duckdb</code>, which is why we learn the patterns with it.</p>
+</section>
+<section id="loading-data-into-duckdb" class="level2">
+<h2 class="anchored" data-anchor-id="loading-data-into-duckdb">Loading data into DuckDB</h2>
+<p><code>ST_Read</code> reads any GDAL vector format into a table with a <code>geom</code> column; <code>read_csv</code> reads plain tables. Tables live in memory unless you connect to a database file.</p>
+<div id="dac19527" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:26.600186Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:26.600012Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:27.158419Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:27.157693Z&quot;}}" data-execution_count="2">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Bangladesh shapefiles and CSVs into DuckDB tables (points built with ST_Point)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>SHP <span class="op">=</span> BD <span class="op">/</span> <span class="st">"Shapefiles"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="ss">f"CREATE TABLE upazila AS SELECT * FROM ST_Read('</span><span class="sc">{</span>(SHP <span class="op">/</span> <span class="st">'bd_upzila_GCS.shp'</span>)<span class="sc">.</span>as_posix()<span class="sc">}</span><span class="ss">')"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="ss">f"CREATE TABLE unions  AS SELECT * FROM ST_Read('</span><span class="sc">{</span>(SHP <span class="op">/</span> <span class="st">'bd_union_GCS.shp'</span>)<span class="sc">.</span>as_posix()<span class="sc">}</span><span class="ss">')"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="ss">f"CREATE TABLE poverty AS SELECT * FROM read_csv('</span><span class="sc">{</span>(BD <span class="op">/</span> <span class="st">'bd_poverty.csv'</span>)<span class="sc">.</span>as_posix()<span class="sc">}</span><span class="ss">')"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="ss">f"CREATE TABLE indicators AS SELECT * FROM read_csv('</span><span class="sc">{</span>(BD <span class="op">/</span> <span class="st">'bd_upazila_indicators.csv'</span>)<span class="sc">.</span>as_posix()<span class="sc">}</span><span class="ss">')"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="ss">f'''CREATE TABLE rice AS</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT ADM2_PCODE, ADM2_EN, ADM1_EN, Aus, Aman, Boro</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="ss">    FROM ST_Read('</span><span class="sc">{</span>(BD <span class="op">/</span> <span class="st">"bd_district_rice_production_2018_2019_BTM.shp"</span>)<span class="sc">.</span>as_posix()<span class="sc">}</span><span class="ss">')'''</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="ss">f'''CREATE TABLE fields AS</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT ID, WAs AS water_as, SAs AS soil_as, GAs AS grain_as, Variety AS variety, Land_type AS land_type,</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="ss">           ST_Point(Longitude, Latitude) AS geom</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="ss">    FROM read_csv('</span><span class="sc">{</span>(BD <span class="op">/</span> <span class="st">'bd_arsenic_data.csv'</span>)<span class="sc">.</span>as_posix()<span class="sc">}</span><span class="ss">')'''</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Loaded in </span><span class="sc">{</span>time<span class="sc">.</span>perf_counter() <span class="op">-</span> t0<span class="sc">:.2f}</span><span class="ss"> s"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>q(<span class="st">'''SELECT table_name, estimated_size AS rows, column_count AS columns FROM duckdb_tables() ORDER BY table_name'''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Loaded in 0.55 s</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">table_name</th>
+<th data-quarto-table-cell-role="th">rows</th>
+<th data-quarto-table-cell-role="th">columns</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>fields</td>
+<td>263</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>indicators</td>
+<td>545</td>
+<td>127</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>poverty</td>
+<td>544</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>rice</td>
+<td>64</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>unions</td>
+<td>5160</td>
+<td>20</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>upazila</td>
+<td>544</td>
+<td>18</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="2e8f5ed7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:27.159989Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:27.159883Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:27.166187Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:27.165945Z&quot;}}" data-execution_count="3">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect selected columns and types from the upazila table</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>q(<span class="st">"DESCRIBE upazila"</span>).iloc[[<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="op">-</span><span class="dv">1</span>]][[<span class="st">"column_name"</span>, <span class="st">"column_type"</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">column_name</th>
+<th data-quarto-table-cell-role="th">column_type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>OGC_FID</td>
+<td>BIGINT</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Shape_Area</td>
+<td>DOUBLE</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>ADM3ALT1EN</td>
+<td>VARCHAR</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">8</th>
+<td>ADM2_EN</td>
+<td>VARCHAR</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>ADM1_EN</td>
+<td>VARCHAR</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">17</th>
+<td>geom</td>
+<td>GEOMETRY('EPSG:4326')</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The geometry column is typed <code>GEOMETRY('EPSG:4326')</code>: DuckDB records the coordinate system with the column. Upazila and union tables carry the full administrative hierarchy (<code>ADM1</code> division, <code>ADM2</code> district, <code>ADM3</code> upazila, <code>ADM4</code> union), with names (<code>_EN</code>) and codes (<code>_PCODE</code>).</p>
+</section>
+<section id="spatial-functions-and-the-axis-order-trap" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-functions-and-the-axis-order-trap">Spatial functions and the axis-order trap</h2>
+<p>A first query uses several functions at once: validity, geometry type, vertex count, area on the ellipsoid and the centroid.</p>
+<div id="ebb17e48" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:27.167759Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:27.167664Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:28.504281Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:28.504007Z&quot;}}" data-execution_count="4">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Geometry summary: type, validity, area, and centroid for the largest upazilas</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>q(<span class="st">'''</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT ADM3_EN AS upazila, ADM2_EN AS district, ST_GeometryType(geom) AS type, ST_IsValid(geom) AS valid,</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="st">       ST_NPoints(geom) AS vertices,</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="st">       round(ST_Area_Spheroid(ST_FlipCoordinates(geom)) / 1e6, 1) AS area_km2,</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="st">       round(ST_X(ST_Centroid(geom)), 4) AS lon, round(ST_Y(ST_Centroid(geom)), 4) AS lat</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="st">FROM upazila</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY area_km2 DESC</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="st">LIMIT 5'''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">upazila</th>
+<th data-quarto-table-cell-role="th">district</th>
+<th data-quarto-table-cell-role="th">type</th>
+<th data-quarto-table-cell-role="th">valid</th>
+<th data-quarto-table-cell-role="th">vertices</th>
+<th data-quarto-table-cell-role="th">area_km2</th>
+<th data-quarto-table-cell-role="th">lon</th>
+<th data-quarto-table-cell-role="th">lat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>Baghai Chhari</td>
+<td>Rangamati</td>
+<td>POLYGON</td>
+<td>True</td>
+<td>2589</td>
+<td>1616.1</td>
+<td>92.2295</td>
+<td>23.3731</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Shyamnagar</td>
+<td>Satkhira</td>
+<td>MULTIPOLYGON</td>
+<td>True</td>
+<td>11191</td>
+<td>1544.4</td>
+<td>89.1793</td>
+<td>22.0690</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Mongla</td>
+<td>Bagerhat</td>
+<td>MULTIPOLYGON</td>
+<td>True</td>
+<td>11867</td>
+<td>1268.5</td>
+<td>89.6544</td>
+<td>22.1271</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Koyra</td>
+<td>Khulna</td>
+<td>MULTIPOLYGON</td>
+<td>True</td>
+<td>10123</td>
+<td>1255.2</td>
+<td>89.3822</td>
+<td>22.1455</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>Thanchi</td>
+<td>Bandarban</td>
+<td>POLYGON</td>
+<td>True</td>
+<td>1702</td>
+<td>1078.9</td>
+<td>92.5309</td>
+<td>21.6373</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>For metric work (buffers, distances, areas) data are usually projected. Here is the trap: <strong>EPSG:4326 officially lists latitude first</strong>. DuckDB’s <code>ST_Transform</code> follows the official axis order unless told otherwise, so a point stored as (longitude, latitude) is read the wrong way round.</p>
+<div id="e6031b14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:28.506554Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:28.506454Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:28.519261Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:28.518663Z&quot;}}" data-execution_count="5">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare ST_Transform axis order with and without always_xy := true</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>q(<span class="st">'''</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT ST_AsText(ST_Transform(ST_Point(90.40, 23.81), 'EPSG:4326', 'EPSG:32646'))                       AS default_order,</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">       ST_AsText(ST_Transform(ST_Point(90.40, 23.81), 'EPSG:4326', 'EPSG:32646', always_xy := true))   AS always_xy,</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">       ST_AsText(ST_Transform(ST_Point(23.81, 90.40), 'EPSG:4326', 'EPSG:32646'))                       AS lat_lon_input'''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">default_order</th>
+<th data-quarto-table-cell-role="th">always_xy</th>
+<th data-quarto-table-cell-role="th">lat_lon_input</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>POINT (inf inf)</td>
+<td>POINT (235102.69622060267 2635618.6821711794)</td>
+<td>POINT (235102.69622060267 2635618.6821711794)</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The first column is the trap: transforming <code>ST_Point(90.40, 23.81)</code> from EPSG:4326 with the default settings gives <code>POINT (inf inf)</code>, because DuckDB read 90.40 as a latitude, which is impossible. Supplying the coordinates as (latitude, longitude), or adding <code>always_xy := true</code>, gives the correct UTM position (about 235 km east, 2,636 km north). Coordinates in files are almost always stored longitude first, so use <code>always_xy := true</code> whenever the source is EPSG:4326.</p>
+<p>The query above it also shows why projected or ellipsoidal measures matter: the largest upazilas are in the Chittagong Hill Tracts (Baghai Chhari, 1,616 km²) and the Sundarbans coast (Shyamnagar, Mongla, Koyra). The coastal ones are multipolygons with over 10,000 vertices each, because of their many islands and channels.</p>
+</section>
+<section id="attribute-joins-and-join-quality" class="level2">
+<h2 class="anchored" data-anchor-id="attribute-joins-and-join-quality">Attribute joins and join quality</h2>
+<p>The poverty table has one row per upazila with an upazila code (<code>ADM3_PCODE</code>), so joining it to the upazila polygons should give a poverty map. Before trusting any join, check three numbers: how many rows match, how many rows are left over on each side (<strong>anti-joins</strong>), and whether the key is unique.</p>
+<div id="b2f2fb45" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:28.520798Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:28.520707Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:28.527048Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:28.526762Z&quot;}}" data-execution_count="6">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check how well poverty rows join to upazila polygons on ADM3_PCODE</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>q(<span class="st">'''</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT (SELECT count(*) FROM upazila)                                            AS polygons,</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="st">       (SELECT count(*) FROM poverty)                                            AS poverty_rows,</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="st">       (SELECT count(DISTINCT ADM3_PCODE) FROM poverty)                          AS distinct_codes_in_table,</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="st">       (SELECT count(*) FROM upazila u JOIN poverty p USING (ADM3_PCODE))        AS joined_rows,</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="st">       (SELECT count(*) FROM upazila u ANTI JOIN poverty p USING (ADM3_PCODE))   AS polygons_without_data'''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">polygons</th>
+<th data-quarto-table-cell-role="th">poverty_rows</th>
+<th data-quarto-table-cell-role="th">distinct_codes_in_table</th>
+<th data-quarto-table-cell-role="th">joined_rows</th>
+<th data-quarto-table-cell-role="th">polygons_without_data</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>544</td>
+<td>544</td>
+<td>525</td>
+<td>544</td>
+<td>19</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="991b27d1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:28.528317Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:28.528234Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:28.549746Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:28.549202Z&quot;}}" data-execution_count="7">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find ADM3_PCODE values that appear with more than one upazila name in bd_data</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="ss">f"CREATE TABLE bd_data AS SELECT * FROM read_csv('</span><span class="sc">{</span>(BD <span class="op">/</span> <span class="st">'bd_data.csv'</span>)<span class="sc">.</span>as_posix()<span class="sc">}</span><span class="ss">')"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>q(<span class="st">'''</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT p.ADM3_PCODE, count(*) AS rows_with_this_code,</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">       list(DISTINCT b.DISTRICT_NAME || ' / ' || b.UPAZILA_NAME) AS upazilas_in_table,</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="st">       list(DISTINCT p.POVERTY_PERCENT) AS poverty_values,</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="st">       any_value(u.ADM2_EN || ' / ' || u.ADM3_EN) AS polygon_with_this_code</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="st">FROM poverty p</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN bd_data b USING (ADM3_PCODE, POVERTY_PERCENT)</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN upazila u USING (ADM3_PCODE)</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY p.ADM3_PCODE HAVING count(*) &gt; 1</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY rows_with_this_code DESC LIMIT 6'''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ADM3_PCODE</th>
+<th data-quarto-table-cell-role="th">rows_with_this_code</th>
+<th data-quarto-table-cell-role="th">upazilas_in_table</th>
+<th data-quarto-table-cell-role="th">poverty_values</th>
+<th data-quarto-table-cell-role="th">polygon_with_this_code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>BD303334</td>
+<td>4</td>
+<td>[Jhenaidah / Kaliganj, Satkhira / Kaliganj, La...</td>
+<td>[48.0, 35.3, 24.0, 15.7]</td>
+<td>Gazipur / Kaliganj</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>BD305610</td>
+<td>3</td>
+<td>[Khulna / Daulatpur, Manikganj / Daulatpur, Ku...</td>
+<td>[29.4, 34.5, 4.0]</td>
+<td>Manikganj / Daulatpur</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>BD457218</td>
+<td>2</td>
+<td>[Netrakona / Durgapur, Rajshahi / Durgapur]</td>
+<td>[25.7, 30.2]</td>
+<td>Netrakona / Durgapur</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>BD201547</td>
+<td>2</td>
+<td>[Chittagong / Lohagara, Narail / Lohagara]</td>
+<td>[18.3, 19.9]</td>
+<td>Chittagong / Lohagara</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>BD558576</td>
+<td>2</td>
+<td>[Rangpur / Pirganj, Thakurgaon / Pirganj]</td>
+<td>[23.3, 46.9]</td>
+<td>Rangpur / Pirganj</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>BD302662</td>
+<td>2</td>
+<td>[Dhaka / Nawabganj, Dinajpur / Nawabganj]</td>
+<td>[37.3, 21.1]</td>
+<td>Dhaka / Nawabganj</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The numbers do not add up. 544 rows joined, yet 19 polygons got no data, and the table has only <strong>525 distinct codes for 544 rows</strong>. Sixteen codes are repeated, and the repeats carry different poverty values: <code>BD303334</code> appears four times (15.7, 24.0, 35.3 and 48.0%), once for each upazila called <em>Kaliganj</em> in four districts.</p>
+<p>Whoever built the table assigned codes by upazila <strong>name</strong>, so upazilas sharing a name received the same code. A plain join therefore attaches four different poverty rates to Gazipur’s Kaliganj and none to the other three. Here the row count looked right, which makes this the most dangerous kind of join error. Checking <code>count(DISTINCT key)</code> catches it.</p>
+<p>The fix is a key that really identifies an upazila: the <strong>district code plus the upazila name</strong>. <code>bd_data.csv</code> holds the same poverty values with district codes and names. Names still differ in spelling, so we join in three steps and record how each row was matched:</p>
+<ol type="1">
+<li>exact match on district code and lower-case name;</li>
+<li>fuzzy match for the rest: same district (by code, or by a near-identical district name), names normalised (spaces, punctuation, “Upazila” and bracketed parts removed), best Jaro-Winkler similarity of at least 0.9;</li>
+<li>a small manual lookup for names that changed, which no string similarity can find.</li>
+</ol>
+<div id="493688fd" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:28.551182Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:28.551090Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:28.565481Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:28.565103Z&quot;}}" data-execution_count="8">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build poverty_clean: exact name match, then fuzzy match, then a few manual fixes</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="vs">r'''CREATE MACRO norm</span><span class="kw">(</span><span class="vs">s</span><span class="kw">)</span><span class="vs"> AS</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="vs">    regexp_replace</span><span class="kw">(</span><span class="vs">regexp_replace</span><span class="kw">(</span><span class="vs">lower</span><span class="kw">(</span><span class="vs">trim</span><span class="kw">(</span><span class="vs">s</span><span class="kw">))</span><span class="vs">, '</span><span class="dv">\s</span><span class="op">*</span><span class="vs">upazila</span><span class="dv">$</span><span class="cf">|</span><span class="dv">\s</span><span class="op">*</span><span class="ch">\(</span><span class="dv">.</span><span class="op">*</span><span class="ch">\)</span><span class="vs">', '', 'g'</span><span class="kw">)</span><span class="vs">, '</span><span class="pp">[^a-z]</span><span class="vs">', '', 'g'</span><span class="kw">)</span><span class="vs">'''</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"CREATE TABLE manual_names (district VARCHAR, upazila VARCHAR, table_district VARCHAR, table_upazila VARCHAR, reason VARCHAR)"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">'''INSERT INTO manual_names VALUES</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="st">    ('Jessore',   'Kotwali',         'Jessore',          'Jessore Sadar',          'Kotwali is the Jessore Sadar upazila'),</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="st">    ('Nawabganj', 'Nawabganj Sadar', 'Chapai Nababganj', 'Chapai Nababganj Sadar', 'Nawabganj district was renamed Chapai Nawabganj')'''</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">'''</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE TABLE poverty_clean AS</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st">WITH exact AS (</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT u.ADM3_PCODE, b.POVERTY_PERCENT AS poverty, 'exact' AS matched_by</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM upazila u JOIN bd_data b ON u.ADM2_PCODE = b.DISTRICT_PCODE AND lower(trim(u.ADM3_EN)) = lower(trim(b.UPAZILA_NAME))),</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="st">rest_u AS (SELECT * FROM upazila WHERE ADM3_PCODE NOT IN (SELECT ADM3_PCODE FROM exact)),</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="st">rest_b AS (SELECT * FROM bd_data b WHERE NOT EXISTS (</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT 1 FROM upazila u WHERE u.ADM2_PCODE = b.DISTRICT_PCODE AND lower(trim(u.ADM3_EN)) = lower(trim(b.UPAZILA_NAME)))),</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="st">fuzzy AS (</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT ADM3_PCODE, poverty, 'fuzzy' AS matched_by FROM (</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="st">        SELECT u.ADM3_PCODE, b.POVERTY_PERCENT AS poverty,</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="st">               jaro_winkler_similarity(norm(u.ADM3_EN), norm(b.UPAZILA_NAME)) AS sim,</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="st">               row_number() OVER (PARTITION BY u.ADM3_PCODE</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="st">                                  ORDER BY jaro_winkler_similarity(norm(u.ADM3_EN), norm(b.UPAZILA_NAME)) DESC) AS r</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="st">        FROM rest_u u JOIN rest_b b</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="st">          ON u.ADM2_PCODE = b.DISTRICT_PCODE OR jaro_winkler_similarity(norm(u.ADM2_EN), norm(b.DISTRICT_NAME)) &gt; 0.9)</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="st">    WHERE r = 1 AND sim &gt;= 0.9),</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="st">manual AS (</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT u.ADM3_PCODE, b.POVERTY_PERCENT AS poverty, 'manual' AS matched_by</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM manual_names m</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="st">    JOIN upazila u ON u.ADM2_EN = m.district AND u.ADM3_EN = m.upazila</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="st">    JOIN bd_data b ON b.DISTRICT_NAME = m.table_district AND b.UPAZILA_NAME = m.table_upazila)</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT * FROM exact UNION ALL SELECT * FROM fuzzy UNION ALL SELECT * FROM manual'''</span>)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>q(<span class="st">'''SELECT matched_by, count(*) AS upazilas FROM poverty_clean GROUP BY 1</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="st">     UNION ALL SELECT 'total distinct codes', count(DISTINCT ADM3_PCODE) FROM poverty_clean</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="st">     UNION ALL SELECT 'polygons still without data', (SELECT count(*) FROM upazila u ANTI JOIN poverty_clean USING (ADM3_PCODE))'''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">matched_by</th>
+<th data-quarto-table-cell-role="th">upazilas</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>exact</td>
+<td>521</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>manual</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>fuzzy</td>
+<td>21</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>total distinct codes</td>
+<td>544</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>polygons still without data</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Population comes from a third table keyed only by upper-case district and upazila names; the same normalise-then-fuzzy approach links it.</p>
+<div id="44d4fadf" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:28.566758Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:28.566671Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:28.668874Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:28.668110Z&quot;}}" data-execution_count="9">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fuzzy-match population from the indicators table onto upazila polygons by name</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">'''</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE TABLE pop_clean AS</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT ADM3_PCODE, population, sim FROM (</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT u.ADM3_PCODE, i."Total Population (N)" AS population,</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="st">           jaro_winkler_similarity(norm(u.ADM3_EN), norm(i."Upazila Name")) AS sim,</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="st">           row_number() OVER (PARTITION BY u.ADM3_PCODE</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="st">                              ORDER BY jaro_winkler_similarity(norm(u.ADM3_EN), norm(i."Upazila Name")) DESC) AS r</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM upazila u JOIN indicators i ON jaro_winkler_similarity(norm(u.ADM2_EN), norm(i."Zila Name")) &gt; 0.9)</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE r = 1 AND sim &gt;= 0.9'''</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>q(<span class="st">'''SELECT count(*) AS upazilas_with_population, count(*) FILTER (WHERE sim &lt; 1) AS fuzzy_matches,</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="st">            (SELECT count(*) FROM upazila) - count(*) AS without_population,</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="st">            sum(population) AS total_population FROM pop_clean'''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">upazilas_with_population</th>
+<th data-quarto-table-cell-role="th">fuzzy_matches</th>
+<th data-quarto-table-cell-role="th">without_population</th>
+<th data-quarto-table-cell-role="th">total_population</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>538</td>
+<td>3</td>
+<td>6</td>
+<td>141730060.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The three-step join links every upazila exactly once:</p>
+<ul>
+<li><strong>521 exact</strong> matches on district code and name;</li>
+<li><strong>21 fuzzy</strong> matches. Most are spelling variants (“Daulatkhan” / “Daulat Khan”, “Tungi Para” / “Tungipara”); nine are all upazilas of one district, spelled “Brahamanbaria” in the shapefile and “Brahmanbaria”, with a different district code, in the table;</li>
+<li><strong>2 manual</strong> matches for places whose names changed. No string similarity links “Kotwali” to “Jessore Sadar”, or “Nawabganj” to “Chapai Nababganj”.</li>
+</ul>
+<p>The population table matched 538 upazilas (3 fuzzy). The 6 without population drop out of the population weights in the next section.</p>
+<p>The original code-only join was not just incomplete but wrong. It also inflates aggregates: the duplicated rows would add extra “upazilas” to districts such as Bogra, Rangpur and Netrakona (Exercise 2).</p>
+</section>
+<section id="dissolve-and-aggregate-from-upazilas-to-districts" class="level2">
+<h2 class="anchored" data-anchor-id="dissolve-and-aggregate-from-upazilas-to-districts">Dissolve and aggregate: from upazilas to districts</h2>
+<p><code>ST_Union_Agg</code> merges the polygons of each group (a <em>dissolve</em>). Combined with <code>GROUP BY</code> and the joined tables we build district statistics in one query: area, population, population-weighted poverty and rice production from the district table.</p>
+<div id="f6c61b96" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:28.670457Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:28.670367Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:29.646873Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:29.646306Z&quot;}}" data-execution_count="10">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dissolve upazilas to districts, then join rice production into district_stats</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">'''</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE TABLE districts AS</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="st">WITH u AS (</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT z.ADM1_EN, z.ADM2_EN, z.ADM2_PCODE, z.geom, pv.poverty, p.population</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM upazila z</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="st">    LEFT JOIN poverty_clean pv USING (ADM3_PCODE)</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="st">    LEFT JOIN pop_clean p USING (ADM3_PCODE))</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT ADM1_EN AS division, ADM2_EN AS district, ADM2_PCODE,</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="st">       count(*) AS upazilas,</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="st">       ST_Union_Agg(geom) AS geom,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="st">       CAST(sum(population) AS BIGINT) AS population,</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="st">       CAST(round(sum(poverty * population) / sum(population) FILTER (WHERE poverty IS NOT NULL), 1) AS DOUBLE) AS poverty_pct</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="st">FROM u GROUP BY ALL'''</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">'''</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE TABLE district_stats AS</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT d.*, CAST(round(ST_Area_Spheroid(ST_FlipCoordinates(d.geom)) / 1e6) AS DOUBLE) AS area_km2,</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="st">       CAST(r.Aus + r.Aman + r.Boro AS BIGINT) AS rice_t,</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="st">       CAST(round(100.0 * r.Boro / (r.Aus + r.Aman + r.Boro), 1) AS DOUBLE) AS boro_share_pct</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="st">FROM districts d LEFT JOIN rice r USING (ADM2_PCODE)'''</span>)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Dissolved 544 upazilas into </span><span class="sc">{</span>q(<span class="st">'SELECT count(*) n FROM districts'</span>)<span class="sc">.</span>n[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> districts in </span><span class="sc">{</span>time<span class="sc">.</span>perf_counter() <span class="op">-</span> t0<span class="sc">:.1f}</span><span class="ss"> s"</span>)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>q(<span class="st">'''SELECT division, district, upazilas, area_km2, population, poverty_pct, rice_t, boro_share_pct,</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="st">            round(rice_t / area_km2) AS rice_t_per_km2</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="st">     FROM district_stats ORDER BY rice_t DESC LIMIT 8'''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dissolved 544 upazilas into 64 districts in 1.0 s</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">division</th>
+<th data-quarto-table-cell-role="th">district</th>
+<th data-quarto-table-cell-role="th">upazilas</th>
+<th data-quarto-table-cell-role="th">area_km2</th>
+<th data-quarto-table-cell-role="th">population</th>
+<th data-quarto-table-cell-role="th">poverty_pct</th>
+<th data-quarto-table-cell-role="th">rice_t</th>
+<th data-quarto-table-cell-role="th">boro_share_pct</th>
+<th data-quarto-table-cell-role="th">rice_t_per_km2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>Mymensingh</td>
+<td>Mymensingh</td>
+<td>12</td>
+<td>4348.0</td>
+<td>5118180</td>
+<td>50.4</td>
+<td>1708590</td>
+<td>59.6</td>
+<td>393.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Rangpur</td>
+<td>Dinajpur</td>
+<td>13</td>
+<td>3460.0</td>
+<td>2986280</td>
+<td>37.9</td>
+<td>1472046</td>
+<td>46.3</td>
+<td>425.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Rajshahi</td>
+<td>Naogaon</td>
+<td>11</td>
+<td>3444.0</td>
+<td>2592160</td>
+<td>16.9</td>
+<td>1439751</td>
+<td>56.7</td>
+<td>418.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Rajshahi</td>
+<td>Bogra</td>
+<td>12</td>
+<td>2913.0</td>
+<td>3410260</td>
+<td>16.6</td>
+<td>1234994</td>
+<td>57.5</td>
+<td>424.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>Chittagong</td>
+<td>Comilla</td>
+<td>16</td>
+<td>3088.0</td>
+<td>5390960</td>
+<td>37.8</td>
+<td>1169503</td>
+<td>56.6</td>
+<td>379.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>Khulna</td>
+<td>Jessore</td>
+<td>8</td>
+<td>2585.0</td>
+<td>2042760</td>
+<td>40.3</td>
+<td>1163351</td>
+<td>64.4</td>
+<td>450.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>Rangpur</td>
+<td>Rangpur</td>
+<td>8</td>
+<td>2344.0</td>
+<td>2721100</td>
+<td>45.9</td>
+<td>1141918</td>
+<td>53.0</td>
+<td>487.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>Mymensingh</td>
+<td>Netrakona</td>
+<td>10</td>
+<td>2804.0</td>
+<td>2226800</td>
+<td>35.3</td>
+<td>1017099</td>
+<td>71.0</td>
+<td>363.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="f05d7107" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:29.648334Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:29.648239Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:31.076551Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:31.076044Z&quot;}}" data-execution_count="11">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Map district poverty and rice production density side by side</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> to_gdf(<span class="st">"SELECT district, division, poverty_pct, rice_t, area_km2, geom FROM district_stats"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">13</span>, <span class="fl">7.5</span>))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>dist.plot(column<span class="op">=</span><span class="st">"poverty_pct"</span>, cmap<span class="op">=</span><span class="st">"OrRd"</span>, legend<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>], edgecolor<span class="op">=</span><span class="st">"w"</span>, lw<span class="op">=</span><span class="fl">0.3</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>          legend_kwds<span class="op">=</span>{<span class="st">"label"</span>: <span class="st">"Population-weighted poverty (%)"</span>, <span class="st">"shrink"</span>: <span class="fl">0.6</span>})</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Poverty by district (dissolved from upazilas)"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>dist.assign(density<span class="op">=</span>dist.rice_t <span class="op">/</span> dist.area_km2).plot(column<span class="op">=</span><span class="st">"density"</span>, cmap<span class="op">=</span><span class="st">"YlGn"</span>, legend<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>],</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>          edgecolor<span class="op">=</span><span class="st">"0.4"</span>, lw<span class="op">=</span><span class="fl">0.3</span>, legend_kwds<span class="op">=</span>{<span class="st">"label"</span>: <span class="st">"Rice production 2018-19 (t per km²)"</span>, <span class="st">"shrink"</span>: <span class="fl">0.6</span>})</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Rice production density by district"</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a <span class="kw">in</span> axes:</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    a.set_xticks([])<span class="op">;</span> a.set_yticks([])</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_03_spatial_sql_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>One query dissolved 544 upazilas into 64 district polygons in about a second, and attached population, population-weighted poverty and rice production. The largest producer was Mymensingh (1.71 million t in 2018-19), followed by Dinajpur and Naogaon. Boro, the irrigated dry-season crop, made up 46-71% of production in these leading districts. Production density ranges from close to zero in the Chittagong Hill Tracts to about 500 t per km² in the north-west.</p>
+<p>The poverty map shows the familiar geography: highest in the far north (Kurigram) and along the Padma-Meghna river belt, lowest around Dhaka and in the central-west.</p>
+</section>
+<section id="spatial-joins-arsenic-in-rice-fields" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-joins-arsenic-in-rice-fields">Spatial joins: arsenic in rice fields</h2>
+<p>A <strong>spatial join</strong> matches rows by geometry instead of by key. Each of the 263 sampled rice fields is assigned to the union that contains it, and the water, soil and grain arsenic are summarised per union. The World Health Organization guideline for arsenic in drinking water is 0.01 mg/L and the Bangladesh standard is 0.05 mg/L; irrigation water above these levels moves arsenic into soil and rice.</p>
+<div id="a931e7eb" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:31.079210Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:31.079106Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:31.104984Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:31.104390Z&quot;}}" data-execution_count="12">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count arsenic sample fields that fall inside a union polygon (ST_Within)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>q(<span class="st">'''</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT count(*) AS fields,</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="st">       count(u.ADM4_EN) AS inside_a_union,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="st">       count(DISTINCT u.ADM4_PCODE) AS unions,</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="st">       count(DISTINCT u.ADM3_EN) AS upazilas,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="st">       string_agg(DISTINCT u.ADM3_EN, ', ') AS upazila_names,</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="st">       string_agg(DISTINCT u.ADM2_EN, ', ') AS districts</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="st">FROM fields f LEFT JOIN unions u ON ST_Within(f.geom, u.geom)'''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fields</th>
+<th data-quarto-table-cell-role="th">inside_a_union</th>
+<th data-quarto-table-cell-role="th">unions</th>
+<th data-quarto-table-cell-role="th">upazilas</th>
+<th data-quarto-table-cell-role="th">upazila_names</th>
+<th data-quarto-table-cell-role="th">districts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>263</td>
+<td>263</td>
+<td>12</td>
+<td>1</td>
+<td>Tala</td>
+<td>Satkhira</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="43f6b648" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:31.106366Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:31.106279Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:31.133637Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:31.133163Z&quot;}}" data-execution_count="13">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate water, soil, and grain arsenic by the union that contains each field</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>by_union <span class="op">=</span> q(<span class="st">'''</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT u.ADM4_EN AS union_name, u.ADM3_EN AS upazila, count(*) AS fields,</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="st">       round(avg(f.water_as), 3) AS water_as_mean,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="st">       round(100.0 * avg(CASE WHEN f.water_as &gt; 0.05 THEN 1 ELSE 0 END), 0) AS pct_above_bd_standard,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="st">       round(100.0 * avg(CASE WHEN f.water_as &gt; 0.01 THEN 1 ELSE 0 END), 0) AS pct_above_who,</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="st">       round(avg(f.soil_as), 1) AS soil_as_mean, round(avg(f.grain_as), 3) AS grain_as_mean</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="st">FROM fields f JOIN unions u ON ST_Within(f.geom, u.geom)</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY ALL ORDER BY water_as_mean DESC'''</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>by_union</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">union_name</th>
+<th data-quarto-table-cell-role="th">upazila</th>
+<th data-quarto-table-cell-role="th">fields</th>
+<th data-quarto-table-cell-role="th">water_as_mean</th>
+<th data-quarto-table-cell-role="th">pct_above_bd_standard</th>
+<th data-quarto-table-cell-role="th">pct_above_who</th>
+<th data-quarto-table-cell-role="th">soil_as_mean</th>
+<th data-quarto-table-cell-role="th">grain_as_mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>Magura</td>
+<td>Tala</td>
+<td>16</td>
+<td>0.198</td>
+<td>100.0</td>
+<td>100.0</td>
+<td>18.3</td>
+<td>0.377</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Khesra</td>
+<td>Tala</td>
+<td>20</td>
+<td>0.172</td>
+<td>100.0</td>
+<td>100.0</td>
+<td>16.8</td>
+<td>0.355</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Islamkati</td>
+<td>Tala</td>
+<td>22</td>
+<td>0.166</td>
+<td>95.0</td>
+<td>100.0</td>
+<td>15.1</td>
+<td>0.298</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Kumira</td>
+<td>Tala</td>
+<td>15</td>
+<td>0.164</td>
+<td>100.0</td>
+<td>100.0</td>
+<td>13.1</td>
+<td>0.360</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>Jalalpur</td>
+<td>Tala</td>
+<td>13</td>
+<td>0.153</td>
+<td>77.0</td>
+<td>100.0</td>
+<td>20.2</td>
+<td>0.333</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>Khalishkhali</td>
+<td>Tala</td>
+<td>25</td>
+<td>0.150</td>
+<td>100.0</td>
+<td>100.0</td>
+<td>21.2</td>
+<td>0.335</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>Sarulia</td>
+<td>Tala</td>
+<td>36</td>
+<td>0.136</td>
+<td>94.0</td>
+<td>100.0</td>
+<td>20.6</td>
+<td>0.311</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>Dhandia</td>
+<td>Tala</td>
+<td>19</td>
+<td>0.128</td>
+<td>79.0</td>
+<td>100.0</td>
+<td>17.0</td>
+<td>0.318</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>Khalilnagar</td>
+<td>Tala</td>
+<td>17</td>
+<td>0.123</td>
+<td>82.0</td>
+<td>100.0</td>
+<td>16.2</td>
+<td>0.358</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>Nagarghata</td>
+<td>Tala</td>
+<td>40</td>
+<td>0.091</td>
+<td>90.0</td>
+<td>100.0</td>
+<td>23.2</td>
+<td>0.355</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>Tentulia</td>
+<td>Tala</td>
+<td>22</td>
+<td>0.079</td>
+<td>45.0</td>
+<td>100.0</td>
+<td>11.5</td>
+<td>0.271</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>Tala</td>
+<td>Tala</td>
+<td>18</td>
+<td>0.051</td>
+<td>33.0</td>
+<td>100.0</td>
+<td>12.7</td>
+<td>0.245</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="7186517a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:31.134937Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:31.134849Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:31.381209Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:31.380748Z&quot;}}" data-execution_count="14">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlate arsenic measures and map sample points over the unions that contain them</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> q(<span class="st">"SELECT corr(water_as, soil_as) AS water_soil, corr(soil_as, grain_as) AS soil_grain, corr(water_as, grain_as) AS water_grain FROM fields"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Correlations between arsenic in water, soil and grain:"</span>, corr.<span class="bu">round</span>(<span class="dv">2</span>).to_dict(<span class="st">"records"</span>)[<span class="dv">0</span>])</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>pts <span class="op">=</span> to_gdf(<span class="st">"SELECT ID, water_as, soil_as, grain_as, geom FROM fields"</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>area <span class="op">=</span> to_gdf(<span class="st">'''SELECT DISTINCT u.ADM4_EN, u.geom FROM unions u JOIN fields f ON ST_Within(f.geom, u.geom)'''</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">7.5</span>, <span class="fl">6.5</span>))</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>area.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">"#f0f0f0"</span>, edgecolor<span class="op">=</span><span class="st">"0.4"</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _, r <span class="kw">in</span> area.iterrows():</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> r.geom.representative_point()</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    ax.annotate(r.ADM4_EN, (c.x, c.y), fontsize<span class="op">=</span><span class="dv">7</span>, ha<span class="op">=</span><span class="st">"center"</span>, color<span class="op">=</span><span class="st">"0.3"</span>)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>pts.plot(ax<span class="op">=</span>ax, column<span class="op">=</span><span class="st">"water_as"</span>, cmap<span class="op">=</span><span class="st">"inferno_r"</span>, markersize<span class="op">=</span><span class="dv">18</span>, legend<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>         legend_kwds<span class="op">=</span>{<span class="st">"label"</span>: <span class="st">"Arsenic in irrigation water (mg/L)"</span>, <span class="st">"shrink"</span>: <span class="fl">0.7</span>})</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Rice fields sampled for arsenic, and the unions that contain them"</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Correlations between arsenic in water, soil and grain: {'water_soil': 0.24, 'soil_grain': 0.29, 'water_grain': 0.33}</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_03_spatial_sql_files/figure-html/cell-15-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>All 263 fields fall inside a union: 12 unions of <strong>Tala upazila, Satkhira district</strong>, in the south-west. Arsenic in the irrigation water is high everywhere:</p>
+<ul>
+<li>the union means range from 0.051 mg/L (Tala union) to 0.198 mg/L (Magura union);</li>
+<li>in every union except Tala itself, at least 45% of fields exceed the Bangladesh drinking-water standard of 0.05 mg/L;</li>
+<li>every union has fields above the WHO guideline of 0.01 mg/L.</li>
+</ul>
+<p>The highest values are in the southern unions (Magura, Khesra, Islamkati). Correlations among water, soil and grain arsenic are positive but weak (0.24-0.33). Grain arsenic depends on more than irrigation water: soil chemistry, rice variety and water management all play a part.</p>
+</section>
+<section id="distance-queries-and-window-functions" class="level2">
+<h2 class="anchored" data-anchor-id="distance-queries-and-window-functions">Distance queries and window functions</h2>
+<p>Distances need a projected coordinate system (metres). We project to UTM zone 46N (with <code>always_xy := true</code>) and ask: how many unions lie within 5 km of at least one sampled field? Then a <strong>window function</strong> ranks upazilas by poverty within each division, a task that would need a loop in plain Python.</p>
+<div id="b3cfe421" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:31.382420Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:31.382325Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:31.454707Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:31.454176Z&quot;}}" data-execution_count="15">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count unions within 5 km of any field after projecting both layers to UTM 46N</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>q(<span class="st">'''</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">WITH f AS (SELECT ST_Transform(geom, 'EPSG:4326', 'EPSG:32646', always_xy := true) AS g FROM fields),</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="st">     u AS (SELECT ADM4_EN, ADM3_EN, ST_Transform(geom, 'EPSG:4326', 'EPSG:32646', always_xy := true) AS g</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="st">           FROM unions WHERE ST_Intersects(geom, (SELECT ST_Buffer(ST_Envelope(ST_Collect(list(geom))), 0.2) FROM fields)))</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT count(DISTINCT u.ADM4_EN) AS unions_within_5_km, count(DISTINCT u.ADM3_EN) AS upazilas,</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="st">       round(max(ST_Distance(u.g, f.g)) / 1000, 2) AS max_km_checked</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="st">FROM u JOIN f ON ST_DWithin(u.g, f.g, 5000)'''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">unions_within_5_km</th>
+<th data-quarto-table-cell-role="th">upazilas</th>
+<th data-quarto-table-cell-role="th">max_km_checked</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>37</td>
+<td>7</td>
+<td>5.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="c69ce181" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:31.456158Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:31.456064Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:31.464856Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:31.464440Z&quot;}}" data-execution_count="16">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Window function: the two poorest upazilas in each division</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>q(<span class="st">'''</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT division, rank, upazila, district, poverty_pct</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="st">FROM (</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT z.ADM1_EN AS division, z.ADM3_EN AS upazila, z.ADM2_EN AS district, p.poverty AS poverty_pct,</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="st">           row_number() OVER (PARTITION BY z.ADM1_EN ORDER BY p.poverty DESC) AS rank</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM upazila z JOIN poverty_clean p USING (ADM3_PCODE))</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE rank &lt;= 2 ORDER BY division, rank'''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">division</th>
+<th data-quarto-table-cell-role="th">rank</th>
+<th data-quarto-table-cell-role="th">upazila</th>
+<th data-quarto-table-cell-role="th">district</th>
+<th data-quarto-table-cell-role="th">poverty_pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>Barisal</td>
+<td>1</td>
+<td>Mehendiganj</td>
+<td>Barisal</td>
+<td>64.4</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Barisal</td>
+<td>2</td>
+<td>Hizla</td>
+<td>Barisal</td>
+<td>62.3</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Chittagong</td>
+<td>1</td>
+<td>Haim Char</td>
+<td>Chandpur</td>
+<td>61.3</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Chittagong</td>
+<td>2</td>
+<td>Kachua</td>
+<td>Chandpur</td>
+<td>56.3</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>Dhaka</td>
+<td>1</td>
+<td>Gosairhat</td>
+<td>Shariatpur</td>
+<td>58.3</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>Dhaka</td>
+<td>2</td>
+<td>Bhedarganj</td>
+<td>Shariatpur</td>
+<td>56.3</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>Khulna</td>
+<td>1</td>
+<td>Mohammadpur</td>
+<td>Magura</td>
+<td>50.8</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>Khulna</td>
+<td>2</td>
+<td>Shyamnagar</td>
+<td>Satkhira</td>
+<td>50.2</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>Mymensingh</td>
+<td>1</td>
+<td>Nandail</td>
+<td>Mymensingh</td>
+<td>60.7</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>Mymensingh</td>
+<td>2</td>
+<td>Phulpur</td>
+<td>Mymensingh</td>
+<td>58.8</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>Rajshahi</td>
+<td>1</td>
+<td>Chauhali</td>
+<td>Sirajganj</td>
+<td>45.5</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>Rajshahi</td>
+<td>2</td>
+<td>Godagari</td>
+<td>Rajshahi</td>
+<td>44.1</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>Rangpur</td>
+<td>1</td>
+<td>Char Rajibpur</td>
+<td>Kurigram</td>
+<td>68.8</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>Rangpur</td>
+<td>2</td>
+<td>Phulbari</td>
+<td>Kurigram</td>
+<td>68.5</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>Sylhet</td>
+<td>1</td>
+<td>Gowainghat</td>
+<td>Sylhet</td>
+<td>52.6</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>Sylhet</td>
+<td>2</td>
+<td>Kanaighat</td>
+<td>Sylhet</td>
+<td>45.8</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Projected to UTM, 37 unions in 7 upazilas lie within 5 km of a sampled field. The query first restricts unions to a box around the fields so that the distance test runs on a small set.</p>
+<p>The window function ranks upazilas inside each division in one pass. The poorest upazilas in each division range from Rajshahi’s Chauhali (45.5%) to Rangpur’s Char Rajibpur (68.8%), mostly char-land (river-island) and haor (wetland) areas.</p>
+</section>
+<section id="spatial-indexes-when-they-help" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-indexes-when-they-help">Spatial indexes: when they help</h2>
+<p>A spatial index (an <strong>R-tree</strong>) stores bounding boxes in a tree so a query can skip features far from the area of interest. DuckDB already builds a temporary index inside a spatial join, so an explicit index matters mostly for <strong>repeated selective queries</strong> against a stored table. We time both cases on 200,000 random points.</p>
+<div id="16de2b7d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:31.466557Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:31.466467Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:34.543655Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:34.543169Z&quot;}}" data-execution_count="17">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Benchmark spatial joins with and without an R-tree index on 200k random points</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">200_000</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>con.register(<span class="st">"pts_df"</span>, pd.DataFrame({<span class="st">"lon"</span>: rng.uniform(<span class="fl">88.0</span>, <span class="fl">92.7</span>, n), <span class="st">"lat"</span>: rng.uniform(<span class="fl">20.6</span>, <span class="fl">26.6</span>, n)}))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"CREATE TABLE points AS SELECT row_number() OVER () AS id, ST_Point(lon, lat) AS geom FROM pts_df"</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> timed(sql, repeat<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(repeat):</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> con.sql(sql).fetchone()[<span class="dv">0</span>]</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result, (time.perf_counter() <span class="op">-</span> t0) <span class="op">/</span> repeat</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>join_sql <span class="op">=</span> <span class="st">"SELECT count(*) FROM points p JOIN unions u ON ST_Contains(u.geom, p.geom)"</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>window_sql <span class="op">=</span> <span class="st">"SELECT count(*) FROM points WHERE ST_Intersects(geom, ST_MakeEnvelope(90.35, 23.70, 90.45, 23.82))"</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>plan <span class="op">=</span> con.sql(<span class="st">"EXPLAIN "</span> <span class="op">+</span> join_sql).fetchall()[<span class="dv">0</span>][<span class="dv">1</span>]</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The join is planned as:"</span>, [l.strip(<span class="st">" │"</span>) <span class="cf">for</span> l <span class="kw">in</span> plan.split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>) <span class="cf">if</span> <span class="st">"JOIN"</span> <span class="kw">in</span> l][<span class="dv">0</span>])</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>n_join, t_join <span class="op">=</span> timed(join_sql)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>n_win, t_win <span class="op">=</span> timed(window_sql, repeat<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>rows <span class="op">+=</span> [{<span class="st">"query"</span>: <span class="st">"points in unions (spatial join)"</span>, <span class="st">"index"</span>: <span class="st">"none"</span>, <span class="st">"result"</span>: n_join, <span class="st">"seconds"</span>: t_join},</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>         {<span class="st">"query"</span>: <span class="st">"points in a Dhaka box (×20, average)"</span>, <span class="st">"index"</span>: <span class="st">"none"</span>, <span class="st">"result"</span>: n_win, <span class="st">"seconds"</span>: t_win}]</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Build R-tree and repeat the same queries for a before/after timing table</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.perf_counter()</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"CREATE INDEX points_rtree ON points USING RTREE (geom)"</span>)</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>t_build <span class="op">=</span> time.perf_counter() <span class="op">-</span> t0</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>n_join2, t_join2 <span class="op">=</span> timed(join_sql)</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>n_win2, t_win2 <span class="op">=</span> timed(window_sql, repeat<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>rows <span class="op">+=</span> [{<span class="st">"query"</span>: <span class="st">"points in unions (spatial join)"</span>, <span class="st">"index"</span>: <span class="st">"R-tree on points"</span>, <span class="st">"result"</span>: n_join2, <span class="st">"seconds"</span>: t_join2},</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>         {<span class="st">"query"</span>: <span class="st">"points in a Dhaka box (×20, average)"</span>, <span class="st">"index"</span>: <span class="st">"R-tree on points"</span>, <span class="st">"result"</span>: n_win2, <span class="st">"seconds"</span>: t_win2}]</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-tree built in </span><span class="sc">{</span>t_build<span class="sc">:.2f}</span><span class="ss"> s"</span>)</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The join is planned as: SPATIAL_JOIN
+R-tree built in 0.04 s</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">query</th>
+<th data-quarto-table-cell-role="th">index</th>
+<th data-quarto-table-cell-role="th">result</th>
+<th data-quarto-table-cell-role="th">seconds</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>points in unions (spatial join)</td>
+<td>none</td>
+<td>87647</td>
+<td>1.3508</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>points in a Dhaka box (×20, average)</td>
+<td>none</td>
+<td>69</td>
+<td>0.0156</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>points in unions (spatial join)</td>
+<td>R-tree on points</td>
+<td>87647</td>
+<td>1.3370</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>points in a Dhaka box (×20, average)</td>
+<td>R-tree on points</td>
+<td>69</td>
+<td>0.0005</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>DuckDB planned the 200,000-point join as a <code>SPATIAL_JOIN</code>, which builds its own temporary index, so an explicit R-tree changed nothing (about 1.35 s both ways). For the selective query, points inside a small Dhaka box repeated 20 times, the R-tree (built in 0.04 s) made each query 25-30 times faster (about 0.016 s down to under 0.001 s), because the index finds the 69 matching points without scanning all 200,000.</p>
+<p>Indexes cost time to build and space to store. They pay off for tables that are queried repeatedly with small windows, which is typical of web services.</p>
+</section>
+<section id="from-sql-to-geopandas-and-to-files" class="level2">
+<h2 class="anchored" data-anchor-id="from-sql-to-geopandas-and-to-files">From SQL to GeoPandas and to files</h2>
+<p>Results move to GeoPandas through WKB (Section 6 used the small <code>to_gdf</code> helper). DuckDB also writes files directly with <code>COPY</code>: Parquet with GeoParquet metadata, and any GDAL format.</p>
+<div id="636d2b29" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:34.545152Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:34.545064Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:34.873338Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:34.872653Z&quot;}}" data-execution_count="18">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Export district_stats to Parquet, GeoPackage, FlatGeobuf, and GeoParquet</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>src <span class="op">=</span> <span class="st">"SELECT district, division, population, poverty_pct, rice_t, area_km2, geom FROM district_stats"</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="ss">f"COPY (</span><span class="sc">{</span>src<span class="sc">}</span><span class="ss">) TO '</span><span class="sc">{</span>(OUT <span class="op">/</span> <span class="st">'districts_duckdb.parquet'</span>)<span class="sc">.</span>as_posix()<span class="sc">}</span><span class="ss">' (FORMAT parquet, COMPRESSION zstd)"</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="ss">f"COPY (</span><span class="sc">{</span>src<span class="sc">}</span><span class="ss">) TO '</span><span class="sc">{</span>(OUT <span class="op">/</span> <span class="st">'districts.gpkg'</span>)<span class="sc">.</span>as_posix()<span class="sc">}</span><span class="ss">' WITH (FORMAT GDAL, DRIVER 'GPKG', SRS 'EPSG:4326')"</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="ss">f"COPY (</span><span class="sc">{</span>src<span class="sc">}</span><span class="ss">) TO '</span><span class="sc">{</span>(OUT <span class="op">/</span> <span class="st">'districts.fgb'</span>)<span class="sc">.</span>as_posix()<span class="sc">}</span><span class="ss">' WITH (FORMAT GDAL, DRIVER 'FlatGeobuf', SRS 'EPSG:4326')"</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>write_geoparquet(OUT <span class="op">/</span> <span class="st">"districts_geolattice.parquet"</span>, dist.merge(q(<span class="st">"SELECT district, population FROM district_stats"</span>), on<span class="op">=</span><span class="st">"district"</span>))</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name <span class="kw">in</span> [<span class="st">"districts_duckdb.parquet"</span>, <span class="st">"districts_geolattice.parquet"</span>]:</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> web.geoparquet_info(OUT <span class="op">/</span> name)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"file"</span>: name, <span class="st">"GeoParquet version"</span>: i[<span class="st">"version"</span>], <span class="st">"bbox covering"</span>: i[<span class="st">"covering"</span>],</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"CRS"</span>: i[<span class="st">"crs"</span>].to_string() <span class="cf">if</span> i[<span class="st">"crs"</span>] <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> <span class="va">None</span>, <span class="st">"rows"</span>: i[<span class="st">"num_rows"</span>],</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"KB"</span>: <span class="bu">round</span>((OUT <span class="op">/</span> name).stat().st_size <span class="op">/</span> <span class="fl">1e3</span>)})</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>display(pd.DataFrame(rows))</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"GeoPackage and FlatGeobuf read back:"</span>, <span class="bu">len</span>(gpd.read_file(OUT <span class="op">/</span> <span class="st">"districts.gpkg"</span>)), <span class="bu">len</span>(gpd.read_file(OUT <span class="op">/</span> <span class="st">"districts.fgb"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">file</th>
+<th data-quarto-table-cell-role="th">GeoParquet version</th>
+<th data-quarto-table-cell-role="th">bbox covering</th>
+<th data-quarto-table-cell-role="th">CRS</th>
+<th data-quarto-table-cell-role="th">rows</th>
+<th data-quarto-table-cell-role="th">KB</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>districts_duckdb.parquet</td>
+<td>1.0.0</td>
+<td>False</td>
+<td>EPSG:4326</td>
+<td>64</td>
+<td>14664</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>districts_geolattice.parquet</td>
+<td>1.1.0</td>
+<td>True</td>
+<td>EPSG:4326</td>
+<td>64</td>
+<td>14888</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GeoPackage and FlatGeobuf read back: 64 64</code></pre>
+</div>
+</div>
+<p>DuckDB’s <code>COPY ... (FORMAT parquet)</code> writes valid GeoParquet, but version 1.0 without a bbox covering column. <code>write_geoparquet</code> writes version 1.1 with the covering column and spatially sorted rows, which matter for remote filtering (Notebook 08_02). Through GDAL, <code>COPY</code> also wrote a GeoPackage and a FlatGeobuf that GeoPandas read back (64 districts each).</p>
+<p>Large integer sums become 38-digit DECIMAL values in DuckDB, which GDAL cannot store. This is why the district query casts population and production to <code>BIGINT</code>.</p>
+</section>
+<section id="a-geopackage-is-a-sqlite-database" class="level2">
+<h2 class="anchored" data-anchor-id="a-geopackage-is-a-sqlite-database">A GeoPackage is a SQLite database</h2>
+<p>A GeoPackage file is an SQLite database with standard tables for metadata and an R-tree spatial index per layer. GDAL can run SQL against it in the SQLite dialect, including spatial functions, and the R-tree can be queried like any table.</p>
+<div id="9771d4f1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:34.875083Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:34.874886Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:34.914453Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:34.914041Z&quot;}}" data-execution_count="19">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Query the GeoPackage with SQLite spatial SQL via its built-in R-tree</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> osgeo <span class="im">import</span> gdal, ogr</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>gdal.UseExceptions()</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>gpkg <span class="op">=</span> gdal.OpenEx((OUT <span class="op">/</span> <span class="st">"districts.gpkg"</span>).as_posix(), gdal.OF_VECTOR)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>layer_name <span class="op">=</span> gpkg.GetLayer(<span class="dv">0</span>).GetName()</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Layer:"</span>, layer_name)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>system <span class="op">=</span> gpkg.ExecuteSQL(<span class="st">"SELECT table_name, data_type FROM gpkg_contents UNION ALL "</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"SELECT table_name, extension_name FROM gpkg_extensions"</span>, dialect<span class="op">=</span><span class="st">"SQLite"</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>([<span class="bu">tuple</span>(f.GetField(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>)) <span class="cf">for</span> f <span class="kw">in</span> system])<span class="op">;</span> gpkg.ReleaseResultSet(system)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>sql <span class="op">=</span> <span class="ss">f'''SELECT district, poverty_pct, ST_Area(geom) AS area_deg2</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="ss">          FROM "</span><span class="sc">{</span>layer_name<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="ss">          WHERE fid IN (SELECT id FROM "rtree_</span><span class="sc">{</span>layer_name<span class="sc">}</span><span class="ss">_geom"</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="ss">                        WHERE minx &lt;= 90.45 AND maxx &gt;= 90.35 AND miny &lt;= 23.82 AND maxy &gt;= 23.70)'''</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> gpkg.ExecuteSQL(sql, dialect<span class="op">=</span><span class="st">"SQLite"</span>)</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Districts whose R-tree box overlaps central Dhaka:"</span>,</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>      [(f.GetField(<span class="st">"district"</span>), f.GetField(<span class="st">"poverty_pct"</span>)) <span class="cf">for</span> f <span class="kw">in</span> result])</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>gpkg.ReleaseResultSet(result)<span class="op">;</span> gpkg <span class="op">=</span> <span class="va">None</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Layer: districts
+[('districts', 'features'), ('districts', 'gpkg_rtree_index')]
+Districts whose R-tree box overlaps central Dhaka: [('Narayanganj', 26.1), ('Dhaka', 15.3)]</code></pre>
+</div>
+</div>
+<p>The R-tree table (<code>rtree_&lt;layer&gt;_geom</code>) holds one bounding box per feature; filtering it first is exactly what a spatial index does. The same file opens in QGIS, ArcGIS and any SQLite client.</p>
+</section>
+<section id="postgis-and-cloud-warehouses" class="level2">
+<h2 class="anchored" data-anchor-id="postgis-and-cloud-warehouses">PostGIS and cloud warehouses</h2>
+<p><strong>PostGIS</strong> extends PostgreSQL and is the usual back end of a web GIS: pygeoapi, GeoServer, Martin and pg_tileserv serve features and vector tiles straight from it, and many users can read and write at the same time. Data are loaded with <code>ogr2ogr</code> (or GeoPandas’ <code>to_postgis</code>), and the SQL we wrote above carries over with small changes:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>DuckDB</th>
+<th>PostGIS</th>
+<th>BigQuery</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Read a file</td>
+<td><code>ST_Read('x.shp')</code>, <code>read_parquet(...)</code></td>
+<td>load with <code>ogr2ogr -f PostgreSQL</code></td>
+<td>load job / external table</td>
+</tr>
+<tr class="even">
+<td>Area in m²</td>
+<td><code>ST_Area_Spheroid(ST_FlipCoordinates(g))</code></td>
+<td><code>ST_Area(g::geography)</code></td>
+<td><code>ST_AREA(g)</code> (GEOGRAPHY)</td>
+</tr>
+<tr class="odd">
+<td>Dissolve</td>
+<td><code>ST_Union_Agg(g)</code></td>
+<td><code>ST_Union(g)</code> (aggregate)</td>
+<td><code>ST_UNION_AGG(g)</code></td>
+</tr>
+<tr class="even">
+<td>Reproject</td>
+<td><code>ST_Transform(g, 'EPSG:4326', 'EPSG:32646', always_xy := true)</code></td>
+<td><code>ST_Transform(g, 32646)</code> (lon/lat order)</td>
+<td>not needed (geodesic)</td>
+</tr>
+<tr class="odd">
+<td>Spatial index</td>
+<td><code>CREATE INDEX ... USING RTREE (g)</code></td>
+<td><code>CREATE INDEX ... USING GIST (g)</code></td>
+<td>automatic clustering</td>
+</tr>
+<tr class="even">
+<td>Within distance (m)</td>
+<td><code>ST_DWithin(projected, projected, 5000)</code></td>
+<td><code>ST_DWithin(g::geography, h::geography, 5000)</code></td>
+<td><code>ST_DWITHIN(g, h, 5000)</code></td>
+</tr>
+</tbody>
+</table>
+<p>The next cell loads the district table into PostGIS with GDAL and runs the population-weighted poverty query there, <strong>if</strong> a PostGIS database is available. Set the environment variable <code>GEOLATTICE_POSTGIS</code> to a GDAL connection string such as <code>PG:host=localhost dbname=gis user=gis password=...</code> (for example from <code>docker run -e POSTGRES_PASSWORD=gis -p 5432:5432 postgis/postgis</code>).</p>
+<div id="631b4128" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-19T22:50:34.915827Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-19T22:50:34.915737Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-19T22:50:34.923952Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-19T22:50:34.923596Z&quot;}}" data-execution_count="20">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional PostGIS load via GDAL; otherwise summarize divisions in DuckDB</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>pg <span class="op">=</span> os.environ.get(<span class="st">"GEOLATTICE_POSTGIS"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> pg:</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    gdal.VectorTranslate(pg, (OUT <span class="op">/</span> <span class="st">"districts.gpkg"</span>).as_posix(), <span class="bu">format</span><span class="op">=</span><span class="st">"PostgreSQL"</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                         layerName<span class="op">=</span><span class="st">"bd_districts"</span>, accessMode<span class="op">=</span><span class="st">"overwrite"</span>, layerCreationOptions<span class="op">=</span>[<span class="st">"GEOMETRY_NAME=geom"</span>])</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    ds <span class="op">=</span> gdal.OpenEx(pg, gdal.OF_VECTOR)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> ds.ExecuteSQL(<span class="st">'''SELECT division, round(sum(poverty_pct * population) / sum(population), 1) AS poverty_pct,</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="st">                                  round(sum(ST_Area(geom::geography)) / 1e6) AS area_km2</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="st">                           FROM bd_districts GROUP BY division ORDER BY poverty_pct DESC'''</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    display(pd.DataFrame([{k: f.GetField(k) <span class="cf">for</span> k <span class="kw">in</span> (<span class="st">"division"</span>, <span class="st">"poverty_pct"</span>, <span class="st">"area_km2"</span>)} <span class="cf">for</span> f <span class="kw">in</span> res]))</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    ds.ReleaseResultSet(res)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"GEOLATTICE_POSTGIS is not set: the PostGIS example is skipped. The same division summary in DuckDB:"</span>)</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    display(q(<span class="st">'''SELECT division, round(sum(poverty_pct * population) / sum(population), 1) AS poverty_pct,</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="st">                        round(sum(area_km2)) AS area_km2</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="st">                 FROM district_stats GROUP BY division ORDER BY poverty_pct DESC'''</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEOLATTICE_POSTGIS is not set: the PostGIS example is skipped. The same division summary in DuckDB:</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">division</th>
+<th data-quarto-table-cell-role="th">poverty_pct</th>
+<th data-quarto-table-cell-role="th">area_km2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>Mymensingh</td>
+<td>47.2</td>
+<td>10544.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Rangpur</td>
+<td>41.8</td>
+<td>16287.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Barisal</td>
+<td>38.4</td>
+<td>10141.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Khulna</td>
+<td>32.5</td>
+<td>20750.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>Rajshahi</td>
+<td>27.6</td>
+<td>18227.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>Chittagong</td>
+<td>25.9</td>
+<td>31147.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>Sylhet</td>
+<td>25.1</td>
+<td>12373.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>Dhaka</td>
+<td>24.9</td>
+<td>20383.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>No PostGIS server was configured when this notebook was run, so the DuckDB version of the division summary is shown. Mymensingh (47%) and Rangpur (42%) divisions have the highest population-weighted poverty, and Dhaka (25%) the lowest. With <code>GEOLATTICE_POSTGIS</code> set, the cell loads the GeoPackage into PostGIS with GDAL and runs the PostGIS version of the query, with <code>ST_Area</code> on the <code>geography</code> type and <code>GROUP BY</code>.</p>
+</section>
+<section id="summary-and-exercises" class="level2">
+<h2 class="anchored" data-anchor-id="summary-and-exercises">Summary and exercises</h2>
+<p><strong>Key ideas</strong></p>
+<ul>
+<li>Spatial SQL expresses joins, dissolves, filters and rankings declaratively, and runs them where the data live; DuckDB brings it to files with no server.</li>
+<li>Always check joins: row counts, anti-joins and key uniqueness. A duplicated key silently multiplies rows; name-based joins need normalisation, fuzzy matching and sometimes a manual lookup.</li>
+<li><code>ST_Transform</code> from EPSG:4326 needs <code>always_xy := true</code> in DuckDB when coordinates are stored lon/lat.</li>
+<li>Spatial joins build their own index; explicit R-tree indexes pay off for repeated selective queries.</li>
+<li>GeoPackage is SQLite; PostGIS is the multi-user server; cloud warehouses speak the same <code>ST_</code> language.</li>
+</ul>
+<p><strong>What we found</strong></p>
+<ul>
+<li>The upazila poverty table had duplicated codes, assigned by name, that a plain join would have attached to the wrong places. Rebuilding the key (district code plus name, then fuzzy and manual matching) linked all 544 upazilas.</li>
+<li>One SQL query dissolved upazilas to 64 districts with population-weighted poverty and rice production.</li>
+<li>All 263 arsenic-sampled rice fields lie in 12 unions of Tala upazila. Mean irrigation-water arsenic is 0.05-0.20 mg/L, mostly above the national standard.</li>
+<li>An R-tree index made a repeated window query 25-30 times faster, but did not speed up a spatial join, which builds its own index.</li>
+</ul>
+<p><strong>Exercises</strong></p>
+<ol type="1">
+<li>Join <code>poverty_clean</code> to the union layer through the upazila code (<code>ADM3_PCODE</code>) and map poverty at union level. Why does every union in an upazila get the same value?</li>
+<li>Redo the district statistics with the original <code>bd_poverty.csv</code> join (duplicated codes included). Which districts change most, and why?</li>
+<li>Use <code>ST_Read</code> and <code>read_parquet</code> over HTTP (Notebook 08_02’s <code>static_server</code> and the <code>httpfs</code> extension) to run the Section 7 spatial join against the remote <code>unions.parquet</code>.</li>
+<li>Compute, for each division, the share of its area that lies within 10 km of a district boundary.</li>
+<li>If you can run PostGIS (Docker), set <code>GEOLATTICE_POSTGIS</code>, load the union layer with <code>ogr2ogr</code>, add a GiST index and compare the spatial-join time with DuckDB.</li>
+</ol>
+<p><strong>References</strong></p>
+<ul>
+<li>DuckDB spatial extension. https://duckdb.org/docs/extensions/spatial</li>
+<li>PostGIS documentation. https://postgis.net/documentation</li>
+<li>Obe, R. &amp; Hsu, L. (2021). <em>PostGIS in Action</em>, 3rd ed.&nbsp;Manning.</li>
+<li>GeoPackage encoding standard (OGC 12-128r19). https://www.geopackage.org</li>
+<li>WHO (2022). <em>Guidelines for Drinking-water Quality</em>, 4th ed.&nbsp;incorporating the first and second addenda (arsenic 0.01 mg/L).</li>
+</ul>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./07_02_cloud_native_vector.html" class="pagination-link" aria-label="Cloud-Native Vectors">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Cloud-Native Vectors</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./07_04_interactive_web_maps.html" class="pagination-link" aria-label="Interactive Web Maps">
+        <span class="nav-page-text">Interactive Web Maps</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

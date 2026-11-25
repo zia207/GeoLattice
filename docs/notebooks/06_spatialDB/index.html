@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>GeoLattice: Spatial Databases</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./06_01_foundation/06_01_01_spatial_database_concepts.html" rel="next">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GeoLattice: Spatial Databases</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-foundation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Foundation</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-foundation">    
+        <li>
+    <a class="dropdown-item" href="./06_01_foundation/06_01_01_spatial_database_concepts.html">
+ <span class="dropdown-text">Spatial Databases</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./06_01_foundation/06_01_02_environment_setup.html">
+ <span class="dropdown-text">Environment Setup</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./06_01_foundation/06_01_03_filebased_spatial_database.html">
+ <span class="dropdown-text">File-based Spatial Databases</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-spatial-database-core" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Spatial Database Core</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-spatial-database-core">    
+        <li>
+    <a class="dropdown-item" href="./06_02_spatial_database_core/06_02_01_loading_exporting_data.html">
+ <span class="dropdown-text">Loading and Exporting Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./06_02_spatial_database_core/06_02_02_spatial_sql_fundamentals.html">
+ <span class="dropdown-text">Spatial SQL Fundamentals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./06_02_spatial_database_core/06_02_03_spatial_relationship_joins.html">
+ <span class="dropdown-text">Spatial Relationships and Joins</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./06_02_spatial_database_core/06_02_04_geometry_processing.html">
+ <span class="dropdown-text">Geometry Processing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./06_02_spatial_database_core/06_02_05_indexing_and_performance.html">
+ <span class="dropdown-text">Indexing and Performance</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-advanced-spatial-databases" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Advanced Spatial Databases</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-advanced-spatial-databases">    
+        <li>
+    <a class="dropdown-item" href="./06_03_advanced_spatial_databases/06_03_01_raster_PostGIS.html">
+ <span class="dropdown-text">Rasters in PostGIS</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./06_03_advanced_spatial_databases/06_03_02_network_analysis_pgRouting.html">
+ <span class="dropdown-text">Network Analysis with pgRouting</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./06_03_advanced_spatial_databases/06_03_03_spatiotemporal_data.html">
+ <span class="dropdown-text">Spatiotemporal Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./06_03_advanced_spatial_databases/06_03_04_in_database_spatial_analytics.html">
+ <span class="dropdown-text">In-database Spatial Analytics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./06_03_advanced_spatial_databases/06_03_05_DuckDB_spatial_geoParquet.html">
+ <span class="dropdown-text">DuckDB Spatial and GeoParquet</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./06_03_advanced_spatial_databases/06_03_06_bigda_data_cloud_spatial_engines.html">
+ <span class="dropdown-text">Big Data and Cloud Spatial Engines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./06_03_advanced_spatial_databases/06_03_07_analyzing_NYC_taxi.html">
+ <span class="dropdown-text">Analyzing NYC Taxi Trips</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Overview</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Foundation</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_01_foundation/06_01_01_spatial_database_concepts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial Databases</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_01_foundation/06_01_02_environment_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Environment Setup</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_01_foundation/06_01_03_filebased_spatial_database.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">File-based Spatial Databases</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Spatial Database Core</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_02_spatial_database_core/06_02_01_loading_exporting_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Loading and Exporting Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_02_spatial_database_core/06_02_02_spatial_sql_fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial SQL Fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_02_spatial_database_core/06_02_03_spatial_relationship_joins.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial Relationships and Joins</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_02_spatial_database_core/06_02_04_geometry_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geometry Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_02_spatial_database_core/06_02_05_indexing_and_performance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Indexing and Performance</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Advanced Spatial Databases</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_03_advanced_spatial_databases/06_03_01_raster_PostGIS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rasters in PostGIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_03_advanced_spatial_databases/06_03_02_network_analysis_pgRouting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Network Analysis with pgRouting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_03_advanced_spatial_databases/06_03_03_spatiotemporal_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatiotemporal Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_03_advanced_spatial_databases/06_03_04_in_database_spatial_analytics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">In-database Spatial Analytics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_03_advanced_spatial_databases/06_03_05_DuckDB_spatial_geoParquet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DuckDB Spatial and GeoParquet</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_03_advanced_spatial_databases/06_03_06_bigda_data_cloud_spatial_engines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Big Data and Cloud Spatial Engines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_03_advanced_spatial_databases/06_03_07_analyzing_NYC_taxi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Analyzing NYC Taxi Trips</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#geolattice" id="toc-geolattice" class="nav-link active" data-scroll-target="#geolattice">GeoLattice</a></li>
+  <li><a href="#one-interface-for-four-databases" id="toc-one-interface-for-four-databases" class="nav-link" data-scroll-target="#one-interface-for-four-databases">One interface for four databases</a></li>
+  <li><a href="#spatial-sql" id="toc-spatial-sql" class="nav-link" data-scroll-target="#spatial-sql">Spatial SQL</a></li>
+  <li><a href="#tutorials" id="toc-tutorials" class="nav-link" data-scroll-target="#tutorials">Tutorials</a>
+  <ul>
+  <li><a href="#foundation" id="toc-foundation" class="nav-link" data-scroll-target="#foundation">Foundation</a></li>
+  <li><a href="#spatial-database-core" id="toc-spatial-database-core" class="nav-link" data-scroll-target="#spatial-database-core">Spatial Database Core</a></li>
+  <li><a href="#advanced-spatial-databases" id="toc-advanced-spatial-databases" class="nav-link" data-scroll-target="#advanced-spatial-databases">Advanced Spatial Databases</a></li>
+  <li><a href="#quick-reference" id="toc-quick-reference" class="nav-link" data-scroll-target="#quick-reference">Quick reference</a></li>
+  </ul></li>
+  <li><a href="#sample-data" id="toc-sample-data" class="nav-link" data-scroll-target="#sample-data">Sample data</a></li>
+  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license">License</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p align="center">
+<img src="06_00_banner_spatial_db_geolattice.png" alt="Spatial Databases with GeoLattice tutorial banner" width="100%">
+</p>
+<p>Files work until the data grow, several people need them at once, or the same question has to be answered every day. A spatial database stores geometries next to the attributes, indexes them so that “what lies within 5 km of this road?” is answered without reading every row, and lets SQL do joins, overlays, raster statistics and routing where the data live.</p>
+<p>These 15 notebooks are chapter 06 of the <a href="https://github.com/zia207/GeoLattice">GeoLattice</a> tutorials. They move from database concepts and setup through spatial SQL, joins, geometry processing and indexing to rasters in PostGIS, routing with pgRouting, space-time data, in-database analytics, DuckDB with GeoParquet and cloud engines, using <code>geolattice.geolatticedb</code> with PostGIS, SpatiaLite, GeoPackage and DuckDB.</p>
+<section id="geolattice" class="level2">
+<h2 class="anchored" data-anchor-id="geolattice">GeoLattice</h2>
+<p>GeoLattice is a Python library for geospatial analysis that brings vector and raster processing, spatial analysis, spatial statistics, geostatistics, spatial databases, web and cloud GIS and remote sensing together under one import. It is built on GDAL, NumPy, pandas, GeoPandas, Shapely and xarray, so its functions take and return objects these libraries already use: GeoDataFrames, NumPy arrays and GDAL-readable files.</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td><strong>Package</strong></td>
+<td><code>geolattice</code></td>
+</tr>
+<tr class="even">
+<td><strong>Repository</strong></td>
+<td><a href="https://github.com/zia207/GeoLattice">github.com/zia207/GeoLattice</a></td>
+</tr>
+<tr class="odd">
+<td><strong>Python</strong></td>
+<td>3.10 or newer</td>
+</tr>
+<tr class="even">
+<td><strong>License</strong></td>
+<td>MIT</td>
+</tr>
+<tr class="odd">
+<td><strong>Author</strong></td>
+<td>Zia Ahmed, Upatta Analytics</td>
+</tr>
+</tbody>
+</table>
+<p>GDAL and PROJ must be installed first, with Python GDAL bindings that match the GDAL library (conda or your system package manager). Spatial databases are part of the full installation:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="st">"geolattice[all]"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The PostGIS notebooks also need a PostgreSQL server with PostGIS (and pgRouting for routing); the environment setup notebook runs one in Docker. DuckDB, SpatiaLite and GeoPackage need no server.</p>
+</section>
+<section id="one-interface-for-four-databases" class="level2">
+<h2 class="anchored" data-anchor-id="one-interface-for-four-databases">One interface for four databases</h2>
+<p><code>geolattice.geolatticedb</code> connects to PostGIS, SpatiaLite, GeoPackage or DuckDB through the same <code>connect</code> call and gives every connection the same methods. Results come back as GeoDataFrames.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Functions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Connect (<code>pdb</code>)</td>
+<td><code>connect</code>, <code>BACKENDS</code>, <code>SpatialDB</code></td>
+</tr>
+<tr class="even">
+<td>Load and query (<code>db</code>)</td>
+<td><code>load</code>, <code>query</code>, <code>read_table</code>, <code>execute</code></td>
+</tr>
+<tr class="odd">
+<td>Inspect (<code>db</code>)</td>
+<td><code>tables</code>, <code>columns</code>, <code>geometry_column</code>, <code>srid</code></td>
+</tr>
+<tr class="even">
+<td>Spatial operations (<code>db</code>)</td>
+<td><code>spatial_join</code>, <code>nearest</code>, <code>buffer</code></td>
+</tr>
+<tr class="odd">
+<td>Performance (<code>db</code>)</td>
+<td><code>create_index</code>, <code>explain</code>, <code>vacuum</code></td>
+</tr>
+<tr class="even">
+<td>PostGIS raster (<code>db.raster</code>)</td>
+<td><code>load</code>, <code>info</code>, <code>zonal_stats</code>, <code>value_at</code></td>
+</tr>
+<tr class="odd">
+<td>pgRouting (<code>db.network</code>)</td>
+<td><code>prepare</code>, <code>nearest_vertex</code>, <code>shortest_path</code>, <code>isochrone</code></td>
+</tr>
+<tr class="even">
+<td>Vector tiles (<code>db.tiles</code>)</td>
+<td><code>mvt</code>, <code>bounds</code>, <code>serve</code>, <code>stop</code></td>
+</tr>
+</tbody>
+</table>
+<p>DuckDB runs inside Python, so this example needs no server. Run it from the repository root:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice <span class="im">import</span> geolatticedb <span class="im">as</span> pdb</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>db <span class="op">=</span> pdb.<span class="ex">connect</span>(<span class="st">"duckdb"</span>)                                      <span class="co"># in-process, no server</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>db.load(<span class="st">"Data/00_shared/vector_data/USA/US_COUNTY.shp"</span>, <span class="st">"counties"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>largest <span class="op">=</span> db.query(<span class="st">"""</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT STATE, COUNT(*) AS n, SUM(ST_Area(geom)) / 1e6 AS area_km2</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM counties GROUP BY STATE ORDER BY area_km2 DESC LIMIT 5</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(largest)                                                  <span class="co"># Texas, California, Montana, ...</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>db.close()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Switching to PostGIS changes only the <code>connect</code> call, for example <code>pdb.connect("postgis", host="localhost", dbname="gis", user="postgres")</code>.</p>
+</section>
+<section id="spatial-sql" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-sql">Spatial SQL</h2>
+<p>Most of the work in this chapter is SQL. These are the functions the notebooks use most:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>SQL functions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Construct and transform</td>
+<td><code>ST_MakePoint</code>, <code>ST_MakeEnvelope</code>, <code>ST_GeomFromText</code>, <code>ST_SetSRID</code>, <code>ST_Transform</code></td>
+</tr>
+<tr class="even">
+<td>Measure</td>
+<td><code>ST_Area</code>, <code>ST_Length</code>, <code>ST_Perimeter</code>, <code>ST_Distance</code>, <code>ST_DistanceSpheroid</code></td>
+</tr>
+<tr class="odd">
+<td>Relationships and joins</td>
+<td><code>ST_Intersects</code>, <code>ST_Within</code>, <code>ST_Contains</code>, <code>ST_Touches</code>, <code>ST_DWithin</code>, <code>&lt;-&gt;</code></td>
+</tr>
+<tr class="even">
+<td>Geometry processing</td>
+<td><code>ST_Buffer</code>, <code>ST_Union</code>, <code>ST_Intersection</code>, <code>ST_MakeValid</code>, <code>ST_SimplifyPreserveTopology</code></td>
+</tr>
+<tr class="odd">
+<td>Indexing and performance</td>
+<td><code>USING GIST</code>, <code>USING BRIN</code>, <code>EXPLAIN ANALYZE</code>, <code>CLUSTER</code>, <code>ST_Subdivide</code></td>
+</tr>
+<tr class="even">
+<td>Rasters (PostGIS)</td>
+<td><code>ST_Value</code>, <code>ST_Clip</code>, <code>ST_SummaryStats</code>, <code>ST_MapAlgebra</code>, <code>ST_DumpAsPolygons</code></td>
+</tr>
+<tr class="odd">
+<td>Routing (pgRouting)</td>
+<td><code>pgr_dijkstra</code>, <code>pgr_dijkstraCost</code>, <code>pgr_drivingDistance</code></td>
+</tr>
+<tr class="even">
+<td>Analytics</td>
+<td><code>ST_ClusterDBSCAN</code>, <code>ST_ClusterKMeans</code>, <code>ST_HexagonGrid</code>, <code>h3_lat_lng_to_cell</code></td>
+</tr>
+<tr class="odd">
+<td>Files (DuckDB)</td>
+<td><code>read_parquet</code>, <code>COPY</code>, <code>USING RTREE</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="tutorials" class="level2">
+<h2 class="anchored" data-anchor-id="tutorials">Tutorials</h2>
+<p>Work through the foundation and core parts in order; the advanced notebooks can then be read in any order.</p>
+<section id="foundation" class="level3">
+<h3 class="anchored" data-anchor-id="foundation">Foundation</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./06_01_foundation/06_01_01_spatial_database_concepts.html">Spatial Databases</a></td>
+<td>Simple Features, SRIDs, geometry vs geography, spatial indexes</td>
+</tr>
+<tr class="even">
+<td><a href="./06_01_foundation/06_01_02_environment_setup.html">Environment Setup</a></td>
+<td>PostGIS in Docker or conda, psycopg, SQLAlchemy, pdb.connect</td>
+</tr>
+<tr class="odd">
+<td><a href="./06_01_foundation/06_01_03_filebased_spatial_database.html">File-based Spatial Databases</a></td>
+<td>SpatiaLite and GeoPackage, and when to move to PostGIS</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="spatial-database-core" class="level3">
+<h3 class="anchored" data-anchor-id="spatial-database-core">Spatial Database Core</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./06_02_spatial_database_core/06_02_01_loading_exporting_data.html">Loading and Exporting Data</a></td>
+<td>to_postgis, ogr2ogr, shp2pgsql, raster2pgsql, COPY</td>
+</tr>
+<tr class="even">
+<td><a href="./06_02_spatial_database_core/06_02_02_spatial_sql_fundamentals.html">Spatial SQL Fundamentals</a></td>
+<td>Areas, lengths, distances, centroids, ST_Transform</td>
+</tr>
+<tr class="odd">
+<td><a href="./06_02_spatial_database_core/06_02_03_spatial_relationship_joins.html">Spatial Relationships and Joins</a></td>
+<td>Predicates, point-in-polygon, ST_DWithin, nearest with &lt;-&gt;</td>
+</tr>
+<tr class="even">
+<td><a href="./06_02_spatial_database_core/06_02_04_geometry_processing.html">Geometry Processing</a></td>
+<td>Buffers, unions, overlay, simplification, validity, snapping</td>
+</tr>
+<tr class="odd">
+<td><a href="./06_02_spatial_database_core/06_02_05_indexing_and_performance.html">Indexing and Performance</a></td>
+<td>GiST, SP-GiST, BRIN, EXPLAIN ANALYZE, partitioning</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="advanced-spatial-databases" class="level3">
+<h3 class="anchored" data-anchor-id="advanced-spatial-databases">Advanced Spatial Databases</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./06_03_advanced_spatial_databases/06_03_01_raster_PostGIS.html">Rasters in PostGIS</a></td>
+<td>Raster metadata, ST_Value, ST_Clip, zonal statistics, map algebra</td>
+</tr>
+<tr class="even">
+<td><a href="./06_03_advanced_spatial_databases/06_03_02_network_analysis_pgRouting.html">Network Analysis with pgRouting</a></td>
+<td>Routable graphs, pgr_dijkstra, travel-time matrices, isochrones</td>
+</tr>
+<tr class="odd">
+<td><a href="./06_03_advanced_spatial_databases/06_03_03_spatiotemporal_data.html">Spatiotemporal Data</a></td>
+<td>Validity periods, LINESTRING M trajectories, time series</td>
+</tr>
+<tr class="even">
+<td><a href="./06_03_advanced_spatial_databases/06_03_04_in_database_spatial_analytics.html">In-database Spatial Analytics</a></td>
+<td>DBSCAN and k-means clusters, hexagon grids, H3, Moran’s I</td>
+</tr>
+<tr class="odd">
+<td><a href="./06_03_advanced_spatial_databases/06_03_05_DuckDB_spatial_geoParquet.html">DuckDB Spatial and GeoParquet</a></td>
+<td>Parquet queries, row-group pruning, R-tree joins, Overture on S3</td>
+</tr>
+<tr class="even">
+<td><a href="./06_03_advanced_spatial_databases/06_03_06_bigda_data_cloud_spatial_engines.html">Big Data and Cloud Spatial Engines</a></td>
+<td>Translating PostGIS SQL to Sedona, BigQuery and Snowflake</td>
+</tr>
+<tr class="odd">
+<td><a href="./06_03_advanced_spatial_databases/06_03_07_analyzing_NYC_taxi.html">Analyzing NYC Taxi Trips</a></td>
+<td>Kilometre squares, zones, peak hours and trip lengths in DuckDB</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="quick-reference" class="level3">
+<h3 class="anchored" data-anchor-id="quick-reference">Quick reference</h3>
+<p align="center">
+<img src="06_spatial_db_quick_reference.png" alt="Spatial databases quick reference for geolattice.geolatticedb" width="100%">
+</p>
+</section>
+</section>
+<section id="sample-data" class="level2">
+<h2 class="anchored" data-anchor-id="sample-data">Sample data</h2>
+<p>The notebooks read the sample data in <a href="https://github.com/zia207/GeoLattice/tree/main/Data/06_spatialDB"><code>Data/06_spatialDB/</code></a> and <a href="https://github.com/zia207/GeoLattice/tree/main/Data/00_shared"><code>Data/00_shared/</code></a> of the repository, and download reference datasets (TIGER/Line, Natural Earth, OpenStreetMap, NYC taxi trips) where a notebook says so.</p>
+</section>
+<section id="license" class="level2">
+<h2 class="anchored" data-anchor-id="license">License</h2>
+<p>GeoLattice is released under the MIT License. See <a href="https://github.com/zia207/GeoLattice/blob/main/LICENSE">LICENSE</a>.</p>
+<p align="center">
+<br> Developed by Zia Ahmed, Upatta Analytics
+</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./06_01_foundation/06_01_01_spatial_database_concepts.html" class="pagination-link" aria-label="Spatial Databases">
+        <span class="nav-page-text">Spatial Databases</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

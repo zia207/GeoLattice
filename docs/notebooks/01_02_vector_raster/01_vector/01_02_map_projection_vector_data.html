@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>map_projection_vector_data – GeoLattice: Vector &amp; Raster Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../01_vector/01_03_visualizing_vector_data.html" rel="next">
+<link href="../01_vector/01_01_read_write_vector_data.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">GeoLattice: Vector &amp; Raster Data</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
+        <li class="dropdown-header">Part 1 · Vector Data</li>
+        <li>
+    <a class="dropdown-item" href="../01_vector/01_00_vector_data.html">
+ <span class="dropdown-text">Vector Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../01_vector/01_01_read_write_vector_data.html">
+ <span class="dropdown-text">Reading and Writing Vector Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../01_vector/01_02_map_projection_vector_data.html">
+ <span class="dropdown-text">Coordinate Reference Systems</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../01_vector/01_03_visualizing_vector_data.html">
+ <span class="dropdown-text">Visualizing Vector Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../01_vector/01_04_geoprocessing_vector_data.html">
+ <span class="dropdown-text">Geoprocessing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../01_vector/01_05_geometry_operation_vector_data.html">
+ <span class="dropdown-text">Geometry Operations</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Part 2 · Raster Data</li>
+        <li>
+    <a class="dropdown-item" href="../02_raster/02_00_raster_data.html">
+ <span class="dropdown-text">Raster Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../02_raster/02_01_read_write_raster_data.html">
+ <span class="dropdown-text">Reading and Writing Raster Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../02_raster/02_02_map_projection_raster.html">
+ <span class="dropdown-text">Coordinate Reference Systems</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../02_raster/02_03_basic_raster_operation.html">
+ <span class="dropdown-text">Raster Operations</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../01_vector/01_00_vector_data.html"><strong>Part 1 · Vector Data</strong></a></li><li class="breadcrumb-item"><a href="../01_vector/01_02_map_projection_vector_data.html">Coordinate Reference Systems</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../01_vector/01_00_vector_data.html"><strong>Part 1 · Vector Data</strong></a></li><li class="breadcrumb-item"><a href="../01_vector/01_02_map_projection_vector_data.html">Coordinate Reference Systems</a></li></ol></nav></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="../images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Part 1 · Vector Data</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01_vector/01_00_vector_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vector Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01_vector/01_01_read_write_vector_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reading and Writing Vector Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01_vector/01_02_map_projection_vector_data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Coordinate Reference Systems</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01_vector/01_03_visualizing_vector_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualizing Vector Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01_vector/01_04_geoprocessing_vector_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geoprocessing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01_vector/01_05_geometry_operation_vector_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geometry Operations</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Part 2 · Raster Data</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02_raster/02_00_raster_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raster Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02_raster/02_01_read_write_raster_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reading and Writing Raster Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02_raster/02_02_map_projection_raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Coordinate Reference Systems</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02_raster/02_03_basic_raster_operation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raster Operations</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#coordinate-reference-systems-crs" id="toc-coordinate-reference-systems-crs" class="nav-link active" data-scroll-target="#coordinate-reference-systems-crs">Coordinate Reference Systems (CRS)</a>
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#part-1-coordinate-reference-systems" id="toc-part-1-coordinate-reference-systems" class="nav-link" data-scroll-target="#part-1-coordinate-reference-systems">Part 1: Coordinate reference systems</a>
+  <ul class="collapse">
+  <li><a href="#map-projection" id="toc-map-projection" class="nav-link" data-scroll-target="#map-projection">Map projection</a></li>
+  <li><a href="#the-world-geodetic-system-84" id="toc-the-world-geodetic-system-84" class="nav-link" data-scroll-target="#the-world-geodetic-system-84">The World Geodetic System 84</a></li>
+  <li><a href="#the-parameters-of-wgs-84" id="toc-the-parameters-of-wgs-84" class="nav-link" data-scroll-target="#the-parameters-of-wgs-84">The parameters of WGS 84</a></li>
+  <li><a href="#universal-transverse-mercator-utm" id="toc-universal-transverse-mercator-utm" class="nav-link" data-scroll-target="#universal-transverse-mercator-utm">Universal Transverse Mercator (UTM)</a></li>
+  <li><a href="#projection-format" id="toc-projection-format" class="nav-link" data-scroll-target="#projection-format">Projection format</a></li>
+  <li><a href="#albers-equal-area-conic" id="toc-albers-equal-area-conic" class="nav-link" data-scroll-target="#albers-equal-area-conic">Albers Equal Area Conic</a></li>
+  </ul></li>
+  <li><a href="#part-2-bangladesh" id="toc-part-2-bangladesh" class="nav-link" data-scroll-target="#part-2-bangladesh">Part 2: Bangladesh</a>
+  <ul class="collapse">
+  <li><a href="#check-the-projection" id="toc-check-the-projection" class="nav-link" data-scroll-target="#check-the-projection">Check the projection</a></li>
+  <li><a href="#define-the-crs" id="toc-define-the-crs" class="nav-link" data-scroll-target="#define-the-crs">Define the CRS</a></li>
+  <li><a href="#projection" id="toc-projection" class="nav-link" data-scroll-target="#projection">Projection</a></li>
+  </ul></li>
+  <li><a href="#part-3-new-york" id="toc-part-3-new-york" class="nav-link" data-scroll-target="#part-3-new-york">Part 3: New York</a>
+  <ul class="collapse">
+  <li><a href="#check-the-projection-1" id="toc-check-the-projection-1" class="nav-link" data-scroll-target="#check-the-projection-1">Check the projection</a></li>
+  <li><a href="#reprojection" id="toc-reprojection" class="nav-link" data-scroll-target="#reprojection">Reprojection</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a>
+  <ul class="collapse">
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p style="text-align:center">
+<img src="../images/01_banner_vector.png" alt="Working with Vector Data" width="100%">
+</p>
+<section id="coordinate-reference-systems-crs" class="level1">
+<h1>Coordinate Reference Systems (CRS)</h1>
+<p>This notebook provides a practical introduction to working with Coordinate Reference Systems (CRS) and map projections using the GeoLattice library. You’ll learn CRS fundamentals, types of projections, and how to inspect, assign, and transform projections for vector data in real-world geospatial workflows. By the end, you’ll be able to use GeoLattice tools to manage and reproject layers, ensuring your spatial analysis is accurate and consistent.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This tutorial covers coordinate reference systems (CRS) for vector data: what a geographic and a projected CRS are, how common projections are defined, and how to assign and reproject layers with <code>geolattice.vector.vector_CRS</code>.</p>
+<p>Coordinate Reference Systems (CRS) are used in cartography, geography, and GIS (Geographic Information Systems) to define the positions of points, lines, and areas on the Earth’s surface. A CRS provides a framework for translating geographic locations, which are expressed as latitude and longitude or other coordinate values, into a specific location on a map or a two-dimensional plane.</p>
+<p>There are two main types of Coordinate Reference Systems:</p>
+<ol type="1">
+<li><p>Geographic Coordinate Systems (GCS): Geographic Coordinate Systems use latitude and longitude to define locations on the Earth’s surface. Latitude measures the north-south position, while longitude measures the east-west position. The coordinates are expressed in degrees, minutes, and seconds or decimal degrees. Common GCS examples include WGS 84 (World Geodetic System 1984) and NAD83 (North American Datum 1983).</p></li>
+<li><p>Projected Coordinate Systems (PCS): Projected Coordinate Systems use Cartesian coordinates (X, Y) to represent locations on a flat, two-dimensional map. The projection converts the three-dimensional geographic coordinates (latitude, longitude, and often elevation) into these two-dimensional coordinates. Different map projections, such as Mercator, Robinson, or UTM (Universal Transverse Mercator), create projected coordinate systems.</p></li>
+</ol>
+<p>Source: <a href="https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/coordinate-systems-and-projections.htm">Esri, Coordinate systems and projections</a></p>
+<p><img src="../images/CRS/Pic1.png" alt="A geographic coordinate system, with latitude and longitude on the globe" width="320"></p>
+<p>The equidistant lines that run east and west each have a constant latitude value called <strong>parallels</strong>. The <strong>equator</strong> is the largest circle and divides the earth in half. It is equal in distance from each of the poles, and the value of this latitude line is zero. Locations north of the equator have positive latitudes that range from <strong>0 to +90 degrees</strong>, while locations south of the equator have negative latitudes that range from <strong>0 to -90 degrees</strong>.</p>
+<p><img src="../images/CRS/Pic2.png" alt="Parallels of latitude" width="280"></p>
+<p>The lines that run through north and south each have a constant longitude value and form circles of the same size around the earth known as <strong>meridians</strong>. The <strong>prime meridian</strong> is the line of longitude that defines the origin (zero degrees) for longitude coordinates. One of the most commonly used prime meridian locations is the line that passes through Greenwich, England. Locations east of the prime meridian up to its antipodal meridian (the continuation of the prime meridian on the other side of the globe) have positive longitudes ranging from <strong>0 to +180 degrees</strong>. Locations west of the prime meridian have negative longitudes ranging from <strong>0 to -180 degrees</strong>.</p>
+<p><img src="../images/CRS/Pic3.png" alt="Meridians of longitude" width="280"></p>
+<p>The latitude and longitude lines cover the globe to form a grid known as a <strong>graticule</strong>. The point of origin of the graticule is (0, 0), where the equator and the prime meridian intersect. The equator is the only place on the graticule where the linear distance corresponding to one degree of latitude is approximately equal to the distance corresponding to one degree of longitude. Because the longitude lines converge at the poles, the distance between two meridians is different at every parallel.</p>
+<p>To maintain accuracy in GIS and cartographic applications, it is essential to use the appropriate coordinate reference system and datum for the specific region or project. Choosing the wrong CRS can lead to distortions and inaccuracies when transforming between geographic locations and map coordinates.</p>
+<p>CRS is a fundamental aspect of spatial data management, as they allow for the integration of different data sources, analysis, and visualization of geographic information consistently and meaningfully. Understanding CRS is crucial for cartographers, GIS analysts, and anyone working with geographic data to ensure accurate spatial representation and analysis.</p>
+<p>The notebook is organized in three parts:</p>
+<ol type="1">
+<li><strong>CRS concepts</strong>: map projections, WGS 84, UTM, PROJ strings, and Albers Equal Area Conic.</li>
+<li><strong>Bangladesh districts</strong>: assign WGS 84 to a shapefile with no <code>.prj</code>, then project to Bangladesh Transverse Mercator.</li>
+<li><strong>New York counties</strong>: reproject a WGS 84 county layer to North America Albers (ESRI:102008).</li>
+</ol>
+<p>Sample shapefiles live in <code>Data/00_shared/vector_data/Bangladesh/Shapefiles</code> and <code>Data/00_shared/vector_data/USA</code>. Written outputs land in <code>Data/00_shared/vector_data/output_folder</code> under <code>bangladesh</code> and <code>ny_county</code>.</p>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>The next cell finds the repository root and puts it on the import path. Part 2 reads <code>Data/00_shared/vector_data/Bangladesh/Shapefiles</code>. Part 3 reads <code>Data/00_shared/vector_data/USA</code>. Written shapefiles go in <code>Data/00_shared/vector_data/output_folder</code>, under <code>bangladesh</code> and <code>ny_county</code>, the same output folder used by the vector writing tutorial.</p>
+<p>Shared CRS definitions live in <code>geolattice.crs</code> (the PROJ database through pyproj, the same catalog published at <a href="https://spatialreference.org/">SpatialReference.org</a>). Vector-specific work uses <code>geolattice.vector.vector_CRS</code>:</p>
+<ul>
+<li><code>define_crs</code> / <code>validate_crs</code>: build and check a CRS for a layer</li>
+<li><code>reproject_vector</code>: transform geometries (or a GeoDataFrame) to a target CRS</li>
+<li><code>is_geographic</code> / <code>crs_equal</code>: inspect equivalence and kind</li>
+</ul>
+<p><code>read_vector_data</code> and <code>write_shapefile</code> open and write each layer. <code>plot_layer</code> draws one layer, and <code>plot_pair</code> draws the geographic and projected maps side by side.</p>
+<p><strong>Installation.</strong> This notebook needs installation option 1 (vector, raster, CRS and visualization): <code>pip install "geolattice[core]"</code>. See “Installation options” in the GeoLattice README.</p>
+<div id="e92427d1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:03.973409Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:03.973312Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:04.462899Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:04.462186Z&quot;}}" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display matplotlib figures inline in this Jupyter notebook.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys  <span class="co"># tweak the Python import path so local geolattice is findable</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path  <span class="co"># filesystem paths for data and output folders</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd  <span class="co"># tabular display helpers (column width, etc.)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display  <span class="co"># pretty-print DataFrames in the notebook</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> osgeo <span class="im">import</span> gdal  <span class="co"># GDAL bindings (version check and quiet error handler)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="d21a3e8c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:04.464795Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:04.464632Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:04.674803Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:04.674402Z&quot;}}" data-execution_count="2">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================================</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup and helpers for CRS definition, reprojection, and maps.</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ===================================================================</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Locate the GeoLattice repo root, import CRS/vector helpers, create output folders,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># quiet GDAL warnings, and define show_crs() for readable CRS summaries.</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolve the current working directory as a starting point for the root search.</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>ROOT <span class="op">=</span> Path.cwd().resolve()</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="kw">not</span> (ROOT <span class="op">/</span> <span class="st">"Data"</span> <span class="op">/</span> <span class="st">"00_shared"</span> <span class="op">/</span> <span class="st">"vector_data"</span>).is_dir():</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ROOT.parent <span class="op">==</span> ROOT:</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">FileNotFoundError</span>(<span class="st">"Could not find Data/00_shared/vector_data from the working directory."</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    ROOT <span class="op">=</span> ROOT.parent</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, <span class="bu">str</span>(ROOT))</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.crs <span class="im">import</span> CRS  <span class="co"># GeoLattice CRS wrapper used by show_crs()</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.vector <span class="im">import</span> read_vector_data, write_shapefile  <span class="co"># open/write vector layers</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.vector.vector_CRS <span class="im">import</span> (  <span class="co"># CRS helpers used throughout this notebook</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    crs_equal,  <span class="co"># compare two CRS definitions for equivalence</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    define_crs,  <span class="co"># build a CRS from EPSG, PROJ, WKT, etc.</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    is_geographic,  <span class="co"># True when the CRS uses lon/lat degrees</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    reproject_vector,  <span class="co"># transform geometries into a target CRS</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    validate_crs,  <span class="co"># normalize/validate a CRS input</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># close this call</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.viz <span class="im">import</span> apply_map_style, plot_layer, plot_pair  <span class="co"># map styling and plots</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Bangladesh district shapefiles live under Data/00_shared/vector_data/Bangladesh/Shapefiles.</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>BD_SHP <span class="op">=</span> ROOT <span class="op">/</span> <span class="st">"Data"</span> <span class="op">/</span> <span class="st">"00_shared"</span> <span class="op">/</span> <span class="st">"vector_data"</span> <span class="op">/</span> <span class="st">"Bangladesh"</span> <span class="op">/</span> <span class="st">"Shapefiles"</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># New York / USA sample shapefiles.</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>USA <span class="op">=</span> ROOT <span class="op">/</span> <span class="st">"Data"</span> <span class="op">/</span> <span class="st">"00_shared"</span> <span class="op">/</span> <span class="st">"vector_data"</span> <span class="op">/</span> <span class="st">"USA"</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Static CRS diagrams used in the markdown narrative.</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>IMAGES <span class="op">=</span> ROOT <span class="op">/</span> <span class="st">"Images"</span> <span class="op">/</span> <span class="st">"CRS"</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Notebook write outputs go under Data/00_shared/vector_data/output_folder.</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>OUTPUT <span class="op">=</span> ROOT <span class="op">/</span> <span class="st">"Data"</span> <span class="op">/</span> <span class="st">"00_shared"</span> <span class="op">/</span> <span class="st">"vector_data"</span> <span class="op">/</span> <span class="st">"output_folder"</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Bangladesh reprojection outputs (GCS and BTM copies).</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>BD_OUT <span class="op">=</span> OUTPUT <span class="op">/</span> <span class="st">"bangladesh"</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co"># New York county reprojection outputs.</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>NY_OUT <span class="op">=</span> OUTPUT <span class="op">/</span> <span class="st">"ny_county"</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>BD_OUT.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)  <span class="co"># create Bangladesh output dir if needed</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>NY_OUT.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)  <span class="co"># create NY county output dir if needed</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>gdal.PushErrorHandler(<span class="st">"CPLQuietErrorHandler"</span>)  <span class="co"># silence noisy GDAL/OGR warnings</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">"display.max_columns"</span>, <span class="dv">8</span>)  <span class="co"># keep printed tables readable</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">"display.max_colwidth"</span>, <span class="dv">40</span>)  <span class="co"># truncate long cell text in displays</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">"display.width"</span>, <span class="dv">120</span>)  <span class="co"># wider console width for DataFrame prints</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>apply_map_style()  <span class="co"># apply the shared GeoLattice matplotlib map style</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper: print a short, readable CRS summary.</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> show_crs(crs):</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Docstring for this helper.</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Print the name, kind, EPSG code, PROJ string, and area of use."""</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Nothing useful to print when the layer has no CRS.</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> crs <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"CRS: undefined"</span>)  <span class="co"># explicit message for missing CRS</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span>  <span class="co"># stop here</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>    <span class="co"># define_crs accepts EPSG codes, WKT, PROJ strings, pyproj CRS, or CRS.</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>    crs <span class="op">=</span> define_crs(crs) <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(crs, CRS) <span class="cf">else</span> crs</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>    identifier <span class="op">=</span> crs.identifier  <span class="co"># short id string (EPSG, ESRI, or PROJ-like)</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prefer a shorter PROJ/name string when the identifier is very long.</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(identifier) <span class="op">&gt;</span> <span class="dv">100</span>:</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>        identifier <span class="op">=</span> crs.proj <span class="kw">or</span> crs.name  <span class="co"># fall back to PROJ or human name</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"name:       </span><span class="sc">{</span>crs<span class="sc">.</span>name<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># human-readable CRS name</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"identifier: </span><span class="sc">{</span>identifier<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># compact identifier used in prints</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"geographic: </span><span class="sc">{</span>is_geographic(crs)<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># True for lon/lat geographic CRS</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"projected:  </span><span class="sc">{</span>crs<span class="sc">.</span>is_projected<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># True for projected meter systems</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"EPSG:       </span><span class="sc">{</span>crs<span class="sc">.</span>to_epsg()<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># EPSG code when available, else None</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"PROJ:       </span><span class="sc">{</span>crs<span class="sc">.</span>proj<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># PROJ string definition</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>    area <span class="op">=</span> crs.area_of_use  <span class="co"># optional geographic validity region</span></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print the area name when the CRS metadata includes one.</span></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> area <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="kw">and</span> area.name:</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"area:       </span><span class="sc">{</span>area<span class="sc">.</span>name<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># named area of use</span></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Bangladesh: </span><span class="sc">{</span>BD_SHP<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># confirm Bangladesh shapefile folder</span></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"USA:        </span><span class="sc">{</span>USA<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># confirm USA shapefile folder</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Images:     </span><span class="sc">{</span>IMAGES<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># confirm CRS image folder</span></span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Output:     </span><span class="sc">{</span>OUTPUT<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># confirm write-output root</span></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"GDAL:       </span><span class="sc">{</span>gdal<span class="sc">.</span>VersionInfo(<span class="st">'--version'</span>)<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># installed GDAL version string</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Bangladesh: /home/zia207/Github/GeoLattice/Data/00_shared/vector_data/Bangladesh/Shapefiles
+USA:        /home/zia207/Github/GeoLattice/Data/00_shared/vector_data/USA
+Images:     /home/zia207/Github/GeoLattice/Images/CRS
+Output:     /home/zia207/Github/GeoLattice/Data/00_shared/vector_data/output_folder
+GDAL:       GDAL 3.13.3 "Iowa City", released 2026/08/13</code></pre>
+</div>
+</div>
+</section>
+<section id="part-1-coordinate-reference-systems" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-coordinate-reference-systems">Part 1: Coordinate reference systems</h2>
+<p>The cells below define common geographic and projected CRS values with <code>define_crs</code>, print their parameters, and show the PROJ strings used later when layers are assigned or reprojected.</p>
+<section id="map-projection" class="level3">
+<h3 class="anchored" data-anchor-id="map-projection">Map projection</h3>
+<p>Map projection is a method used to represent the three-dimensional surface of the Earth on a two-dimensional map. Since the Earth is a spherical object, it is challenging to depict its curved surface accurately on a flat surface. This problem arises because representing the entire curved surface of the Earth on a flat map results in distortions in shape, size, distance, or direction.</p>
+<p><img src="../images/CRS/Pic0.png" alt="Projecting the globe onto a flat map" width="280"></p>
+<p>Various map projections are available, each designed to address different needs and minimize certain types of distortion. Here are some common types of map projections:</p>
+<p><strong>Mercator projection.</strong> Developed by Gerardus Mercator in the 16th century, this projection preserves straight lines, making it useful for marine navigation. However, it distorts the sizes of landmasses, with areas near the poles appearing significantly larger than they are.</p>
+<p><strong>Robinson projection.</strong> This compromise projection attempts to balance size, shape, and distance distortions across the entire map. It is commonly used for world maps.</p>
+<p><strong>Conic projection.</strong> This projection involves projecting the Earth’s surface onto a cone and then unrolling the cone to form a flat map. It preserves shapes and distances well within the cone area but can have significant distortions as one moves away from that central area.</p>
+<p><strong>Cylindrical projection.</strong> This projection wraps the Earth’s surface around a cylinder. Examples include the Mercator projection mentioned earlier and the Miller projection, which preserves relative size but distorts shapes.</p>
+<p><strong>Azimuthal projection.</strong> These projections project the Earth’s surface onto a plane from a specific point on the Earth’s surface. They preserve directionality but can have considerable distortions in other aspects.</p>
+<p><strong>Goode’s Homolosine projection.</strong> This projection combines the sinusoidal and Mollweide projections to reduce landmass size distortion, although it sacrifices shape accuracy.</p>
+<p>The choice of map projection depends on the intended use of the map, the area being represented, and the extent to which certain distortions are acceptable. No single projection can perfectly represent the entire Earth without any distortions, and mapmakers must make trade-offs based on their specific needs.</p>
+<p>It is important to understand that map projections are just one aspect of cartography, and producing accurate and valuable maps often involves other techniques, such as generalization, symbolization, and labeling.</p>
+<p><a href="https://youtu.be/nJ5r4HJMrfo">Map projections (LizardTech University)</a></p>
+</section>
+<section id="the-world-geodetic-system-84" class="level3">
+<h3 class="anchored" data-anchor-id="the-world-geodetic-system-84">The World Geodetic System 84</h3>
+<p>The World Geodetic System 1984 (WGS 84) is a global geodetic reference system developed and maintained by the United States Department of Defense (DoD). It is widely used as the standard coordinate reference system for the Earth’s surface in various applications, including mapping, navigation, surveying, and GPS (Global Positioning System).</p>
+<p>WGS 84 is an Earth-centered, Earth-fixed coordinate system known as a geocentric coordinate system. It defines a three-dimensional model of the Earth, where the center of the Earth serves as the origin, and the X, Y, and Z axes are oriented with respect to the Earth’s rotation and equator.</p>
+<p>The key features of WGS 84 include:</p>
+<ol type="1">
+<li><p>Ellipsoid: WGS 84 uses the WGS 84 ellipsoid, a mathematically defined surface approximating the shape of the Earth. It is an oblate spheroid, slightly flattened at the poles and bulging at the equator.</p></li>
+<li><p>Datum: WGS 84 defines a specific datum, which includes the ellipsoid’s size, shape, and orientation in relation to the Earth’s center. The datum is a reference frame for measuring positions on the Earth’s surface.</p></li>
+<li><p>Coordinate units: WGS 84 uses degrees of latitude and longitude to express geographic positions. Latitude measures the north-south position, and longitude measures the east-west position.</p></li>
+<li><p>GPS reference frame: WGS 84 is the coordinate system used by the Global Positioning System (GPS). GPS receivers use WGS 84 to accurately determine the user’s position on the Earth’s surface.</p></li>
+<li><p>Constantly updated: The WGS 84 reference frame is continuously refined and updated to account for crustal movements, which can affect the Earth’s shape and position. As such, newer versions of WGS 84 have been released, with slight adjustments to improve accuracy.</p></li>
+</ol>
+<p>The adoption of WGS 84 as a global standard has been instrumental in enabling accurate navigation, mapping, and geospatial data exchange across the world. It ensures consistency and interoperability among different mapping and navigation systems, making it possible to integrate data from various sources into a coherent spatial framework.</p>
+</section>
+<section id="the-parameters-of-wgs-84" class="level3">
+<h3 class="anchored" data-anchor-id="the-parameters-of-wgs-84">The parameters of WGS 84</h3>
+<p>WGS 84 is EPSG:4326. <code>define_crs(4326)</code> (from <code>vector_CRS</code>) loads and validates that definition. <code>spatial_reference.pretty_wkt</code> writes the same WKT the notes list: the WGS 84 datum, the WGS 84 spheroid (semi-major axis 6378137 m, inverse flattening 298.257223563), the Greenwich prime meridian, and the degree unit.</p>
+<div id="e10818f7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:04.681321Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:04.681130Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:04.685723Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:04.685013Z&quot;}}" data-execution_count="3">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define WGS 84 from EPSG:4326 and print a short summary plus pretty WKT.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>wgs84 <span class="op">=</span> define_crs(<span class="dv">4326</span>)  <span class="co"># EPSG:4326 = WGS 84 geographic lon/lat</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>show_crs(wgs84)  <span class="co"># print name, EPSG, PROJ, and area of use</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()  <span class="co"># blank line before the WKT block</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(wgs84.spatial_reference.pretty_wkt)  <span class="co"># indented WKT from the GDAL spatial ref</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>name:       WGS 84
+identifier: EPSG:4326
+geographic: True
+projected:  False
+EPSG:       4326
+PROJ:       +proj=longlat +datum=WGS84 +no_defs +type=crs
+area:       World.
+
+GEOGCS["WGS 84",
+    DATUM["WGS_1984",
+        SPHEROID["WGS 84",6378137,298.257223563,
+            AUTHORITY["EPSG","7030"]],
+        AUTHORITY["EPSG","6326"]],
+    PRIMEM["Greenwich",0,
+        AUTHORITY["EPSG","8901"]],
+    UNIT["degree",0.0174532925199433,
+        AUTHORITY["EPSG","9122"]],
+    AUTHORITY["EPSG","4326"]]</code></pre>
+</div>
+</div>
+</section>
+<section id="universal-transverse-mercator-utm" class="level3">
+<h3 class="anchored" data-anchor-id="universal-transverse-mercator-utm">Universal Transverse Mercator (UTM)</h3>
+<p>The Universal Transverse Mercator (UTM) is a widely used map projection and coordinate reference system that divides the Earth’s surface into a series of zones, each with its own unique coordinate system. It is designed to minimize distortion within each zone, making it suitable for accurate mapping and navigation in relatively small areas.</p>
+<p>The UTM projection is a type of cylindrical projection that projects the Earth’s surface onto a cylinder. The cylinder is then unwrapped to create a flat map. The key features of the UTM system include:</p>
+<ol type="1">
+<li><p>Zone system: The Earth is divided into 60 longitudinal zones, each spanning 6 degrees of longitude. Each zone is 6 degrees wide, except for zones 1 and 60 around the poles, which are narrower to account for the convergence of meridians. Zones are numbered from 1 to 60, starting at the 180° meridian and progressing eastward.</p></li>
+<li><p>Transverse projection: Unlike the Mercator projection, which is based on a standard parallel, the UTM projection is transverse, meaning that the cylinder is oriented along the meridians rather than the equator. This results in better accuracy for regions closer to the equator.</p></li>
+<li><p>Cartesian coordinates: Each UTM zone’s positions are expressed in a Cartesian coordinate system with X and Y values. The X-coordinate represents easting (measured in meters) from the central meridian of the zone, and the Y-coordinate represents northing (also measured in meters) from the equator. The origin of each zone is set at the equator and the central meridian of the zone, providing a local reference system.</p></li>
+<li><p>False easting and northing: To ensure that all coordinates within a zone are positive, a false easting value (500,000 meters) is added to all X-coordinates, and a false northing value is added to all Y-coordinates. This creates a smooth coordinate system without negative values, simplifying calculations.</p></li>
+<li><p>Scale factor: UTM uses a varying scale factor along the central meridian of each zone to further minimize distortion. The scale factor is set to 0.9996, meaning that distances measured on the map are slightly shorter than the actual distances on the Earth’s surface.</p></li>
+</ol>
+<p><img src="../images/CRS/Pic4.png" alt="UTM zones of the world" width="640"></p>
+<p>Bangladesh falls in zone 45N (EPSG:32645) and zone 46N (EPSG:32646) on WGS 84.</p>
+<p>The UTM grid that covers the conterminous 48 United States comprises 10 zones, from Zone 10 on the west coast through Zone 19 in New England (<a href="https://pubs.usgs.gov/fs/2001/0077/report.pdf">USGS, 2001</a>). New York State falls in zones <strong>17N (EPSG:26917)</strong> and <strong>18N (EPSG:26918)</strong> on the North American Datum 1983 (NAD83). Part 2 uses the Bangladesh Transverse Mercator for the district layer. Part 3 reprojects the New York county layer to Albers Equal Area Conic.</p>
+<p><img src="../images/CRS/Pic5.png" alt="UTM zones of the conterminous United States" width="480"></p>
+<p>UTM is widely used in various applications, including topographic mapping, GPS navigation, military operations, and geospatial data analysis. It is particularly useful for local mapping tasks, covering areas up to a few thousand kilometers in extent, where the distortion is generally kept within acceptable limits. However, it may not be suitable for global maps or large-scale mapping that requires extremely precise measurements over very large areas.</p>
+<div id="325d071d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:04.687431Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:04.686900Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:04.694130Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:04.693481Z&quot;}}" data-execution_count="4">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print UTM zones used for Bangladesh and New York so the zone choice is clear.</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Bangladesh, WGS 84"</span>)  <span class="co"># header for the Bangladesh UTM zone codes</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># EPSG:32645 and 32646 are WGS 84 / UTM zones 45N and 46N (Bangladesh spans both).</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code <span class="kw">in</span> (<span class="dv">32645</span>, <span class="dv">32646</span>):</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    show_crs(define_crs(code))  <span class="co"># summarize each UTM zone CRS</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()  <span class="co"># blank line between CRS summaries</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"New York, NAD83"</span>)  <span class="co"># header for the New York UTM zone codes</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># EPSG:26917 and 26918 are NAD83 / UTM zones 17N and 18N (NY spans both).</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code <span class="kw">in</span> (<span class="dv">26917</span>, <span class="dv">26918</span>):</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    show_crs(define_crs(code))  <span class="co"># summarize each NAD83 UTM CRS</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()  <span class="co"># blank line between CRS summaries</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Bangladesh, WGS 84
+name:       WGS 84 / UTM zone 45N
+identifier: EPSG:32645
+geographic: False
+projected:  True
+EPSG:       32645
+PROJ:       +proj=utm +zone=45 +datum=WGS84 +units=m +no_defs +type=crs
+area:       Between 84°E and 90°E, northern hemisphere between equator and 84°N, onshore and offshore. Bangladesh. Bhutan. China. India. Kazakhstan. Mongolia. Nepal. Russian Federation.
+
+name:       WGS 84 / UTM zone 46N
+identifier: EPSG:32646
+geographic: False
+projected:  True
+EPSG:       32646
+PROJ:       +proj=utm +zone=46 +datum=WGS84 +units=m +no_defs +type=crs
+area:       Between 90°E and 96°E, northern hemisphere between equator and 84°N, onshore and offshore. Bangladesh. Bhutan. China. Indonesia. Mongolia. Myanmar (Burma). Russian Federation.
+
+New York, NAD83
+name:       NAD83 / UTM zone 17N
+identifier: EPSG:26917
+geographic: False
+projected:  True
+EPSG:       26917
+PROJ:       +proj=utm +zone=17 +datum=NAD83 +units=m +no_defs +type=crs
+area:       North America - between 84°W and 78°W - onshore and offshore. Canada - Nunavut; Ontario; Quebec. United States (USA) - Florida; Georgia; Kentucky; Maryland; Michigan; New York; North Carolina; Ohio; Pennsylvania; South Carolina; Tennessee; Virginia; West Virginia.
+
+name:       NAD83 / UTM zone 18N
+identifier: EPSG:26918
+geographic: False
+projected:  True
+EPSG:       26918
+PROJ:       +proj=utm +zone=18 +datum=NAD83 +units=m +no_defs +type=crs
+area:       North America - between 78°W and 72°W - onshore and offshore. Canada - Nunavut; Ontario; Quebec. United States (USA) - Connecticut; Delaware; Maryland; Massachusetts; New Hampshire; New Jersey; New York; North Carolina; Pennsylvania; Virginia; Vermont.
+</code></pre>
+</div>
+</div>
+</section>
+<section id="projection-format" class="level3">
+<h3 class="anchored" data-anchor-id="projection-format">Projection format</h3>
+<p>The <strong>PROJ</strong> string (often called PROJ.4) is a widely used way of defining the projection and coordinate system parameters for geospatial data. It is employed in many geospatial software libraries and applications to specify how to transform coordinates from one coordinate system to another, or to perform various geospatial operations accurately.</p>
+<p>The format consists of a set of parameters, where each parameter represents a specific aspect of the coordinate system or projection. It is typically represented as a single string with key-value pairs:</p>
+<blockquote class="blockquote">
+<p>+proj=&lt;projection&gt; +datum=&lt;datum&gt; +units=&lt;units&gt; +&lt;other_parameters&gt;</p>
+</blockquote>
+<ol type="1">
+<li><p><strong><code>+proj</code></strong>: the projection method or algorithm used to transform coordinates. For example, <strong><code>+proj=utm</code></strong> for Universal Transverse Mercator, or <strong><code>+proj=longlat</code></strong> for the WGS 84 geographic coordinate system.</p></li>
+<li><p><strong><code>+datum</code></strong>: the geodetic datum used for the coordinate system. It determines the position of the coordinate system relative to the Earth’s ellipsoid. Examples include <strong><code>+datum=WGS84</code></strong> or <strong><code>+datum=NAD83</code></strong>. In general <strong><code>+datum=</code></strong> is preferred to <strong><code>+ellps=</code></strong>, because the datum always fixes the ellipsoid, but the ellipsoid never fixes the datum.</p></li>
+<li><p><strong><code>+units</code></strong>: the units of measurement used in the coordinate system. Common examples include <strong><code>+units=m</code></strong> or degrees for a geographic CRS.</p></li>
+<li><p><strong>Other parameters</strong>: false eastings and northings, the central meridian, the scale factor, and similar values that the projection needs.</p></li>
+</ol>
+<p>The notes give these PROJ strings for WGS 84 Web Mercator (EPSG:3857) and for UTM zones 45 and 46:</p>
+<blockquote class="blockquote">
+<p>+proj=merc +datum=WGS84 +units=meters +no_defs</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>+proj=utm +zone=45 +datum=WGS84 +units=m +no_defs +type=crs</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>+proj=utm +zone=46 +datum=WGS84 +units=m +no_defs +type=crs</p>
+</blockquote>
+<p><code>CRS.proj</code> prints the string stored in the PROJ database for each of those codes. <code>define_crs</code> builds a CRS from a string of this form.</p>
+<div id="17d60875" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:04.695849Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:04.695319Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:04.699477Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:04.698973Z&quot;}}" data-execution_count="5">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare Web Mercator and Bangladesh UTM PROJ strings side by side.</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 3857 = Web Mercator; 32645/32646 = WGS 84 UTM 45N/46N.</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code <span class="kw">in</span> (<span class="dv">3857</span>, <span class="dv">32645</span>, <span class="dv">32646</span>):</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    crs <span class="op">=</span> define_crs(code)  <span class="co"># build the CRS object for this EPSG code</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>crs<span class="sc">.</span>identifier<span class="sc">}</span><span class="ss">  </span><span class="sc">{</span>crs<span class="sc">.</span>name<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># short id and full name</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>crs<span class="sc">.</span>proj<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># indented PROJ definition string</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>EPSG:3857  WGS 84 / Pseudo-Mercator
+  +proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs +type=crs
+EPSG:32645  WGS 84 / UTM zone 45N
+  +proj=utm +zone=45 +datum=WGS84 +units=m +no_defs +type=crs
+EPSG:32646  WGS 84 / UTM zone 46N
+  +proj=utm +zone=46 +datum=WGS84 +units=m +no_defs +type=crs</code></pre>
+</div>
+</div>
+</section>
+<section id="albers-equal-area-conic" class="level3">
+<h3 class="anchored" data-anchor-id="albers-equal-area-conic">Albers Equal Area Conic</h3>
+<p>Albers Equal Area Conic uses two standard parallels to reduce the distortion of shape in the region between those parallels. This projection is best suited for an area that extends east to west, such as the conterminous United States. Used for the conterminous United States, the two standard parallels are normally 29.5°N and 45.5°N. For this projection, the maximum scale distortion for the 48 states is 1.25 percent.</p>
+<p><img src="../images/CRS/Pic6.png" alt="Albers Equal Area Conic of North America" width="420"></p>
+<p>The contiguous-USA definition is <strong>ESRI:102003</strong>. Its PROJ string is:</p>
+<blockquote class="blockquote">
+<p>+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs</p>
+</blockquote>
+<p>Part 3 uses the North America Albers definition stored in <code>NY_County_PROJ.prj</code>, <strong>ESRI:102008</strong>. The standard parallels are 20°N and 60°N, the latitude of origin is 40°N, and the central meridian is 96°W:</p>
+<blockquote class="blockquote">
+<p>+proj=aea +lat_1=20 +lat_2=60 +lat_0=40 +lon_0=-96 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs</p>
+</blockquote>
+<div id="5c6ca0f6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:04.700645Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:04.700555Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:04.847191Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:04.846460Z&quot;}}" data-execution_count="6">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show two common North America Albers definitions from ESRI codes.</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ESRI:102003 = USA Contiguous Albers; ESRI:102008 = North America Albers.</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code <span class="kw">in</span> (<span class="st">"ESRI:102003"</span>, <span class="st">"ESRI:102008"</span>):</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    show_crs(define_crs(code))  <span class="co"># print a readable CRS summary</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()  <span class="co"># blank line between the two Albers definitions</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>name:       USA_Contiguous_Albers_Equal_Area_Conic
+identifier: ESRI:102003
+geographic: False
+projected:  True
+EPSG:       None
+PROJ:       +proj=aea +lat_0=37.5 +lon_0=-96 +lat_1=29.5 +lat_2=45.5 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs +type=crs
+area:       United States (USA) - CONUS onshore - Alabama; Arizona; Arkansas; California; Colorado; Connecticut; Delaware; Florida; Georgia; Idaho; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; North Dakota; Ohio; Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; Washington; West Virginia; Wisconsin; Wyoming.
+
+name:       North_America_Albers_Equal_Area_Conic
+identifier: ESRI:102008
+geographic: False
+projected:  True
+EPSG:       None
+PROJ:       +proj=aea +lat_0=40 +lon_0=-96 +lat_1=20 +lat_2=60 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs +type=crs
+area:       North America - onshore and offshore: Canada - Alberta; British Columbia; Manitoba; New Brunswick; Newfoundland and Labrador; Northwest Territories; Nova Scotia; Nunavut; Ontario; Prince Edward Island; Quebec; Saskatchewan; Yukon. United States (USA) - Alabama; Alaska (mainland); Arizona; Arkansas; California; Colorado; Connecticut; Delaware; Florida; Georgia; Idaho; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; North Dakota; Ohio; Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; Washington; West Virginia; Wisconsin; Wyoming.
+</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="part-2-bangladesh" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-bangladesh">Part 2: Bangladesh</h2>
+<p>This exercise checks, defines, and changes the CRS of <strong>vector</strong> data. That step matters whenever layers from different sources do not share a projection.</p>
+<ul>
+<li>This part uses the district polygons of Bangladesh, <code>bd_district.shp</code>, in <code>Data/00_shared/vector_data/Bangladesh/Shapefiles</code>. That shapefile has no <code>.prj</code>.</li>
+<li>Part 3 uses the New York State county polygons, <code>NY_County_GCS.shp</code>, in <code>Data/00_shared/vector_data/USA</code>. That shapefile already carries a WGS 84 <code>.prj</code>, and the task is to reproject it. <code>NY_County_PROJ.shp</code> in the same folder is the counties already stored in North America Albers.</li>
+</ul>
+<p><code>read_vector_data</code> opens <code>bd_district.shp</code> and returns a dataset. The active layer reports the feature count, geometry type, extent, and CRS. <code>to_dataframe()</code> returns a GeoPandas GeoDataFrame.</p>
+<div id="9f9e6733" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:04.848521Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:04.848419Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:04.952504Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:04.952071Z&quot;}}" data-execution_count="7">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open Bangladesh districts, inspect CRS metadata, and preview attributes.</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>district_path <span class="op">=</span> BD_SHP <span class="op">/</span> <span class="st">"bd_district.shp"</span>  <span class="co"># path to the district polygon shapefile</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"shapefile:  </span><span class="sc">{</span>district_path<span class="sc">.</span>name<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># basename only for a short print</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f".prj file:  </span><span class="sc">{</span>district_path<span class="sc">.</span>with_suffix(<span class="st">'.prj'</span>)<span class="sc">.</span>exists()<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># True if .prj exists</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Open with the GeoLattice reader context manager (closes the dataset on exit).</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> read_vector_data(district_path) <span class="im">as</span> dataset:</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"driver:     </span><span class="sc">{</span>dataset<span class="sc">.</span>driver<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># OGR driver name (usually ESRI Shapefile)</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"features:   </span><span class="sc">{</span>dataset<span class="sc">.</span>feature_count<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># number of district polygons</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"geometry:   </span><span class="sc">{</span>dataset<span class="sc">.</span>layer<span class="sc">.</span>geometry_type<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># geometry type string</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"bounds:     </span><span class="sc">{</span>dataset<span class="sc">.</span>bounds<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># layer extent (minx, miny, maxx, maxy)</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    show_crs(dataset.crs)  <span class="co"># CRS summary from the layer</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    districts <span class="op">=</span> dataset.to_dataframe()  <span class="co"># GeoDataFrame of all district features</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Preview admin names for the first few districts.</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>display(districts[[<span class="st">"ADM2_EN"</span>, <span class="st">"ADM1_EN"</span>, <span class="st">"ADM0_EN"</span>]].head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>shapefile:  bd_district.shp
+.prj file:  False
+driver:     ESRI Shapefile
+features:   64
+geometry:   Polygon
+bounds:     Bounds(88.00862798600008, 20.590609348000044, 92.68030687500007, 26.63451301000006)
+CRS: undefined</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ADM2_EN</th>
+<th data-quarto-table-cell-role="th">ADM1_EN</th>
+<th data-quarto-table-cell-role="th">ADM0_EN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>Bagerhat</td>
+<td>Khulna</td>
+<td>Bangladesh</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Bandarban</td>
+<td>Chittagong</td>
+<td>Bangladesh</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Barguna</td>
+<td>Barisal</td>
+<td>Bangladesh</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Barisal</td>
+<td>Barisal</td>
+<td>Bangladesh</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>Bhola</td>
+<td>Barisal</td>
+<td>Bangladesh</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="check-the-projection" class="level3">
+<h3 class="anchored" data-anchor-id="check-the-projection">Check the projection</h3>
+<p>The layer CRS printed above is undefined. The <code>.prj</code> file is not associated with this shapefile.</p>
+<p>The coordinates are longitude and latitude in decimal degrees. The x range runs across Bangladesh from west to east, and the y range from south to north. Because no CRS has been stored yet, define the current CRS, <strong>WGS 1984 (EPSG:4326)</strong>, before any further analysis such as reprojection.</p>
+<div id="c6fc8e0c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:04.954083Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:04.953984Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:04.957165Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:04.956696Z&quot;}}" data-execution_count="8">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm the layer extent and the CRS attached to the GeoDataFrame.</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"total bounds (minx, miny, maxx, maxy):"</span>)  <span class="co"># label for the next print</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(districts.total_bounds)  <span class="co"># numpy array of the full layer extent</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"CRS on the table: </span><span class="sc">{</span>districts<span class="sc">.</span>crs<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># CRS object/string stored on the frame</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>total bounds (minx, miny, maxx, maxy):
+[88.00862799 20.59060935 92.68030688 26.63451301]
+CRS on the table: None</code></pre>
+</div>
+</div>
+</section>
+<section id="define-the-crs" class="level3">
+<h3 class="anchored" data-anchor-id="define-the-crs">Define the CRS</h3>
+<p><code>define_crs</code> / <code>validate_crs</code> build a CRS from an EPSG code or PROJ string. Assigning that CRS with GeoPandas <code>set_crs</code> records which CRS the coordinates are already in: it leaves the coordinate numbers unchanged. Either definition below is WGS 84. <code>define_crs(4326)</code> is the authority code. <code>define_crs("+proj=longlat +datum=WGS84")</code> is the PROJ string. <code>+datum=WGS84</code> is used here so the datum, and therefore the ellipsoid, is stored with the layer.</p>
+<div id="ccf77652" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:04.958452Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:04.958373Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:04.962132Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:04.961765Z&quot;}}" data-execution_count="9">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign a validated WGS 84 CRS to the districts table and verify equality.</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>wgs84 <span class="op">=</span> validate_crs(<span class="dv">4326</span>)  <span class="co"># normalize EPSG:4326 into the shared CRS type</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># wgs84 = define_crs("+proj=longlat +datum=WGS84")  # alternate PROJ-string form</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Attach EPSG:4326 to the GeoDataFrame (coordinates are already lon/lat).</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>districts_gcs <span class="op">=</span> districts.set_crs(wgs84.to_epsg())</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>show_crs(wgs84)  <span class="co"># print the validated WGS 84 summary</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()  <span class="co"># blank line before the frame CRS print</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(districts_gcs.crs)  <span class="co"># CRS now stored on the GeoDataFrame</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm the frame CRS matches EPSG:4326 via crs_equal().</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"crs_equal(layer, EPSG:4326):"</span>, crs_equal(districts_gcs.crs, <span class="dv">4326</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>name:       WGS 84
+identifier: EPSG:4326
+geographic: True
+projected:  False
+EPSG:       4326
+PROJ:       +proj=longlat +datum=WGS84 +no_defs +type=crs
+area:       World.
+
+EPSG:4326
+crs_equal(layer, EPSG:4326): True</code></pre>
+</div>
+</div>
+<p>A new CRS, <strong>WGS 1984</strong>, has been assigned to the layer. Saving the file makes that assignment permanent. <code>write_shapefile</code> writes an ESRI shapefile, including the <code>.prj</code>, in <code>Data/00_shared/vector_data/output_folder/bangladesh</code>. After this cell, <code>bd_district_GCS.prj</code> is in that folder.</p>
+<div id="d41ee643" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:04.963347Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:04.963264Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:05.067351Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:05.066767Z&quot;}}" data-execution_count="10">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write a GCS copy of the districts and confirm the saved .prj matches WGS 84.</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>gcs_path <span class="op">=</span> BD_OUT <span class="op">/</span> <span class="st">"bd_district_GCS.shp"</span>  <span class="co"># output shapefile path (GCS)</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Write districts_gcs with overwrite=True so re-runs replace the previous file.</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>write_shapefile(gcs_path, districts_gcs, layer<span class="op">=</span><span class="st">"bd_district"</span>, crs<span class="op">=</span>wgs84, overwrite<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-open the written file and print its CRS to confirm persistence.</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> read_vector_data(gcs_path) <span class="im">as</span> dataset:</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    show_crs(dataset.crs)  <span class="co"># CRS read back from the new shapefile</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()  <span class="co"># blank line before the raw .prj text</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gcs_path.with_suffix(<span class="st">".prj"</span>).read_text())  <span class="co"># WKT text stored beside the .shp</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>name:       WGS 84
+identifier: EPSG:4326
+geographic: True
+projected:  False
+EPSG:       4326
+PROJ:       +proj=longlat +datum=WGS84 +no_defs +type=crs
+area:       World.
+
+GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]</code></pre>
+</div>
+</div>
+</section>
+<section id="projection" class="level3">
+<h3 class="anchored" data-anchor-id="projection">Projection</h3>
+<p><code>reproject_vector</code> transforms coordinates from the CRS on the layer to another CRS. That is the conversion between projections (reprojection). For a simple projection, when no datum change is required, the coordinates are projected on the same datum. When a datum transformation is required, both the source CRS and the target CRS need a datum. Pass <code>datum_operation=</code> to pick a named path from <code>choose_datum_transformation</code> when several paths exist.</p>
+<p>The target in the notes is the Bangladesh Transverse Mercator. The notes cite <a href="https://epsg.io/9677">EPSG:9677</a>. This PROJ database publishes Gulshan 303 / Bangladesh Transverse Mercator as <a href="https://epsg.io/9678">EPSG:9678</a>, on the Everest 1830 ellipsoid. The exercise uses the PROJ string from the notes, which keeps the WGS 84 datum:</p>
+<blockquote class="blockquote">
+<p>+proj=tmerc +lat_0=0 +lon_0=90 +k=0.9996 +x_0=500000 +y_0=-2000000 +datum=WGS84 +units=m +no_defs</p>
+</blockquote>
+<p><code>define_crs</code> builds that CRS. <code>reproject_vector</code> then converts the district polygons from degrees to meters. The projected layer reports <code>projected: True</code>.</p>
+<div id="87bf0f9a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:05.068874Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:05.068787Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:05.345453Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:05.343833Z&quot;}}" data-execution_count="11">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build Bangladesh Transverse Mercator from a PROJ string, compare to EPSG:9678,</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># reproject the GCS districts, and print extent changes in degrees vs meters.</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>btm <span class="op">=</span> define_crs(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Custom BTM PROJ string from the tutorial notes (transverse Mercator).</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"+proj=tmerc +lat_0=0 +lon_0=90 +k=0.9996 "</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Assign "+x_0.</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"+x_0=500000 +y_0=-2000000 +datum=WGS84 +units=m +no_defs"</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># close this call</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Target CRS from the notes"</span>)  <span class="co"># label for the custom BTM definition</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>show_crs(btm)  <span class="co"># summarize the PROJ-string BTM</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()  <span class="co"># blank line before the EPSG:9678 comparison</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"EPSG:9678  Gulshan 303 / Bangladesh Transverse Mercator"</span>)  <span class="co"># official name</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>show_crs(define_crs(<span class="dv">9678</span>))  <span class="co"># summarize the EPSG registry entry</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject district polygons from WGS 84 lon/lat into BTM meters.</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>districts_btm <span class="op">=</span> reproject_vector(districts_gcs, btm)</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()  <span class="co"># blank line before bounds comparison</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"WGS 84 bounds (degrees):"</span>, districts_gcs.total_bounds)  <span class="co"># lon/lat extent</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"BTM bounds (meters):    "</span>, districts_btm.total_bounds)  <span class="co"># projected extent</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()  <span class="co"># blank line before CRS summary</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>show_crs(districts_btm.crs)  <span class="co"># CRS attached to the reprojected frame</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Target CRS from the notes
+name:       unknown
+identifier: +proj=tmerc +lat_0=0 +lon_0=90 +k=0.9996 +x_0=500000 +y_0=-2000000 +datum=WGS84 +units=m +no_defs
+geographic: False
+projected:  True
+EPSG:       None
+PROJ:       +proj=tmerc +lat_0=0 +lon_0=90 +k=0.9996 +x_0=500000 +y_0=-2000000 +datum=WGS84 +units=m +no_defs +type=crs
+
+EPSG:9678  Gulshan 303 / Bangladesh Transverse Mercator
+name:       Gulshan 303 / Bangladesh Transverse Mercator
+identifier: EPSG:9678
+geographic: False
+projected:  True
+EPSG:       9678
+PROJ:       +proj=tmerc +lat_0=0 +lon_0=90 +k=0.9996 +x_0=500000 +y_0=-2000000 +ellps=evrst30 +units=m +no_defs +type=crs
+area:       Bangladesh - onshore.
+
+WGS 84 bounds (degrees): [88.00862799 20.59060935 92.68030688 26.63451301]
+BTM bounds (meters):     [298487.81088879 278578.09791321 778101.77247922 946939.21763643]
+
+name:       unknown
+identifier: +proj=tmerc +lat_0=0 +lon_0=90 +k=0.9996 +x_0=500000 +y_0=-2000000 +datum=WGS84 +units=m +no_defs +type=crs
+geographic: False
+projected:  True
+EPSG:       None
+PROJ:       +proj=tmerc +lat_0=0 +lon_0=90 +k=0.9996 +x_0=500000 +y_0=-2000000 +datum=WGS84 +units=m +no_defs +type=crs</code></pre>
+</div>
+</div>
+<p>The same two layers, drawn side by side. The left panel is WGS 1984, in degrees. The right panel is the Bangladesh Transverse Mercator, in meters.</p>
+<div id="2247ad1d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:05.347487Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:05.347319Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:06.703416Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:06.702822Z&quot;}}" data-execution_count="12">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw WGS 84 and BTM district maps side by side for a visual CRS comparison.</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>plot_pair(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    districts_gcs,  <span class="co"># left panel: geographic coordinates (degrees)</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    districts_btm,  <span class="co"># right panel: Bangladesh Transverse Mercator (meters)</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"WGS 1984"</span>, <span class="st">"BTM"</span>],  <span class="co"># titles for the two map panels</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>),  <span class="co"># overall figure size in inches</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span>  <span class="co"># trailing semicolon suppresses a second matplotlib repr in Jupyter</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_02_map_projection_vector_data_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>write_shapefile</code> stores the projected layer for later use. The <code>.prj</code> beside <code>bd_district_BTM.shp</code> records the transverse Mercator parameters.</p>
+<div id="2b3b949d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:06.705182Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:06.705091Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:07.031966Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:07.031245Z&quot;}}" data-execution_count="13">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the BTM districts to disk and reopen to confirm feature count and CRS.</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>btm_path <span class="op">=</span> BD_OUT <span class="op">/</span> <span class="st">"bd_district_BTM.shp"</span>  <span class="co"># output shapefile path (BTM)</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Write the reprojected districts with the BTM CRS metadata.</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>write_shapefile(btm_path, districts_btm, layer<span class="op">=</span><span class="st">"bd_district"</span>, crs<span class="op">=</span>btm, overwrite<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-open the written BTM shapefile and print a short integrity check.</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> read_vector_data(btm_path) <span class="im">as</span> dataset:</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"features: </span><span class="sc">{</span>dataset<span class="sc">.</span>feature_count<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># should match the source count</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"bounds:   </span><span class="sc">{</span>dataset<span class="sc">.</span>bounds<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># projected extent in meters</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    show_crs(dataset.crs)  <span class="co"># CRS read back from the BTM shapefile</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>features: 64
+bounds:   Bounds(298487.81088878796, 278578.09791320935, 778101.7724792161, 946939.2176364288)
+name:       unknown
+identifier: +proj=tmerc +lat_0=0 +lon_0=90 +k=0.9996 +x_0=500000 +y_0=-2000000 +datum=WGS84 +units=m +no_defs +type=crs
+geographic: False
+projected:  True
+EPSG:       None
+PROJ:       +proj=tmerc +lat_0=0 +lon_0=90 +k=0.9996 +x_0=500000 +y_0=-2000000 +datum=WGS84 +units=m +no_defs +type=crs</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="part-3-new-york" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-new-york">Part 3: New York</h2>
+<p><code>NY_County_GCS.shp</code> holds the New York State county polygons. <code>read_vector_data</code> opens it the same way as the Bangladesh districts. This copy already has <code>NY_County_GCS.prj</code>.</p>
+<div id="6ba7de46" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:07.033734Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:07.033639Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:07.147657Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:07.147088Z&quot;}}" data-execution_count="14">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open New York counties in WGS 84, inspect metadata, preview attributes, and map.</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>county_path <span class="op">=</span> USA <span class="op">/</span> <span class="st">"NY_County_GCS.shp"</span>  <span class="co"># NY counties already stored as GCS</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"shapefile:  </span><span class="sc">{</span>county_path<span class="sc">.</span>name<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># basename for a short print</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f".prj file:  </span><span class="sc">{</span>county_path<span class="sc">.</span>with_suffix(<span class="st">'.prj'</span>)<span class="sc">.</span>exists()<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># True if .prj exists</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Open the county shapefile and collect a GeoDataFrame.</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> read_vector_data(county_path) <span class="im">as</span> dataset:</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"driver:     </span><span class="sc">{</span>dataset<span class="sc">.</span>driver<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># OGR driver name</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"features:   </span><span class="sc">{</span>dataset<span class="sc">.</span>feature_count<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># number of county polygons</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"geometry:   </span><span class="sc">{</span>dataset<span class="sc">.</span>layer<span class="sc">.</span>geometry_type<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># geometry type string</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"bounds:     </span><span class="sc">{</span>dataset<span class="sc">.</span>bounds<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># lon/lat extent of New York</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    show_crs(dataset.crs)  <span class="co"># should report WGS 84 / EPSG:4326</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    counties <span class="op">=</span> dataset.to_dataframe()  <span class="co"># GeoDataFrame of all counties</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>display(counties[[<span class="st">"COUNTY"</span>, <span class="st">"STATE"</span>, <span class="st">"FIPS"</span>]].head())  <span class="co"># preview key attributes</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>plot_layer(counties, <span class="st">"NYS County"</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">8</span>))<span class="op">;</span>  <span class="co"># quick reference map</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>shapefile:  NY_County_GCS.shp
+.prj file:  True
+driver:     ESRI Shapefile
+features:   83
+geometry:   Polygon
+bounds:     Bounds(-79.76333193164768, 40.49908504928452, -71.855881514555, 45.011002977276995)
+name:       WGS 84
+identifier: EPSG:4326
+geographic: True
+projected:  False
+EPSG:       4326
+PROJ:       +proj=longlat +datum=WGS84 +no_defs +type=crs
+area:       World.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">COUNTY</th>
+<th data-quarto-table-cell-role="th">STATE</th>
+<th data-quarto-table-cell-role="th">FIPS</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>Saint Lawrence County</td>
+<td>NY</td>
+<td>36089</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Clinton County</td>
+<td>NY</td>
+<td>36019</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Saint Lawrence County</td>
+<td>NY</td>
+<td>36089</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Franklin County</td>
+<td>NY</td>
+<td>36033</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>Saint Lawrence County</td>
+<td>NY</td>
+<td>36089</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_02_map_projection_vector_data_files/figure-html/cell-15-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="check-the-projection-1" class="level3">
+<h3 class="anchored" data-anchor-id="check-the-projection-1">Check the projection</h3>
+<p>The <code>.prj</code> is present, and the layer CRS is WGS 84 (EPSG:4326). The coordinates are still longitude and latitude in decimal degrees: x runs from about -79.76 to -71.86, and y runs from about 40.50 to 45.01. The layer is geographic, so <code>projected</code> is false. No CRS has to be assigned before reprojection.</p>
+<div id="c16449d1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:07.149878Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:07.149788Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:07.153353Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:07.152689Z&quot;}}" data-execution_count="15">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print NY county extent and confirm the layer is still geographic (not projected).</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"total bounds (minx, miny, maxx, maxy):"</span>)  <span class="co"># label for the extent print</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(counties.total_bounds)  <span class="co"># full lon/lat extent of the counties</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>county_crs <span class="op">=</span> define_crs(counties.crs)  <span class="co"># normalize the frame CRS for helpers</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"geographic: </span><span class="sc">{</span>is_geographic(county_crs)<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># expect True (degrees)</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"projected:  </span><span class="sc">{</span>county_crs<span class="sc">.</span>is_projected<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># expect False before Albers</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>total bounds (minx, miny, maxx, maxy):
+[-79.76333193  40.49908505 -71.85588151  45.01100298]
+geographic: True
+projected:  False</code></pre>
+</div>
+</div>
+</section>
+<section id="reprojection" class="level3">
+<h3 class="anchored" data-anchor-id="reprojection">Reprojection</h3>
+<p><code>reproject_vector</code> transforms the counties from WGS 1984 to <strong>Albers Equal Area Conic NAD83</strong>. The parameters are the North America Albers definition in <code>NY_County_PROJ.prj</code> (ESRI:102008): standard parallels at 20°N and 60°N, latitude of origin 40°N, and central meridian 96°W. The contiguous-USA parameters above (ESRI:102003) use standard parallels at 29.5°N and 45.5°N.</p>
+<blockquote class="blockquote">
+<p>+proj=aea +lat_1=20 +lat_2=60 +lat_0=40 +lon_0=-96 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs</p>
+</blockquote>
+<p>The x and y coordinates become meters, and the layer reports <code>projected: True</code>.</p>
+<div id="68cd1a14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:07.155120Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:07.155035Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:07.319052Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:07.318359Z&quot;}}" data-execution_count="16">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define North America Albers from a PROJ string, confirm ESRI:102008 equality,</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># reproject NY counties, and compare degree vs meter extents.</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>usa_albers <span class="op">=</span> define_crs(</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Contiguous US / North America Albers Equal Area (NAD83) PROJ string.</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"+proj=aea +lat_1=20 +lat_2=60 +lat_0=40 +lon_0=-96 "</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Assign "+x_0.</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"+x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs"</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># close this call</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co"># True when the PROJ string matches ESRI:102008 (North America Albers).</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"equivalent to ESRI:102008:"</span>, crs_equal(usa_albers, <span class="st">"ESRI:102008"</span>))</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>show_crs(usa_albers)  <span class="co"># summarize the Albers target CRS</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject county polygons from WGS 84 into Albers meters.</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>counties_albers <span class="op">=</span> reproject_vector(counties, usa_albers)</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()  <span class="co"># blank line before bounds comparison</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"WGS 84 bounds (degrees):"</span>, counties.total_bounds)  <span class="co"># lon/lat extent</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Albers bounds (meters): "</span>, counties_albers.total_bounds)  <span class="co"># projected extent</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()  <span class="co"># blank line before CRS summary</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>show_crs(counties_albers.crs)  <span class="co"># CRS attached to the reprojected counties</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>equivalent to ESRI:102008: True
+name:       unknown
+identifier: ESRI:102008
+geographic: False
+projected:  True
+EPSG:       None
+PROJ:       +proj=aea +lat_0=40 +lon_0=-96 +lat_1=20 +lat_2=60 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs +type=crs
+
+WGS 84 bounds (degrees): [-79.76333193  40.49908505 -71.85588151  45.01100298]
+Albers bounds (meters):  [1253128.22834201  257108.42126331 1888032.93516987  791661.99182955]
+
+name:       North_America_Albers_Equal_Area_Conic
+identifier: ESRI:102008
+geographic: False
+projected:  True
+EPSG:       None
+PROJ:       +proj=aea +lat_0=40 +lon_0=-96 +lat_1=20 +lat_2=60 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs +type=crs
+area:       North America - onshore and offshore: Canada - Alberta; British Columbia; Manitoba; New Brunswick; Newfoundland and Labrador; Northwest Territories; Nova Scotia; Nunavut; Ontario; Prince Edward Island; Quebec; Saskatchewan; Yukon. United States (USA) - Alabama; Alaska (mainland); Arizona; Arkansas; California; Colorado; Connecticut; Delaware; Florida; Georgia; Idaho; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; North Dakota; Ohio; Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; Washington; West Virginia; Wisconsin; Wyoming.</code></pre>
+</div>
+</div>
+<p>WGS 1984 and the Albers map, side by side. The left panel is in degrees. The right panel is North America Albers, in meters.</p>
+<div id="b721d1fc" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:07.320463Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:07.320374Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:07.543563Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:07.543009Z&quot;}}" data-execution_count="17">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot WGS 84 vs Albers county maps; rotate x tick labels for readability.</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt  <span class="co"># needed for tight_layout / show on the figure</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the pair of maps but keep show=False so we can tweak axes first.</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plot_pair(</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    counties,  <span class="co"># left: geographic lon/lat</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    counties_albers,  <span class="co"># right: Albers Equal Area meters</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"WGS 1984"</span>, <span class="st">"Albers Equal Area Conic"</span>],  <span class="co"># panel titles</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>),  <span class="co"># overall figure size in inches</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    show<span class="op">=</span><span class="va">False</span>,  <span class="co"># return fig/axes without calling plt.show yet</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># close this call</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Rotate x tick labels on both axes so long longitude/easting labels fit.</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> axes:</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">"x"</span>, labelrotation<span class="op">=</span><span class="dv">30</span>)  <span class="co"># 30-degree tick label rotation</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()  <span class="co"># reduce unused whitespace around the panels</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>plt.show()  <span class="co"># display the finished figure in the notebook</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_02_map_projection_vector_data_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>write_shapefile</code> writes the projected counties to <code>Data/00_shared/vector_data/output_folder/ny_county</code>. The source file <code>Data/00_shared/vector_data/USA/NY_County_PROJ.shp</code> is the same projection, already stored with the USA data.</p>
+<div id="472d25e7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-24T19:09:07.545446Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-24T19:09:07.545345Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-24T19:09:08.199376Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-24T19:09:08.198870Z&quot;}}" data-execution_count="18">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write the Albers counties, verify the new file, and compare to the stored USA copy.</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>ny_path <span class="op">=</span> NY_OUT <span class="op">/</span> <span class="st">"NY_County_PROJ.shp"</span>  <span class="co"># notebook output path for Albers counties</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Save counties_albers with the Albers CRS metadata.</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>write_shapefile(ny_path, counties_albers, layer<span class="op">=</span><span class="st">"NY_County"</span>, crs<span class="op">=</span>usa_albers, overwrite<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-open the notebook output and print feature count, bounds, and CRS.</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> read_vector_data(ny_path) <span class="im">as</span> dataset:</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"features: </span><span class="sc">{</span>dataset<span class="sc">.</span>feature_count<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># should match the source count</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"bounds:   </span><span class="sc">{</span>dataset<span class="sc">.</span>bounds<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># Albers extent in meters</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    show_crs(dataset.crs)  <span class="co"># CRS read back from the written shapefile</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>stored <span class="op">=</span> USA <span class="op">/</span> <span class="st">"NY_County_PROJ.shp"</span>  <span class="co"># packaged reference copy under data/USA</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Open the packaged copy and print its CRS for comparison.</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> read_vector_data(stored) <span class="im">as</span> dataset:</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()  <span class="co"># blank line before the comparison header</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"stored USA copy"</span>)  <span class="co"># label for the packaged reference file</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>    show_crs(dataset.crs)  <span class="co"># CRS of the stored USA Albers copy</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>features: 83
+bounds:   Bounds(1253128.2283420064, 257108.42126330972, 1888032.9351698712, 791661.9918295539)
+name:       North_America_Albers_Equal_Area_Conic
+identifier: ESRI:102008
+geographic: False
+projected:  True
+EPSG:       None
+PROJ:       +proj=aea +lat_0=40 +lon_0=-96 +lat_1=20 +lat_2=60 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs +type=crs
+
+stored USA copy
+name:       Albers
+identifier: ESRI:102008
+geographic: False
+projected:  True
+EPSG:       None
+PROJ:       +proj=aea +lat_0=40 +lon_0=-96 +lat_1=20 +lat_2=60 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs +type=crs</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>A coordinate reference system locates features on the Earth. A geographic CRS, such as WGS 84 (EPSG:4326), records longitude and latitude in degrees. A projected CRS records easting and northing in meters on a flat map. UTM does that inside 6-degree zones: Bangladesh falls in zones 45N and 46N (EPSG:32645 and EPSG:32646), and New York falls in zones 17N and 18N (EPSG:26917 and EPSG:26918). Albers Equal Area Conic is the east-west alternative used for the United States, as ESRI:102003 for the conterminous states and ESRI:102008 for North America.</p>
+<p><code>geolattice.crs</code> holds the shared CRS catalog. <code>geolattice.vector.vector_CRS</code> is the vector side: <code>define_crs</code> / <code>validate_crs</code> load a definition, <code>is_geographic</code> / <code>crs_equal</code> inspect it, and <code>reproject_vector</code> calculates new coordinates in a target CRS. Assigning a CRS without moving coordinates (for a layer that already uses those values) still uses GeoPandas <code>set_crs</code> after <code>define_crs</code>.</p>
+<p>The two exercises use those steps on layers that arrive in different states.</p>
+<ul>
+<li><p><strong>Part 2.</strong> <code>bd_district.shp</code> has no <code>.prj</code>, so the 64 district polygons open with an undefined CRS. The coordinates are degrees, about 88.01°E-92.68°E and 20.59°N-26.63°N. Assigning EPSG:4326 names that geographic CRS, and writing <code>bd_district_GCS.shp</code> stores it in a <code>.prj</code>. Projecting to the Bangladesh Transverse Mercator (<code>+proj=tmerc +lat_0=0 +lon_0=90 +k=0.9996 +x_0=500000 +y_0=-2000000 +datum=WGS84 +units=m</code>) converts those degrees to meters. The current authority name for Gulshan 303 / Bangladesh Transverse Mercator is EPSG:9678, on the Everest 1830 ellipsoid. The exercise keeps the WGS 84 form of the same projection parameters. The projected copy is <code>Data/00_shared/vector_data/output_folder/bangladesh/bd_district_BTM.shp</code>.</p></li>
+<li><p><strong>Part 3.</strong> <code>NY_County_GCS.shp</code> already carries a WGS 84 <code>.prj</code>. The 83 counties span about -79.76° to -71.86° and 40.50° to 45.01°, and <code>projected</code> is false because the coordinates are still degrees. Reprojecting to North America Albers (ESRI:102008) puts them in meters. That definition matches <code>Data/00_shared/vector_data/USA/NY_County_PROJ.prj</code>. The new copy is <code>Data/00_shared/vector_data/output_folder/ny_county/NY_County_PROJ.shp</code>.</p></li>
+</ul>
+<p>The side-by-side maps show the same boundaries before and after projection: degrees on the left, meters on the right. The shape of each map changes with the projection, and the coordinate numbers change units. Check the CRS before measuring distance or area, before overlaying layers, and before writing a file that other software will read. A missing <code>.prj</code> leaves the CRS undefined. A geographic CRS is the right record for longitude and latitude. A projected CRS such as UTM, the Bangladesh Transverse Mercator, or Albers is the right record when the map needs meters.</p>
+<section id="further-reading" class="level3">
+<h3 class="anchored" data-anchor-id="further-reading">Further reading</h3>
+<ol type="1">
+<li><p><a href="https://cran.r-project.org/web/packages/oce/vignettes/D_map_projections.html">Using map projections</a></p></li>
+<li><p><a href="https://michaelminn.net/tutorials/r-projections/index.html">Map projections in R</a></p></li>
+<li><p><a href="https://www.happykhan.com/posts/map-projections-in-r/">Variations on map projections in R</a></p></li>
+<li><p><a href="https://proj.org/en/stable/">PROJ</a> and <a href="https://pyproj4.github.io/pyproj/stable/">pyproj</a>, which supply the definitions <code>geolattice.crs</code> and <code>vector_CRS</code> use</p></li>
+<li><p><a href="https://spatialreference.org/">SpatialReference.org</a> for the WKT, PROJ, and PROJJSON forms of an authority code</p></li>
+<li><p><code>geolattice.vector.vector_CRS</code> for define / validate / reproject on vector layers, and <code>geolattice.raster.raster_CRS</code> for GDAL warp on rasters</p></li>
+</ol>
+
+
+</section>
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../01_vector/01_01_read_write_vector_data.html" class="pagination-link" aria-label="Reading and Writing Vector Data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Reading and Writing Vector Data</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../01_vector/01_03_visualizing_vector_data.html" class="pagination-link" aria-label="Visualizing Vector Data">
+        <span class="nav-page-text">Visualizing Vector Data</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

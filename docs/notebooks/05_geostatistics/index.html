@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>GeoLattice: Geostatistics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05_01_foundation/05_00_getting_started.html" rel="next">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-461cef08a4079ad9ad279fc6f65c4991.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-00ad4eb260160d2848a4c52e78834c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GeoLattice: Geostatistics</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-variograms--kriging" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Variograms &amp; Kriging</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-variograms--kriging">    
+        <li class="dropdown-header">Foundation</li>
+        <li>
+    <a class="dropdown-item" href="./05_01_foundation/05_00_getting_started.html">
+ <span class="dropdown-text">Introduction to Geostatistics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_01_foundation/05_01_variogram_modeling.html">
+ <span class="dropdown-text">Variogram Modeling</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Kriging</li>
+        <li>
+    <a class="dropdown-item" href="./05_02_kriging/05_02_00_introduction_kriging.html">
+ <span class="dropdown-text">Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_02_kriging/05_02_01_simple_kriging.html">
+ <span class="dropdown-text">Simple Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_02_kriging/05_02_02_ordinary_kriging.html">
+ <span class="dropdown-text">Ordinary Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_02_kriging/05_02_03_universal_kriging.html">
+ <span class="dropdown-text">Universal Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_02_kriging/05_02_04_cokriging.html">
+ <span class="dropdown-text">Cokriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_02_kriging/05_02_05_gp_data_5000_jax_comparison.html">
+ <span class="dropdown-text">Kriging with JAX: Great Plains SOC</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Regression Kriging</li>
+        <li>
+    <a class="dropdown-item" href="./05_03_regression_kriging/05_03_00_introduction_regression_kriging.html">
+ <span class="dropdown-text">Regression Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_03_regression_kriging/05_03_01_regression_kriging_scikit_learn.html">
+ <span class="dropdown-text">Regression Kriging: scikit-learn</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_03_regression_kriging/05_03_02_regression_kriging_h2o.html">
+ <span class="dropdown-text">Regression Kriging: H2O</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_03_regression_kriging/05_03_03_regression_kriging_pytorch.html">
+ <span class="dropdown-text">Regression Kriging: PyTorch</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_03_regression_kriging/05_03_04_regression_kriging_dnn_tf.html">
+ <span class="dropdown-text">Regression Kriging: TensorFlow</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_03_regression_kriging/05_03_05_regression_kriging_gnn.html">
+ <span class="dropdown-text">Regression Kriging: Graph Neural Networks</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-specialized--space-time" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Specialized &amp; Space-Time</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-specialized--space-time">    
+        <li class="dropdown-header">Specialized Kriging</li>
+        <li>
+    <a class="dropdown-item" href="./05_04_specialized_kriging/05_04_00_specialized_kriging.html">
+ <span class="dropdown-text">Specialized Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_04_specialized_kriging/05_04_01_indicator_kriging.html">
+ <span class="dropdown-text">Indicator Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_04_specialized_kriging/05_04_02_kriging_3d.html">
+ <span class="dropdown-text">3-D Kriging (KT3D)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_04_specialized_kriging/05_04_03_soft_kriging.html">
+ <span class="dropdown-text">Soft Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_04_specialized_kriging/05_04_04_disjunctive_kriging.html">
+ <span class="dropdown-text">Disjunctive Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_04_specialized_kriging/05_04_05_factorial_kriging.html">
+ <span class="dropdown-text">Factorial Kriging</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Space-Time Kriging</li>
+        <li>
+    <a class="dropdown-item" href="./05_05_spatial_temporal_kriging/05_05_00_spatial_temporal_kriging.html">
+ <span class="dropdown-text">Spatio-Temporal Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_05_spatial_temporal_kriging/05_05_01_kriging_st.html">
+ <span class="dropdown-text">Space-Time Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_05_spatial_temporal_kriging/05_05_02_kriging_cnn_lstm.html">
+ <span class="dropdown-text">ConvLSTM Regression Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_05_spatial_temporal_kriging/05_05_03_kriging_stgnn.html">
+ <span class="dropdown-text">Space-Time GNN Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_05_spatial_temporal_kriging/05_05_04_kriging_stgtn.html">
+ <span class="dropdown-text">Space-Time Graph Transformer Kriging</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Poisson Kriging</li>
+        <li>
+    <a class="dropdown-item" href="./05_06_poisson_kriging/05_06_00_poisson_kriging.html">
+ <span class="dropdown-text">Poisson Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_06_poisson_kriging/05_06_01_poisson_kriging_ata_atp.html">
+ <span class="dropdown-text">Area-to-Area and Area-to-Point</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_06_poisson_kriging/05_06_02_poisson_cokriging.html">
+ <span class="dropdown-text">Poisson Cokriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_06_poisson_kriging/05_06_03_poisson_kriging_st.html">
+ <span class="dropdown-text">Space-Time Poisson Kriging</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-simulation--bayesian" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Simulation &amp; Bayesian</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-simulation--bayesian">    
+        <li class="dropdown-header">Geostatistical Simulation</li>
+        <li>
+    <a class="dropdown-item" href="./05_07_geostatistical_simulation/05_07_00_introduction_geostatistical_sumulations.html">
+ <span class="dropdown-text">Geostatistical Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_07_geostatistical_simulation/05_07_01_sgsim.html">
+ <span class="dropdown-text">Sequential Gaussian Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_07_geostatistical_simulation/05_07_02_sgcosim.html">
+ <span class="dropdown-text">Sequential Gaussian Co-Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_07_geostatistical_simulation/05_07_03_sisim.html">
+ <span class="dropdown-text">Sequential Indicator Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_07_geostatistical_simulation/05_07_04_sicosim.html">
+ <span class="dropdown-text">Sequential Indicator Co-Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_07_geostatistical_simulation/05_07_05_dssim.html">
+ <span class="dropdown-text">Direct Sequential Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_07_geostatistical_simulation/05_07_06_sasim.html">
+ <span class="dropdown-text">Simulated Annealing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_07_geostatistical_simulation/05_07_07_pgs.html">
+ <span class="dropdown-text">Plurigaussian Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_07_geostatistical_simulation/05_07_08_mps.html">
+ <span class="dropdown-text">Multiple-Point Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_07_geostatistical_simulation/05_07_09_snesim.html">
+ <span class="dropdown-text">SNESIM</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Bayesian Kriging</li>
+        <li>
+    <a class="dropdown-item" href="./05_08_bayesian_kriging/05_08_00_introduction_bayesian_kriging.html">
+ <span class="dropdown-text">Bayesian Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_08_bayesian_kriging/05_08_01_empirical_bayesian_kriging.html">
+ <span class="dropdown-text">Empirical Bayesian Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_08_bayesian_kriging/05_08_02_bayesian_kriging.html">
+ <span class="dropdown-text">Bayesian Kriging Models</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_08_bayesian_kriging/05_08_03_bayesian_glm_kriging.html">
+ <span class="dropdown-text">Bayesian GLM Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_08_bayesian_kriging/05_08_04_bayesian_transformed_kriging.html">
+ <span class="dropdown-text">Bayesian Transformed Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_08_bayesian_kriging/05_08_05_conjugate_bayesian_kriging.html">
+ <span class="dropdown-text">Conjugate Bayesian Kriging</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_08_bayesian_kriging/05_08_06_bayesian_kriging_function.html">
+ <span class="dropdown-text">Bayesian Kriging in One Call</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_08_bayesian_kriging/05_08_07_correlation_function.html">
+ <span class="dropdown-text">Correlation Functions</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-capstones" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Capstones</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-capstones">    
+        <li class="dropdown-header">Capstone Projects</li>
+        <li>
+    <a class="dropdown-item" href="./05_09_capstone/05_09_01_groundwater_arsenic_risk.html">
+ <span class="dropdown-text">Groundwater Arsenic Risk</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_09_capstone/05_09_02_arsenic_cancer_risk.html">
+ <span class="dropdown-text">Arsenic and Cancer Risk</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_09_capstone/05_09_03_uncertinity_risk_mapping.html">
+ <span class="dropdown-text">Paddy Soil Arsenic Risk</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_09_capstone/05_09_04_cd_mapping_in_usa.html">
+ <span class="dropdown-text">Soil Cadmium in the USA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_09_capstone/05_09_05_poisson_cokriging_diabetes_obesity.html">
+ <span class="dropdown-text">Diabetes and Obesity</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_09_capstone/05_09_06_micronutrient_deficiency_mapping_Bangladesh.html">
+ <span class="dropdown-text">Micronutrient Deficiency</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_09_capstone/05_09_07_poisson_kriging_STD.html">
+ <span class="dropdown-text">STIs and HIV in California</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./05_09_capstone/05_09_08_spatial_temporal_forcasting_groundwater_BD.html">
+ <span class="dropdown-text">Groundwater Forecasting</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Overview</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block"></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="https://github.com/zia207/GeoLattice" class="sidebar-logo-link">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./images/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Foundation</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_01_foundation/05_00_getting_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Geostatistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_01_foundation/05_01_variogram_modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variogram Modeling</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Kriging</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_02_kriging/05_02_00_introduction_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_02_kriging/05_02_01_simple_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simple Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_02_kriging/05_02_02_ordinary_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ordinary Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_02_kriging/05_02_03_universal_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Universal Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_02_kriging/05_02_04_cokriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cokriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_02_kriging/05_02_05_gp_data_5000_jax_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Kriging with JAX: Great Plains SOC</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Regression Kriging</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_03_regression_kriging/05_03_00_introduction_regression_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_03_regression_kriging/05_03_01_regression_kriging_scikit_learn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression Kriging: scikit-learn</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_03_regression_kriging/05_03_02_regression_kriging_h2o.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression Kriging: H2O</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_03_regression_kriging/05_03_03_regression_kriging_pytorch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression Kriging: PyTorch</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_03_regression_kriging/05_03_04_regression_kriging_dnn_tf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression Kriging: TensorFlow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_03_regression_kriging/05_03_05_regression_kriging_gnn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression Kriging: Graph Neural Networks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Specialized Kriging</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_04_specialized_kriging/05_04_00_specialized_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Specialized Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_04_specialized_kriging/05_04_01_indicator_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Indicator Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_04_specialized_kriging/05_04_02_kriging_3d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3-D Kriging (KT3D)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_04_specialized_kriging/05_04_03_soft_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soft Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_04_specialized_kriging/05_04_04_disjunctive_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Disjunctive Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_04_specialized_kriging/05_04_05_factorial_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Factorial Kriging</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Space-Time Kriging</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_05_spatial_temporal_kriging/05_05_00_spatial_temporal_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatio-Temporal Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_05_spatial_temporal_kriging/05_05_01_kriging_st.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Space-Time Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_05_spatial_temporal_kriging/05_05_02_kriging_cnn_lstm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ConvLSTM Regression Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_05_spatial_temporal_kriging/05_05_03_kriging_stgnn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Space-Time GNN Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_05_spatial_temporal_kriging/05_05_04_kriging_stgtn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Space-Time Graph Transformer Kriging</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Poisson Kriging</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_06_poisson_kriging/05_06_00_poisson_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Poisson Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_06_poisson_kriging/05_06_01_poisson_kriging_ata_atp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Area-to-Area and Area-to-Point</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_06_poisson_kriging/05_06_02_poisson_cokriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Poisson Cokriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_06_poisson_kriging/05_06_03_poisson_kriging_st.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Space-Time Poisson Kriging</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Geostatistical Simulation</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_07_geostatistical_simulation/05_07_00_introduction_geostatistical_sumulations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geostatistical Simulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_07_geostatistical_simulation/05_07_01_sgsim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sequential Gaussian Simulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_07_geostatistical_simulation/05_07_02_sgcosim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sequential Gaussian Co-Simulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_07_geostatistical_simulation/05_07_03_sisim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sequential Indicator Simulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_07_geostatistical_simulation/05_07_04_sicosim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sequential Indicator Co-Simulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_07_geostatistical_simulation/05_07_05_dssim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Direct Sequential Simulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_07_geostatistical_simulation/05_07_06_sasim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simulated Annealing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_07_geostatistical_simulation/05_07_07_pgs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Plurigaussian Simulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_07_geostatistical_simulation/05_07_08_mps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multiple-Point Simulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_07_geostatistical_simulation/05_07_09_snesim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SNESIM</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Bayesian Kriging</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_08_bayesian_kriging/05_08_00_introduction_bayesian_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_08_bayesian_kriging/05_08_01_empirical_bayesian_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Empirical Bayesian Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_08_bayesian_kriging/05_08_02_bayesian_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian Kriging Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_08_bayesian_kriging/05_08_03_bayesian_glm_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian GLM Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_08_bayesian_kriging/05_08_04_bayesian_transformed_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian Transformed Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_08_bayesian_kriging/05_08_05_conjugate_bayesian_kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conjugate Bayesian Kriging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_08_bayesian_kriging/05_08_06_bayesian_kriging_function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian Kriging in One Call</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_08_bayesian_kriging/05_08_07_correlation_function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Correlation Functions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_09_capstone/05_09_01_groundwater_arsenic_risk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Groundwater Arsenic Risk</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_09_capstone/05_09_02_arsenic_cancer_risk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Arsenic and Cancer Risk</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_09_capstone/05_09_03_uncertinity_risk_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Paddy Soil Arsenic Risk</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_09_capstone/05_09_04_cd_mapping_in_usa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil Cadmium in the USA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_09_capstone/05_09_05_poisson_cokriging_diabetes_obesity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Diabetes and Obesity</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_09_capstone/05_09_06_micronutrient_deficiency_mapping_Bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Micronutrient Deficiency</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_09_capstone/05_09_07_poisson_kriging_STD.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STIs and HIV in California</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_09_capstone/05_09_08_spatial_temporal_forcasting_groundwater_BD.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Groundwater Forecasting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#geolattice" id="toc-geolattice" class="nav-link active" data-scroll-target="#geolattice">GeoLattice</a></li>
+  <li><a href="#variograms-and-kriging" id="toc-variograms-and-kriging" class="nav-link" data-scroll-target="#variograms-and-kriging">Variograms and kriging</a></li>
+  <li><a href="#regression-and-specialized-kriging" id="toc-regression-and-specialized-kriging" class="nav-link" data-scroll-target="#regression-and-specialized-kriging">Regression and specialized kriging</a></li>
+  <li><a href="#space-time-and-poisson-kriging" id="toc-space-time-and-poisson-kriging" class="nav-link" data-scroll-target="#space-time-and-poisson-kriging">Space-time and Poisson kriging</a></li>
+  <li><a href="#simulation-and-bayesian-kriging" id="toc-simulation-and-bayesian-kriging" class="nav-link" data-scroll-target="#simulation-and-bayesian-kriging">Simulation and Bayesian kriging</a></li>
+  <li><a href="#tutorials" id="toc-tutorials" class="nav-link" data-scroll-target="#tutorials">Tutorials</a>
+  <ul>
+  <li><a href="#foundation" id="toc-foundation" class="nav-link" data-scroll-target="#foundation">Foundation</a></li>
+  <li><a href="#kriging" id="toc-kriging" class="nav-link" data-scroll-target="#kriging">Kriging</a></li>
+  <li><a href="#regression-kriging" id="toc-regression-kriging" class="nav-link" data-scroll-target="#regression-kriging">Regression Kriging</a></li>
+  <li><a href="#specialized-kriging" id="toc-specialized-kriging" class="nav-link" data-scroll-target="#specialized-kriging">Specialized Kriging</a></li>
+  <li><a href="#space-time-kriging" id="toc-space-time-kriging" class="nav-link" data-scroll-target="#space-time-kriging">Space-Time Kriging</a></li>
+  <li><a href="#poisson-kriging" id="toc-poisson-kriging" class="nav-link" data-scroll-target="#poisson-kriging">Poisson Kriging</a></li>
+  <li><a href="#geostatistical-simulation" id="toc-geostatistical-simulation" class="nav-link" data-scroll-target="#geostatistical-simulation">Geostatistical Simulation</a></li>
+  <li><a href="#bayesian-kriging" id="toc-bayesian-kriging" class="nav-link" data-scroll-target="#bayesian-kriging">Bayesian Kriging</a></li>
+  <li><a href="#capstone-projects" id="toc-capstone-projects" class="nav-link" data-scroll-target="#capstone-projects">Capstone Projects</a></li>
+  <li><a href="#quick-reference" id="toc-quick-reference" class="nav-link" data-scroll-target="#quick-reference">Quick reference</a></li>
+  </ul></li>
+  <li><a href="#sample-data" id="toc-sample-data" class="nav-link" data-scroll-target="#sample-data">Sample data</a></li>
+  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license">License</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p align="center">
+<img src="05_00_banner_geostat_geolattice.png" alt="Geostatistics with GeoLattice tutorial banner" width="100%">
+</p>
+<p>Geostatistics predicts a continuous surface from a limited number of samples and says how uncertain each prediction is. Soil carbon from a few thousand cores, arsenic in wells, air pollution from a handful of monitors: the variogram measures how quickly similarity fades with distance, kriging turns that into the best linear prediction at unsampled places, and simulation produces many equally likely maps when a single smooth estimate is not enough to judge risk.</p>
+<p>These 55 notebooks are chapter 05 of the <a href="https://github.com/zia207/GeoLattice">GeoLattice</a> tutorials. They cover variograms, the kriging family, regression and space-time kriging, Poisson kriging of rates, geostatistical simulation and Bayesian kriging, and finish with eight capstone projects, using <code>geolattice.geostatistics</code> with real data from Switzerland (Jura), the United States and Bangladesh.</p>
+<section id="geolattice" class="level2">
+<h2 class="anchored" data-anchor-id="geolattice">GeoLattice</h2>
+<p>GeoLattice is a Python library for geospatial analysis that brings vector and raster processing, spatial analysis, spatial statistics, geostatistics, spatial databases, web and cloud GIS and remote sensing together under one import. It is built on GDAL, NumPy, pandas, GeoPandas, Shapely and xarray, so its functions take and return objects these libraries already use: GeoDataFrames, NumPy arrays and GDAL-readable files.</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td><strong>Package</strong></td>
+<td><code>geolattice</code></td>
+</tr>
+<tr class="even">
+<td><strong>Repository</strong></td>
+<td><a href="https://github.com/zia207/GeoLattice">github.com/zia207/GeoLattice</a></td>
+</tr>
+<tr class="odd">
+<td><strong>Python</strong></td>
+<td>3.10 or newer</td>
+</tr>
+<tr class="even">
+<td><strong>License</strong></td>
+<td>MIT</td>
+</tr>
+<tr class="odd">
+<td><strong>Author</strong></td>
+<td>Zia Ahmed, Upatta Analytics</td>
+</tr>
+</tbody>
+</table>
+<p>GDAL and PROJ must be installed first, with Python GDAL bindings that match the GDAL library (conda or your system package manager). Then install the geostatistics option. The deep-learning regression kriging notebooks use PyTorch, which <code>geolattice[all]</code> includes; the H2O and TensorFlow notebooks need the <code>geostatistics-h2o</code> and <code>geostatistics-tensorflow</code> extras.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="st">"geolattice[geostats]"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Every name in the chapter is available from one import:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.geostatistics <span class="im">as</span> gstat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="variograms-and-kriging" class="level2">
+<h2 class="anchored" data-anchor-id="variograms-and-kriging">Variograms and kriging</h2>
+<p>A variogram plots half the average squared difference between pairs of samples against the distance between them. It rises from the nugget (measurement error and very short-range variation) to the sill (the total variance) at the range, beyond which samples are unrelated. Kriging uses the fitted model to weight the samples around each target so that the prediction is unbiased and its error variance is as small as possible, and the kriging variance maps that error.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Functions (<code>gstat</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Variograms</td>
+<td><code>Variogram</code>, <code>VariogramCloud</code>, <code>fit_nested_variogram</code>, <code>transform_aniso</code>, <code>JaxVariogram</code></td>
+</tr>
+<tr class="even">
+<td>Variogram models</td>
+<td><code>spherical</code>, <code>exponential</code>, <code>gaussian</code>, <code>matern</code>, <code>stable</code>, <code>cubic</code></td>
+</tr>
+<tr class="odd">
+<td>Kriging</td>
+<td><code>SimpleKriging</code>, <code>OrdinaryKriging</code>, <code>UniversalKriging</code>, <code>kt3d</code>, <code>JaxOrdinaryKriging</code></td>
+</tr>
+<tr class="even">
+<td>Several variables</td>
+<td><code>Cokriging</code>, <code>CrossVariogram</code>, <code>fit_lmc</code>, <code>MultivariateCokriging</code>, <code>ColocatedCokriging</code></td>
+</tr>
+<tr class="odd">
+<td>Validation</td>
+<td><code>loo_cv</code>, <code>kfold_cv</code></td>
+</tr>
+<tr class="even">
+<td>Data and transforms</td>
+<td><code>from_geodataframe</code>, <code>make_prediction_grid</code>, <code>nscore_forward</code>, <code>nscore_back</code>, <code>transform_boxcox</code>, <code>declus_cell</code></td>
+</tr>
+</tbody>
+</table>
+<p>Ordinary kriging of log cadmium on the Jura data, run from the repository root:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.geostatistics <span class="im">as</span> gstat</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"Data/00_shared/data_geostatistics"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>jura <span class="op">=</span> pd.read_csv(<span class="ss">f"</span><span class="sc">{</span>DATA<span class="sc">}</span><span class="ss">/jura_data.csv"</span>)                         <span class="co"># 359 soil samples</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> pd.read_csv(<span class="ss">f"</span><span class="sc">{</span>DATA<span class="sc">}</span><span class="ss">/jura_grid.csv"</span>)                         <span class="co"># prediction nodes</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>coords, cd <span class="op">=</span> jura[[<span class="st">"Xloc"</span>, <span class="st">"Yloc"</span>]].to_numpy(), np.log(jura[<span class="st">"Cd"</span>].to_numpy())</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>vg <span class="op">=</span> gstat.Variogram(coords, cd, model<span class="op">=</span><span class="st">"spherical"</span>)                 <span class="co"># empirical + fitted model</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>vg.fit()</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>ok <span class="op">=</span> gstat.OrdinaryKriging(vg).fit(coords, cd)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>pred, var <span class="op">=</span> ok.predict(grid[[<span class="st">"Xloc"</span>, <span class="st">"Yloc"</span>]].to_numpy(), return_variance<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> gstat.loo_cv(gstat.OrdinaryKriging(vg), coords, cd)            <span class="co"># leave-one-out check</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"LOO RMSE </span><span class="sc">{</span>cv[<span class="st">'rmse'</span>]<span class="sc">:.3f}</span><span class="ss">, R2 </span><span class="sc">{</span>cv[<span class="st">'r2'</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="regression-and-specialized-kriging" class="level2">
+<h2 class="anchored" data-anchor-id="regression-and-specialized-kriging">Regression and specialized kriging</h2>
+<p>When covariates explain part of the variation, regression kriging fits a trend model (from linear regression to random forests and neural networks) and krigs what the trend leaves behind. Specialized kriging handles questions ordinary kriging cannot: the probability of exceeding a threshold (indicator kriging), three-dimensional data, soft information, strongly skewed variables (disjunctive kriging) and separating the scales of a nested variogram (factorial kriging).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Functions (<code>gstat</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Regression kriging</td>
+<td><code>RegressionKriging</code>, <code>GAMRegressor</code>, <code>RegressionKrigingH2O</code>, <code>DeepRegressionKriging</code>, <code>DeepRegressionKrigingTF</code></td>
+</tr>
+<tr class="even">
+<td>Graph neural networks</td>
+<td><code>GNNRegressionKriging</code>, <code>KCN</code>, <code>IGNNK</code></td>
+</tr>
+<tr class="odd">
+<td>Indicator kriging</td>
+<td><code>IndicatorKriging</code>, <code>fit_indicator_variogram</code>, <code>compute_etype_from_probabilities</code></td>
+</tr>
+<tr class="even">
+<td>Other estimators</td>
+<td><code>DisjunctiveKriging</code>, <code>SoftKriging</code>, <code>markov_bayes_calibrate</code>, <code>FactorialKriging</code></td>
+</tr>
+<tr class="odd">
+<td>Cross-validation</td>
+<td><code>LOOCV_RK</code>, <code>KFoldCV_RK</code>, <code>IndicatorKrigingCV</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="space-time-and-poisson-kriging" class="level2">
+<h2 class="anchored" data-anchor-id="space-time-and-poisson-kriging">Space-time and Poisson kriging</h2>
+<p>Monitoring networks measure the same places repeatedly, so a space-time variogram describes how similarity fades with both distance and time lag. Poisson kriging is built for rates, such as disease incidence in counties, where small populations make raw rates unreliable: it weights each area by its population and can predict for areas or for points inside them.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Functions (<code>gstat</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Space-time variograms</td>
+<td><code>empirical_st_variogram</code>, <code>fit_st_variogram</code>, <code>vgm_st</code></td>
+</tr>
+<tr class="even">
+<td>Space-time kriging</td>
+<td><code>STKriging</code>, <code>krige_st</code></td>
+</tr>
+<tr class="odd">
+<td>Space-time deep learning</td>
+<td><code>CNNLSTMRegressionKriging</code>, <code>STGNNRegressionKriging</code>, <code>TGCN</code>, <code>DCRNN</code>, <code>STGTNRegressionKriging</code>, <code>STTN</code>, <code>GMAN</code></td>
+</tr>
+<tr class="even">
+<td>Poisson kriging</td>
+<td><code>PoissonKriging</code>, <code>AreaPoissonKriging</code>, <code>PointSupport</code>, <code>poisson_cokrige</code>, <code>fit_poisson_lmc</code>, <code>STPoissonKriging</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="simulation-and-bayesian-kriging" class="level2">
+<h2 class="anchored" data-anchor-id="simulation-and-bayesian-kriging">Simulation and Bayesian kriging</h2>
+<p>Kriging maps are smoother than reality. Simulation draws many maps that honour the data, the histogram and the variogram, so that uncertainty about areas, volumes or connected paths can be counted directly. Bayesian kriging carries the uncertainty about the variogram itself into the predictions.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Functions (<code>gstat</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Gaussian and indicator simulation</td>
+<td><code>sgsim</code>, <code>sgsim_gpu</code>, <code>sisim</code>, <code>sgcosim</code>, <code>sicosim</code>, <code>dssim_direct</code></td>
+</tr>
+<tr class="even">
+<td>Other continuous methods</td>
+<td><code>lusim</code>, <code>tbsim</code>, <code>fftsim</code>, <code>sasim</code></td>
+</tr>
+<tr class="odd">
+<td>Categorical and multiple-point</td>
+<td><code>pgsim</code>, <code>PluriGaussianSimulator</code>, <code>dssim</code>, <code>DirectSampling</code>, <code>snesim</code>, <code>SNESIM</code>, <code>tau_model</code></td>
+</tr>
+<tr class="even">
+<td>Bayesian kriging</td>
+<td><code>EmpiricalBayesianKriging</code>, <code>BayesianKriging</code>, <code>bayesian_kriging</code>, <code>ConjugateBayesianKriging</code></td>
+</tr>
+<tr class="odd">
+<td>Bayesian transforms and counts</td>
+<td><code>BayesianTransformedKriging</code>, <code>BayesianGLMKriging</code>, <code>correlation_function</code></td>
+</tr>
+<tr class="even">
+<td>GSLIB files</td>
+<td><code>read_gslib</code>, <code>write_gslib</code>, <code>read_gslib_grid</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="tutorials" class="level2">
+<h2 class="anchored" data-anchor-id="tutorials">Tutorials</h2>
+<p>Start with the foundation notebooks and ordinary kriging, since the variogram and the kriging system introduced there are used everywhere else. The other topics can be read in any order, and the capstones combine them.</p>
+<section id="foundation" class="level3">
+<h3 class="anchored" data-anchor-id="foundation">Foundation</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./05_01_foundation/05_00_getting_started.html">Introduction to Geostatistics</a></td>
+<td>Kriging, variogram types and the GeoLattice geostatistics module</td>
+</tr>
+<tr class="even">
+<td><a href="./05_01_foundation/05_01_variogram_modeling.html">Variogram Modeling</a></td>
+<td>Robust estimators, isotropic and anisotropic models, CPU vs GPU</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="kriging" class="level3">
+<h3 class="anchored" data-anchor-id="kriging">Kriging</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./05_02_kriging/05_02_00_introduction_kriging.html">Kriging</a></td>
+<td>How kriging works and the four classic estimators</td>
+</tr>
+<tr class="even">
+<td><a href="./05_02_kriging/05_02_01_simple_kriging.html">Simple Kriging</a></td>
+<td>Kriging with a known mean on the Jura data</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_02_kriging/05_02_02_ordinary_kriging.html">Ordinary Kriging</a></td>
+<td>Kriging with an unknown mean, validation and maps</td>
+</tr>
+<tr class="even">
+<td><a href="./05_02_kriging/05_02_03_universal_kriging.html">Universal Kriging</a></td>
+<td>Polynomial trends and the residual variogram</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_02_kriging/05_02_04_cokriging.html">Cokriging</a></td>
+<td>Full and colocated cokriging with a linear model of coregionalization</td>
+</tr>
+<tr class="even">
+<td><a href="./05_02_kriging/05_02_05_gp_data_5000_jax_comparison.html">Kriging with JAX: Great Plains SOC</a></td>
+<td>Four kriging methods with JAX on 5,000 soil carbon samples</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="regression-kriging" class="level3">
+<h3 class="anchored" data-anchor-id="regression-kriging">Regression Kriging</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./05_03_regression_kriging/05_03_00_introduction_regression_kriging.html">Regression Kriging</a></td>
+<td>Trend plus kriged residuals, external drift</td>
+</tr>
+<tr class="even">
+<td><a href="./05_03_regression_kriging/05_03_01_regression_kriging_scikit_learn.html">Regression Kriging: scikit-learn</a></td>
+<td>Linear, ensemble and GAM trends for soil carbon</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_03_regression_kriging/05_03_02_regression_kriging_h2o.html">Regression Kriging: H2O</a></td>
+<td>H2O AutoML and boosted trends</td>
+</tr>
+<tr class="even">
+<td><a href="./05_03_regression_kriging/05_03_03_regression_kriging_pytorch.html">Regression Kriging: PyTorch</a></td>
+<td>Deep neural network trends in PyTorch</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_03_regression_kriging/05_03_04_regression_kriging_dnn_tf.html">Regression Kriging: TensorFlow</a></td>
+<td>Deep neural network trends in TensorFlow</td>
+</tr>
+<tr class="even">
+<td><a href="./05_03_regression_kriging/05_03_05_regression_kriging_gnn.html">Regression Kriging: Graph Neural Networks</a></td>
+<td>Graph neural network trends</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="specialized-kriging" class="level3">
+<h3 class="anchored" data-anchor-id="specialized-kriging">Specialized Kriging</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./05_04_specialized_kriging/05_04_00_specialized_kriging.html">Specialized Kriging</a></td>
+<td>Indicator, 3-D, soft, disjunctive and factorial kriging</td>
+</tr>
+<tr class="even">
+<td><a href="./05_04_specialized_kriging/05_04_01_indicator_kriging.html">Indicator Kriging</a></td>
+<td>Exceedance probabilities, conditional CDFs, E-type estimates</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_04_specialized_kriging/05_04_02_kriging_3d.html">3-D Kriging (KT3D)</a></td>
+<td>GSLIB kt3d: 3-D search, anisotropy and block kriging</td>
+</tr>
+<tr class="even">
+<td><a href="./05_04_specialized_kriging/05_04_03_soft_kriging.html">Soft Kriging</a></td>
+<td>Hard and soft data with Markov-Bayes calibration</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_04_specialized_kriging/05_04_04_disjunctive_kriging.html">Disjunctive Kriging</a></td>
+<td>Gaussian anamorphosis and Hermite polynomials</td>
+</tr>
+<tr class="even">
+<td><a href="./05_04_specialized_kriging/05_04_05_factorial_kriging.html">Factorial Kriging</a></td>
+<td>Separating the structures of a nested variogram</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="space-time-kriging" class="level3">
+<h3 class="anchored" data-anchor-id="space-time-kriging">Space-Time Kriging</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./05_05_spatial_temporal_kriging/05_05_00_spatial_temporal_kriging.html">Spatio-Temporal Kriging</a></td>
+<td>Neural trends with kriged space-time residuals</td>
+</tr>
+<tr class="even">
+<td><a href="./05_05_spatial_temporal_kriging/05_05_01_kriging_st.html">Space-Time Kriging</a></td>
+<td>Space-time variograms and kriging of California PM2.5</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_05_spatial_temporal_kriging/05_05_02_kriging_cnn_lstm.html">ConvLSTM Regression Kriging</a></td>
+<td>Rasterised sensor network with a ConvLSTM</td>
+</tr>
+<tr class="even">
+<td><a href="./05_05_spatial_temporal_kriging/05_05_03_kriging_stgnn.html">Space-Time GNN Kriging</a></td>
+<td>TGCN and DCRNN on a sensor graph</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_05_spatial_temporal_kriging/05_05_04_kriging_stgtn.html">Space-Time Graph Transformer Kriging</a></td>
+<td>STTN and GMAN graph transformers</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="poisson-kriging" class="level3">
+<h3 class="anchored" data-anchor-id="poisson-kriging">Poisson Kriging</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./05_06_poisson_kriging/05_06_00_poisson_kriging.html">Poisson Kriging</a></td>
+<td>Kriging of rates from small populations</td>
+</tr>
+<tr class="even">
+<td><a href="./05_06_poisson_kriging/05_06_01_poisson_kriging_ata_atp.html">Area-to-Area and Area-to-Point</a></td>
+<td>Centroid, area-to-area and area-to-point estimators</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_06_poisson_kriging/05_06_02_poisson_cokriging.html">Poisson Cokriging</a></td>
+<td>Several diseases with a linear model of coregionalization</td>
+</tr>
+<tr class="even">
+<td><a href="./05_06_poisson_kriging/05_06_03_poisson_kriging_st.html">Space-Time Poisson Kriging</a></td>
+<td>Space-time Poisson kriging of cancer rates</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="geostatistical-simulation" class="level3">
+<h3 class="anchored" data-anchor-id="geostatistical-simulation">Geostatistical Simulation</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./05_07_geostatistical_simulation/05_07_00_introduction_geostatistical_sumulations.html">Geostatistical Simulation</a></td>
+<td>What simulation adds to kriging, and which method to use</td>
+</tr>
+<tr class="even">
+<td><a href="./05_07_geostatistical_simulation/05_07_01_sgsim.html">Sequential Gaussian Simulation</a></td>
+<td>Sequential Gaussian simulation: conditioning and reproduction</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_07_geostatistical_simulation/05_07_02_sgcosim.html">Sequential Gaussian Co-Simulation</a></td>
+<td>Co-simulation with an exhaustive secondary variable</td>
+</tr>
+<tr class="even">
+<td><a href="./05_07_geostatistical_simulation/05_07_03_sisim.html">Sequential Indicator Simulation</a></td>
+<td>Indicator variograms, order relations and tails</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_07_geostatistical_simulation/05_07_04_sicosim.html">Sequential Indicator Co-Simulation</a></td>
+<td>Indicator co-simulation with soft data</td>
+</tr>
+<tr class="even">
+<td><a href="./05_07_geostatistical_simulation/05_07_05_dssim.html">Direct Sequential Simulation</a></td>
+<td>Simulation in original units</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_07_geostatistical_simulation/05_07_06_sasim.html">Simulated Annealing</a></td>
+<td>Variogram reproduction by simulated annealing</td>
+</tr>
+<tr class="even">
+<td><a href="./05_07_geostatistical_simulation/05_07_07_pgs.html">Plurigaussian Simulation</a></td>
+<td>Facies from truncated latent Gaussian fields</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_07_geostatistical_simulation/05_07_08_mps.html">Multiple-Point Simulation</a></td>
+<td>Direct Sampling and SNESIM from a training image</td>
+</tr>
+<tr class="even">
+<td><a href="./05_07_geostatistical_simulation/05_07_09_snesim.html">SNESIM</a></td>
+<td>Templates, multiple grids and proportion control</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="bayesian-kriging" class="level3">
+<h3 class="anchored" data-anchor-id="bayesian-kriging">Bayesian Kriging</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./05_08_bayesian_kriging/05_08_00_introduction_bayesian_kriging.html">Bayesian Kriging</a></td>
+<td>Types of Bayesian kriging and how to choose</td>
+</tr>
+<tr class="even">
+<td><a href="./05_08_bayesian_kriging/05_08_01_empirical_bayesian_kriging.html">Empirical Bayesian Kriging</a></td>
+<td>An ensemble of variograms instead of one</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_08_bayesian_kriging/05_08_02_bayesian_kriging.html">Bayesian Kriging Models</a></td>
+<td>Priors on range and nugget, exceedance maps</td>
+</tr>
+<tr class="even">
+<td><a href="./05_08_bayesian_kriging/05_08_03_bayesian_glm_kriging.html">Bayesian GLM Kriging</a></td>
+<td>Poisson spatial GLMM for count data</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_08_bayesian_kriging/05_08_04_bayesian_transformed_kriging.html">Bayesian Transformed Kriging</a></td>
+<td>Box-Cox uncertainty and back-transformation</td>
+</tr>
+<tr class="even">
+<td><a href="./05_08_bayesian_kriging/05_08_05_conjugate_bayesian_kriging.html">Conjugate Bayesian Kriging</a></td>
+<td>Closed-form posterior with a known correlation</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_08_bayesian_kriging/05_08_06_bayesian_kriging_function.html">Bayesian Kriging in One Call</a></td>
+<td>Validation and maps with bayesian_kriging</td>
+</tr>
+<tr class="even">
+<td><a href="./05_08_bayesian_kriging/05_08_07_correlation_function.html">Correlation Functions</a></td>
+<td>Correlation models, ranges and smoothness</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="capstone-projects" class="level3">
+<h3 class="anchored" data-anchor-id="capstone-projects">Capstone Projects</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tutorial</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./05_09_capstone/05_09_01_groundwater_arsenic_risk.html">Groundwater Arsenic Risk</a></td>
+<td>Probability that well arsenic exceeds a limit, Bangladesh</td>
+</tr>
+<tr class="even">
+<td><a href="./05_09_capstone/05_09_02_arsenic_cancer_risk.html">Arsenic and Cancer Risk</a></td>
+<td>Arsenic exposure from water and rice, cancer risk</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_09_capstone/05_09_03_uncertinity_risk_mapping.html">Paddy Soil Arsenic Risk</a></td>
+<td>Four kriging methods for paddy soil arsenic</td>
+</tr>
+<tr class="even">
+<td><a href="./05_09_capstone/05_09_04_cd_mapping_in_usa.html">Soil Cadmium in the USA</a></td>
+<td>Factorial and Bayesian kriging of soil cadmium</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_09_capstone/05_09_05_poisson_cokriging_diabetes_obesity.html">Diabetes and Obesity</a></td>
+<td>Multivariate Poisson cokriging across US counties</td>
+</tr>
+<tr class="even">
+<td><a href="./05_09_capstone/05_09_06_micronutrient_deficiency_mapping_Bangladesh.html">Micronutrient Deficiency</a></td>
+<td>Deficiency probability maps for soil nutrients</td>
+</tr>
+<tr class="odd">
+<td><a href="./05_09_capstone/05_09_07_poisson_kriging_STD.html">STIs and HIV in California</a></td>
+<td>Poisson kriging in space, time and across diseases</td>
+</tr>
+<tr class="even">
+<td><a href="./05_09_capstone/05_09_08_spatial_temporal_forcasting_groundwater_BD.html">Groundwater Forecasting</a></td>
+<td>Space-time kriging of groundwater levels, Rajshahi</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="quick-reference" class="level3">
+<h3 class="anchored" data-anchor-id="quick-reference">Quick reference</h3>
+<p align="center">
+<img src="05_geostatistics_quick_reference.png" alt="Geostatistics quick reference for geolattice.geostatistics" width="100%">
+</p>
+</section>
+</section>
+<section id="sample-data" class="level2">
+<h2 class="anchored" data-anchor-id="sample-data">Sample data</h2>
+<p>The notebooks read the sample data in <a href="https://github.com/zia207/GeoLattice/tree/main/Data/00_shared/data_geostatistics"><code>Data/00_shared/data_geostatistics/</code></a> of the repository: the Jura soil metals data and prediction grid, Great Plains soil organic carbon, California PM2.5 monitors, US county disease rates, Bangladesh groundwater and soil data, and GSLIB files.</p>
+</section>
+<section id="license" class="level2">
+<h2 class="anchored" data-anchor-id="license">License</h2>
+<p>GeoLattice is released under the MIT License. See <a href="https://github.com/zia207/GeoLattice/blob/main/LICENSE">LICENSE</a>.</p>
+<p align="center">
+<br> Developed by Zia Ahmed, Upatta Analytics
+</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./05_01_foundation/05_00_getting_started.html" class="pagination-link" aria-label="Introduction to Geostatistics">
+        <span class="nav-page-text">Introduction to Geostatistics</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
