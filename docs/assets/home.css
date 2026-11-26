@@ -16,7 +16,7 @@
   inset: 0;
   z-index: -1;
   background: url("no2_counties.gif") center / cover no-repeat;
-  opacity: 0.6;
+  opacity: 0.95;
 }
 
 .gl-intro {
@@ -59,15 +59,17 @@ a.gl-tile {
   padding: 0.9rem 1rem;
   border: 1px solid color-mix(in srgb, var(--bs-primary) 45%, transparent);
   border-radius: 10px;
-  background: color-mix(in srgb, var(--bs-body-bg) 80%, transparent);
-  backdrop-filter: blur(1px);
+  background: color-mix(in srgb, var(--bs-body-bg) 42%, transparent);
   color: var(--bs-body-color);
   text-decoration: none;
+  /* a soft halo keeps the text readable over the map */
+  text-shadow: 0 0 3px var(--bs-body-bg), 0 0 6px var(--bs-body-bg);
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 a.gl-tile:hover,
 a.gl-tile:focus-visible {
   transform: translateY(-3px);
+  background: color-mix(in srgb, var(--bs-body-bg) 75%, transparent);
   border-color: var(--bs-primary);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
 }
