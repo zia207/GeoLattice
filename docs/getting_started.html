@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Getting Started – GeoLattice</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./assets/geolattice_logo.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a3f55f81c37112cd8420bd9fb09fa20d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-8a1a84f9aa98d9745c0295b5c14e4d62.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-a3f55f81c37112cd8420bd9fb09fa20d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="assets/home.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./assets/geolattice_logo.png" alt="GeoLattice logo" class="navbar-logo light-content">
+    <img src="./assets/geolattice_logo.png" alt="GeoLattice logo" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GeoLattice</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./getting_started.html"> 
+<span class="menu-text">Getting Started</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./user_guide.html"> 
+<span class="menu-text">User Guide</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./api_reference.html"> 
+<span class="menu-text">API Reference</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./data.html"> 
+<span class="menu-text">Data</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
+        <li>
+    <a class="dropdown-item" href="./notebooks/01_02_vector_raster/index.html#vector-data">
+ <span class="dropdown-text">1. Vector Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./notebooks/01_02_vector_raster/index.html#raster-data">
+ <span class="dropdown-text">2. Raster Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./notebooks/03_spatial_analysis/index.html">
+ <span class="dropdown-text">3. Spatial Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./notebooks/04_spatial_statistics/index.html">
+ <span class="dropdown-text">4. Spatial Statistics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./notebooks/05_geostatistics/index.html">
+ <span class="dropdown-text">5. Geostatistics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./notebooks/06_spatialDB/index.html">
+ <span class="dropdown-text">6. Spatial Database</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./notebooks/07_web_cloud_gis/index.html">
+ <span class="dropdown-text">7. Web &amp; Cloud GIS</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./notebooks/08_distributed_spatial/index.html">
+ <span class="dropdown-text">8. Distributed Spatial Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./notebooks/09_remote_sensing/index.html">
+ <span class="dropdown-text">9. Remote Sensing</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://sites.google.com/view/r-data-sci-env/home"> <i class="bi bi-house" role="img" aria-label="Upatta Analytics">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/zia207/GeoLattice"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/zia-ahmed207"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:zia207@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="Email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./getting_started.html">Getting Started</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Getting Started</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./assets/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./assets/geolattice_logo.png" alt="GeoLattice logo" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Package Overview</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/01_02_vector_raster/index.html#vector-data" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vector Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/01_02_vector_raster/index.html#raster-data" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raster Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/03_spatial_analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/04_spatial_statistics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/05_geostatistics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Geostatistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/06_spatialDB/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatial Database</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/07_web_cloud_gis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Web &amp; Cloud GIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/08_distributed_spatial/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Distributed Spatial Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notebooks/09_remote_sensing/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Remote Sensing</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./getting_started.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Getting Started</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./user_guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">User Guide</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./api_reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">API Reference</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On This Page</h2>
+   
+  <ul>
+  <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a>
+  <ul class="collapse">
+  <li><a href="#installation-options" id="toc-installation-options" class="nav-link" data-scroll-target="#installation-options">Installation options</a></li>
+  <li><a href="#install-from-source" id="toc-install-from-source" class="nav-link" data-scroll-target="#install-from-source">Install from source</a></li>
+  <li><a href="#moving-from-pygis" id="toc-moving-from-pygis" class="nav-link" data-scroll-target="#moving-from-pygis">Moving from PyGIS</a></li>
+  </ul></li>
+  <li><a href="#quick-start" id="toc-quick-start" class="nav-link" data-scroll-target="#quick-start">Quick start</a></li>
+  <li><a href="#gpu-support" id="toc-gpu-support" class="nav-link" data-scroll-target="#gpu-support">GPU support</a></li>
+  <li><a href="#distributed-computing" id="toc-distributed-computing" class="nav-link" data-scroll-target="#distributed-computing">Distributed computing</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<p>GeoLattice needs Python 3.10 or newer (tested on 3.11 and 3.14; its dependencies need 3.10, for example libpysal 4.10). GDAL and PROJ must be installed first, with Python GDAL bindings that match the GDAL library; install them with conda or your system package manager.</p>
+<p>Installing GeoLattice installs every runtime dependency listed in <a href="https://github.com/zia207/GeoLattice/blob/main/requirements.txt"><code>requirements.txt</code></a>, whether you install from PyPI, the wheel or the sdist (<code>pip install dist/geolattice-0.3.49-cp314-cp314-linux_x86_64.whl</code> or <code>pip install dist/geolattice-0.3.49.tar.gz</code>). That list is the conflict-free set that installation option 6 (<code>geolattice[all]</code>) resolves to: about 80 packages, including PyTorch. <code>pip install -r requirements.txt</code> installs the same set without GeoLattice itself.</p>
+<section id="installation-options" class="level3">
+<h3 class="anchored" data-anchor-id="installation-options">Installation options</h3>
+<p>The option names below still work, and existing install commands keep working, but a plain install already includes all of them. Each option includes everything in the one above it.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th>Install</th>
+<th>Adds</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Core</td>
+<td><code>geolattice[core]</code></td>
+<td>Vector and raster I/O including GeoParquet, CRS tools, maps and plots (rasterio, fiona, GeoPandas, pyarrow, matplotlib, folium, contextily, plotly)</td>
+</tr>
+<tr class="even">
+<td>2. Spatial analysis</td>
+<td><code>geolattice[analysis]</code></td>
+<td>Terrain and hydrology, suitability, multidimensional rasters, network and segregation analysis (xarray, netCDF4, zarr, dask, networkx, OSMnx, libpysal, WhiteboxTools)</td>
+</tr>
+<tr class="odd">
+<td>3. Spatial statistics</td>
+<td><code>geolattice[statistics]</code></td>
+<td>ESDA, spatial weights, GWR, point patterns, spatial regression, and spatial causal inference (scikit-learn, joblib)</td>
+</tr>
+<tr class="even">
+<td>4. Geostatistics</td>
+<td><code>geolattice[geostats]</code></td>
+<td>Variograms, kriging and simulation, with plotting helpers</td>
+</tr>
+<tr class="odd">
+<td>5. Remote sensing</td>
+<td><code>geolattice[remote-sensing]</code></td>
+<td>Optical, SAR, lidar, hyperspectral and UAV processing, STAC access, classification (rioxarray, scikit-image, pystac-client, laspy, h5py, OpenCV, xgboost, leafmap)</td>
+</tr>
+<tr class="even">
+<td>6. All</td>
+<td><code>geolattice[all]</code></td>
+<td>Everything above plus web and cloud GIS, spatial databases, deep learning (PyTorch, torchgeo), Bayesian models (PyMC), boosting, JAX kriging, Earth Engine and distributed computing (Dask, dask-geopandas)</td>
+</tr>
+</tbody>
+</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="st">"geolattice[core]"</span>             <span class="co"># 1. core, vector, raster, CRS, visualization</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="st">"geolattice[analysis]"</span>         <span class="co"># 2. core + spatial analysis</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="st">"geolattice[statistics]"</span>       <span class="co"># 3. core + spatial analysis + spatial statistics</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="st">"geolattice[geostats]"</span>         <span class="co"># 4. ... + geostatistics</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="st">"geolattice[remote-sensing]"</span>   <span class="co"># 5. ... + remote sensing</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="st">"geolattice[all]"</span>              <span class="co"># 6. all</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A few groups need special hardware or conflict with other packages, so neither a plain install nor <code>geolattice[all]</code> includes them; add them by name when you need them: <code>compute</code>, <code>geostatistics-gpu</code> and <code>rsense-gpu</code> (CUDA GPUs), <code>geostatistics-h2o</code> and <code>geostatistics-tensorflow</code>, <code>rsense-uav-dl</code>, <code>rsense-vision</code> and <code>rsense-foundation</code> (large vision and foundation models), <code>rsense-biopar</code> (needs pandas below 3), <code>distributed-gpu</code> (CUDA GPUs), <code>distributed-hpc</code> (SLURM, PBS and Kubernetes clusters), <code>distributed-spark</code> (Apache Sedona, needs Java 17 or newer) and <code>dev</code>. When a function needs a library that is not installed, its error message names the extra and the installation option that contains it.</p>
+<p>For a GPU, see <a href="#gpu-support">GPU support</a> below.</p>
+</section>
+<section id="install-from-source" class="level3">
+<h3 class="anchored" data-anchor-id="install-from-source">Install from source</h3>
+<p>GeoLattice includes a small C extension, so building it needs a C compiler and NumPy. From the repository root:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install build</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> build</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install dist/geolattice-0.3.49-cp314-cp314-linux_x86_64.whl   <span class="co"># installs every dependency in requirements.txt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>python3 -m build</code> writes an sdist and a wheel for the Python that ran it (<code>cp314</code> above). For another Python version, build a wheel from the sdist with that Python: <code>python3 -m pip wheel --no-deps -w dist dist/geolattice-0.3.49.tar.gz</code>. For development, install in editable mode with <code>python3 -m pip install -e ".[dev]"</code>.</p>
+<p>The <a href="./user_guide.html#installation">user guide</a> lists the 65 individual extras the installation options are built from and explains how to fix the common GDAL import errors (<code>libgdal.so</code> not found, <code>No module named '_gdal'</code>).</p>
+</section>
+<section id="moving-from-pygis" class="level3">
+<h3 class="anchored" data-anchor-id="moving-from-pygis">Moving from PyGIS</h3>
+<p>The package was renamed from PyGIS to GeoLattice. Existing code keeps working for now, but should move to the new names:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>PyGIS</th>
+<th>GeoLattice</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pip install pygis</code>, <code>pygis[all]</code></td>
+<td><code>pip install geolattice</code>, <code>geolattice[all]</code></td>
+</tr>
+<tr class="even">
+<td><code>import pygis</code>, <code>from pygis.raster import ...</code></td>
+<td><code>import geolattice</code>, <code>from geolattice.raster import ...</code></td>
+</tr>
+<tr class="odd">
+<td><code>pygis.pygisdb</code>, <code>pygis.spatial_bd.pygisdb</code></td>
+<td><code>geolattice.geolatticedb</code>, <code>geolattice.spatial_bd.geolatticedb</code></td>
+</tr>
+<tr class="even">
+<td><code>PYGIS_EXPLORER</code>, <code>PYGIS_FTW_CACHE</code>, <code>PYGIS_SEDONA_PACKAGES</code>, <code>PYGIS_UAV_WEIGHTS</code></td>
+<td><code>GEOLATTICE_EXPLORER</code>, <code>GEOLATTICE_FTW_CACHE</code>, <code>GEOLATTICE_SEDONA_PACKAGES</code>, <code>GEOLATTICE_UAV_WEIGHTS</code></td>
+</tr>
+<tr class="odd">
+<td>Model cache <code>~/.cache/pygis/</code></td>
+<td><code>~/.cache/geolattice/</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Uninstall the old package first (<code>python3 -m pip uninstall pygis</code>), because GeoLattice installs its own <code>pygis</code> alias.</li>
+<li>The alias makes <code>import pygis</code> and <code>from pygis.x import y</code> return the <code>geolattice</code> modules, with a <code>FutureWarning</code>. It will be removed in a future release.</li>
+<li>The old <code>PYGIS_</code> environment variables are no longer read; rename them in your shell profile or job scripts.</li>
+<li>To keep model weights you have already downloaded, move the cache folder: <code>mv ~/.cache/pygis ~/.cache/geolattice</code>.</li>
+</ul>
+</section>
+</section>
+<section id="quick-start" class="level2">
+<h2 class="anchored" data-anchor-id="quick-start">Quick start</h2>
+<p>Run these examples from the repository root. They use the sample data in <code>Data/00_shared</code> and need installation option 5 (<code>geolattice[remote-sensing]</code>).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> Path(<span class="st">"Data/00_shared"</span>)  <span class="co"># sample data in the repository</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector: read US counties, reproject New York to metres and buffer each county by 5 km</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.vector <span class="im">import</span> <span class="bu">buffer</span>, read_vector_data</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> read_vector_data(DATA <span class="op">/</span> <span class="st">"vector_data/USA/US_COUNTY.shp"</span>) <span class="im">as</span> layer:</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    counties <span class="op">=</span> layer.to_dataframe()  <span class="co"># GeoDataFrame with 3,108 counties</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ny <span class="op">=</span> counties[counties[<span class="st">"STATE"</span>] <span class="op">==</span> <span class="st">"New York"</span>].to_crs(<span class="dv">5070</span>)  <span class="co"># CONUS Albers, metres</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>zones <span class="op">=</span> <span class="bu">buffer</span>(ny, <span class="dv">5_000</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Raster and terrain: summary statistics, slope and hillshade of a DEM</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.raster <span class="im">import</span> summarize_raster</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.spatial_analysis <span class="im">import</span> hillshade, slope</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>dem <span class="op">=</span> DATA <span class="op">/</span> <span class="st">"raster_data/USA/Onondaga_DEM.tif"</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summarize_raster(dem)[<span class="st">"mean"</span>])</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>slope(dem, <span class="st">"slope.tif"</span>, units<span class="op">=</span><span class="st">"degrees"</span>, overwrite<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>hillshade(dem, <span class="st">"hillshade.tif"</span>, azimuth<span class="op">=</span><span class="dv">315</span>, altitude<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Geostatistics: variogram and ordinary kriging of log zinc in the Meuse data</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.geostatistics <span class="im">import</span> OrdinaryKriging, Variogram</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>meuse <span class="op">=</span> pd.read_csv(DATA <span class="op">/</span> <span class="st">"data_geostatistics/meuse.csv"</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>xy, z <span class="op">=</span> meuse[[<span class="st">"x"</span>, <span class="st">"y"</span>]].to_numpy(), np.log(meuse[<span class="st">"zinc"</span>].to_numpy())</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>vgm <span class="op">=</span> Variogram(xy, z, model<span class="op">=</span><span class="st">"spherical"</span>, n_lags<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>vgm.fit()</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>ok <span class="op">=</span> OrdinaryKriging(vgm).fit(xy, z)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ok.predict(np.array([[<span class="fl">179500.0</span>, <span class="fl">331500.0</span>]])))</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Remote sensing: NDVI from Landsat 9 surface reflectance</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.rsense <span class="im">as</span> rs</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>scene <span class="op">=</span> DATA <span class="op">/</span> <span class="st">"data_remote_sensing/landsat9_vegas_20240708/LC09_L2SP_039035_20240708_02_T1"</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>bands <span class="op">=</span> xr.Dataset({b: rs.read(scene <span class="op">/</span> <span class="ss">f"</span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">.tif"</span>).squeeze(<span class="st">"band"</span>, drop<span class="op">=</span><span class="va">True</span>) <span class="cf">for</span> b <span class="kw">in</span> (<span class="st">"red"</span>, <span class="st">"nir"</span>)})</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>bands.attrs[<span class="st">"pyrsense:sensor"</span>] <span class="op">=</span> <span class="st">"landsat"</span>  <span class="co"># tells GeoLattice which scaling rules apply</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>ndvi <span class="op">=</span> bands.rs.scale().rs.index(<span class="st">"NDVI"</span>)  <span class="co"># scale to reflectance, then compute NDVI</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">float</span>(ndvi.mean()))</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Foundation models: embed a raster with DOFA, then find chips that look like the first one</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.rsense.foundation_models <span class="im">as</span> fm  <span class="co"># needs geolattice[rsense-foundation]</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>fm.recommend(<span class="st">"soil"</span>)                          <span class="co"># AlphaEarth, Clay, Presto, SSL4EO</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>enc <span class="op">=</span> fm.load_model(<span class="st">"dofa-base"</span>, bands<span class="op">=</span>[<span class="st">"red"</span>, <span class="st">"nir"</span>])</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>emb <span class="op">=</span> enc.embed_raster(bands.rs.scale().to_dataarray(<span class="st">"band"</span>), chip_size<span class="op">=</span><span class="dv">224</span>)</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> fm.similarity_map(emb, emb.isel(y<span class="op">=</span><span class="dv">0</span>, x<span class="op">=</span><span class="dv">0</span>))</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Evapotranspiration: METRIC on a Landsat scene (sr: scaled reflectance, lst: surface temperature in K)</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.rsense.surface_energy_balance <span class="im">as</span> seb</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>ndvi, lai <span class="op">=</span> seb.ndvi(sr.red, sr.nir), seb.leaf_area_index(seb.savi(sr.red, sr.nir, L<span class="op">=</span><span class="fl">0.1</span>))</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>alb, e0 <span class="op">=</span> seb.albedo(sr, sensor<span class="op">=</span><span class="st">"landsat8"</span>), seb.surface_emissivity(lai, ndvi)</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>anchors <span class="op">=</span> seb.select_anchors(ndvi, lst, albedo_<span class="op">=</span>alb)          <span class="co"># hot and cold pixels (Allen et al. 2013)</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>rs_in <span class="op">=</span> seb.incoming_shortwave(cos_theta<span class="op">=</span><span class="fl">0.92</span>, tau_sw<span class="op">=</span><span class="fl">0.78</span>)   <span class="co"># clear-sky shortwave at overpass</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>rl_in <span class="op">=</span> seb.incoming_longwave(anchors[<span class="st">"cold"</span>][<span class="st">"lst"</span>], seb.air_emissivity(tau_sw<span class="op">=</span><span class="fl">0.78</span>))</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>rn <span class="op">=</span> seb.net_radiation(rs_in, alb, rl_in, seb.outgoing_longwave(lst, e0), e0)</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> seb.soil_heat_flux(rn, lst, lai<span class="op">=</span>lai, method<span class="op">=</span><span class="st">"metric"</span>)</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>et <span class="op">=</span> seb.run_metric(lst, rn, g, seb.momentum_roughness(lai<span class="op">=</span>lai), seb.wind_at_blending_height(<span class="fl">2.5</span>),</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>                    <span class="fl">100.6</span>, etr_inst<span class="op">=</span><span class="fl">0.93</span>, anchors<span class="op">=</span>anchors, etr_daily<span class="op">=</span><span class="fl">12.0</span>)   <span class="co"># Dataset: h, le, etrf, et24</span></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Soil moisture physics: soil water limits, L-band permittivity, brightness temperature and its inversion</span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.rsense.soil_moisture <span class="im">as</span> sm</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>soil <span class="op">=</span> sm.saxton_rawls(sand<span class="op">=</span><span class="fl">0.40</span>, clay<span class="op">=</span><span class="fl">0.20</span>)            <span class="co"># loam: WP 0.14, FC 0.28, saturation 0.46 m3/m3</span></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>eps <span class="op">=</span> sm.mironov_dielectric(<span class="fl">0.25</span>, clay<span class="op">=</span><span class="fl">0.20</span>)             <span class="co"># 13.0 - 1.5j at 1.41 GHz</span></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>tb <span class="op">=</span> sm.tau_omega(<span class="fl">295.0</span>, eps, <span class="fl">40.0</span>, tau<span class="op">=</span><span class="fl">0.3</span>, pol<span class="op">=</span><span class="st">"v"</span>)    <span class="co"># 260.7 K</span></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> sm.invert_tau_omega(tb, <span class="fl">295.0</span>, <span class="fl">40.0</span>, clay<span class="op">=</span><span class="fl">0.20</span>, tau<span class="op">=</span><span class="fl">0.3</span>)   <span class="co"># back to 0.25 m3/m3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <a href="./user_guide.html">user guide</a> has worked examples for every module, including the full raster toolset, hydrology, suitability analysis, geostatistical simulation, SAR and InSAR processing, lidar, hyperspectral analysis, image classification, evapotranspiration from the surface energy balance and soil moisture physics.</p>
+</section>
+<section id="gpu-support" class="level2">
+<h2 class="anchored" data-anchor-id="gpu-support">GPU support</h2>
+<p>GeoLattice runs on the CPU by default. On a machine with an NVIDIA GPU, the parts below can run on the GPU, and they fall back to the CPU when no usable GPU is found.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Module</th>
+<th>GPU library</th>
+<th>How to use it</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>geolattice.geostatistics</code>: variograms, kriging, cross-validation and sequential, turning bands, direct sequential and multiple-point simulation</td>
+<td>CuPy</td>
+<td><code>use_gpu=True</code> on the class or function</td>
+</tr>
+<tr class="even">
+<td><code>geolattice.geostatistics.jax_variogram_kriging</code>: simple, ordinary, universal and cokriging</td>
+<td>JAX</td>
+<td><code>use_gpu="auto"</code></td>
+</tr>
+<tr class="odd">
+<td><code>geolattice.rsense</code>: raster cubes, indices, composites and other array operations</td>
+<td>CuPy (NVIDIA) or PyTorch MPS (Apple)</td>
+<td><code>rs.backend.set_backend("cuda")</code> or <code>"mps"</code></td>
+</tr>
+<tr class="even">
+<td><code>geolattice.rsense.dl</code>, <code>geolattice.rsense.classify</code>, <code>geolattice.rsense.foundation_models</code>: deep learning, image classification, segmentation, detection and foundation model embeddings</td>
+<td>PyTorch</td>
+<td>runs on the GPU when PyTorch sees one</td>
+</tr>
+<tr class="odd">
+<td><code>geolattice.spatial_statistics</code>: GNNWR and GTNNWR</td>
+<td>PyTorch</td>
+<td><code>device="cuda"</code> or <code>"auto"</code></td>
+</tr>
+<tr class="even">
+<td><code>geolattice.distributed</code>: raster algebra, focal filters and terrain, vector measures, point-in-polygon joins, nearest neighbours, zonal statistics, spatial statistics, clustering, networks, flow direction and model prediction</td>
+<td>CuPy, cuDF, cuML, cuGraph, PyTorch</td>
+<td><code>compute="gpu"</code> or <code>"auto"</code> on each function</td>
+</tr>
+</tbody>
+</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.geostatistics <span class="im">import</span> OrdinaryKriging, Variogram</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.geostatistics.utils.backend <span class="im">import</span> cupy_gpu_usable</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cupy_gpu_usable())  <span class="co"># True when CuPy can run a kernel on the GPU</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>xy <span class="op">=</span> rng.uniform(<span class="dv">0</span>, <span class="dv">100</span>, size<span class="op">=</span>(<span class="dv">200</span>, <span class="dv">2</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.sin(xy[:, <span class="dv">0</span>] <span class="op">/</span> <span class="dv">20</span>) <span class="op">+</span> rng.normal(<span class="dv">0</span>, <span class="fl">0.1</span>, size<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> np.stack(np.meshgrid(np.linspace(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">300</span>), np.linspace(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">300</span>)), <span class="op">-</span><span class="dv">1</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>vgm <span class="op">=</span> Variogram(xy, z, model<span class="op">=</span><span class="st">"spherical"</span>, n_lags<span class="op">=</span><span class="dv">12</span>, use_gpu<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>vgm.fit()</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> OrdinaryKriging(vgm, use_gpu<span class="op">=</span><span class="va">True</span>).fit(xy, z).predict(grid)  <span class="co"># 90,000 cells on the GPU</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.rsense <span class="im">as</span> rs</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>rs.backend.set_backend(<span class="st">"cuda"</span>)  <span class="co"># rsense arrays now live on the GPU as CuPy arrays</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rs.backend.get_backend())</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>rs.backend.set_backend(<span class="st">"cpu"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The GPU extras (<code>compute</code>, <code>geostatistics-gpu</code> and <code>rsense-gpu</code>) install <code>cupy-cuda13x</code>, the CuPy build for CUDA 13. Check your CUDA version with <code>nvidia-smi</code>. For an older CUDA, install the matching CuPy yourself (<code>cupy-cuda12x</code> or <code>cupy-cuda11x</code>) together with <code>geolattice[geostats]</code> or <code>geolattice[remote-sensing]</code> instead of a GPU extra, and keep only one CuPy package in an environment, because they all provide the same <code>cupy</code> module. PyTorch and JAX choose their CUDA build at install time, so install them by following their own instructions; <code>geolattice[all]</code> installs the default PyTorch build from PyPI.</p>
+</section>
+<section id="distributed-computing" class="level2">
+<h2 class="anchored" data-anchor-id="distributed-computing">Distributed computing</h2>
+<p><code>geolattice.distributed</code> gives one API for spatial data that scales from all cores of a laptop to a cluster. Every function takes <code>compute="auto" | "cpu" | "gpu"</code> and returns the type and memory space it was given; Dask-backed input stays lazy. Without a cluster it runs on Dask’s threads, so it already uses every CPU core.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geolattice.distributed <span class="im">as</span> pdist</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pdist.start(<span class="st">"cuda"</span>):                                  <span class="co"># one Dask worker per GPU ("local" for CPU)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    dem <span class="op">=</span> pdist.read_raster(<span class="st">"dem.tif"</span>)                     <span class="co"># lazy and chunked</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    slope <span class="op">=</span> pdist.raster.slope(dem, compute<span class="op">=</span><span class="st">"gpu"</span>)         <span class="co"># CuPy chunks with a 1-pixel halo</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    stats <span class="op">=</span> pdist.zonal_stats(parcels, slope)              <span class="co"># per-chunk partial sums, combined at the end</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    hits <span class="op">=</span> pdist.vector.sjoin(points, parcels, predicate<span class="op">=</span><span class="st">"within"</span>)   <span class="co"># GPU point-in-polygon test</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> pdist.analysis.weights(parcels, <span class="st">"queen"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    lisa <span class="op">=</span> pdist.analysis.local_morans(stats[<span class="st">"mean"</span>], w)  <span class="co"># 999 permutations as batched matrix products</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    pdist.write_raster(slope, <span class="st">"slope.zarr"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Module</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>raster</code></td>
+<td>Map algebra (<code>calc</code>, <code>where</code>, <code>reclassify</code>), focal filters, convolution and terrain (slope, aspect, hillshade, curvature, TPI, TRI, roughness), chunk by chunk with halos so results equal whole-array results</td>
+</tr>
+<tr class="even">
+<td><code>vector</code></td>
+<td>Geometry operations, <code>clip</code>, <code>sjoin</code> on spatially partitioned data (Dask, GPU or Sedona engine), <code>knn</code></td>
+</tr>
+<tr class="odd">
+<td><code>bridge</code></td>
+<td><code>rasterize</code>, <code>zonal_stats</code>, <code>extract_values</code>, <code>polygonize</code> (polygons cut by chunk seams are merged)</td>
+</tr>
+<tr class="even">
+<td><code>analysis</code></td>
+<td>Spatial weights, Moran’s I, Geary’s C, LISA, Getis-Ord G*, DBSCAN, HDBSCAN, k-means and kernel density</td>
+</tr>
+<tr class="odd">
+<td><code>network</code></td>
+<td>Graphs from lines, shortest paths, centrality and components (cuGraph or SciPy and NetworkX)</td>
+</tr>
+<tr class="even">
+<td><code>hydrology</code></td>
+<td>Chunked D8 flow direction, depression filling and flow accumulation</td>
+</tr>
+<tr class="odd">
+<td><code>ml</code></td>
+<td>Model fitting, per-pixel raster prediction, tiled PyTorch inference over several GPUs and DDP training</td>
+</tr>
+<tr class="even">
+<td><code>io</code></td>
+<td>Parallel GeoParquet and OGR reading and writing, rasters, Zarr and STAC</td>
+</tr>
+<tr class="odd">
+<td><code>diagnostics</code></td>
+<td><code>benchmark</code>, <code>check_equivalence</code> (CPU against GPU), <code>explain</code>, <code>memory_report</code>, <code>profile</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>pdist.start</code> also connects to SLURM, PBS and Kubernetes clusters (<code>geolattice[distributed-hpc]</code>) or an existing scheduler, and <code>vector.sjoin(..., engine="sedona")</code> runs the join as Spark SQL (<code>geolattice[distributed-spark]</code>). Results are checked against GeoPandas, rasterio, scipy.ndimage, libpysal, esda and NetworkX in the test suite. Measured on an RTX A5500 laptop GPU:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 36%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th style="text-align: right;">CPU</th>
+<th style="text-align: right;">GPU</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Focal median 7 x 7, 8000 x 8000 DEM</td>
+<td style="text-align: right;">17.5 s</td>
+<td style="text-align: right;">0.24 s</td>
+</tr>
+<tr class="even">
+<td>Moran’s I, 22,500 cells, 999 permutations</td>
+<td style="text-align: right;">0.71 s</td>
+<td style="text-align: right;">0.07 s</td>
+</tr>
+<tr class="odd">
+<td>Local Moran’s I, 22,500 cells, 999 permutations</td>
+<td style="text-align: right;">1.55 s</td>
+<td style="text-align: right;">0.25 s</td>
+</tr>
+<tr class="even">
+<td>Slope, 8000 x 8000 DEM</td>
+<td style="text-align: right;">0.82 s</td>
+<td style="text-align: right;">0.22 s</td>
+</tr>
+<tr class="odd">
+<td>Point-in-polygon join, 2 million points, 2,000 polygons</td>
+<td style="text-align: right;">5.4 s (geopandas: 15.4 s)</td>
+<td style="text-align: right;">4.7 s</td>
+</tr>
+</tbody>
+</table>
+<p>Where the GPU version is slower on typical inputs (<code>rasterize</code>, <code>dbscan</code>), <code>compute="auto"</code> keeps the CPU; <code>pdist.explain("bridge.rasterize")</code> says which implementation runs and why. The <a href="./user_guide.html#distributed-computing-geolatticedistributed">user guide</a> has worked examples.</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zia207\.github\.io\/GeoLattice");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By Zia Ahmed, Upatta Analytics, 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This page is built with <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

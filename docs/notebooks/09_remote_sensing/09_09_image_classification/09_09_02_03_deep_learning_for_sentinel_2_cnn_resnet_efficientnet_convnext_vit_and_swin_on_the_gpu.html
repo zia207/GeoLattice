@@ -111,6 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<style>.navbar .dropdown-menu { max-height: 80vh; overflow-y: auto; }</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -327,10 +328,10 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-foundations--optical" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Foundations &amp; Optical</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-foundations--optical">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
         <li class="dropdown-header">Foundations</li>
         <li>
     <a class="dropdown-item" href="../09_01_foundations/09_01_00_remote_sensing_fundamentals.html">
@@ -382,13 +383,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_02_optical/09_02_07_sentinel_5p_and_sentinel_5_mapping_air_pollution_from_orbit.html">
  <span class="dropdown-text">Sentinel-5P and Sentinel-5</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-radar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Radar</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-radar">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Radar (SAR and InSAR)</li>
         <li>
     <a class="dropdown-item" href="../09_03_radar/09_03_00_sar_fundamentals.html">
@@ -486,13 +481,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_03_radar/09_03_03_05_nisar_gunw_geocoded_unwrapped_interferogram.html">
  <span class="dropdown-text">NISAR GUNW</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-uav-hyperspectral--lidar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">UAV, Hyperspectral &amp; LiDAR</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-uav-hyperspectral--lidar">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">UAV</li>
         <li>
     <a class="dropdown-item" href="../09_04_uav/09_04_01_uav_fundamentals_and_mission_planning.html">
@@ -618,13 +607,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_06_lidar/09_06_08_large_area_lidar_processing_tiling_streaming_parallel_work_and_the_gpu.html">
  <span class="dropdown-text">Large-Area LiDAR Processing</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-image-analysis--ai" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Image Analysis &amp; AI</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-image-analysis--ai">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Texture Analysis</li>
         <li>
     <a class="dropdown-item" href="../09_07_texture_analysis/09_07_00_texture_analysis.html">
@@ -810,13 +793,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_11_foundations_models/09_11_13_benchmarking_foundation_models_on_your_own_data.html">
  <span class="dropdown-text">Benchmarking Foundation Models</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-energy-balance--capstones" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Energy Balance &amp; Capstones</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-energy-balance--capstones">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Surface Energy Balance</li>
         <li>
     <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_00_evapotranspiration_and_the_surface_energy_balance.html">
@@ -866,75 +843,129 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_11_how_good_is_the_et_map_validation_sensitivity_and_uncertainty.html">
  <span class="dropdown-text">Validation and Uncertainty</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Soil Moisture</li>
         <li>
-    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html">
- <span class="dropdown-text">Capstone: Boro Rice Water Use</span></a>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_00_soil_moisture_concepts_and_why_it_matters.html">
+ <span class="dropdown-text">Soil Moisture Concepts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_01_microwave_remote_sensing_of_soil_moisture.html">
+ <span class="dropdown-text">Microwave Remote Sensing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_02_the_mission_and_product_landscape.html">
+ <span class="dropdown-text">Missions and Products</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_03_python_environment_and_data_access.html">
+ <span class="dropdown-text">Environment and Data Access</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_04_smap_l3_enhanced_daily_cube_and_climatology.html">
+ <span class="dropdown-text">SMAP L3 Enhanced Daily Cube</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_08_ascat_and_the_tu_wien_change_detection_approach.html">
+ <span class="dropdown-text">ASCAT and TU Wien Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_09_esa_cci_long_term_trends_and_anomalies.html">
+ <span class="dropdown-text">ESA CCI Trends and Anomalies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_10_esa_cci_vs_era5_land.html">
+ <span class="dropdown-text">ESA CCI vs ERA5-Land</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_11_sentinel_1_preprocessing_for_soil_moisture.html">
+ <span class="dropdown-text">Sentinel-1 Preprocessing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_12_change_detection_soil_moisture_from_sentinel_1.html">
+ <span class="dropdown-text">Sentinel-1 Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_13_water_cloud_model_and_surface_scattering_inversion.html">
+ <span class="dropdown-text">Water Cloud Model Inversion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_14_operational_high_resolution_products.html">
+ <span class="dropdown-text">Operational 1 km Products</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_15_downscale_soil_moisture.html">
+ <span class="dropdown-text">Downscaling: Six Methods Compared</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Capstone Projects</li>
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_01_thirty_five_years_of_change_around_pucallpa_peru.html">
  <span class="dropdown-text">Change around Pucallpa, Peru</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_02_fifty_years_of_change_in_the_bangladesh_delta.html">
  <span class="dropdown-text">Fifty Years in the Bangladesh Delta</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_03_wild_fire_burned_area_mapping.html">
  <span class="dropdown-text">Wildfire Burned Area</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
  <span class="dropdown-text">Rohingya Deforestation: Sentinel-2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
  <span class="dropdown-text">Flood Mapping in Sylhet</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
  <span class="dropdown-text">Rohingya Deforestation: Sentinel-1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
  <span class="dropdown-text">Ship Detection, Strait of Hormuz</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
  <span class="dropdown-text">Crops from NISAR GCOV</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
  <span class="dropdown-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
  <span class="dropdown-text">Charland Monitoring, Lower Meghna</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
  <span class="dropdown-text">Shrimp Ghers in Coastal Bangladesh</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
  <span class="dropdown-text">Big Sur Wildfire, 2026</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
  <span class="dropdown-text">Wetland Paddy in Bangladesh</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
  <span class="dropdown-text">Field Edges across Four Countries</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
  <span class="dropdown-text">Tree Biomass and Carbon from LiDAR</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
  <span class="dropdown-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_17_capstone_water_use_of_boro_rice_in_bangladesh.html">
+ <span class="dropdown-text">Boro Rice Water Use, Bangladesh</span></a>
   </li>  
     </ul>
   </li>
@@ -1866,18 +1897,12 @@ window.Quarto = {
  <span class="menu-text">Validation and Uncertainty</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Capstone: Boro Rice Water Use</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
- <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+ <span class="menu-text"><strong>Soil Moisture</strong></span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1885,98 +1910,193 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_13_soil_moisture/09_13_00_soil_moisture_concepts_and_why_it_matters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil Moisture Concepts</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_01_microwave_remote_sensing_of_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Microwave Remote Sensing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_02_the_mission_and_product_landscape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Missions and Products</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_03_python_environment_and_data_access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Environment and Data Access</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_04_smap_l3_enhanced_daily_cube_and_climatology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SMAP L3 Enhanced Daily Cube</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_08_ascat_and_the_tu_wien_change_detection_approach.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ASCAT and TU Wien Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_09_esa_cci_long_term_trends_and_anomalies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESA CCI Trends and Anomalies</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_10_esa_cci_vs_era5_land.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESA CCI vs ERA5-Land</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_11_sentinel_1_preprocessing_for_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Preprocessing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_12_change_detection_soil_moisture_from_sentinel_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_13_water_cloud_model_and_surface_scattering_inversion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Water Cloud Model Inversion</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_14_operational_high_resolution_products.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Operational 1 km Products</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_15_downscale_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Downscaling: Six Methods Compared</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_14_Capstones/09_14_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Change around Pucallpa, Peru</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Fifty Years in the Bangladesh Delta</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Wildfire Burned Area</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rohingya Deforestation: Sentinel-2</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Flood Mapping in Sylhet</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rohingya Deforestation: Sentinel-1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ship Detection, Strait of Hormuz</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Crops from NISAR GCOV</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Charland Monitoring, Lower Meghna</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shrimp Ghers in Coastal Bangladesh</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Big Sur Wildfire, 2026</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Wetland Paddy in Bangladesh</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Field Edges across Four Countries</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tree Biomass and Carbon from LiDAR</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_14_Capstones/09_14_17_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boro Rice Water Use, Bangladesh</span></a>
   </div>
 </li>
       </ul>
@@ -2161,7 +2281,7 @@ window.Quarto = {
 <section id="setup-libraries-device-and-data-paths" class="level2">
 <h2 class="anchored" data-anchor-id="setup-libraries-device-and-data-paths">Setup: libraries, device and data paths</h2>
 <p><strong>Installation.</strong> This notebook needs installation option 6 (every GeoLattice module): <code>pip install "geolattice[all]"</code>. See “Installation options” in the GeoLattice README.</p>
-<div id="07af14fc" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:34:54.356596Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:34:54.356391Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:34:56.587405Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:34:56.586681Z&quot;}}" data-execution_count="1">
+<div id="07af14fc" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:58.863533Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:58.863200Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:03:01.147868Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:03:01.147234Z&quot;}}" data-execution_count="1">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json, time, warnings, tempfile  <span class="co"># JSON, timing, warnings and temporary folders</span></span>
@@ -2211,7 +2331,7 @@ window.Quarto = {
 <p>The scene has four 10 m bands and six 20 m bands. The 20 m bands are bilinearly resampled to the 10 m grid. Digital numbers (DN) are converted to surface reflectance with the L2A scale factor</p>
 <p><span class="math display">\[\rho = 10^{-4}\,\mathrm{DN}.\]</span></p>
 <p>(The STAC metadata of newer processing baselines also lists an offset of <span class="math inline">\(-0.1\)</span>; the DNs in these files are already offset-corrected - the 1st/50th/99th red percentiles are 147/261/1304, which would be negative reflectance with the offset - so only the scale is applied.) Pixels flagged by the scene classification layer (SCL: no data, saturated, cloud shadow, cloud, cirrus) become <code>NaN</code>. <code>extract_chips(..., max_nan_fraction=0.0)</code> later drops every chip that touches such a pixel.</p>
-<div id="1e2153a5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:34:56.590021Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:34:56.589771Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:34:59.204805Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:34:59.204187Z&quot;}}" data-execution_count="2">
+<div id="1e2153a5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:03:01.149631Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:03:01.149379Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:03:03.747526Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:03:03.746572Z&quot;}}" data-execution_count="2">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the ten Sentinel-2 bands</span></span>
@@ -2241,7 +2361,7 @@ window.Quarto = {
 <section id="cdl-labels-recoded-to-six-land-cover-classes" class="level3">
 <h3 class="anchored" data-anchor-id="cdl-labels-recoded-to-six-land-cover-classes">CDL labels recoded to six land-cover classes</h3>
 <p>The 10 m CDL raster is reprojected (nearest neighbour, labels must never be interpolated) from EPSG:5070 to the Sentinel-2 grid and recoded to six classes. Code 0 (background) becomes <span class="math inline">\(-1\)</span> and is ignored.</p>
-<div id="1a1c0fb6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:34:59.207031Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:34:59.206917Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:35:00.910913Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:35:00.909662Z&quot;}}" data-execution_count="3">
+<div id="1a1c0fb6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:03:03.749344Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:03:03.749247Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:03:05.422152Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:03:05.421474Z&quot;}}" data-execution_count="3">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CDL on the 10 m grid (nearest neighbour)</span></span>
@@ -2295,7 +2415,7 @@ Wetland/forest       0.0141
 <section id="cutting-32-32-px-image-chips-with-extract_chips" class="level3">
 <h3 class="anchored" data-anchor-id="cutting-32-32-px-image-chips-with-extract_chips">Cutting 32 × 32 px image chips with <code>extract_chips</code></h3>
 <p><code>extract_chips(image, samples, size=, max_nan_fraction=)</code> cuts <span class="math inline">\((C, s, s)\)</span> windows centred on map coordinates. We lay a regular grid of centres with <strong>stride 16 px</strong> (50 % overlap) wholly inside <strong>256 px blocks</strong> (the block id is the grouping variable for the split). The same function applied to the label raster returns <em>mask chips</em>, from which the scene label is derived in the <em>From rasters to tensors: Sentinel-2 stack, CDL labels, chips, datasets and loaders</em> section.</p>
-<div id="484bdbbb" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:35:00.915221Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:35:00.915001Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:35:01.858190Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:35:01.857437Z&quot;}}" data-execution_count="4">
+<div id="484bdbbb" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:03:05.426912Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:03:05.426813Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:03:06.344123Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:03:06.343164Z&quot;}}" data-execution_count="4">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>SIZE, STRIDE, BLOCK <span class="op">=</span> <span class="dv">32</span>, <span class="dv">16</span>, <span class="dv">256</span>  <span class="co"># 32 px chips, 16 px stride, 256 px blocks</span></span>
@@ -2333,7 +2453,7 @@ Wetland/forest       0.0141
 <section id="imagemask-folders-read_class_dict-rgb_mask_to_index-chips_from_folder" class="level3">
 <h3 class="anchored" data-anchor-id="imagemask-folders-read_class_dict-rgb_mask_to_index-chips_from_folder">Image/mask folders: <code>read_class_dict</code>, <code>rgb_mask_to_index</code>, <code>chips_from_folder</code></h3>
 <p>Many public benchmarks (DeepGlobe, LoveDA, …) ship as paired <code>*_sat.jpg</code> + <code>*_mask.png</code> files, with the class legend as a CSV of <code>name,r,g,b</code>. GeoLattice reads that layout directly. To show it with our data, we <strong>write</strong> such a pair for two <span class="math inline">\(512\times512\)</span> px windows (RGB image, colour-coded mask) and read it back. <code>rgb_mask_to_index</code> thresholds each channel at 128, so mask colours must be corners of the RGB cube; black is “unknown” and is ignored.</p>
-<div id="fcfb490a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:35:01.860214Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:35:01.860114Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:35:02.217272Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:35:02.216497Z&quot;}}" data-execution_count="5">
+<div id="fcfb490a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:03:06.345676Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:03:06.345582Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:03:06.688283Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:03:06.687783Z&quot;}}" data-execution_count="5">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image  <span class="co"># write PNG and JPEG files</span></span>
@@ -2379,7 +2499,7 @@ chips_from_folder: (32, 3, 128, 128) 0.0 - 1.0 | masks (32, 128, 128) | sources 
 <p>The label of a chip is the <strong>majority class</strong> of its mask chip,</p>
 <p><span class="math display">\[y_i=\arg\max_{k}\;n_{ik},\qquad n_{ik}=\#\{\text{pixels of chip }i\text{ with class }k\},\qquad p_i=\frac{\max_k n_{ik}}{\sum_k n_{ik}}\;(\text{purity}).\]</span></p>
 <p>Mixed chips (low purity <span class="math inline">\(p_i\)</span>) are inherently ambiguous: a chip that is 40 % corn and 40 % soybeans cannot be classified reliably from reflectance alone. We keep chips with <span class="math inline">\(p_i\ge 0.6\)</span> and with less than 20 % background pixels, and report how much this matters.</p>
-<div id="acb2802c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:35:02.219193Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:35:02.219095Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:35:02.805883Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:35:02.805352Z&quot;}}" data-execution_count="6">
+<div id="acb2802c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:03:06.690210Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:03:06.690112Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:03:07.342721Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:03:07.342299Z&quot;}}" data-execution_count="6">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>valid <span class="op">=</span> (Mall <span class="op">&gt;=</span> <span class="dv">0</span>)  <span class="co"># labelled pixels of every chip</span></span>
@@ -2421,7 +2541,7 @@ Wetland/forest     97 0.0044
 <section id="spatial-block-split-and-training-only-normalisation" class="level3">
 <h3 class="anchored" data-anchor-id="spatial-block-split-and-training-only-normalisation">Spatial-block split and training-only normalisation</h3>
 <p><code>group_split(groups, test_size=, val_size=)</code> assigns <em>whole blocks</em> to train/validation/test. <code>check_split_isolation</code> raises if any block appears in two splits. Neighbouring blocks still touch, so a very small leakage along block edges remains; this is why the <em>Training loop and optimisation with <code>train_model</code></em> section reports uncertainty and why the earlier notebooks add a geographic hold-out.</p>
-<div id="4b5ea281" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:35:02.807813Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:35:02.807709Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:35:07.630901Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:35:07.630133Z&quot;}}" data-execution_count="7">
+<div id="4b5ea281" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:03:07.344631Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:03:07.344531Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:03:11.939175Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:03:11.938448Z&quot;}}" data-execution_count="7">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sp <span class="op">=</span> ic.group_split(groups, test_size<span class="op">=</span><span class="fl">0.2</span>, val_size<span class="op">=</span><span class="fl">0.2</span>, seed<span class="op">=</span>SEED)  <span class="co"># 60 / 20 / 20 split by whole blocks</span></span>
@@ -2483,7 +2603,7 @@ batch: {'image': ((128, 10, 32, 32), 'torch.float32'), 'label': ((128,), 'torch.
 <p>With classes of very different frequency, plain cross-entropy is dominated by the majority class. <code>class_weights</code> converts counts <span class="math inline">\(n_k\)</span> into weights with three recipes (normalised to mean 1):</p>
 <p><span class="math display">\[w_k^{\text{inverse}}\propto\frac1{n_k},\qquad w_k^{\sqrt{\ }}\propto\frac1{\sqrt{n_k}},\qquad w_k^{\text{effective}}\propto\frac{1-\beta}{1-\beta^{\,n_k}}\ \ (\text{Cui et al., 2019; }\beta=0.999).\]</span></p>
 <p>The “effective number of samples” <span class="math inline">\(E_n=(1-\beta^{n})/(1-\beta)\)</span> accounts for the overlap between samples of the same class: more samples add less and less new information.</p>
-<div id="924cf331" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:35:07.634703Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:35:07.634606Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:35:07.639936Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:35:07.639246Z&quot;}}" data-execution_count="8">
+<div id="924cf331" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:03:11.940856Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:03:11.940755Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:03:11.945846Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:03:11.945344Z&quot;}}" data-execution_count="8">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># three class-weighting rules</span></span>
@@ -2625,7 +2745,7 @@ Other             4.099         2.673      3.995</code></pre>
 <p><code>count_parameters(model)</code> counts trainable weights. <code>receptive_field(model, input_size=)</code> follows the conv/pool path and returns the receptive field <span class="math inline">\(r\)</span> and the jump <span class="math inline">\(j\)</span> (output stride) by the recursion</p>
 <p><span class="math display">\[r_{l}=r_{l-1}+(k_l-1)\,j_{l-1},\qquad j_l=j_{l-1}\,s_l,\]</span></p>
 <p>and the <strong>coverage</strong> <span class="math inline">\(\min(1,r/\text{input size})\)</span>. A coverage below 1 means the final convolutional features cannot see the whole chip (LeNet: 16 of 32 px). Receptive fields far above 32 px (ResNet-18: 1,891 px) simply mean that the last layers see the whole padded chip. For transformers the value reflects only the patch embedding; attention is global by construction, so it is not meaningful there.</p>
-<div id="5eae0d15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:35:07.641491Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:35:07.641409Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:35:10.861719Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:35:10.860868Z&quot;}}" data-execution_count="9">
+<div id="5eae0d15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:03:11.948957Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:03:11.948865Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:03:15.256891Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:03:15.256144Z&quot;}}" data-execution_count="9">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the nine architectures to compare</span></span>
@@ -2670,7 +2790,7 @@ forward pass OK for all: True</code></pre>
 <p><strong>CutMix</strong> (Yun et al., 2019) pastes a rectangular patch of chip <span class="math inline">\(B\)</span> into chip <span class="math inline">\(A\)</span> and mixes the labels in proportion to the patch area:</p>
 <p><span class="math display">\[\tilde{\mathbf x}=\mathbf M\odot\mathbf x_A+(1-\mathbf M)\odot\mathbf x_B,\qquad \tilde y=\lambda\,y_A+(1-\lambda)\,y_B,\quad \lambda\sim\mathrm{Beta}(\alpha,\alpha),\]</span></p>
 <p>with <span class="math inline">\(\lambda\)</span> adjusted to the exact pixel area of the paste. The loss becomes <span class="math inline">\(\lambda\,\mathcal L(f(\tilde{\mathbf x}),y_A)+(1-\lambda)\,\mathcal L(f(\tilde{\mathbf x}),y_B)\)</span>. <code>cutmix(images, targets, alpha, rng)</code> returns <code>(mixed, y_a, y_b, lam)</code>; <code>train_model(..., cutmix_prob=p)</code> applies it internally.</p>
-<div id="a5ba8e05" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:35:10.863157Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:35:10.863009Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:35:11.290845Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:35:11.290063Z&quot;}}" data-execution_count="10">
+<div id="a5ba8e05" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:03:15.258146Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:03:15.258033Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:03:15.666975Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:03:15.666534Z&quot;}}" data-execution_count="10">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>i0 <span class="op">=</span> <span class="bu">int</span>(np.where(y[tr] <span class="op">==</span> <span class="dv">1</span>)[<span class="dv">0</span>][<span class="dv">5</span>])  <span class="co"># a soybean training chip</span></span>
@@ -2714,7 +2834,7 @@ forward pass OK for all: True</code></pre>
 <li><strong>Focal loss</strong> (Lin et al., 2017): <span class="math inline">\(\mathcal L_{\text{focal}}=-\alpha_y\,(1-p_y)^{\gamma}\log p_y\)</span>. The modulating factor <span class="math inline">\((1-p_y)^\gamma\)</span> down-weights easy examples (<span class="math inline">\(p_y\to1\)</span>) so that training focuses on hard, often minority-class examples; <span class="math inline">\(\gamma=2\)</span> is the usual choice.</li>
 </ul>
 <p>All losses accept <span class="math inline">\((N,C)\)</span> logits with <span class="math inline">\((N,)\)</span> targets. Quick numerical check on one batch:</p>
-<div id="a10dc750" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:35:11.292678Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:35:11.292582Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:35:11.389690Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:35:11.388948Z&quot;}}" data-execution_count="11">
+<div id="a10dc750" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:03:15.668736Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:03:15.668637Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:03:15.767041Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:03:15.766444Z&quot;}}" data-execution_count="11">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>zb <span class="op">=</span> torch.randn(<span class="dv">256</span>, K) <span class="op">*</span> <span class="dv">2</span><span class="op">;</span> yb_ <span class="op">=</span> torch.randint(<span class="dv">0</span>, K, (<span class="dv">256</span>,))  <span class="co"># random scores and labels for 256 samples</span></span>
@@ -2754,7 +2874,7 @@ forward pass OK for all: True</code></pre>
 <li><strong>Checkpoint</strong> of the best state and <strong>logging</strong> to TensorBoard (or W&amp;B, MLflow, or any callable).</li>
 </ul>
 <p>It returns a history dict (<code>train_loss</code>, <code>val_loss</code>, <code>val_score</code>, <code>lr</code>). The helper below wraps one experiment: it builds the datasets, trains, and scores the test blocks. Model selection uses the <strong>validation</strong> set only; the test set is touched once per run for reporting.</p>
-<div id="045cafa1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:35:11.391306Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:35:11.391212Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:35:11.397752Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:35:11.397137Z&quot;}}" data-execution_count="12">
+<div id="045cafa1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:03:15.768611Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:03:15.768514Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:03:15.775168Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:03:15.774454Z&quot;}}" data-execution_count="12">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prob_to_report(P, yt, n_boot<span class="op">=</span><span class="dv">0</span>):  <span class="co"># accuracy report from class probabilities</span></span>
@@ -2795,7 +2915,7 @@ forward pass OK for all: True</code></pre>
 <section id="benchmarking-the-nine-architectures-under-one-recipe" class="level3">
 <h3 class="anchored" data-anchor-id="benchmarking-the-nine-architectures-under-one-recipe">Benchmarking the nine architectures under one recipe</h3>
 <p>Every architecture is trained with the <strong>same</strong> recipe (AdamW, lr <span class="math inline">\(10^{-3}\)</span>, cosine, AMP, grad-clip 1, plain CE, no augmentation) for a fixed number of epochs. One seed per architecture; the seeds are repeated for the ablations in the <em>Augmentation and loss ablations on ResNet-18 (mean ± SD over seeds)</em> section. Parameters and receptive field are from the <em>CNN architectures and the mathematics behind them</em> section.</p>
-<div id="8ee5e38d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:35:11.399486Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:35:11.399384Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:41:06.319642Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:41:06.319003Z&quot;}}" data-execution_count="13">
+<div id="8ee5e38d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:03:15.776653Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:03:15.776565Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:08:44.905520Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:08:44.905050Z&quot;}}" data-execution_count="13">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>lr_by <span class="op">=</span> {<span class="st">"vit_b_16"</span>: <span class="fl">3e-4</span>, <span class="st">"swin_t"</span>: <span class="fl">3e-4</span>, <span class="st">"convnext_tiny"</span>: <span class="fl">5e-4</span>}     <span class="co"># transformers/ConvNeXt prefer smaller lr</span></span>
@@ -2813,15 +2933,15 @@ forward pass OK for all: True</code></pre>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>arch_res  <span class="co"># show it</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>lenet            val 0.9912  test 0.9984  (15s)
-simple_cnn       val 0.9942  test 0.9993  (11s)
-vgg_small        val 0.9946  test 0.9991  (13s)
-resnet18         val 0.9939  test 0.9984  (20s)
-resnet34         val 0.9926  test 0.9984  (29s)
-efficientnet_b0  val 0.9915  test 0.9989  (42s)
-convnext_tiny    val 0.9928  test 0.9977  (43s)
-vit_b_16         val 0.9888  test 0.9948  (83s)
-swin_t           val 0.9921  test 0.9980  (86s)</code></pre>
+<pre><code>lenet            val 0.9908  test 0.9982  (14s)
+simple_cnn       val 0.9942  test 0.9993  (10s)
+vgg_small        val 0.9946  test 0.9991  (12s)
+resnet18         val 0.9939  test 0.9984  (18s)
+resnet34         val 0.9926  test 0.9984  (27s)
+efficientnet_b0  val 0.9915  test 0.9989  (39s)
+convnext_tiny    val 0.9928  test 0.9977  (41s)
+vit_b_16         val 0.9888  test 0.9948  (75s)
+swin_t           val 0.9921  test 0.9980  (79s)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <div>
@@ -2851,15 +2971,15 @@ swin_t           val 0.9921  test 0.9980  (86s)</code></pre>
 <th data-quarto-table-cell-role="th">lenet</th>
 <td>62716</td>
 <td>16</td>
-<td>0.9693</td>
-<td>0.9912</td>
-<td>0.9984</td>
+<td>0.9252</td>
+<td>0.9908</td>
+<td>0.9982</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">simple_cnn</th>
 <td>17958</td>
 <td>16</td>
-<td>0.7232</td>
+<td>0.6649</td>
 <td>0.9942</td>
 <td>0.9993</td>
 </tr>
@@ -2867,7 +2987,7 @@ swin_t           val 0.9921  test 0.9980  (86s)</code></pre>
 <th data-quarto-table-cell-role="th">vgg_small</th>
 <td>290246</td>
 <td>36</td>
-<td>0.8704</td>
+<td>0.7857</td>
 <td>0.9946</td>
 <td>0.9991</td>
 </tr>
@@ -2875,7 +2995,7 @@ swin_t           val 0.9921  test 0.9980  (86s)</code></pre>
 <th data-quarto-table-cell-role="th">resnet18</th>
 <td>11201542</td>
 <td>1891</td>
-<td>1.3066</td>
+<td>1.2140</td>
 <td>0.9939</td>
 <td>0.9984</td>
 </tr>
@@ -2883,7 +3003,7 @@ swin_t           val 0.9921  test 0.9980  (86s)</code></pre>
 <th data-quarto-table-cell-role="th">resnet34</th>
 <td>21309702</td>
 <td>4083</td>
-<td>1.9297</td>
+<td>1.8291</td>
 <td>0.9926</td>
 <td>0.9984</td>
 </tr>
@@ -2891,7 +3011,7 @@ swin_t           val 0.9921  test 0.9980  (86s)</code></pre>
 <th data-quarto-table-cell-role="th">efficientnet_b0</th>
 <td>4017250</td>
 <td>851</td>
-<td>2.7850</td>
+<td>2.6110</td>
 <td>0.9915</td>
 <td>0.9989</td>
 </tr>
@@ -2899,7 +3019,7 @@ swin_t           val 0.9921  test 0.9980  (86s)</code></pre>
 <th data-quarto-table-cell-role="th">convnext_tiny</th>
 <td>27835494</td>
 <td>1688</td>
-<td>2.8627</td>
+<td>2.7267</td>
 <td>0.9928</td>
 <td>0.9977</td>
 </tr>
@@ -2907,7 +3027,7 @@ swin_t           val 0.9921  test 0.9980  (86s)</code></pre>
 <th data-quarto-table-cell-role="th">vit_b_16</th>
 <td>87032070</td>
 <td>16</td>
-<td>5.5112</td>
+<td>4.9940</td>
 <td>0.9888</td>
 <td>0.9948</td>
 </tr>
@@ -2915,7 +3035,7 @@ swin_t           val 0.9921  test 0.9980  (86s)</code></pre>
 <th data-quarto-table-cell-role="th">swin_t</th>
 <td>27534720</td>
 <td>4</td>
-<td>5.7394</td>
+<td>5.2600</td>
 <td>0.9921</td>
 <td>0.9980</td>
 </tr>
@@ -2925,7 +3045,7 @@ swin_t           val 0.9921  test 0.9980  (86s)</code></pre>
 </div>
 </div>
 </div>
-<div id="0e432e50" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:41:06.321123Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:41:06.321024Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:41:06.693585Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:41:06.692830Z&quot;}}" data-execution_count="14">
+<div id="0e432e50" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:08:44.907205Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:08:44.907101Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:08:45.269283Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:08:45.268565Z&quot;}}" data-execution_count="14">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">13</span>, <span class="fl">3.8</span>))  <span class="co"># three panels</span></span>
@@ -2954,7 +3074,7 @@ swin_t           val 0.9921  test 0.9980  (86s)</code></pre>
 <section id="augmentation-and-loss-ablations-on-resnet-18-mean-sd-over-seeds" class="level3">
 <h3 class="anchored" data-anchor-id="augmentation-and-loss-ablations-on-resnet-18-mean-sd-over-seeds">Augmentation and loss ablations on ResNet-18 (mean ± SD over seeds)</h3>
 <p>We now fix <strong>ResNet-18</strong> (a good accuracy/cost compromise on this data) and vary one ingredient at a time, over seeds <span class="math inline">\(\{0,1,2\}\)</span> and report mean <span class="math inline">\(\pm\)</span> SD of test accuracy. Differences smaller than about one SD should not be interpreted as real.</p>
-<div id="77aaa553" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:41:06.695346Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:41:06.695242Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:48:14.132078Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:48:14.131635Z&quot;}}" data-execution_count="15">
+<div id="77aaa553" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:08:45.270775Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:08:45.270677Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:15:21.788338Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:15:21.787541Z&quot;}}" data-execution_count="15">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>CW <span class="op">=</span> W[<span class="st">"sqrt_inverse"</span>]  <span class="co"># the class weights used below</span></span>
@@ -3027,7 +3147,7 @@ label smoothing 0.1 done</code></pre>
 <td>0.0005</td>
 <td>0.9652</td>
 <td>0.0218</td>
-<td>15.7035</td>
+<td>14.6803</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">+ OverheadAugment</th>
@@ -3036,7 +3156,7 @@ label smoothing 0.1 done</code></pre>
 <td>0.0005</td>
 <td>0.9768</td>
 <td>0.0018</td>
-<td>18.3565</td>
+<td>16.9489</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">+ CutMix (p=0.5)</th>
@@ -3045,7 +3165,7 @@ label smoothing 0.1 done</code></pre>
 <td>0.0002</td>
 <td>0.9901</td>
 <td>0.0038</td>
-<td>16.2204</td>
+<td>15.0160</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">+ Aug + CutMix</th>
@@ -3054,7 +3174,7 @@ label smoothing 0.1 done</code></pre>
 <td>0.0002</td>
 <td>0.9779</td>
 <td>0.0102</td>
-<td>18.7408</td>
+<td>17.2164</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">weighted CE (sqrt-inv.)</th>
@@ -3063,7 +3183,7 @@ label smoothing 0.1 done</code></pre>
 <td>0.0001</td>
 <td>0.9124</td>
 <td>0.0487</td>
-<td>15.8911</td>
+<td>14.7212</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">focal (gamma=2)</th>
@@ -3072,7 +3192,7 @@ label smoothing 0.1 done</code></pre>
 <td>0.0003</td>
 <td>0.9334</td>
 <td>0.0413</td>
-<td>16.4635</td>
+<td>15.3890</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">focal + weights</th>
@@ -3081,7 +3201,7 @@ label smoothing 0.1 done</code></pre>
 <td>0.0006</td>
 <td>0.9142</td>
 <td>0.0365</td>
-<td>16.7440</td>
+<td>15.2976</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">label smoothing 0.1</th>
@@ -3090,7 +3210,7 @@ label smoothing 0.1 done</code></pre>
 <td>0.0000</td>
 <td>0.9606</td>
 <td>0.0120</td>
-<td>16.0843</td>
+<td>15.0706</td>
 </tr>
 </tbody>
 </table>
@@ -3098,7 +3218,7 @@ label smoothing 0.1 done</code></pre>
 </div>
 </div>
 </div>
-<div id="029180ba" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:48:14.134115Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:48:14.134025Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:48:14.288847Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:48:14.288450Z&quot;}}" data-execution_count="16">
+<div id="029180ba" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:15:21.789946Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:15:21.789781Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:15:21.941458Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:15:21.940956Z&quot;}}" data-execution_count="16">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="fl">3.8</span>))  <span class="co"># two panels</span></span>
@@ -3123,7 +3243,7 @@ label smoothing 0.1 done</code></pre>
 <section id="final-model-early-stopping-checkpoint-and-tensorboard" class="level2">
 <h2 class="anchored" data-anchor-id="final-model-early-stopping-checkpoint-and-tensorboard">Final model: early stopping, checkpoint and TensorBoard</h2>
 <p>We train the final model with everything switched on: AdamW + cosine schedule, mixed precision, gradient clipping, <strong>early stopping</strong> (patience 6 on validation accuracy), best-weights <strong>checkpoint</strong> and <strong>TensorBoard</strong> logging (guarded in case it is not installed). The best configuration in the <em>Augmentation and loss ablations on ResNet-18 (mean ± SD over seeds)</em> section is selected on the <strong>validation</strong> accuracy (not the test accuracy) and the final training is longer than the ablation runs.</p>
-<div id="f89f0816" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:48:14.290600Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:48:14.290511Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:49:04.898436Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:49:04.897848Z&quot;}}" data-execution_count="17">
+<div id="f89f0816" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:15:21.943441Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:15:21.943340Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:16:10.247502Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:16:10.246770Z&quot;}}" data-execution_count="17">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the variant with the best validation accuracy</span></span>
@@ -3161,7 +3281,7 @@ label smoothing 0.1 done</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>stopped after 30 epochs | best val acc 0.9957 | test acc 0.9993 | checkpoint resnet18_best.pt (44.9 MB) | logger: tensorboard
-TensorBoard event files: ['events.out.tfevents.1793494097.zia207-ThinkPad-P16-Gen-1.199527.0']</code></pre>
+TensorBoard event files: ['events.out.tfevents.1795637726.zia207-ThinkPad-P16-Gen-1.89198.0']</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -3174,7 +3294,7 @@ TensorBoard event files: ['events.out.tfevents.1793494097.zia207-ThinkPad-P16-Ge
 <section id="restoring-the-model-with-load_checkpoint" class="level3">
 <h3 class="anchored" data-anchor-id="restoring-the-model-with-load_checkpoint">Restoring the model with <code>load_checkpoint</code></h3>
 <p><code>load_checkpoint(model, path)</code> loads the saved weights into a <strong>freshly built</strong> model of the same architecture and returns <code>(model, missing_keys)</code>. A correct round trip reproduces the predictions exactly.</p>
-<div id="1676114a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:49:04.900574Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:49:04.900257Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:49:05.147147Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:49:05.146660Z&quot;}}" data-execution_count="18">
+<div id="1676114a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:16:10.249525Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:16:10.249196Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:16:10.483249Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:16:10.482459Z&quot;}}" data-execution_count="18">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fresh <span class="op">=</span> ic.build_cnn(<span class="st">"resnet18"</span>, in_channels<span class="op">=</span><span class="bu">len</span>(BANDS), num_classes<span class="op">=</span>K)  <span class="co"># a fresh ResNet-18</span></span>
@@ -3196,7 +3316,7 @@ TensorBoard event files: ['events.out.tfevents.1793494097.zia207-ThinkPad-P16-Ge
 <li><code>classification_report(y_true, y_pred, labels, class_names, n_boot)</code> gives overall accuracy, Cohen’s <span class="math inline">\(\kappa\)</span>, macro-F1, per-class precision/recall/F1 and a <strong>bootstrap confidence interval</strong> (resampling test chips with replacement).</li>
 </ul>
 <p>Because chips in a block are spatially autocorrelated, the bootstrap interval is somewhat optimistic; the SD over seeds in the <em>Training loop and optimisation with <code>train_model</code></em> section is a complementary uncertainty measure.</p>
-<div id="5104a791" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:49:05.148765Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:49:05.148659Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:49:07.045074Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:49:07.044532Z&quot;}}" data-execution_count="19">
+<div id="5104a791" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:16:10.484913Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:16:10.484808Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:16:12.290386Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:16:12.289466Z&quot;}}" data-execution_count="19">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>P_plain <span class="op">=</span> ic.predict_proba_batches(final[<span class="st">"model"</span>], ld_te, device<span class="op">=</span>DEVICE)  <span class="co"># test probabilities without TTA</span></span>
@@ -3227,7 +3347,7 @@ Wetland/forest        1.0   1.000  1.000       21      1.000         1.0
 Other                 0.0     NaN    NaN        0        NaN         NaN</code></pre>
 </div>
 </div>
-<div id="7fc1fc35" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:49:07.046756Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:49:07.046659Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:49:07.236263Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:49:07.235691Z&quot;}}" data-execution_count="20">
+<div id="7fc1fc35" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:16:12.291708Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:16:12.291611Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:16:12.476292Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:16:12.475852Z&quot;}}" data-execution_count="20">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>cmx <span class="op">=</span> np.asarray(rep[<span class="st">"confusion_matrix"</span>])  <span class="co"># the confusion matrix</span></span>
@@ -3254,7 +3374,7 @@ Other                 0.0     NaN    NaN        0        NaN         NaN</code><
 <section id="wall-to-wall-prediction-map-with-predict_chip_map" class="level3">
 <h3 class="anchored" data-anchor-id="wall-to-wall-prediction-map-with-predict_chip_map">Wall-to-wall prediction map with <code>predict_chip_map</code></h3>
 <p><code>predict_chip_map(model, image, size=, stride=, normalizer=, batch_size=)</code> slides the chip classifier over a georeferenced image and assigns each pixel the class of the chip whose centre is nearest (stride 8 here; each pixel then comes from a chip centred within 4 px). Chips with <code>NaN</code> (cloud) get nodata <span class="math inline">\(-1\)</span>. The normaliser is the one fitted on the training chips. We evaluate the map <strong>only on pixels inside test blocks</strong>, comparing with the original 10 m CDL pixels (not the chip majority labels), which is the number a map user actually experiences.</p>
-<div id="374cccda" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:49:07.237873Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:49:07.237784Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:49:24.827383Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:49:24.826637Z&quot;}}" data-execution_count="21">
+<div id="374cccda" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:16:12.477817Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:16:12.477718Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:16:29.310248Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:16:29.309789Z&quot;}}" data-execution_count="21">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>sub <span class="op">=</span> refl.isel(y<span class="op">=</span><span class="bu">slice</span>(<span class="dv">0</span>, nb <span class="op">*</span> BLOCK), x<span class="op">=</span><span class="bu">slice</span>(<span class="dv">0</span>, nb <span class="op">*</span> BLOCK))  <span class="co"># the area covered by blocks</span></span>
@@ -3287,7 +3407,7 @@ Other                 0.0     NaN    NaN        0        NaN         NaN</code><
 <span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()  <span class="co"># arrange and draw</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>map (2816, 2816) in 15s
+<pre><code>map (2816, 2816) in 14s
 pixel-level OA on test blocks vs. CDL: 0.8843 | kappa 0.7920 | macro-F1 0.4901 | pixels 1,558,911</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -3301,7 +3421,7 @@ pixel-level OA on test blocks vs. CDL: 0.8843 | kappa 0.7920 | macro-F1 0.4901 |
 </section>
 <section id="where-is-the-map-wrong-errors-versus-field-boundaries" class="level3">
 <h3 class="anchored" data-anchor-id="where-is-the-map-wrong-errors-versus-field-boundaries">Where is the map wrong? Errors versus field boundaries</h3>
-<div id="434c88ee" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:49:24.831435Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:49:24.831330Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:49:25.687470Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:49:25.686780Z&quot;}}" data-execution_count="22">
+<div id="434c88ee" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:16:29.314598Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:16:29.314500Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:16:30.137006Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:16:30.136370Z&quot;}}" data-execution_count="22">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>err <span class="op">=</span> np.where(m, (pred <span class="op">!=</span> ref_l).astype(<span class="bu">float</span>), np.nan)  <span class="co"># 1 = wrong, 0 = right, NaN = not tested</span></span>
@@ -3338,7 +3458,7 @@ pixel-level OA on test blocks vs. CDL: 0.8843 | kappa 0.7920 | macro-F1 0.4901 |
 </section>
 <section id="summary-of-the-experiments" class="level2">
 <h2 class="anchored" data-anchor-id="summary-of-the-experiments">Summary of the experiments</h2>
-<div id="d6654f7a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T00:49:25.689151Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T00:49:25.689061Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T00:49:25.697067Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T00:49:25.696529Z&quot;}}" data-execution_count="23">
+<div id="d6654f7a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:16:30.138414Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:16:30.138318Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:16:30.145367Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:16:30.145032Z&quot;}}" data-execution_count="23">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>best_arch <span class="op">=</span> arch_res[<span class="st">"test acc"</span>].idxmax()  <span class="co"># the best architecture</span></span>
@@ -3354,15 +3474,15 @@ pixel-level OA on test blocks vs. CDL: 0.8843 | kappa 0.7920 | macro-F1 0.4901 |
 <pre><code>Architectures (1 seed, plain CE):
                  parameters  sec/epoch  best val acc  test acc
 arch                                                          
-simple_cnn            17958     0.7232        0.9942    0.9993
-vgg_small            290246     0.8704        0.9946    0.9991
-efficientnet_b0     4017250     2.7850        0.9915    0.9989
-lenet                 62716     0.9693        0.9912    0.9984
-resnet18           11201542     1.3066        0.9939    0.9984
-resnet34           21309702     1.9297        0.9926    0.9984
-swin_t             27534720     5.7394        0.9921    0.9980
-convnext_tiny      27835494     2.8627        0.9928    0.9977
-vit_b_16           87032070     5.5112        0.9888    0.9948
+simple_cnn            17958     0.6649        0.9942    0.9993
+vgg_small            290246     0.7857        0.9946    0.9991
+efficientnet_b0     4017250     2.6110        0.9915    0.9989
+resnet34           21309702     1.8291        0.9926    0.9984
+resnet18           11201542     1.2140        0.9939    0.9984
+lenet                 62716     0.9252        0.9908    0.9982
+swin_t             27534720     5.2600        0.9921    0.9980
+convnext_tiny      27835494     2.7267        0.9928    0.9977
+vit_b_16           87032070     4.9940        0.9888    0.9948
 
 Ablations on ResNet-18 (mean ± SD over 3 seeds):
                          test_acc  test_sd  macro_f1  macro_f1_sd

@@ -16,10 +16,11 @@ Submodules: ``backend``, ``core``, ``access``, ``optical``, ``atmosphere``, ``sp
 ``sar``, ``insar``, ``uav``, ``lidar``, ``hyperspectral``, ``timeseries``, ``classify``, ``dl``,
 ``fusion``, ``xai``, ``viz``, ``scale``, ``apps``, ``get_images``, ``super_resolution``,
 ``texture``, ``image_processing``, ``foundation_models``, ``surface_energy_balance``,
-``classify.image_classification`` (alias ``image_classification``), ``edge_detectors``. Heavy
-third-party dependencies are imported only when a function needs them. ``get_images`` downloads
-the same catalogues as PyGIS Explorer. ``spectral_index`` computes indices for MODIS, Landsat
-8/9, Sentinel-2, PlanetScope, WorldView and NAIP. ``texture`` computes statistical, structural,
+``soil_moisture``, ``classify.image_classification`` (alias ``image_classification``),
+``edge_detectors``. Heavy third-party dependencies are imported only when a function needs
+them. ``get_images`` downloads the same catalogues as PyGIS Explorer. ``spectral_index``
+computes indices for MODIS, Landsat 8/9, Sentinel-2, PlanetScope, WorldView and NAIP.
+``texture`` computes statistical, structural,
 transform-based, local-pattern, model-based and deep-learning texture features for optical
 and SAR imagery. ``classify.image_classification`` runs end-to-end image learning workflows:
 leakage-safe spatial splits, pixel/object and supervised/unsupervised/semi-/self-supervised
@@ -32,6 +33,10 @@ embedding maps and probes, clusters or compares those embeddings. ``surface_ener
 maps evapotranspiration from satellite images: the radiation balance, soil heat flux,
 aerodynamic resistance, ASCE reference ET, anchor pixels, SEBAL, METRIC, SSEBop, S-SEBI, the
 triangle method, PT-JPL, TSEB-PT, thermal sharpening, seasonal upscaling and validation.
+``soil_moisture`` has soil water pedotransfer functions (Saxton and Rawls 2006), dielectric
+mixing models (Dobson, Mironov, Topp), Fresnel and H-Q-N reflectivity, the tau-omega model
+and its single channel inversion; satellite products, SAR retrieval, downscaling, validation
+and drought applications are outlined there and raise ``NotImplementedError`` for now.
 """
 
 import importlib as _importlib
@@ -88,6 +93,7 @@ _SUBMODULES = (
     "edge_detectors",
     "foundation_models",
     "surface_energy_balance",
+    "soil_moisture",
 )
 
 # moved modules kept importable under their old attribute name
@@ -138,6 +144,7 @@ __all__ = [  # noqa: F822  (submodules are resolved lazily by __getattr__)
     "edge_detectors",
     "foundation_models",
     "surface_energy_balance",
+    "soil_moisture",
     "image_classification",
     "autocast",
     "available_backends",

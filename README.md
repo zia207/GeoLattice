@@ -25,7 +25,7 @@ GeoLattice was called PyGIS until version 0.3.49. See [Moving from PyGIS](#movin
 | Geostatistics | `geolattice.geostatistics` | Variograms, the kriging family (simple, ordinary, universal, indicator, co-, Poisson, Bayesian, regression and space-time kriging), sequential and multiple-point simulation, with GPU and JAX backends |
 | Spatial databases | `geolattice.geolatticedb` | One API for PostGIS, SpatiaLite, GeoPackage and DuckDB spatial: loading, spatial SQL, joins, nearest neighbours, PostGIS raster, pgRouting and vector tiles |
 | Web and cloud GIS | `geolattice.web` | Cloud-Optimized GeoTIFF, GeoParquet, PMTiles, XYZ tiles and an OGC API Features server, with reading from S3, Google Cloud Storage, Azure and HTTP |
-| Remote sensing | `geolattice.rsense` | Data access (STAC, Earth Engine, ASF, Copernicus), optical indices and composites, SAR, InSAR, NISAR, lidar, hyperspectral imaging, UAV, time series, fusion, texture, super-resolution, classification, deep learning, foundation models (Prithvi, Clay, DOFA, TerraMind, AlphaEarth and 40 others), surface energy balance evapotranspiration (SEBAL, METRIC, SSEBop, S-SEBI, PT-JPL, TSEB) and explainable AI |
+| Remote sensing | `geolattice.rsense` | Data access (STAC, Earth Engine, ASF, Copernicus), optical indices and composites, SAR, InSAR, NISAR, lidar, hyperspectral imaging, UAV, time series, fusion, texture, super-resolution, classification, deep learning, foundation models (Prithvi, Clay, DOFA, TerraMind, AlphaEarth and 40 others), surface energy balance evapotranspiration (SEBAL, METRIC, SSEBop, S-SEBI, PT-JPL, TSEB), soil moisture physics (pedotransfer functions, Dobson and Mironov dielectric models, the tau-omega model and its inversion) and explainable AI |
 | Visualization | `geolattice.viz` | Static maps, choropleths, raster displays and interactive Folium maps |
 | Distributed and GPU computing | `geolattice.distributed` | One API for chunked raster processing, partitioned vector joins, raster-vector operations, spatial statistics, clustering, networks, hydrology and machine learning on all CPU cores, a Dask cluster (local, multi-GPU, SLURM, PBS, Kubernetes), Spark with Apache Sedona, or CUDA GPUs |
 
@@ -162,9 +162,17 @@ rn = seb.net_radiation(rs_in, alb, rl_in, seb.outgoing_longwave(lst, e0), e0)
 g = seb.soil_heat_flux(rn, lst, lai=lai, method="metric")
 et = seb.run_metric(lst, rn, g, seb.momentum_roughness(lai=lai), seb.wind_at_blending_height(2.5),
                     100.6, etr_inst=0.93, anchors=anchors, etr_daily=12.0)   # Dataset: h, le, etrf, et24
+
+# Soil moisture physics: soil water limits, L-band permittivity, brightness temperature and its inversion
+import geolattice.rsense.soil_moisture as sm
+
+soil = sm.saxton_rawls(sand=0.40, clay=0.20)            # loam: WP 0.14, FC 0.28, saturation 0.46 m3/m3
+eps = sm.mironov_dielectric(0.25, clay=0.20)             # 13.0 - 1.5j at 1.41 GHz
+tb = sm.tau_omega(295.0, eps, 40.0, tau=0.3, pol="v")    # 260.7 K
+theta = sm.invert_tau_omega(tb, 295.0, 40.0, clay=0.20, tau=0.3)   # back to 0.25 m3/m3
 ```
 
-The [user guide](docs/USER_GUIDE.md) has worked examples for every module, including the full raster toolset, hydrology, suitability analysis, geostatistical simulation, SAR and InSAR processing, lidar, hyperspectral analysis, image classification and evapotranspiration from the surface energy balance.
+The [user guide](docs/USER_GUIDE.md) has worked examples for every module, including the full raster toolset, hydrology, suitability analysis, geostatistical simulation, SAR and InSAR processing, lidar, hyperspectral analysis, image classification, evapotranspiration from the surface energy balance and soil moisture physics.
 
 ## GPU support
 
@@ -259,7 +267,7 @@ The notebooks in [`Tutorials/notebooks`](Tutorials/notebooks) are organized like
 | [06 Spatial databases](Tutorials/notebooks/06_spatialDB) | 15 | Spatial database concepts, spatial SQL, joins, indexing, PostGIS raster, pgRouting, DuckDB and GeoParquet, cloud engines, deployment |
 | [07 Web and cloud GIS](Tutorials/notebooks/07_web_cloud_gis) | 12 | Cloud-native raster and vector data, spatial SQL, interactive web maps, map serving, geospatial APIs, web apps, scalable processing, cloud platforms |
 | [08 Distributed spatial computing](Tutorials/notebooks/08_distributed_spatial) | 13 | Sessions and clusters, parallel I/O, rasters and vectors at scale, zonal statistics, spatial statistics and clustering, networks, hydrology, machine learning on GPUs, Apache Sedona, diagnostics, capstone |
-| [09 Remote sensing](Tutorials/notebooks/09_remote_sensing) | 139 | Foundations, optical, radar, UAV, hyperspectral, lidar, texture analysis, super-resolution, image classification, object detection, foundation models, surface energy balance and evapotranspiration (SEBAL, METRIC, SSEBop, TSEB, seasonal crop water use), capstones |
+| [09 Remote sensing](Tutorials/notebooks/09_remote_sensing) | 152 | Foundations, optical, radar, UAV, hyperspectral, lidar, texture analysis, super-resolution, image classification, object detection, foundation models, surface energy balance and evapotranspiration (SEBAL, METRIC, SSEBop, TSEB, seasonal crop water use), soil moisture (SMAP, ESA CCI, Sentinel-1 retrieval, downscaling), capstones |
 
 The sample data the notebooks read is in [`Data/`](Data/README.md), organized by chapter. HTML versions of the notebooks with all outputs are in [`docs/notebooks`](docs/notebooks) (chapters 01 to 06 so far); `Tutorials/_tools/export_notebooks_html.py` builds them.
 

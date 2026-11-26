@@ -111,6 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<style>.navbar .dropdown-menu { max-height: 80vh; overflow-y: auto; }</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -327,10 +328,10 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-foundations--optical" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Foundations &amp; Optical</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-foundations--optical">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
         <li class="dropdown-header">Foundations</li>
         <li>
     <a class="dropdown-item" href="../09_01_foundations/09_01_00_remote_sensing_fundamentals.html">
@@ -382,13 +383,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_02_optical/09_02_07_sentinel_5p_and_sentinel_5_mapping_air_pollution_from_orbit.html">
  <span class="dropdown-text">Sentinel-5P and Sentinel-5</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-radar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Radar</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-radar">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Radar (SAR and InSAR)</li>
         <li>
     <a class="dropdown-item" href="../09_03_radar/09_03_00_sar_fundamentals.html">
@@ -486,13 +481,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_03_radar/09_03_03_05_nisar_gunw_geocoded_unwrapped_interferogram.html">
  <span class="dropdown-text">NISAR GUNW</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-uav-hyperspectral--lidar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">UAV, Hyperspectral &amp; LiDAR</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-uav-hyperspectral--lidar">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">UAV</li>
         <li>
     <a class="dropdown-item" href="../09_04_uav/09_04_01_uav_fundamentals_and_mission_planning.html">
@@ -618,13 +607,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_06_lidar/09_06_08_large_area_lidar_processing_tiling_streaming_parallel_work_and_the_gpu.html">
  <span class="dropdown-text">Large-Area LiDAR Processing</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-image-analysis--ai" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Image Analysis &amp; AI</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-image-analysis--ai">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Texture Analysis</li>
         <li>
     <a class="dropdown-item" href="../09_07_texture_analysis/09_07_00_texture_analysis.html">
@@ -810,13 +793,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_11_foundations_models/09_11_13_benchmarking_foundation_models_on_your_own_data.html">
  <span class="dropdown-text">Benchmarking Foundation Models</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-energy-balance--capstones" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Energy Balance &amp; Capstones</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-energy-balance--capstones">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Surface Energy Balance</li>
         <li>
     <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_00_evapotranspiration_and_the_surface_energy_balance.html">
@@ -866,75 +843,129 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_11_how_good_is_the_et_map_validation_sensitivity_and_uncertainty.html">
  <span class="dropdown-text">Validation and Uncertainty</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Soil Moisture</li>
         <li>
-    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html">
- <span class="dropdown-text">Capstone: Boro Rice Water Use</span></a>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_00_soil_moisture_concepts_and_why_it_matters.html">
+ <span class="dropdown-text">Soil Moisture Concepts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_01_microwave_remote_sensing_of_soil_moisture.html">
+ <span class="dropdown-text">Microwave Remote Sensing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_02_the_mission_and_product_landscape.html">
+ <span class="dropdown-text">Missions and Products</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_03_python_environment_and_data_access.html">
+ <span class="dropdown-text">Environment and Data Access</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_04_smap_l3_enhanced_daily_cube_and_climatology.html">
+ <span class="dropdown-text">SMAP L3 Enhanced Daily Cube</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_08_ascat_and_the_tu_wien_change_detection_approach.html">
+ <span class="dropdown-text">ASCAT and TU Wien Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_09_esa_cci_long_term_trends_and_anomalies.html">
+ <span class="dropdown-text">ESA CCI Trends and Anomalies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_10_esa_cci_vs_era5_land.html">
+ <span class="dropdown-text">ESA CCI vs ERA5-Land</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_11_sentinel_1_preprocessing_for_soil_moisture.html">
+ <span class="dropdown-text">Sentinel-1 Preprocessing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_12_change_detection_soil_moisture_from_sentinel_1.html">
+ <span class="dropdown-text">Sentinel-1 Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_13_water_cloud_model_and_surface_scattering_inversion.html">
+ <span class="dropdown-text">Water Cloud Model Inversion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_14_operational_high_resolution_products.html">
+ <span class="dropdown-text">Operational 1 km Products</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_15_downscale_soil_moisture.html">
+ <span class="dropdown-text">Downscaling: Six Methods Compared</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Capstone Projects</li>
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_01_thirty_five_years_of_change_around_pucallpa_peru.html">
  <span class="dropdown-text">Change around Pucallpa, Peru</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_02_fifty_years_of_change_in_the_bangladesh_delta.html">
  <span class="dropdown-text">Fifty Years in the Bangladesh Delta</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_03_wild_fire_burned_area_mapping.html">
  <span class="dropdown-text">Wildfire Burned Area</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
  <span class="dropdown-text">Rohingya Deforestation: Sentinel-2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
  <span class="dropdown-text">Flood Mapping in Sylhet</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
  <span class="dropdown-text">Rohingya Deforestation: Sentinel-1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
  <span class="dropdown-text">Ship Detection, Strait of Hormuz</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
  <span class="dropdown-text">Crops from NISAR GCOV</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
  <span class="dropdown-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
  <span class="dropdown-text">Charland Monitoring, Lower Meghna</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
  <span class="dropdown-text">Shrimp Ghers in Coastal Bangladesh</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
  <span class="dropdown-text">Big Sur Wildfire, 2026</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
  <span class="dropdown-text">Wetland Paddy in Bangladesh</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
  <span class="dropdown-text">Field Edges across Four Countries</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
  <span class="dropdown-text">Tree Biomass and Carbon from LiDAR</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
  <span class="dropdown-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_17_capstone_water_use_of_boro_rice_in_bangladesh.html">
+ <span class="dropdown-text">Boro Rice Water Use, Bangladesh</span></a>
   </li>  
     </ul>
   </li>
@@ -1866,18 +1897,12 @@ window.Quarto = {
  <span class="menu-text">Validation and Uncertainty</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Capstone: Boro Rice Water Use</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
- <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+ <span class="menu-text"><strong>Soil Moisture</strong></span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1885,98 +1910,193 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_13_soil_moisture/09_13_00_soil_moisture_concepts_and_why_it_matters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil Moisture Concepts</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_01_microwave_remote_sensing_of_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Microwave Remote Sensing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_02_the_mission_and_product_landscape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Missions and Products</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_03_python_environment_and_data_access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Environment and Data Access</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_04_smap_l3_enhanced_daily_cube_and_climatology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SMAP L3 Enhanced Daily Cube</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_08_ascat_and_the_tu_wien_change_detection_approach.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ASCAT and TU Wien Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_09_esa_cci_long_term_trends_and_anomalies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESA CCI Trends and Anomalies</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_10_esa_cci_vs_era5_land.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESA CCI vs ERA5-Land</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_11_sentinel_1_preprocessing_for_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Preprocessing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_12_change_detection_soil_moisture_from_sentinel_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_13_water_cloud_model_and_surface_scattering_inversion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Water Cloud Model Inversion</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_14_operational_high_resolution_products.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Operational 1 km Products</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_15_downscale_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Downscaling: Six Methods Compared</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_14_Capstones/09_14_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Change around Pucallpa, Peru</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Fifty Years in the Bangladesh Delta</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Wildfire Burned Area</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rohingya Deforestation: Sentinel-2</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Flood Mapping in Sylhet</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rohingya Deforestation: Sentinel-1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ship Detection, Strait of Hormuz</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Crops from NISAR GCOV</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Charland Monitoring, Lower Meghna</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shrimp Ghers in Coastal Bangladesh</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Big Sur Wildfire, 2026</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Wetland Paddy in Bangladesh</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Field Edges across Four Countries</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tree Biomass and Carbon from LiDAR</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_14_Capstones/09_14_17_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boro Rice Water Use, Bangladesh</span></a>
   </div>
 </li>
       </ul>
@@ -2101,7 +2221,7 @@ window.Quarto = {
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <p><strong>Installation.</strong> This notebook needs installation option 5 (core, spatial analysis, spatial statistics, geostatistics and remote sensing): <code>pip install "geolattice[remote-sensing]"</code>. See “Installation options” in the GeoLattice README.</p>
-<div id="88fdb32b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:28.917635Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:28.917287Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:30.027571Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:30.026958Z&quot;}}">
+<div id="88fdb32b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:17.721570Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:17.721317Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:18.888864Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:18.888438Z&quot;}}" data-execution_count="1">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup for raster and vector essentials.</span></span>
@@ -2137,10 +2257,10 @@ window.Quarto = {
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"geolattice"</span>, geolattice.__version__, <span class="st">"| geolattice.rsense"</span>, rs.__version__, <span class="st">"| backend:"</span>, rs.get_backend())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>geolattice 0.3.9 | geolattice.rsense 0.2.0.dev0 | backend: cpu</code></pre>
+<pre><code>geolattice 0.3.49 | geolattice.rsense 0.3.49 | backend: cpu</code></pre>
 </div>
 </div>
-<div id="2e2c44b8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:30.030063Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:30.029847Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:30.033381Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:30.032861Z&quot;}}">
+<div id="2e2c44b8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:18.890791Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:18.890575Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:18.894272Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:18.893998Z&quot;}}" data-execution_count="2">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Point at the tutorial files and confirm each one is on disk.</span></span>
@@ -2164,21 +2284,21 @@ window.Quarto = {
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>p<span class="sc">.</span>relative_to(DATA)<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>p<span class="sc">.</span>stat()<span class="sc">.</span>st_size <span class="op">/</span> <span class="fl">1e6</span><span class="sc">:.1f}</span><span class="ss"> MB)"</span>)  <span class="co"># its path and size</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>data_remote_sensing/LC08_20150706_subset/multi_band.tif  (25.4 MB)
-data_remote_sensing/LC08_20150706_subset/LC08_L1TP_015030_20150716_20170226_01_T1_MTL.txt  (0.0 MB)
-data_remote_sensing/LC08_20150706_subset/DEM_TILES/Onondaga_DEM0.TIF  (0.2 MB)
-data_remote_sensing/LC08_20150706_subset/DEM_TILES/Onondaga_DEM1.TIF  (0.2 MB)
-data_remote_sensing/LC08_20150706_subset/DEM_TILES/Onondaga_DEM2.TIF  (0.2 MB)
-data_remote_sensing/LC08_20150706_subset/DEM_TILES/Onondaga_DEM3.TIF  (0.1 MB)
-data_remote_sensing/Sentinel_2/B4.tif  (0.1 MB)
-vector_data/USA/NY_County_GCS.shp  (0.2 MB)</code></pre>
+<pre><code>00_shared/data_remote_sensing/LC08_20150706_subset/multi_band.tif  (25.4 MB)
+00_shared/data_remote_sensing/LC08_20150706_subset/LC08_L1TP_015030_20150716_20170226_01_T1_MTL.txt  (0.0 MB)
+00_shared/data_remote_sensing/LC08_20150706_subset/DEM_TILES/Onondaga_DEM0.TIF  (0.2 MB)
+00_shared/data_remote_sensing/LC08_20150706_subset/DEM_TILES/Onondaga_DEM1.TIF  (0.2 MB)
+00_shared/data_remote_sensing/LC08_20150706_subset/DEM_TILES/Onondaga_DEM2.TIF  (0.2 MB)
+00_shared/data_remote_sensing/LC08_20150706_subset/DEM_TILES/Onondaga_DEM3.TIF  (0.1 MB)
+00_shared/data_remote_sensing/Sentinel_2/B4.tif  (0.1 MB)
+00_shared/vector_data/USA/NY_County_GCS.shp  (0.2 MB)</code></pre>
 </div>
 </div>
 </section>
 <section id="reading-rasters-and-inspecting-metadata" class="level2">
 <h2 class="anchored" data-anchor-id="reading-rasters-and-inspecting-metadata">Reading rasters and inspecting metadata</h2>
 <p><code>rs.read</code> opens any GDAL-readable raster as a georeferenced <code>DataArray</code> with dimensions (band, y, x). <code>masked=True</code> (the default) turns the no-data value into NaN, and <code>band_names</code> labels the bands so later steps can refer to them by name.</p>
-<div id="cc55d36e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:30.035079Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:30.034992Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:30.061140Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:30.060603Z&quot;}}">
+<div id="cc55d36e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:18.895925Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:18.895801Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:18.924641Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:18.924370Z&quot;}}" data-execution_count="3">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the Landsat multi-band GeoTIFF and give the bands plain names.</span></span>
@@ -2748,12 +2868,12 @@ Attributes:
     STATISTICS_MINIMUM:  8274
     STATISTICS_STDDEV:   nan
     scale_factor:        1.0
-    add_offset:          0.0</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-obj-name"></div><ul class="xr-dim-list"><li><span class="xr-has-index">band</span>: 4</li><li><span class="xr-has-index">y</span>: 1853</li><li><span class="xr-has-index">x</span>: 1630</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-d10f85da-1ce7-423c-8ef5-f4ec5620575b" class="xr-array-in" type="checkbox" checked=""><label for="section-d10f85da-1ce7-423c-8ef5-f4ec5620575b" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>...</span></div><div class="xr-array-data"><pre>[12081560 values with dtype=float32]</pre></div></div></li><li class="xr-section-item"><input id="section-0143be62-1e4f-4c75-ad8b-607a9db3f3c0" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-0143be62-1e4f-4c75-ad8b-607a9db3f3c0" class="xr-section-summary" title="Expand/collapse section">Coordinates: <span>(4)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">band</span></div><div class="xr-var-dims">(band)</div><div class="xr-var-dtype">&lt;U5</div><div class="xr-var-preview xr-preview">'blue' 'green' 'red' 'nir'</div><input id="attrs-8572bbd7-21c7-4a59-8f9c-efb023baf806" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-8572bbd7-21c7-4a59-8f9c-efb023baf806" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-081b3395-ccae-4880-af34-841e4ed9ea3a" class="xr-var-data-in" type="checkbox"><label for="data-081b3395-ccae-4880-af34-841e4ed9ea3a" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['blue', 'green', 'red', 'nir'], dtype='&lt;U5')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">y</span></div><div class="xr-var-dims">(y)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">4.792e+06 4.792e+06 ... 4.736e+06</div><input id="attrs-cc9444ee-1876-43c7-abfa-a727b9cc524c" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-cc9444ee-1876-43c7-abfa-a727b9cc524c" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-00496c7c-55b8-4e90-993f-49aa052ea8fb" class="xr-var-data-in" type="checkbox"><label for="data-00496c7c-55b8-4e90-993f-49aa052ea8fb" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([4791750., 4791720., 4791690., ..., 4736250., 4736220., 4736190.],
-      shape=(1853,))</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">x</span></div><div class="xr-var-dims">(x)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">3.779e+05 3.78e+05 ... 4.268e+05</div><input id="attrs-2f3a6315-32e0-4e52-96fe-c4e8c6178472" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-2f3a6315-32e0-4e52-96fe-c4e8c6178472" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-2aaa45af-1602-49ce-b211-0fa40c584855" class="xr-var-data-in" type="checkbox"><label for="data-2aaa45af-1602-49ce-b211-0fa40c584855" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([377940., 377970., 378000., ..., 426750., 426780., 426810.],
-      shape=(1630,))</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>spatial_ref</span></div><div class="xr-var-dims">()</div><div class="xr-var-dtype">int64</div><div class="xr-var-preview xr-preview">0</div><input id="attrs-341df997-bfab-4b3c-84db-40c9fe804008" class="xr-var-attrs-in" type="checkbox"><label for="attrs-341df997-bfab-4b3c-84db-40c9fe804008" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-3a535b2a-59fb-4920-b307-d874f8d9cf14" class="xr-var-data-in" type="checkbox"><label for="data-3a535b2a-59fb-4920-b307-d874f8d9cf14" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>crs_wkt :</span></dt><dd>PROJCS["WGS 84 / UTM zone 18N",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-75],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH],AUTHORITY["EPSG","32618"]]</dd><dt><span>semi_major_axis :</span></dt><dd>6378137.0</dd><dt><span>semi_minor_axis :</span></dt><dd>6356752.314245179</dd><dt><span>inverse_flattening :</span></dt><dd>298.257223563</dd><dt><span>reference_ellipsoid_name :</span></dt><dd>WGS 84</dd><dt><span>longitude_of_prime_meridian :</span></dt><dd>0.0</dd><dt><span>prime_meridian_name :</span></dt><dd>Greenwich</dd><dt><span>geographic_crs_name :</span></dt><dd>WGS 84</dd><dt><span>horizontal_datum_name :</span></dt><dd>World Geodetic System 1984</dd><dt><span>projected_crs_name :</span></dt><dd>WGS 84 / UTM zone 18N</dd><dt><span>grid_mapping_name :</span></dt><dd>transverse_mercator</dd><dt><span>latitude_of_projection_origin :</span></dt><dd>0.0</dd><dt><span>longitude_of_central_meridian :</span></dt><dd>-75.0</dd><dt><span>false_easting :</span></dt><dd>500000.0</dd><dt><span>false_northing :</span></dt><dd>0.0</dd><dt><span>scale_factor_at_central_meridian :</span></dt><dd>0.9996</dd><dt><span>spatial_ref :</span></dt><dd>PROJCS["WGS 84 / UTM zone 18N",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-75],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH],AUTHORITY["EPSG","32618"]]</dd><dt><span>GeoTransform :</span></dt><dd>377925.0 30.0 0.0 4791765.0 0.0 -30.0</dd></dl></div><div class="xr-var-data"><pre>array(0)</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-11d97632-c450-46ff-bc9f-237211030d1b" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-11d97632-c450-46ff-bc9f-237211030d1b" class="xr-section-summary" title="Expand/collapse section">Attributes: <span>(7)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"><dt><span>AREA_OR_POINT :</span></dt><dd>Area</dd><dt><span>STATISTICS_MAXIMUM :</span></dt><dd>30634</dd><dt><span>STATISTICS_MEAN :</span></dt><dd>nan</dd><dt><span>STATISTICS_MINIMUM :</span></dt><dd>8274</dd><dt><span>STATISTICS_STDDEV :</span></dt><dd>nan</dd><dt><span>scale_factor :</span></dt><dd>1.0</dd><dt><span>add_offset :</span></dt><dd>0.0</dd></dl></div></li></ul></div></div>
+    add_offset:          0.0</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-obj-name"></div><ul class="xr-dim-list"><li><span class="xr-has-index">band</span>: 4</li><li><span class="xr-has-index">y</span>: 1853</li><li><span class="xr-has-index">x</span>: 1630</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-3d674157-fe60-4603-a8da-72ffc070e36f" class="xr-array-in" type="checkbox" checked=""><label for="section-3d674157-fe60-4603-a8da-72ffc070e36f" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>...</span></div><div class="xr-array-data"><pre>[12081560 values with dtype=float32]</pre></div></div></li><li class="xr-section-item"><input id="section-0ad8c063-72fe-4853-9cc7-fdcbeff5a493" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-0ad8c063-72fe-4853-9cc7-fdcbeff5a493" class="xr-section-summary" title="Expand/collapse section">Coordinates: <span>(4)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">band</span></div><div class="xr-var-dims">(band)</div><div class="xr-var-dtype">&lt;U5</div><div class="xr-var-preview xr-preview">'blue' 'green' 'red' 'nir'</div><input id="attrs-96ce6665-71d7-42f8-80f7-44c94a478a5c" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-96ce6665-71d7-42f8-80f7-44c94a478a5c" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-982a8ccc-7362-468d-9a98-f47268c40f5a" class="xr-var-data-in" type="checkbox"><label for="data-982a8ccc-7362-468d-9a98-f47268c40f5a" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['blue', 'green', 'red', 'nir'], dtype='&lt;U5')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">y</span></div><div class="xr-var-dims">(y)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">4.792e+06 4.792e+06 ... 4.736e+06</div><input id="attrs-ec7e2563-4e0e-4cf3-9b65-6a67b53bfbd0" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-ec7e2563-4e0e-4cf3-9b65-6a67b53bfbd0" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-a29480e2-d32a-4330-8ad2-fa003004fa2d" class="xr-var-data-in" type="checkbox"><label for="data-a29480e2-d32a-4330-8ad2-fa003004fa2d" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([4791750., 4791720., 4791690., ..., 4736250., 4736220., 4736190.],
+      shape=(1853,))</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">x</span></div><div class="xr-var-dims">(x)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">3.779e+05 3.78e+05 ... 4.268e+05</div><input id="attrs-8ff4b560-c464-41c4-adcc-7acaf321f01a" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-8ff4b560-c464-41c4-adcc-7acaf321f01a" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-a8283d88-c2ba-4611-9500-a434e86d1145" class="xr-var-data-in" type="checkbox"><label for="data-a8283d88-c2ba-4611-9500-a434e86d1145" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([377940., 377970., 378000., ..., 426750., 426780., 426810.],
+      shape=(1630,))</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>spatial_ref</span></div><div class="xr-var-dims">()</div><div class="xr-var-dtype">int64</div><div class="xr-var-preview xr-preview">0</div><input id="attrs-4e204e78-989b-4274-91dc-f222a47663eb" class="xr-var-attrs-in" type="checkbox"><label for="attrs-4e204e78-989b-4274-91dc-f222a47663eb" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-ebd56b92-2042-4e62-89af-6aea8f5024cc" class="xr-var-data-in" type="checkbox"><label for="data-ebd56b92-2042-4e62-89af-6aea8f5024cc" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>crs_wkt :</span></dt><dd>PROJCS["WGS 84 / UTM zone 18N",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-75],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH],AUTHORITY["EPSG","32618"]]</dd><dt><span>semi_major_axis :</span></dt><dd>6378137.0</dd><dt><span>semi_minor_axis :</span></dt><dd>6356752.314245179</dd><dt><span>inverse_flattening :</span></dt><dd>298.257223563</dd><dt><span>reference_ellipsoid_name :</span></dt><dd>WGS 84</dd><dt><span>longitude_of_prime_meridian :</span></dt><dd>0.0</dd><dt><span>prime_meridian_name :</span></dt><dd>Greenwich</dd><dt><span>geographic_crs_name :</span></dt><dd>WGS 84</dd><dt><span>horizontal_datum_name :</span></dt><dd>World Geodetic System 1984</dd><dt><span>projected_crs_name :</span></dt><dd>WGS 84 / UTM zone 18N</dd><dt><span>grid_mapping_name :</span></dt><dd>transverse_mercator</dd><dt><span>latitude_of_projection_origin :</span></dt><dd>0.0</dd><dt><span>longitude_of_central_meridian :</span></dt><dd>-75.0</dd><dt><span>false_easting :</span></dt><dd>500000.0</dd><dt><span>false_northing :</span></dt><dd>0.0</dd><dt><span>scale_factor_at_central_meridian :</span></dt><dd>0.9996</dd><dt><span>spatial_ref :</span></dt><dd>PROJCS["WGS 84 / UTM zone 18N",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-75],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH],AUTHORITY["EPSG","32618"]]</dd><dt><span>GeoTransform :</span></dt><dd>377925.0 30.0 0.0 4791765.0 0.0 -30.0</dd></dl></div><div class="xr-var-data"><pre>array(0)</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-f002a5cf-4a6e-4ab6-97f8-e3ff4b4d8c70" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-f002a5cf-4a6e-4ab6-97f8-e3ff4b4d8c70" class="xr-section-summary" title="Expand/collapse section">Attributes: <span>(7)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"><dt><span>AREA_OR_POINT :</span></dt><dd>Area</dd><dt><span>STATISTICS_MAXIMUM :</span></dt><dd>30634</dd><dt><span>STATISTICS_MEAN :</span></dt><dd>nan</dd><dt><span>STATISTICS_MINIMUM :</span></dt><dd>8274</dd><dt><span>STATISTICS_STDDEV :</span></dt><dd>nan</dd><dt><span>scale_factor :</span></dt><dd>1.0</dd><dt><span>add_offset :</span></dt><dd>0.0</dd></dl></div></li></ul></div></div>
 </div>
 </div>
-<div id="6069dcfa" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:30.063337Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:30.063236Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:30.272383Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:30.271703Z&quot;}}">
+<div id="6069dcfa" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:18.927087Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:18.926988Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:19.139092Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:19.138796Z&quot;}}" data-execution_count="4">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarise three different rasters in one table.</span></span>
@@ -2858,7 +2978,7 @@ Attributes:
 <li><strong>The Sentinel-2 band has no CRS.</strong> Its coordinates are numbers without a reference system, so it cannot be overlaid on anything until we assign one (the <em>Coordinate reference systems and reprojection</em> section).</li>
 <li>The three files use <strong>three different CRS situations</strong> and pixel sizes. Before combining them we must bring them onto a common grid.</li>
 </ul>
-<div id="4a15835b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:30.273743Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:30.273654Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:30.277974Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:30.277467Z&quot;}}">
+<div id="4a15835b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:19.140782Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:19.140684Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:19.145244Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:19.144852Z&quot;}}" data-execution_count="5">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Peek at how each GeoTIFF is stored on disk.</span></span>
@@ -2882,7 +3002,7 @@ B4.tif             driver GTiff, dtype float32, tiled False, compression lzw, ov
 </div>
 </div>
 <p>The Landsat bands are still raw <strong>digital numbers (DN)</strong>. As in notebook 09_01_00, the MTL metadata file converts them to top-of-atmosphere reflectance, which is what indices need:</p>
-<div id="29fb305c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:30.279173Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:30.279093Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:30.443481Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:30.442749Z&quot;}}">
+<div id="29fb305c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:19.146735Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:19.146644Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:19.320869Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:19.320603Z&quot;}}" data-execution_count="6">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert Landsat digital numbers to top-of-atmosphere reflectance.</span></span>
@@ -2986,7 +3106,7 @@ B4.tif             driver GTiff, dtype float32, tiled False, compression lzw, ov
 </tbody>
 </table>
 <p>Let’s write the Landsat NIR reflectance band in three formats and compare file sizes and read-back fidelity. The source GeoTIFF is striped (not tiled) and has no overviews, so it is not cloud-optimized; <code>rs.write</code> fixes that.</p>
-<div id="9919739f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:30.444963Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:30.444856Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:31.146381Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:31.145793Z&quot;}}">
+<div id="9919739f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:19.322784Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:19.322687Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:21.500604Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:21.499549Z&quot;}}" data-execution_count="7">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write the NIR band three ways and check that each round-trip is exact.</span></span>
@@ -3036,8 +3156,8 @@ B4.tif             driver GTiff, dtype float32, tiled False, compression lzw, ov
 <tr class="odd">
 <th data-quarto-table-cell-role="th">in memory</th>
 <td>12.08</td>
-<td>-</td>
-<td>-</td>
+<td>n/a</td>
+<td>n/a</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">COG</th>
@@ -3063,7 +3183,7 @@ B4.tif             driver GTiff, dtype float32, tiled False, compression lzw, ov
 </div>
 </div>
 </div>
-<div id="3392f4e8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:31.147897Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:31.147782Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:31.151443Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:31.150818Z&quot;}}">
+<div id="3392f4e8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:21.502447Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:21.502313Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:21.506838Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:21.506107Z&quot;}}" data-execution_count="8">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm the GeoTIFF written above is actually cloud-optimized.</span></span>
@@ -3091,7 +3211,7 @@ B4.tif             driver GTiff, dtype float32, tiled False, compression lzw, ov
 <li><strong>Web Mercator</strong> (EPSG:3857) is designed for web maps; it stretches distances and areas by <span class="math inline">\(1/\cos(\text{latitude})\)</span>.</li>
 </ul>
 <p><code>rs.core.estimate_utm_crs</code> finds the right UTM zone; <code>rs.reproject</code> warps a raster. Our three rasters show the three situations you meet in practice: Landsat is already in UTM, the DEM is geographic, and the Sentinel-2 files have no CRS at all.</p>
-<div id="89cee54e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:31.152842Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:31.152754Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:31.536366Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:31.535460Z&quot;}}">
+<div id="89cee54e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:21.508297Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:21.508215Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:21.898962Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:21.898505Z&quot;}}" data-execution_count="9">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pick a projected CRS, and see what Web Mercator does to pixel size.</span></span>
@@ -3132,7 +3252,7 @@ Landsat reprojected to Web Mercator: resolution (41.1, 41.1) 'metres' for 30 m g
 </div>
 <p>Both rasters belong in UTM zone 18N, which the Landsat file already uses. The DEM’s “square” 0.00113° pixels are rectangles on the ground: 92 m east-west but 125 m north-south at 43°N, because meridians converge toward the pole. In Web Mercator the same 30 m Landsat pixels become 41.1 “metres” wide (30 × 1.368). Any area measured in EPSG:3857 here would be overstated by a factor of 1.37² ≈ 1.87.</p>
 <p><strong>Assigning a missing CRS.</strong> The Sentinel-2 files store coordinates but no CRS. Reprojecting or overlaying them is impossible until we <em>assign</em> the CRS, which must come from documentation (here, the metadata of the ground-truth shapefile says UTM zone 17N). Assigning (<code>write_crs</code>) only labels the coordinates; reprojecting (<code>rs.reproject</code>) changes them.</p>
-<div id="f112efa7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:31.538430Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:31.538338Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:31.552788Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:31.552020Z&quot;}}">
+<div id="f112efa7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:21.901011Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:21.900905Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:21.915059Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:21.914541Z&quot;}}" data-execution_count="10">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix a missing CRS, then check the scene really sits in western New York.</span></span>
@@ -3160,7 +3280,7 @@ After write_crs: EPSG:32617 | centre: (-78.8061, 43.0007) (lon, lat)</code></pre
 <li><code>average</code>: correct when <strong>aggregating</strong> to coarser pixels (e.g.&nbsp;10 m → 500 m).</li>
 </ul>
 <p>The example classifies the DEM into three elevation zones (a land-cover-like map) and reprojects it to UTM at 30 m. Bilinear resampling invents classes that don’t exist.</p>
-<div id="ac0b7881" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:31.554418Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:31.554340Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:31.845822Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:31.845127Z&quot;}}">
+<div id="ac0b7881" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:21.917062Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:21.916971Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:22.212042Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:22.211403Z&quot;}}" data-execution_count="11">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show why a categorical raster must use nearest-neighbour resampling.</span></span>
@@ -3205,7 +3325,7 @@ Unique values, bilinear: 8282 distinct values (invalid classes!)</code></pre>
 </div>
 </div>
 <p>To combine rasters, put them on <strong>the same grid</strong> (CRS, resolution, extent and alignment). <code>reproject_match</code> warps one raster onto another’s grid in a single step. Here the DEM is matched to the 30 m Landsat grid so pixels line up one-to-one.</p>
-<div id="961f2242" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:31.847369Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:31.847279Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:31.950168Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:31.949351Z&quot;}}">
+<div id="961f2242" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:22.213658Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:22.213573Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:22.317134Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:22.316093Z&quot;}}" data-execution_count="12">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Put the DEM onto the Landsat grid so the two layers share every pixel.</span></span>
@@ -3230,7 +3350,7 @@ Unique values, bilinear: 8282 distinct values (invalid classes!)</code></pre>
 <section id="clipping-masking-and-windowed-reads" class="level2">
 <h2 class="anchored" data-anchor-id="clipping-masking-and-windowed-reads">Clipping, masking and windowed reads</h2>
 <p><strong>Clipping</strong> cuts a raster to a polygon; <strong>masking</strong> sets pixels outside it (or failing a condition) to NaN; <strong>windowed reading</strong> loads only a block of a large file. Our study areas are the Onondaga County boundary from the New York counties layer and a box around the city of Syracuse and Onondaga Lake.</p>
-<div id="b5a8c525" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:31.952546Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:31.952450Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:32.024640Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:32.024024Z&quot;}}">
+<div id="b5a8c525" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:22.318847Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:22.318748Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:22.397312Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:22.396533Z&quot;}}" data-execution_count="13">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load county polygons and a simple box, then clip rasters to them.</span></span>
@@ -3262,7 +3382,7 @@ Unique values, bilinear: 8282 distinct values (invalid classes!)</code></pre>
 DEM clipped to county: (442, 534) | DEM clipped to AOI: (150, 220) | Landsat clipped to AOI: (4, 639, 687)</code></pre>
 </div>
 </div>
-<div id="25a58169" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:32.026525Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:32.026268Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:32.699630Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:32.699079Z&quot;}}">
+<div id="25a58169" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:22.399423Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:22.399120Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:23.079883Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:23.079079Z&quot;}}" data-execution_count="14">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw the clipped DEM, a conditional mask, and a false-colour Landsat view.</span></span>
@@ -3294,7 +3414,7 @@ DEM clipped to county: (442, 534) | DEM clipped to AOI: (150, 220) | Landsat cli
 </div>
 <p>The county area computed from the polygon in UTM (2,095 km²) matches the attribute table (807.8 mi² = 2,092 km²) to within 0.2%, a good check that the reprojection is right. The DEM shows the county’s two landscapes: the flat Ontario lake plain in the north (110-150 m), around Onondaga Lake and Syracuse, and the dissected Appalachian Plateau in the south, where hills above 400 m are cut by deep north-south glacial valleys. In the false-colour clip, the city and its roads are cyan-grey, Onondaga Lake is black, and Syracuse’s airport is visible to the northeast.</p>
 <p>For files larger than memory, read only what you need. <code>rasterio</code> windows load a pixel block directly, and <code>rs.read(..., chunks=...)</code> gives a lazy array where slicing touches only the required chunks.</p>
-<div id="119d18c1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:32.703179Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:32.703080Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:32.762088Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:32.761283Z&quot;}}">
+<div id="119d18c1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:23.082917Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:23.082827Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:23.142132Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:23.141504Z&quot;}}" data-execution_count="15">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read only the window you need, instead of the whole Landsat band.</span></span>
@@ -3329,7 +3449,7 @@ Matches the clip: True</code></pre>
 <section id="mosaicking" class="level2">
 <h2 class="anchored" data-anchor-id="mosaicking">Mosaicking</h2>
 <p>Large study areas span several scenes or tiles. <code>rs.mosaic</code> merges rasters onto one grid, reprojecting if needed. Where tiles overlap, <code>first</code> / <code>last</code> give priority by order, while <code>min</code>, <code>max</code> or <code>mean</code> combine the values. The four Onondaga DEM tiles are adjacent quarters of the county; we merge them and check the result against the complete county DEM stored separately in <code>Data/00_shared/raster_data/USA/Onondaga_DEM.tif</code>.</p>
-<div id="ba5f04d4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:32.763865Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:32.763775Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:33.078309Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:33.077315Z&quot;}}">
+<div id="ba5f04d4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:23.143709Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:23.143617Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:23.462418Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:23.461811Z&quot;}}" data-execution_count="16">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mosaic the four DEM tiles and check the result against a reference file.</span></span>
@@ -3379,7 +3499,7 @@ Same grid (to 1e-9°): True | identical values: True</code></pre>
 <section id="raster-algebra-indices-and-terrain" class="level2">
 <h2 class="anchored" data-anchor-id="raster-algebra-indices-and-terrain">Raster algebra: indices and terrain</h2>
 <p>Band math produces new information layers. <code>geolattice.rsense</code> handles band lookup, NaN, division by zero and GPU execution. Here we compute NDVI from the Landsat reflectance and slope, aspect and hillshade from the DEM matched to the same grid.</p>
-<div id="d33610ba" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:33.080707Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:33.080615Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:34.917377Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:34.916037Z&quot;}}">
+<div id="d33610ba" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:23.465272Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:23.465176Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:25.316491Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:25.315595Z&quot;}}" data-execution_count="17">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Derive NDVI, slope, aspect and hillshade on the shared Landsat grid.</span></span>
@@ -3416,7 +3536,7 @@ Same grid (to 1e-9°): True | identical values: True</code></pre>
 <p>NDVI is high almost everywhere in mid-July. The exceptions are water (Onondaga, Otisco and Skaneateles lakes, and water along the northern county edge), the city of Syracuse, and roads. Slope picks out the steep sides of the southern valleys.</p>
 <p>The hatched, faceted texture in the aspect and hillshade maps is an <strong>artifact</strong>, not terrain. The DEM pixels are about 92 × 125 m, and bilinear interpolation onto the 30 m grid creates flat planes between the original elevations. Each plane has a constant aspect and a uniform shade. Resampling a coarse DEM to a fine grid changes the grid, not the information: for real 30 m terrain derivatives, use a 30 m (or finer) DEM.</p>
 <p>Because both layers are on one grid, they can be analysed together. How does vegetation greenness change with elevation across Onondaga County?</p>
-<div id="26e5b679" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:34.931536Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:34.931414Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:35.227546Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:35.227046Z&quot;}}">
+<div id="26e5b679" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:25.331418Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:25.331272Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:25.635953Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:25.635363Z&quot;}}" data-execution_count="18">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Relate NDVI to elevation by binning the paired pixels.</span></span>
@@ -3652,7 +3772,7 @@ band
 <li><strong>Zonal statistics</strong>: summaries of raster values inside polygons (fields, watersheds, counties).</li>
 <li><strong>Rasterization</strong>: burning polygons into a raster grid (training labels, masks).</li>
 </ol>
-<div id="d4d60d25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:35.229017Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:35.228924Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:35.240225Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:35.239760Z&quot;}}">
+<div id="d4d60d25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:25.637351Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:25.637249Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:25.649136Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:25.648728Z&quot;}}" data-execution_count="19">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample raster values at point locations.</span></span>
@@ -3724,7 +3844,7 @@ band
 </div>
 </div>
 <p>For zonal statistics we buffer each site by 3 km and summarise NDVI and elevation with <code>rs.zonal_stats</code>, which accepts percentiles (<code>p90</code>) as well as the usual statistics.</p>
-<div id="74d64c6f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:35.241598Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:35.241515Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:35.273924Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:35.273365Z&quot;}}">
+<div id="74d64c6f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:25.651010Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:25.650918Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:25.685268Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:25.684820Z&quot;}}" data-execution_count="20">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Zonal statistics: summarise each raster inside a 3 km buffer.</span></span>
@@ -3833,7 +3953,7 @@ band
 <li><strong>Green Lakes State Park and Highland Forest.</strong> These forested sites have the highest means (0.72 and 0.74). Highland Forest is also the highest and most varied in elevation (285-562 m).</li>
 </ul>
 <p>Each zone contains about 31,370 pixels, close to the area of a 3 km circle in 30 m pixels. Highland Forest has about 290 fewer valid NDVI pixels, because part of its buffer crosses the county line, where the Landsat file has no data.</p>
-<div id="9b88c97c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:35.275556Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:35.275467Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:36.084636Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:36.083972Z&quot;}}">
+<div id="9b88c97c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:25.686833Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:25.686746Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:26.497961Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:26.497432Z&quot;}}" data-execution_count="21">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rasterize the buffers so each pixel carries a zone id.</span></span>
@@ -3883,7 +4003,7 @@ band
 <li><code>std</code>: mean ± <em>n</em> standard deviations.</li>
 <li><code>equalize</code>: histogram equalization; maximizes contrast but distorts colours.</li>
 </ul>
-<div id="a215eab7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:36.087180Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:36.087083Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:36.628442Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:36.627729Z&quot;}}">
+<div id="a215eab7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:26.500376Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:26.500268Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:27.046028Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:27.045340Z&quot;}}" data-execution_count="22">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare four ways to stretch a true-colour image for display.</span></span>
@@ -3914,7 +4034,7 @@ band
 </div>
 <p><code>minmax</code> leaves the image nearly black, because a few very bright roofs set the maximum. <code>percentile</code> (2-98%) gives a natural-looking image. <code>std</code> is greyer and lower in contrast. <code>equalize</code> maximizes contrast everywhere but gives water and the city a purple cast, so it is useful for interpretation but not for presentation.</p>
 <p>The Sentinel-2 scene stores reflectance ×10,000. Scaling it to 0-1 lets us compute indices correctly and compare composites at 10 m resolution:</p>
-<div id="ca64aa9c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:36.636003Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:36.635894Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:37.023206Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:37.022763Z&quot;}}">
+<div id="ca64aa9c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:27.054179Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:27.054074Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:27.445754Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:27.444888Z&quot;}}" data-execution_count="23">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a Sentinel-2 dataset from separate single-band GeoTIFFs.</span></span>
@@ -3944,7 +4064,7 @@ band
 </div>
 </div>
 </div>
-<div id="5659ae0b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-16T21:01:37.027720Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-16T21:01:37.027615Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-16T21:01:37.476736Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-16T21:01:37.476267Z&quot;}}">
+<div id="5659ae0b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:09:27.449648Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:09:27.449556Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:09:27.892940Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:09:27.892220Z&quot;}}" data-execution_count="24">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the products this notebook computed.</span></span>

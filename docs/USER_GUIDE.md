@@ -289,6 +289,16 @@ Weights download on first use into the TorchGeo and Hugging Face caches. DINOv3-
 
 A worked example is under [Quick start, Surface energy balance and evapotranspiration](#surface-energy-balance-and-evapotranspiration-1). The tutorial chapter `Tutorials/notebooks/09_remote_sensing/09_12_surface_energy_balance_modeling/` has 13 notebooks: fundamentals, inputs, reference ET, net radiation, soil heat flux and aerodynamics, SEBAL, METRIC, SSEBop and simplified models, TSEB, MODIS and Sentinel-3 with thermal sharpening, seasonal crop water use, validation and uncertainty, and a capstone on Boro rice in Bangladesh. Its helper `seb_data.py` downloads and caches every input, and `OUTLINE.md` lists the data and the main results.
 
+### Satellite soil moisture
+
+`geolattice.rsense.soil_moisture` is the module behind the tutorial "Satellite-Based Soil Moisture with Python". The soil water and microwave physics functions are implemented. Everything else in the module is outlined with its final signature and docstring, and raises `NotImplementedError` until it is written: product readers (SMAP, SMOS, AMSR2, ASCAT, ESA CCI, ERA5-Land, NISAR), Sentinel-1 change detection and Water Cloud Model retrieval, downscaling, gap filling, ISMN validation and triple collocation, root-zone filters, and drought and irrigation indices. `help(sm.name)` gives the method, units, reference and tutorial module of each function. Functions take NumPy arrays or DataArrays and return the same kind. Units are m3 m-3 for soil moisture, K for brightness temperature, GHz and degrees. Permittivities are complex numbers `eps' - j eps''`, so the loss factor is the negative imaginary part.
+
+- **Soil water**: `saxton_rawls` (Saxton and Rawls 2006 pedotransfer functions: wilting point, field capacity, saturation, plant available water, bulk density and saturated hydraulic conductivity; with a density factor for compaction), `porosity_from_texture`, `porosity_from_bulk_density`, `volumetric_from_gravimetric`, `degree_of_saturation`, `saturation_to_volumetric` (for example ASCAT saturation in %) and `soil_water_status` (relative available water). Texture can be given as fractions, % or SoilGrids g kg-1
+- **Dielectric models**: `free_water_dielectric` (Debye model with optional ionic conductivity), `dobson_dielectric` (Dobson et al. 1985, with the Peplinski et al. 1995 correction below 1.4 GHz), `mironov_dielectric` (Mironov et al. 2009, the SMAP model), `topp` and `topp_inverse` (TDR calibration), `penetration_depth`
+- **Emission and vegetation**: `fresnel_reflectivity`, `rough_reflectivity` (H-Q-N roughness), `vwc_from_ndvi` (SMAP vegetation water content), `vod_from_vwc`, `tau_omega` (zeroth-order radiative transfer), `invert_tau_omega` (the single channel algorithm, solved per pixel by bisection, with NaN where Tb is out of range, for example open water) and `tb_sensitivity` (Tb and dTb/dtheta for rising VOD)
+
+A worked example is under [Quick start, Satellite soil moisture](#satellite-soil-moisture-1). Tests are in `tests/rsense/test_soil_moisture.py`. They check the Saxton and Rawls table values, the water relaxation frequency near 17 GHz, the Fresnel nadir and Brewster cases, the tau-omega limits for bare and opaque canopies, and that tau-omega inversion returns the original moisture.
+
 ### Satellite image super-resolution
 
 `geolattice.rsense.super_resolution` provides classical baselines and multispectral deep-learning tools:
@@ -818,6 +828,7 @@ src/                      # installed as the ``geolattice`` package
 ├── rsense/               # remote sensing (ported from PyRSense), CPU / GPU, ``.rs`` accessor
 │   ├── super_resolution.py # classical, CNN, GAN and conditional diffusion SR
 │   ├── surface_energy_balance.py # radiation balance, reference ET, anchors, SEBAL, METRIC, SSEBop, S-SEBI, triangle, PT-JPL, TSEB, sharpening, seasonal ET
+│   ├── soil_moisture.py  # pedotransfer, dielectric models, tau-omega and inversion; outlined products, SAR retrieval, downscaling, validation
 │   ├── texture.py        # statistical, structural, transform, local-pattern, model- and deep-learning-based texture
 │   ├── get_images.py     # search and download Explorer catalogues to a folder
 │   ├── spectral_index.py # sensor-aware indices (MODIS, Landsat 8/9, S2, Planet, WV, NAIP)
@@ -2158,6 +2169,37 @@ tseb = seb.tseb_pt(lst, lai, wx.temperature_2m + 273.15, wx.wind_speed_10m, ea, 
 
 On `LC08_L2SP_042035_20240705_02_T1` (Westside San Joaquin Valley) this gives about 11 mm/d on irrigated fields against a daily alfalfa reference of 12 mm/d. For a season, run each clear date, stack `out.etrf` along `time`, then `seb.seasonal_et(seb.interpolate_etrf(stack), etr_daily_series)`.
 
+#### Satellite soil moisture
+
+Soil water limits of a loam, its L-band permittivity, the SMAP-style brightness temperature, and the single channel retrieval back to soil moisture.
+
+```python
+import numpy as np
+import xarray as xr
+import geolattice.rsense.soil_moisture as sm
+
+soil = sm.saxton_rawls(sand=0.40, clay=0.20)       # dict; a Dataset for DataArray inputs
+soil["wilting_point"], soil["field_capacity"], soil["saturation"], soil["ksat"]
+# (0.137, 0.280, 0.459, 12.95 mm/h)
+
+eps = sm.mironov_dielectric(0.25, clay=0.20)        # 12.96 - 1.53j at 1.41 GHz
+sm.dobson_dielectric(0.25, sand=0.40, clay=0.20)    # 14.48 - 1.42j
+sm.penetration_depth(eps, 1.41)                     # 8.0 cm (C-band: 1.2 cm)
+
+tb = sm.tau_omega(295.0, eps, 40.0, tau=0.3, omega=0.05, h=0.1, pol="v")   # 260.7 K
+sm.invert_tau_omega(tb, 295.0, 40.0, clay=0.20, tau=0.3)                    # 0.25 m3/m3
+
+# a VOD map and a Tb map in, a soil moisture map out
+tb_map = xr.DataArray(np.full((3, 3), 255.0), dims=("y", "x"))
+vod = sm.vod_from_vwc(sm.vwc_from_ndvi(xr.full_like(tb_map, 0.6)))
+theta = sm.invert_tau_omega(tb_map, 295.0, 40.0, clay=0.20, tau=vod)
+
+table = sm.tb_sensitivity()        # tau, theta, tb, dtb_dtheta for the Notebook 2.1 plot
+table.groupby("tau").dtb_dtheta.mean()   # about -219 K per m3/m3 for bare soil, -18 at tau = 1
+
+sm.saturation_to_volumetric(62.0, porosity=soil["saturation"])   # ASCAT 62 % -> 0.285 m3/m3
+```
+
 #### Zonal statistics
 
 ```python
@@ -2513,6 +2555,7 @@ Sphinx sources live in `docs/`. Tutorials are in `Tutorials/`, with matching R n
 | Lidar data processing | `geolattice.rsense.lidar`, `geolattice.rsense.dl.pointnet` (`geolattice[rsense-lidar]`, `geolattice[rsense-dl]`) | `Tutorials/notebooks/08_remote_sensing/08_06_lidar/` |
 | Hyperspectral image processing | `geolattice.rsense.hyperspectral`, `geolattice.rsense.dl.hyperspectral` (`geolattice[rsense-hyperspectral]`, `geolattice[rsense-dl]`) | tests: `tests/rsense/test_hyperspectral*.py` (tutorial notebooks to come) |
 | Surface energy balance and ET | `geolattice.rsense.surface_energy_balance` | `Tutorials/notebooks/09_remote_sensing/09_12_surface_energy_balance_modeling/` (13 notebooks); tests: `tests/rsense/test_surface_energy_balance.py` |
+| Satellite soil moisture | `geolattice.rsense.soil_moisture` | outline: `Satellite-Based Soil Moisture with Python Tutorial Outline.md` (tutorial notebooks to come); tests: `tests/rsense/test_soil_moisture.py` |
 | Image classification and vision | `geolattice.rsense.classify.image_classification` (`geolattice[rsense-classify]`, `geolattice[rsense-dl]`, `geolattice[rsense-vision]`) | `Tutorials/notebooks/08_remote_sensing/08_09_image_classification/` (data) |
 | Web and cloud GIS | `geolattice.web`, `geolattice.vector` cloud-native writers (`geolattice[web]`) | `Tutorials/notebooks/07_web_cloud_gis/` (see its README) |
 

@@ -40,7 +40,7 @@ SECTIONS = [
     ("Geostatistics", "geolattice.geostatistics", "Variograms, kriging, simulation, cross-validation and GSLIB-style helpers, on CPU, GPU (CuPy) or JAX."),
     ("Spatial databases", "geolattice.geolatticedb", "One API for PostGIS, SpatiaLite, GeoPackage and DuckDB spatial."),
     ("Web and cloud GIS", "geolattice.web", "Cloud-Optimized GeoTIFF, GeoParquet, XYZ tiles, tile and OGC API Features servers, and cloud storage access."),
-    ("Remote sensing", "geolattice.rsense", "Data access, optical, SAR, InSAR, lidar, hyperspectral, UAV, time series, fusion, texture, super-resolution, classification and deep learning."),
+    ("Remote sensing", "geolattice.rsense", "Data access, optical, SAR, InSAR, lidar, hyperspectral, UAV, time series, fusion, texture, super-resolution, classification, deep learning, surface energy balance and soil moisture."),
     ("Visualization", "geolattice.viz", "Static maps, choropleths, raster displays and interactive maps."),
     ("Distributed and GPU computing", "geolattice.distributed", "One API for vector and raster processing, spatial statistics, networks, hydrology and machine learning on all CPU cores, a Dask cluster (local, multi-GPU, SLURM, PBS, Kubernetes), Spark with Apache Sedona, or CUDA GPUs."),
     ("Compute backends", "geolattice.compute", "CPU and GPU execution backends."),
@@ -98,6 +98,17 @@ def summary(obj) -> str:
     if len(text) > 240:
         text = text[:237].rsplit(" ", 1)[0] + "..."
     return text.replace("|", "\\|") or "No description."
+
+
+def is_planned(obj) -> bool:
+    """True for an outlined function whose body only calls the ``_todo`` placeholder."""
+    if not inspect.isfunction(obj):
+        return False
+    try:
+        body = inspect.getsource(obj)
+    except (OSError, TypeError):
+        return False
+    return re.search(r"^\s+_todo\(", body, re.MULTILINE) is not None
 
 
 def methods_of(cls) -> list[str]:
@@ -204,6 +215,8 @@ def render_group(key: str, group: dict, root: str) -> list[str]:
         lines += [f"**{label}**", "", "| Name | Description |", "|---|---|"]
         for name, obj, path in sorted(items, key=lambda t: t[0].lower()):
             desc = summary(obj)
+            if is_planned(obj):
+                desc = "*Planned (raises `NotImplementedError`).* " + desc
             if inspect.isclass(obj):
                 methods = methods_of(obj)
                 if methods:

@@ -39,6 +39,7 @@ MODULES = {
     "ed": "geolattice.rsense.edge_detectors",
     "fm": "geolattice.rsense.foundation_models",
     "seb": "geolattice.rsense.surface_energy_balance",
+    "sm": "geolattice.rsense.soil_moisture",
 }
 
 # Each group: (heading, tag, rows). A dotted name is relative to the tag's module.
@@ -142,6 +143,14 @@ LEARNING = [
         ("priestley_taylor_jpl · tseb_pt · triangle_method", "PT-JPL, two source and triangle"),
         ("thermal_sharpen · seasonal_et · compare_to_tower", "Sharpen, upscale, validate"),
     ]),
+    ("Soil moisture", "sm", [
+        ("mironov_dielectric · tau_omega · invert_tau_omega", "Microwave physics and retrieval"),
+        ("open_product · mask_quality · daily_cube", "SMAP, SMOS and CCI subsets, quality"),
+        ("saxton_rawls · porosity_from_texture", "Soil water limits from texture"),
+        ("change_detection · short_term_change_detection · invert_wcm", "SAR soil moisture"),
+        ("dispatch · ml_downscale · pycnophylactic", "Downscaling to 1 km"),
+        ("validation_metrics · triple_collocation", "Validation and error"),
+    ]),
     ("Time series, fusion and explainability", "rs", [
         ("timeseries.whittaker · timeseries.phenology", "Smoothing and phenology"),
         ("fusion.upscale", "Aggregate fine imagery to a coarse grid"),
@@ -162,14 +171,16 @@ TOPICS = [
     ("09_09", "Image Classification", "14", "Pixel, object, deep learning, accuracy"),
     ("09_10", "Object Detection", "5", "Detectors, field boundaries"),
     ("09_11", "Foundation Models", "14", "Embeddings, probes, change"),
-    ("09_12", "Surface Energy Balance", "13", "SEBAL, METRIC, SSEBop, TSEB"),
-    ("09_13", "Capstone Projects", "16", "End-to-end remote sensing projects"),
+    ("09_12", "Surface Energy Balance", "12", "SEBAL, METRIC, SSEBop, TSEB"),
+    ("09_13", "Soil Moisture", "13", "Microwave physics, SMAP, SAR retrieval, downscaling"),
+    ("09_14", "Capstone Projects", "17", "End-to-end remote sensing projects"),
 ]
 
 IMPORTS = ("import geolattice.rsense as rs<br>"
            "import geolattice.rsense.classify.image_classification as ic<br>"
            "import geolattice.rsense.foundation_models as fm<br>"
            "import geolattice.rsense.surface_energy_balance as seb<br>"
+           "import geolattice.rsense.soil_moisture as sm<br>"
            "from geolattice.rsense import edge_detectors as ed")
 
 tut = "".join(f'<div class="t"><b>{n}</b><div>{ti}<small><em>{k} notebooks</em> · {d}</small></div></div>'
@@ -186,11 +197,11 @@ HTML = f"""<!doctype html><html><head><meta charset="utf-8"><style>{sa.CSS}</sty
 <div class="imps">{IMPORTS}</div>
 <div class="cols">
 {sa.column("PART A · DATA &amp; SENSORS", "Optical, radar, UAV, hyperspectral &amp; LiDAR", DATA)}
-{sa.column("PART B · ANALYSIS &amp; LEARNING", "Texture, deep learning &amp; ET models", LEARNING)}
+{sa.column("PART B · ANALYSIS &amp; LEARNING", "Texture, deep learning, ET &amp; soil moisture", LEARNING)}
 </div>
 <div class="tutall"><h3>Tutorials · Tutorials/notebooks/09_remote_sensing · {total} notebooks</h3><div class="tgrid">{tut}</div></div>
 <div class="foot"><span>REMOTE SENSING WITH GEOLATTICE · UPATTA ANALYTICS</span>
-<span>tags show where to call it: rs.optical.index(...), ic.train_model(...), seb.run_metric(...)</span></div>
+<span>tags show where to call it: rs.optical.index(...), ic.train_model(...), sm.dispatch(...)</span></div>
 </div></body></html>"""
 
 

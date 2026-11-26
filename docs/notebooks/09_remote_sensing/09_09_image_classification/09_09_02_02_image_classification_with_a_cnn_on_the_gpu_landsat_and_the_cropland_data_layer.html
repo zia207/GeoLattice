@@ -111,6 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<style>.navbar .dropdown-menu { max-height: 80vh; overflow-y: auto; }</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -327,10 +328,10 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-foundations--optical" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Foundations &amp; Optical</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-foundations--optical">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
         <li class="dropdown-header">Foundations</li>
         <li>
     <a class="dropdown-item" href="../09_01_foundations/09_01_00_remote_sensing_fundamentals.html">
@@ -382,13 +383,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_02_optical/09_02_07_sentinel_5p_and_sentinel_5_mapping_air_pollution_from_orbit.html">
  <span class="dropdown-text">Sentinel-5P and Sentinel-5</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-radar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Radar</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-radar">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Radar (SAR and InSAR)</li>
         <li>
     <a class="dropdown-item" href="../09_03_radar/09_03_00_sar_fundamentals.html">
@@ -486,13 +481,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_03_radar/09_03_03_05_nisar_gunw_geocoded_unwrapped_interferogram.html">
  <span class="dropdown-text">NISAR GUNW</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-uav-hyperspectral--lidar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">UAV, Hyperspectral &amp; LiDAR</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-uav-hyperspectral--lidar">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">UAV</li>
         <li>
     <a class="dropdown-item" href="../09_04_uav/09_04_01_uav_fundamentals_and_mission_planning.html">
@@ -618,13 +607,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_06_lidar/09_06_08_large_area_lidar_processing_tiling_streaming_parallel_work_and_the_gpu.html">
  <span class="dropdown-text">Large-Area LiDAR Processing</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-image-analysis--ai" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Image Analysis &amp; AI</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-image-analysis--ai">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Texture Analysis</li>
         <li>
     <a class="dropdown-item" href="../09_07_texture_analysis/09_07_00_texture_analysis.html">
@@ -810,13 +793,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_11_foundations_models/09_11_13_benchmarking_foundation_models_on_your_own_data.html">
  <span class="dropdown-text">Benchmarking Foundation Models</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-energy-balance--capstones" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Energy Balance &amp; Capstones</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-energy-balance--capstones">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Surface Energy Balance</li>
         <li>
     <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_00_evapotranspiration_and_the_surface_energy_balance.html">
@@ -866,75 +843,129 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_11_how_good_is_the_et_map_validation_sensitivity_and_uncertainty.html">
  <span class="dropdown-text">Validation and Uncertainty</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Soil Moisture</li>
         <li>
-    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html">
- <span class="dropdown-text">Capstone: Boro Rice Water Use</span></a>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_00_soil_moisture_concepts_and_why_it_matters.html">
+ <span class="dropdown-text">Soil Moisture Concepts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_01_microwave_remote_sensing_of_soil_moisture.html">
+ <span class="dropdown-text">Microwave Remote Sensing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_02_the_mission_and_product_landscape.html">
+ <span class="dropdown-text">Missions and Products</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_03_python_environment_and_data_access.html">
+ <span class="dropdown-text">Environment and Data Access</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_04_smap_l3_enhanced_daily_cube_and_climatology.html">
+ <span class="dropdown-text">SMAP L3 Enhanced Daily Cube</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_08_ascat_and_the_tu_wien_change_detection_approach.html">
+ <span class="dropdown-text">ASCAT and TU Wien Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_09_esa_cci_long_term_trends_and_anomalies.html">
+ <span class="dropdown-text">ESA CCI Trends and Anomalies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_10_esa_cci_vs_era5_land.html">
+ <span class="dropdown-text">ESA CCI vs ERA5-Land</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_11_sentinel_1_preprocessing_for_soil_moisture.html">
+ <span class="dropdown-text">Sentinel-1 Preprocessing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_12_change_detection_soil_moisture_from_sentinel_1.html">
+ <span class="dropdown-text">Sentinel-1 Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_13_water_cloud_model_and_surface_scattering_inversion.html">
+ <span class="dropdown-text">Water Cloud Model Inversion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_14_operational_high_resolution_products.html">
+ <span class="dropdown-text">Operational 1 km Products</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_15_downscale_soil_moisture.html">
+ <span class="dropdown-text">Downscaling: Six Methods Compared</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Capstone Projects</li>
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_01_thirty_five_years_of_change_around_pucallpa_peru.html">
  <span class="dropdown-text">Change around Pucallpa, Peru</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_02_fifty_years_of_change_in_the_bangladesh_delta.html">
  <span class="dropdown-text">Fifty Years in the Bangladesh Delta</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_03_wild_fire_burned_area_mapping.html">
  <span class="dropdown-text">Wildfire Burned Area</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
  <span class="dropdown-text">Rohingya Deforestation: Sentinel-2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
  <span class="dropdown-text">Flood Mapping in Sylhet</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
  <span class="dropdown-text">Rohingya Deforestation: Sentinel-1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
  <span class="dropdown-text">Ship Detection, Strait of Hormuz</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
  <span class="dropdown-text">Crops from NISAR GCOV</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
  <span class="dropdown-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
  <span class="dropdown-text">Charland Monitoring, Lower Meghna</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
  <span class="dropdown-text">Shrimp Ghers in Coastal Bangladesh</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
  <span class="dropdown-text">Big Sur Wildfire, 2026</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
  <span class="dropdown-text">Wetland Paddy in Bangladesh</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
  <span class="dropdown-text">Field Edges across Four Countries</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
  <span class="dropdown-text">Tree Biomass and Carbon from LiDAR</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
  <span class="dropdown-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_17_capstone_water_use_of_boro_rice_in_bangladesh.html">
+ <span class="dropdown-text">Boro Rice Water Use, Bangladesh</span></a>
   </li>  
     </ul>
   </li>
@@ -1866,18 +1897,12 @@ window.Quarto = {
  <span class="menu-text">Validation and Uncertainty</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Capstone: Boro Rice Water Use</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
- <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+ <span class="menu-text"><strong>Soil Moisture</strong></span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1885,98 +1910,193 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_13_soil_moisture/09_13_00_soil_moisture_concepts_and_why_it_matters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil Moisture Concepts</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_01_microwave_remote_sensing_of_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Microwave Remote Sensing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_02_the_mission_and_product_landscape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Missions and Products</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_03_python_environment_and_data_access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Environment and Data Access</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_04_smap_l3_enhanced_daily_cube_and_climatology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SMAP L3 Enhanced Daily Cube</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_08_ascat_and_the_tu_wien_change_detection_approach.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ASCAT and TU Wien Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_09_esa_cci_long_term_trends_and_anomalies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESA CCI Trends and Anomalies</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_10_esa_cci_vs_era5_land.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESA CCI vs ERA5-Land</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_11_sentinel_1_preprocessing_for_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Preprocessing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_12_change_detection_soil_moisture_from_sentinel_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_13_water_cloud_model_and_surface_scattering_inversion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Water Cloud Model Inversion</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_14_operational_high_resolution_products.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Operational 1 km Products</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_15_downscale_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Downscaling: Six Methods Compared</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_14_Capstones/09_14_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Change around Pucallpa, Peru</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Fifty Years in the Bangladesh Delta</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Wildfire Burned Area</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rohingya Deforestation: Sentinel-2</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Flood Mapping in Sylhet</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rohingya Deforestation: Sentinel-1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ship Detection, Strait of Hormuz</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Crops from NISAR GCOV</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Charland Monitoring, Lower Meghna</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shrimp Ghers in Coastal Bangladesh</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Big Sur Wildfire, 2026</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Wetland Paddy in Bangladesh</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Field Edges across Four Countries</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tree Biomass and Carbon from LiDAR</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_14_Capstones/09_14_17_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boro Rice Water Use, Bangladesh</span></a>
   </div>
 </li>
       </ul>
@@ -2095,7 +2215,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="setup-and-data">Setup and data</h2>
 <p>The cell below resolves the data folder from either working directory and reads the scene metadata.</p>
 <p><strong>Installation.</strong> This notebook needs installation option 6 (every GeoLattice module): <code>pip install "geolattice[all]"</code>. See “Installation options” in the GeoLattice README.</p>
-<div id="c003" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:35.762392Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:35.762182Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:38.005161Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:38.004673Z&quot;}}" data-execution_count="1">
+<div id="c003" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:59:58.372519Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:59:58.372276Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:00.648213Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:00.647751Z&quot;}}" data-execution_count="1">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json, time, warnings  <span class="co"># JSON, timing and warning control</span></span>
@@ -2144,7 +2264,7 @@ PyTorch 2.14.0+cu132 | device: cuda | NVIDIA RTX A5500 Laptop GPU</code></pre>
 <h2 class="anchored" data-anchor-id="preparing-the-imagery-labels-and-chips">Preparing the imagery, labels and chips</h2>
 <p><strong>Landsat.</strong> Six surface-reflectance bands are used (blue, green, red, NIR, SWIR1, SWIR2). Collection 2 Level-2 digital numbers convert to reflectance as <span class="math inline">\(\rho = 0.0000275\,\mathrm{DN}-0.2\)</span>. The <code>qa_pixel</code> band flags fill, cloud, cloud shadow and cirrus pixels, which are set to NaN so that no chip contains them.</p>
 <p><strong>CDL.</strong> The CDL is in the Albers projection (EPSG:5070) on a slightly different grid, so it is reprojected onto the Landsat grid with <strong>nearest neighbour</strong> (class codes must never be interpolated). Its 100+ codes are recoded into five classes.</p>
-<div id="c005" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:38.007456Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:38.007185Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:38.222175Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:38.221478Z&quot;}}" data-execution_count="2">
+<div id="c005" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:00.649855Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:00.649615Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:00.854044Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:00.853610Z&quot;}}" data-execution_count="2">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>BANDS <span class="op">=</span> [<span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"red"</span>, <span class="st">"nir"</span>, <span class="st">"swir16"</span>, <span class="st">"swir22"</span>]  <span class="co"># the six reflective bands</span></span>
@@ -2172,7 +2292,7 @@ PyTorch 2.14.0+cu132 | device: cuda | NVIDIA RTX A5500 Laptop GPU</code></pre>
 CDL on the Landsat grid: (971, 1011) | CRS: EPSG:32615</code></pre>
 </div>
 </div>
-<div id="c006" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:38.223926Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:38.223827Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:38.257674Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:38.257098Z&quot;}}" data-execution_count="3">
+<div id="c006" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:00.855535Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:00.855449Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:00.888972Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:00.888532Z&quot;}}" data-execution_count="3">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>NAMES <span class="op">=</span> [<span class="st">"Corn"</span>, <span class="st">"Soybeans"</span>, <span class="st">"Grass/pasture"</span>, <span class="st">"Developed"</span>, <span class="st">"Other"</span>]  <span class="co"># the five classes</span></span>
@@ -2198,7 +2318,7 @@ Name: proportion, dtype: float64</code></pre>
 <section id="chips-and-blocks" class="level3">
 <h3 class="anchored" data-anchor-id="chips-and-blocks">Chips and blocks</h3>
 <p>Each training example is a <span class="math inline">\(16\times16\)</span> pixel chip (480 m on a side) with its six bands. Its label is the CDL class of the <strong>central pixel</strong>. To make a split without any shared pixels, the scene is cropped to <span class="math inline">\(960\times960\)</span> pixels and divided into <span class="math inline">\(64\times64\)</span>-pixel <strong>blocks</strong> (15 × 15 = 225 blocks). Chips are cut with a stride of 8 pixels but only where they fit <strong>entirely inside one block</strong>, so a chip never straddles two blocks. Whole blocks are then assigned to train, validation or test, which guarantees that no input pixel is shared across splits.</p>
-<div id="c008" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:38.259679Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:38.259588Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:38.334325Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:38.333536Z&quot;}}" data-execution_count="4">
+<div id="c008" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:00.890142Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:00.890055Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:00.963179Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:00.962619Z&quot;}}" data-execution_count="4">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>SIZE, STRIDE, BLOCK, TILE_BLOCKS <span class="op">=</span> <span class="dv">16</span>, <span class="dv">8</span>, <span class="dv">64</span>, <span class="dv">5</span>            <span class="co"># chip px, stride px, block px, blocks per tile side</span></span>
@@ -2235,7 +2355,7 @@ Other             226
 Name: chips, dtype: int64</code></pre>
 </div>
 </div>
-<div id="c009" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:38.336066Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:38.335967Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:39.041718Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:39.040925Z&quot;}}" data-execution_count="5">
+<div id="c009" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:00.964692Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:00.964577Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:01.659966Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:01.659369Z&quot;}}" data-execution_count="5">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rgb <span class="op">=</span> np.clip(arr[[<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>]].transpose(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>) <span class="op">/</span> <span class="fl">0.2</span>, <span class="dv">0</span>, <span class="dv">1</span>)  <span class="co"># true colour, 0-20 % reflectance</span></span>
@@ -2265,7 +2385,7 @@ Name: chips, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="c010" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:39.048671Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:39.048527Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:39.331516Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:39.331199Z&quot;}}" data-execution_count="6">
+<div id="c010" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:01.666635Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:01.666514Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:01.942129Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:01.941578Z&quot;}}" data-execution_count="6">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">5</span>, figsize<span class="op">=</span>(<span class="dv">13</span>, <span class="fl">5.4</span>))  <span class="co"># two example chips per class</span></span>
@@ -2291,7 +2411,7 @@ Name: chips, dtype: int64</code></pre>
 <section id="one-configuration-for-both-parts" class="level3">
 <h3 class="anchored" data-anchor-id="one-configuration-for-both-parts">One configuration for both parts</h3>
 <p>The same network, optimiser and training settings are used in Part 1 and Part 2. Only the way the data are split, and whether the training chips are augmented, changes. <code>simple_cnn</code> is a compact network built into GeoLattice; it has three convolution blocks and a linear classifier.</p>
-<div id="c012" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:39.333551Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:39.333449Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:39.341384Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:39.340902Z&quot;}}" data-execution_count="7">
+<div id="c012" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:01.943711Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:01.943610Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:01.951470Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:01.950952Z&quot;}}" data-execution_count="7">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the training configuration</span></span>
@@ -2353,7 +2473,7 @@ SimpleCNN(
 trainable parameters: 17,349</code></pre>
 </div>
 </div>
-<div id="c013" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:39.343073Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:39.342979Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:39.349848Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:39.349544Z&quot;}}" data-execution_count="8">
+<div id="c013" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:01.952937Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:01.952842Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:01.959784Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:01.959489Z&quot;}}" data-execution_count="8">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> augment_chips(Xn, yn, copies, seed):  <span class="co"># add augmented copies of normalised chips</span></span>
@@ -2409,7 +2529,7 @@ trainable parameters: 17,349</code></pre>
 <section id="part-1-one-global-split-into-train-validation-test" class="level2">
 <h2 class="anchored" data-anchor-id="part-1-one-global-split-into-train-validation-test">Part 1: one global split into train / validation / test</h2>
 <p>All 225 blocks are shuffled once and divided 60 / 20 / 20 into train / validation / test (<code>group_split</code> on the block ID). The validation blocks steer early stopping and checkpoint choice; the test blocks are touched once, at the end.</p>
-<div id="c015" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:39.351713Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:39.351616Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:39.433354Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:39.432782Z&quot;}}" data-execution_count="9">
+<div id="c015" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:01.961352Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:01.961265Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:02.041655Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:02.041103Z&quot;}}" data-execution_count="9">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> global_split(seed):  <span class="co"># split whole blocks: 60 / 20 / 20</span></span>
@@ -2445,7 +2565,7 @@ trainable parameters: 17,349</code></pre>
 </div>
 </div>
 </div>
-<div id="c016" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:39.435080Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:39.434983Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:48.762686Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:48.761774Z&quot;}}" data-execution_count="10">
+<div id="c016" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:02.043117Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:02.043013Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:09.516607Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:09.515996Z&quot;}}" data-execution_count="10">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>res1 <span class="op">=</span> fit_cnn(tr1, va1, seed<span class="op">=</span><span class="dv">0</span>, augment_copies<span class="op">=</span><span class="dv">0</span>, verbose<span class="op">=</span><span class="va">True</span>)  <span class="co"># train the Part 1 model</span></span>
@@ -2453,51 +2573,46 @@ trainable parameters: 17,349</code></pre>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">trained on </span><span class="sc">{</span>res1[<span class="st">'n_train'</span>]<span class="sc">:,}</span><span class="ss"> chips for </span><span class="sc">{</span>res1[<span class="st">'epochs'</span>]<span class="sc">}</span><span class="ss"> epochs in </span><span class="sc">{</span>res1[<span class="st">'seconds'</span>]<span class="sc">:.0f}</span><span class="ss"> s on </span><span class="sc">{</span>DEVICE<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>epoch 1/40 train_loss=0.5896 val_loss=0.4751 val_score=0.8431
-epoch 2/40 train_loss=0.4198 val_loss=0.4141 val_score=0.8651
-epoch 3/40 train_loss=0.3778 val_loss=0.4046 val_score=0.8637
-epoch 4/40 train_loss=0.3484 val_loss=0.4007 val_score=0.8670
-epoch 5/40 train_loss=0.3291 val_loss=0.3635 val_score=0.8763
-epoch 6/40 train_loss=0.3148 val_loss=0.3543 val_score=0.8782
-epoch 7/40 train_loss=0.3027 val_loss=0.3562 val_score=0.8726
-epoch 8/40 train_loss=0.2884 val_loss=0.4557 val_score=0.8703
-epoch 9/40 train_loss=0.2757 val_loss=0.3481 val_score=0.8834
-epoch 10/40 train_loss=0.2678 val_loss=0.3199 val_score=0.8792
-epoch 11/40 train_loss=0.2558 val_loss=0.4584 val_score=0.8393
-epoch 12/40 train_loss=0.2512 val_loss=0.3203 val_score=0.8951
-epoch 13/40 train_loss=0.2459 val_loss=0.3199 val_score=0.8885
-epoch 14/40 train_loss=0.2380 val_loss=0.3040 val_score=0.8951
-epoch 15/40 train_loss=0.2239 val_loss=0.2961 val_score=0.9007
-epoch 16/40 train_loss=0.2256 val_loss=0.3306 val_score=0.8857
-epoch 17/40 train_loss=0.2197 val_loss=0.3284 val_score=0.8965
-epoch 18/40 train_loss=0.2112 val_loss=0.3026 val_score=0.8951
-epoch 19/40 train_loss=0.1967 val_loss=0.2959 val_score=0.9002
-epoch 20/40 train_loss=0.1984 val_loss=0.3217 val_score=0.8885
-epoch 21/40 train_loss=0.1912 val_loss=0.2973 val_score=0.9012
-epoch 22/40 train_loss=0.1869 val_loss=0.3064 val_score=0.8946
-epoch 23/40 train_loss=0.1831 val_loss=0.2860 val_score=0.9054
-epoch 24/40 train_loss=0.1713 val_loss=0.2998 val_score=0.9030
-epoch 25/40 train_loss=0.1619 val_loss=0.3055 val_score=0.8984
-epoch 26/40 train_loss=0.1598 val_loss=0.2956 val_score=0.9091
-epoch 27/40 train_loss=0.1610 val_loss=0.2971 val_score=0.9007
-epoch 28/40 train_loss=0.1557 val_loss=0.3003 val_score=0.9077
-epoch 29/40 train_loss=0.1518 val_loss=0.2901 val_score=0.9073
-epoch 30/40 train_loss=0.1443 val_loss=0.2954 val_score=0.9091
-epoch 31/40 train_loss=0.1477 val_loss=0.3012 val_score=0.9035
-epoch 32/40 train_loss=0.1389 val_loss=0.2899 val_score=0.9073
-epoch 33/40 train_loss=0.1382 val_loss=0.3001 val_score=0.9059
-epoch 34/40 train_loss=0.1388 val_loss=0.2945 val_score=0.9096
-epoch 35/40 train_loss=0.1358 val_loss=0.3002 val_score=0.9077
-epoch 36/40 train_loss=0.1316 val_loss=0.2952 val_score=0.9091
-epoch 37/40 train_loss=0.1330 val_loss=0.3009 val_score=0.9082
-epoch 38/40 train_loss=0.1296 val_loss=0.2979 val_score=0.9063
-epoch 39/40 train_loss=0.1304 val_loss=0.3001 val_score=0.9073
-epoch 40/40 train_loss=0.1273 val_loss=0.2975 val_score=0.9077
+<pre><code>epoch 1/40 train_loss=0.5897 val_loss=0.4767 val_score=0.8426
+epoch 2/40 train_loss=0.4200 val_loss=0.4095 val_score=0.8693
+epoch 3/40 train_loss=0.3774 val_loss=0.4095 val_score=0.8623
+epoch 4/40 train_loss=0.3492 val_loss=0.3919 val_score=0.8679
+epoch 5/40 train_loss=0.3294 val_loss=0.3430 val_score=0.8843
+epoch 6/40 train_loss=0.3160 val_loss=0.3447 val_score=0.8862
+epoch 7/40 train_loss=0.3027 val_loss=0.3509 val_score=0.8759
+epoch 8/40 train_loss=0.2902 val_loss=0.3814 val_score=0.8838
+epoch 9/40 train_loss=0.2780 val_loss=0.3192 val_score=0.8909
+epoch 10/40 train_loss=0.2630 val_loss=0.3279 val_score=0.8829
+epoch 11/40 train_loss=0.2573 val_loss=0.4310 val_score=0.8468
+epoch 12/40 train_loss=0.2519 val_loss=0.3166 val_score=0.8965
+epoch 13/40 train_loss=0.2394 val_loss=0.3122 val_score=0.8895
+epoch 14/40 train_loss=0.2382 val_loss=0.2988 val_score=0.8970
+epoch 15/40 train_loss=0.2256 val_loss=0.3021 val_score=0.8993
+epoch 16/40 train_loss=0.2273 val_loss=0.3024 val_score=0.8899
+epoch 17/40 train_loss=0.2204 val_loss=0.3277 val_score=0.8984
+epoch 18/40 train_loss=0.2090 val_loss=0.3070 val_score=0.9002
+epoch 19/40 train_loss=0.1983 val_loss=0.2941 val_score=0.9021
+epoch 20/40 train_loss=0.1973 val_loss=0.3173 val_score=0.8904
+epoch 21/40 train_loss=0.1883 val_loss=0.2900 val_score=0.9049
+epoch 22/40 train_loss=0.1857 val_loss=0.2995 val_score=0.9026
+epoch 23/40 train_loss=0.1813 val_loss=0.2924 val_score=0.9026
+epoch 24/40 train_loss=0.1700 val_loss=0.2899 val_score=0.9082
+epoch 25/40 train_loss=0.1615 val_loss=0.2978 val_score=0.9044
+epoch 26/40 train_loss=0.1578 val_loss=0.2907 val_score=0.9101
+epoch 27/40 train_loss=0.1604 val_loss=0.2892 val_score=0.9073
+epoch 28/40 train_loss=0.1541 val_loss=0.2971 val_score=0.9073
+epoch 29/40 train_loss=0.1520 val_loss=0.2913 val_score=0.9044
+epoch 30/40 train_loss=0.1423 val_loss=0.2911 val_score=0.9087
+epoch 31/40 train_loss=0.1444 val_loss=0.3002 val_score=0.9073
+epoch 32/40 train_loss=0.1371 val_loss=0.2864 val_score=0.9063
+epoch 33/40 train_loss=0.1344 val_loss=0.2967 val_score=0.9068
+epoch 34/40 train_loss=0.1358 val_loss=0.2883 val_score=0.9091
+early stopping at epoch 34
 
-trained on 6,286 chips for 40 epochs in 9 s on cuda</code></pre>
+trained on 6,286 chips for 34 epochs in 7 s on cuda</code></pre>
 </div>
 </div>
-<div id="c017" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:48.765178Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:48.764862Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:48.904102Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:48.903415Z&quot;}}" data-execution_count="11">
+<div id="c017" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:09.518851Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:09.518549Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:09.649664Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:09.649097Z&quot;}}" data-execution_count="11">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_history(h, title):  <span class="co"># loss and accuracy curves</span></span>
@@ -2520,7 +2635,7 @@ trained on 6,286 chips for 40 epochs in 9 s on cuda</code></pre>
 </div>
 </div>
 </div>
-<div id="c018" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:48.906070Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:48.905982Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:50.677097Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:50.676083Z&quot;}}" data-execution_count="12">
+<div id="c018" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:09.651616Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:09.651516Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:11.369492Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:11.368738Z&quot;}}" data-execution_count="12">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>rep1 <span class="op">=</span> report(res1, te1, n_boot<span class="op">=</span><span class="dv">500</span>)  <span class="co"># test report with 500 bootstrap repeats</span></span>
@@ -2532,7 +2647,7 @@ trained on 6,286 chips for 40 epochs in 9 s on cuda</code></pre>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>rep1[<span class="st">"per_class"</span>].<span class="bu">round</span>(<span class="dv">3</span>)  <span class="co"># per-class scores</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>TEST (n=2,090): OA 0.910 [0.898, 0.923] | kappa 0.846 [0.825, 0.866] | macro-F1 0.727 [0.683, 0.769]</code></pre>
+<pre><code>TEST (n=2,090): OA 0.907 [0.894, 0.918] | kappa 0.839 [0.818, 0.858] | macro-F1 0.718 [0.670, 0.759]</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div>
@@ -2553,47 +2668,47 @@ trained on 6,286 chips for 40 epochs in 9 s on cuda</code></pre>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Corn</th>
+<td>0.948</td>
+<td>0.965</td>
 <td>0.956</td>
-<td>0.960</td>
-<td>0.958</td>
 <td>1125</td>
-<td>0.949</td>
+<td>0.947</td>
 <td>0.965</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Soybeans</th>
-<td>0.916</td>
-<td>0.942</td>
-<td>0.929</td>
+<td>0.903</td>
+<td>0.952</td>
+<td>0.927</td>
 <td>713</td>
-<td>0.916</td>
-<td>0.942</td>
+<td>0.914</td>
+<td>0.941</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Grass/pasture</th>
-<td>0.533</td>
+<td>0.552</td>
 <td>0.542</td>
-<td>0.538</td>
+<td>0.547</td>
 <td>59</td>
-<td>0.427</td>
-<td>0.631</td>
+<td>0.425</td>
+<td>0.638</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Developed</th>
-<td>0.697</td>
-<td>0.688</td>
-<td>0.692</td>
+<td>0.714</td>
+<td>0.556</td>
+<td>0.625</td>
 <td>144</td>
-<td>0.629</td>
-<td>0.756</td>
+<td>0.556</td>
+<td>0.691</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Other</th>
-<td>0.792</td>
+<td>0.864</td>
 <td>0.388</td>
-<td>0.521</td>
+<td>0.535</td>
 <td>49</td>
-<td>0.373</td>
+<td>0.372</td>
 <td>0.667</td>
 </tr>
 </tbody>
@@ -2602,7 +2717,7 @@ trained on 6,286 chips for 40 epochs in 9 s on cuda</code></pre>
 </div>
 </div>
 </div>
-<div id="c019" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:50.679552Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:50.679445Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:50.796373Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:50.795970Z&quot;}}" data-execution_count="13">
+<div id="c019" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:11.371461Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:11.371272Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:11.489834Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:11.489183Z&quot;}}" data-execution_count="13">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_cm(rep, title):  <span class="co"># draw a row-normalised confusion matrix</span></span>
@@ -2632,7 +2747,7 @@ trained on 6,286 chips for 40 epochs in 9 s on cuda</code></pre>
 <section id="a-map-from-the-cnn" class="level3">
 <h3 class="anchored" data-anchor-id="a-map-from-the-cnn">A map from the CNN</h3>
 <p><code>predict_chip_map</code> slides the trained chip classifier over the scene (here with stride 8 pixels) and assigns every pixel the class of its nearest chip centre. The map is judged only on the <strong>test blocks</strong>: elsewhere the network was trained on those pixels.</p>
-<div id="c021" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:50.798298Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:50.798194Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:51.676832Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:51.676130Z&quot;}}" data-execution_count="14">
+<div id="c021" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:11.491562Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:11.491464Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:12.357770Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:12.357275Z&quot;}}" data-execution_count="14">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> chip_map(res, stride<span class="op">=</span><span class="dv">8</span>):  <span class="co"># class map from a sliding chip window</span></span>
@@ -2683,7 +2798,7 @@ trained on 6,286 chips for 40 epochs in 9 s on cuda</code></pre>
 <li>Augment the <strong>training</strong> chips of each tile (original + 3 augmented copies; 8 dihedral rotations / flips with a little brightness, contrast and noise jitter). Validation and test chips are never augmented.</li>
 <li>Merge the 9 train, 9 validation and 9 test parts into one train, one validation and one test set, and train the same CNN.</li>
 </ol>
-<div id="c023" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:51.679284Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:51.679186Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:51.693551Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:51.692601Z&quot;}}" data-execution_count="15">
+<div id="c023" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:12.359444Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:12.359350Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:12.371313Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:12.370912Z&quot;}}" data-execution_count="15">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tile_split(seed):  <span class="co"># split blocks separately inside each 5 x 5-block tile</span></span>
@@ -2770,7 +2885,7 @@ trained on 6,286 chips for 40 epochs in 9 s on cuda</code></pre>
 </div>
 </div>
 </div>
-<div id="c024" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:51.695496Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:51.695360Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:51.822436Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:51.821795Z&quot;}}" data-execution_count="16">
+<div id="c024" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:12.372781Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:12.372689Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:12.495685Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:12.495369Z&quot;}}" data-execution_count="16">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>role2 <span class="op">=</span> np.full((nb, nb), <span class="dv">0</span>)  <span class="co"># role of every block in Part 2</span></span>
@@ -2794,7 +2909,7 @@ trained on 6,286 chips for 40 epochs in 9 s on cuda</code></pre>
 </div>
 </div>
 <p>Black lines are tile borders. Every tile now holds train, validation and test blocks. Next, what augmentation does to a chip (shown in normalised units):</p>
-<div id="c026" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:51.823872Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:51.823779Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:32:52.309278Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:32:52.308711Z&quot;}}" data-execution_count="17">
+<div id="c026" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:12.497460Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:12.497367Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:12.836648Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:12.836139Z&quot;}}" data-execution_count="17">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>norm_demo <span class="op">=</span> ic.Normalizer(<span class="st">"zscore"</span>).fit(X[tr2], band_axis<span class="op">=</span><span class="dv">1</span>)  <span class="co"># a normaliser from the Part 2 training chips</span></span>
@@ -2819,7 +2934,7 @@ trained on 6,286 chips for 40 epochs in 9 s on cuda</code></pre>
 </div>
 </div>
 </div>
-<div id="c027" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:32:52.311037Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:32:52.310945Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:33:05.438433Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:33:05.437575Z&quot;}}" data-execution_count="18">
+<div id="c027" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:12.838683Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:12.838587Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:28.988949Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:28.988188Z&quot;}}" data-execution_count="18">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># train the Part 2 model with 3 augmented copies</span></span>
@@ -2829,25 +2944,32 @@ trained on 6,286 chips for 40 epochs in 9 s on cuda</code></pre>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>plot_history(res2[<span class="st">"hist"</span>], <span class="st">"Part 2 training curves"</span>)  <span class="co"># its curves</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>epoch 1/40 train_loss=0.4917 val_loss=0.4099 val_score=0.8731
-epoch 2/40 train_loss=0.3903 val_loss=0.3385 val_score=0.8843
-epoch 3/40 train_loss=0.3636 val_loss=0.3099 val_score=0.8872
-epoch 4/40 train_loss=0.3488 val_loss=0.3249 val_score=0.8829
-epoch 5/40 train_loss=0.3286 val_loss=0.2836 val_score=0.8952
-epoch 6/40 train_loss=0.3212 val_loss=0.2970 val_score=0.8881
-epoch 7/40 train_loss=0.3053 val_loss=0.3031 val_score=0.8928
-epoch 8/40 train_loss=0.2992 val_loss=0.2760 val_score=0.9017
-epoch 9/40 train_loss=0.2922 val_loss=0.2862 val_score=0.8975
-epoch 10/40 train_loss=0.2831 val_loss=0.2850 val_score=0.8947
-epoch 11/40 train_loss=0.2747 val_loss=0.3269 val_score=0.8764
-epoch 12/40 train_loss=0.2704 val_loss=0.2778 val_score=0.8975
-epoch 13/40 train_loss=0.2611 val_loss=0.2736 val_score=0.9017
-epoch 14/40 train_loss=0.2544 val_loss=0.2845 val_score=0.8980
-epoch 15/40 train_loss=0.2495 val_loss=0.2758 val_score=0.8980
-epoch 16/40 train_loss=0.2466 val_loss=0.2903 val_score=0.8956
-early stopping at epoch 16
+<pre><code>epoch 1/40 train_loss=0.4918 val_loss=0.3900 val_score=0.8773
+epoch 2/40 train_loss=0.3902 val_loss=0.3491 val_score=0.8801
+epoch 3/40 train_loss=0.3622 val_loss=0.3036 val_score=0.8919
+epoch 4/40 train_loss=0.3482 val_loss=0.3212 val_score=0.8890
+epoch 5/40 train_loss=0.3283 val_loss=0.2851 val_score=0.8923
+epoch 6/40 train_loss=0.3212 val_loss=0.2952 val_score=0.8952
+epoch 7/40 train_loss=0.3064 val_loss=0.2960 val_score=0.8933
+epoch 8/40 train_loss=0.2980 val_loss=0.2758 val_score=0.9003
+epoch 9/40 train_loss=0.2927 val_loss=0.2902 val_score=0.9022
+epoch 10/40 train_loss=0.2841 val_loss=0.2911 val_score=0.8886
+epoch 11/40 train_loss=0.2748 val_loss=0.3237 val_score=0.8754
+epoch 12/40 train_loss=0.2710 val_loss=0.2839 val_score=0.8975
+epoch 13/40 train_loss=0.2623 val_loss=0.2780 val_score=0.9055
+epoch 14/40 train_loss=0.2540 val_loss=0.2904 val_score=0.8975
+epoch 15/40 train_loss=0.2492 val_loss=0.2780 val_score=0.9069
+epoch 16/40 train_loss=0.2482 val_loss=0.2776 val_score=0.9003
+epoch 17/40 train_loss=0.2383 val_loss=0.2766 val_score=0.8952
+epoch 18/40 train_loss=0.2303 val_loss=0.2910 val_score=0.8942
+epoch 19/40 train_loss=0.2288 val_loss=0.2861 val_score=0.8952
+epoch 20/40 train_loss=0.2203 val_loss=0.2974 val_score=0.8947
+epoch 21/40 train_loss=0.2159 val_loss=0.2833 val_score=0.8994
+epoch 22/40 train_loss=0.2119 val_loss=0.2924 val_score=0.8970
+epoch 23/40 train_loss=0.2071 val_loss=0.2994 val_score=0.8999
+early stopping at epoch 23
 
-trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</code></pre>
+trained on 24,924 chips (6,231 real + augmented) for 23 epochs in 14 s on cuda</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -2857,7 +2979,7 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 </div>
 </div>
 </div>
-<div id="c028" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:33:05.440347Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:33:05.440259Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:33:07.223216Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:33:07.222740Z&quot;}}" data-execution_count="19">
+<div id="c028" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:28.990748Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:28.990640Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:30.718420Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:30.718044Z&quot;}}" data-execution_count="19">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>rep2 <span class="op">=</span> report(res2, te2, n_boot<span class="op">=</span><span class="dv">500</span>)  <span class="co"># test report with 500 bootstrap repeats</span></span>
@@ -2869,7 +2991,7 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>rep2[<span class="st">"per_class"</span>].<span class="bu">round</span>(<span class="dv">3</span>)  <span class="co"># per-class scores</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>TEST (n=2,153): OA 0.902 [0.889, 0.915] | kappa 0.825 [0.802, 0.847] | macro-F1 0.633 [0.586, 0.673]</code></pre>
+<pre><code>TEST (n=2,153): OA 0.901 [0.888, 0.914] | kappa 0.825 [0.804, 0.847] | macro-F1 0.664 [0.619, 0.707]</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <div>
@@ -2891,47 +3013,47 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Corn</th>
 <td>0.934</td>
-<td>0.967</td>
-<td>0.950</td>
-<td>1185</td>
-<td>0.941</td>
 <td>0.960</td>
+<td>0.947</td>
+<td>1185</td>
+<td>0.938</td>
+<td>0.957</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Soybeans</th>
-<td>0.922</td>
-<td>0.957</td>
-<td>0.939</td>
+<td>0.955</td>
+<td>0.931</td>
+<td>0.943</td>
 <td>749</td>
-<td>0.927</td>
-<td>0.951</td>
+<td>0.930</td>
+<td>0.955</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Grass/pasture</th>
-<td>0.613</td>
-<td>0.257</td>
-<td>0.362</td>
+<td>0.607</td>
+<td>0.459</td>
+<td>0.523</td>
 <td>74</td>
-<td>0.247</td>
-<td>0.472</td>
+<td>0.419</td>
+<td>0.628</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Developed</th>
-<td>0.500</td>
-<td>0.455</td>
-<td>0.476</td>
+<td>0.456</td>
+<td>0.576</td>
+<td>0.509</td>
 <td>99</td>
-<td>0.376</td>
-<td>0.565</td>
+<td>0.409</td>
+<td>0.585</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Other</th>
-<td>0.593</td>
-<td>0.348</td>
-<td>0.438</td>
+<td>0.583</td>
+<td>0.304</td>
+<td>0.400</td>
 <td>46</td>
-<td>0.290</td>
-<td>0.577</td>
+<td>0.262</td>
+<td>0.542</td>
 </tr>
 </tbody>
 </table>
@@ -2939,7 +3061,7 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 </div>
 </div>
 </div>
-<div id="c029" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:33:07.225183Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:33:07.225094Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:33:08.186325Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:33:08.185540Z&quot;}}" data-execution_count="20">
+<div id="c029" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:30.719910Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:30.719827Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:00:31.674920Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:00:31.674352Z&quot;}}" data-execution_count="20">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>plot_cm(rep2, <span class="st">"Part 2: test confusion matrix"</span>)  <span class="co"># the Part 2 matrix</span></span>
@@ -2969,7 +3091,7 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 <li><strong>Two things changed at once</strong> (split scheme and augmentation). A 2 × 2 ablation separates them: <code>global</code> or <code>tile</code> split, each with or without augmentation.</li>
 </ol>
 <p>We train all four configurations for three seeds. A seed changes the block assignment, the network initialisation and the batch order.</p>
-<div id="c031" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:33:08.188307Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:33:08.188213Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:03.422818Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:03.422072Z&quot;}}" data-execution_count="21">
+<div id="c031" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:00:31.676859Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:00:31.676772Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:15.376828Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:15.376089Z&quot;}}" data-execution_count="21">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>SEEDS <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>]  <span class="co"># three seeds per configuration</span></span>
@@ -2995,7 +3117,7 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 <pre><code>trained 12 models</code></pre>
 </div>
 </div>
-<div id="c032" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:03.424392Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:03.424296Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:03.931188Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:03.929490Z&quot;}}" data-execution_count="22">
+<div id="c032" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:15.378396Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:15.378305Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:15.854540Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:15.853934Z&quot;}}" data-execution_count="22">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []  <span class="co"># one row per model</span></span>
@@ -3036,25 +3158,25 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 <th data-quarto-table-cell-role="th">0</th>
 <td>A: global split</td>
 <td>0</td>
-<td>0.910</td>
-<td>0.846</td>
-<td>0.727</td>
+<td>0.907</td>
+<td>0.839</td>
+<td>0.718</td>
 <td>196</td>
 <td>0.939</td>
-<td>0.671</td>
+<td>0.793</td>
 <td>6286</td>
-<td>40</td>
+<td>34</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">2</th>
 <td>A: global split</td>
 <td>1</td>
-<td>0.903</td>
-<td>0.833</td>
-<td>0.672</td>
+<td>0.899</td>
+<td>0.826</td>
+<td>0.678</td>
 <td>459</td>
-<td>0.943</td>
-<td>0.751</td>
+<td>0.937</td>
+<td>0.712</td>
 <td>6331</td>
 <td>29</td>
 </tr>
@@ -3062,12 +3184,12 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 <th data-quarto-table-cell-role="th">3</th>
 <td>A: global split</td>
 <td>2</td>
-<td>0.915</td>
-<td>0.854</td>
-<td>0.708</td>
+<td>0.909</td>
+<td>0.844</td>
+<td>0.692</td>
 <td>441</td>
-<td>0.907</td>
-<td>0.733</td>
+<td>0.905</td>
+<td>0.728</td>
 <td>6281</td>
 <td>40</td>
 </tr>
@@ -3075,66 +3197,66 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 <th data-quarto-table-cell-role="th">1</th>
 <td>B: tile split + augment</td>
 <td>0</td>
-<td>0.902</td>
+<td>0.901</td>
 <td>0.825</td>
-<td>0.633</td>
+<td>0.664</td>
 <td>196</td>
-<td>0.929</td>
-<td>0.817</td>
+<td>0.903</td>
+<td>0.784</td>
 <td>24924</td>
-<td>16</td>
+<td>23</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">4</th>
 <td>B: tile split + augment</td>
 <td>1</td>
-<td>0.909</td>
-<td>0.835</td>
-<td>0.668</td>
+<td>0.897</td>
+<td>0.810</td>
+<td>0.566</td>
 <td>459</td>
-<td>0.943</td>
-<td>0.769</td>
+<td>0.926</td>
+<td>0.606</td>
 <td>25272</td>
-<td>15</td>
+<td>12</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">5</th>
 <td>B: tile split + augment</td>
 <td>2</td>
-<td>0.888</td>
-<td>0.801</td>
-<td>0.632</td>
+<td>0.899</td>
+<td>0.819</td>
+<td>0.633</td>
 <td>441</td>
 <td>0.887</td>
-<td>0.668</td>
+<td>0.674</td>
 <td>24992</td>
-<td>26</td>
+<td>18</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">6</th>
 <td>C: global + augment</td>
 <td>0</td>
-<td>0.895</td>
-<td>0.818</td>
-<td>0.714</td>
+<td>0.888</td>
+<td>0.804</td>
+<td>0.691</td>
 <td>196</td>
-<td>0.954</td>
-<td>0.719</td>
+<td>0.923</td>
+<td>0.700</td>
 <td>25144</td>
-<td>29</td>
+<td>40</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">7</th>
 <td>C: global + augment</td>
 <td>1</td>
-<td>0.895</td>
-<td>0.819</td>
-<td>0.676</td>
+<td>0.890</td>
+<td>0.811</td>
+<td>0.655</td>
 <td>459</td>
-<td>0.932</td>
-<td>0.690</td>
+<td>0.946</td>
+<td>0.746</td>
 <td>25324</td>
-<td>22</td>
+<td>17</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">8</th>
@@ -3142,51 +3264,51 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 <td>2</td>
 <td>0.904</td>
 <td>0.835</td>
-<td>0.683</td>
+<td>0.636</td>
 <td>441</td>
-<td>0.891</td>
-<td>0.694</td>
+<td>0.900</td>
+<td>0.679</td>
 <td>25124</td>
-<td>24</td>
+<td>19</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">9</th>
 <td>D: tile split</td>
 <td>0</td>
-<td>0.910</td>
-<td>0.837</td>
-<td>0.623</td>
+<td>0.907</td>
+<td>0.831</td>
+<td>0.608</td>
 <td>196</td>
 <td>0.944</td>
-<td>0.793</td>
+<td>0.761</td>
 <td>6231</td>
-<td>15</td>
+<td>17</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">10</th>
 <td>D: tile split</td>
 <td>1</td>
-<td>0.915</td>
-<td>0.848</td>
-<td>0.661</td>
+<td>0.910</td>
+<td>0.836</td>
+<td>0.665</td>
 <td>459</td>
-<td>0.937</td>
-<td>0.694</td>
+<td>0.941</td>
+<td>0.727</td>
 <td>6318</td>
-<td>20</td>
+<td>25</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">11</th>
 <td>D: tile split</td>
 <td>2</td>
-<td>0.908</td>
-<td>0.835</td>
+<td>0.903</td>
+<td>0.827</td>
 <td>0.646</td>
 <td>441</td>
-<td>0.902</td>
-<td>0.691</td>
+<td>0.889</td>
+<td>0.676</td>
 <td>6248</td>
-<td>32</td>
+<td>40</td>
 </tr>
 </tbody>
 </table>
@@ -3194,7 +3316,7 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 </div>
 </div>
 </div>
-<div id="c033" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:03.933454Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:03.933328Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:03.946699Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:03.946088Z&quot;}}" data-execution_count="23">
+<div id="c033" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:15.856088Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:15.856002Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:15.868210Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:15.867721Z&quot;}}" data-execution_count="23">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mean and spread over the seeds</span></span>
@@ -3237,46 +3359,46 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">A: global split</th>
-<td>0.909</td>
+<td>0.905</td>
 <td>0.006</td>
-<td>0.844</td>
-<td>0.702</td>
-<td>0.930</td>
-<td>0.020</td>
-<td>0.718</td>
+<td>0.837</td>
+<td>0.696</td>
+<td>0.927</td>
+<td>0.019</td>
+<td>0.744</td>
 <td>6299.333</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">B: tile split + augment</th>
-<td>0.900</td>
-<td>0.011</td>
-<td>0.820</td>
-<td>0.644</td>
-<td>0.920</td>
-<td>0.029</td>
-<td>0.751</td>
+<td>0.899</td>
+<td>0.002</td>
+<td>0.818</td>
+<td>0.621</td>
+<td>0.905</td>
+<td>0.020</td>
+<td>0.688</td>
 <td>25062.667</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">C: global + augment</th>
-<td>0.898</td>
-<td>0.005</td>
-<td>0.824</td>
-<td>0.691</td>
-<td>0.926</td>
-<td>0.032</td>
-<td>0.701</td>
+<td>0.894</td>
+<td>0.009</td>
+<td>0.817</td>
+<td>0.661</td>
+<td>0.923</td>
+<td>0.023</td>
+<td>0.709</td>
 <td>25197.333</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">D: tile split</th>
-<td>0.911</td>
-<td>0.003</td>
-<td>0.840</td>
-<td>0.643</td>
-<td>0.928</td>
-<td>0.022</td>
-<td>0.726</td>
+<td>0.907</td>
+<td>0.004</td>
+<td>0.832</td>
+<td>0.640</td>
+<td>0.925</td>
+<td>0.031</td>
+<td>0.721</td>
 <td>6265.667</td>
 </tr>
 </tbody>
@@ -3285,7 +3407,7 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 </div>
 </div>
 </div>
-<div id="c034" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:03.949962Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:03.949747Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:04.118109Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:04.117423Z&quot;}}" data-execution_count="24">
+<div id="c034" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:15.869821Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:15.869728Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:16.027914Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:16.027401Z&quot;}}" data-execution_count="24">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="fl">3.8</span>))  <span class="co"># two panels</span></span>
@@ -3309,7 +3431,7 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 </div>
 </div>
 </div>
-<div id="c035" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:04.119882Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:04.119789Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:04.134279Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:04.133737Z&quot;}}" data-execution_count="25">
+<div id="c035" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:16.029488Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:16.029389Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:16.044320Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:16.043832Z&quot;}}" data-execution_count="25">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>effect <span class="op">=</span> pd.DataFrame({  <span class="co"># effect of each choice on accuracy</span></span>
@@ -3342,15 +3464,15 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">own_OA</th>
-<td>-1.11</td>
 <td>-1.07</td>
-<td>0.15</td>
+<td>-0.77</td>
+<td>0.16</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">common_OA</th>
-<td>-0.38</td>
-<td>-0.82</td>
-<td>-0.20</td>
+<td>-0.37</td>
+<td>-1.94</td>
+<td>-0.21</td>
 </tr>
 </tbody>
 </table>
@@ -3358,7 +3480,7 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 </div>
 </div>
 </div>
-<div id="c036" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:04.135918Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:04.135817Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:04.142204Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:04.141760Z&quot;}}" data-execution_count="26">
+<div id="c036" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:16.045654Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:16.045571Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:16.051454Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:16.051161Z&quot;}}" data-execution_count="26">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>best <span class="op">=</span> S[<span class="st">"common_OA"</span>].idxmax()<span class="op">;</span> best_own <span class="op">=</span> S[<span class="st">"own_OA"</span>].idxmax()  <span class="co"># best configuration on each test set</span></span>
@@ -3375,10 +3497,10 @@ trained on 24,924 chips (6,231 real + augmented) for 16 epochs in 11 s on cuda</
 <span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>pc.<span class="bu">round</span>(<span class="dv">3</span>)  <span class="co"># show it</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best on the common test set: A: global split (OA 0.930 ± 0.020)
-Best on its own test set   : D: tile split (OA 0.911 ± 0.003)
+<pre><code>Best on the common test set: A: global split (OA 0.927 ± 0.019)
+Best on its own test set   : D: tile split (OA 0.907 ± 0.004)
 
-Part 1 vs Part 2 (seed 0, own tests): OA 0.910 vs 0.902; kappa 0.846 vs 0.825; macro-F1 0.727 vs 0.633</code></pre>
+Part 1 vs Part 2 (seed 0, own tests): OA 0.907 vs 0.901; kappa 0.839 vs 0.825; macro-F1 0.718 vs 0.664</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="26">
 <div>
@@ -3395,28 +3517,28 @@ Part 1 vs Part 2 (seed 0, own tests): OA 0.910 vs 0.902; kappa 0.846 vs 0.825; m
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Corn</th>
-<td>0.958</td>
-<td>0.950</td>
+<td>0.956</td>
+<td>0.947</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Soybeans</th>
-<td>0.929</td>
-<td>0.939</td>
+<td>0.927</td>
+<td>0.943</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Grass/pasture</th>
-<td>0.538</td>
-<td>0.362</td>
+<td>0.547</td>
+<td>0.523</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Developed</th>
-<td>0.692</td>
-<td>0.476</td>
+<td>0.625</td>
+<td>0.509</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Other</th>
-<td>0.521</td>
-<td>0.438</td>
+<td>0.535</td>
+<td>0.400</td>
 </tr>
 </tbody>
 </table>
@@ -3466,7 +3588,7 @@ Part 1 vs Part 2 (seed 0, own tests): OA 0.910 vs 0.902; kappa 0.846 vs 0.825; m
 <li>Uncertainty is reported as the <strong>standard deviation (SD) across the six tiles</strong>; for the 12-model comparison the tile scores are first averaged over the three training seeds, and the SD over seeds is shown separately.</li>
 <li>With six tiles, differences smaller than about one SD should not be called real; paired tests across tiles are used for the two main approaches.</li>
 </ul>
-<div id="7e1be715" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:04.143746Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:04.143665Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:04.448411Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:04.447758Z&quot;}}" data-execution_count="27">
+<div id="7e1be715" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:16.052837Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:16.052752Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:16.335391Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:16.334711Z&quot;}}" data-execution_count="27">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> shape  <span class="co"># polygon geometry from GeoJSON</span></span>
@@ -3520,7 +3642,7 @@ overlap between tiles        : 0.0</code></pre>
 </div>
 </div>
 </div>
-<div id="5b4855b5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:04.450581Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:04.450316Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:05.785077Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:05.784316Z&quot;}}" data-execution_count="28">
+<div id="5b4855b5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:16.337304Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:16.337080Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:17.657057Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:17.656417Z&quot;}}" data-execution_count="28">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prepare(scene_dir, cdl_path):  <span class="co"># the same preprocessing as for the training scene</span></span>
@@ -3680,7 +3802,7 @@ overlap between tiles        : 0.0</code></pre>
 <section id="per-tile-test-of-part-1-and-part-2" class="level3">
 <h3 class="anchored" data-anchor-id="per-tile-test-of-part-1-and-part-2">Per-tile test of Part 1 and Part 2</h3>
 <p>Every tile is scored with the bootstrap report used earlier (95 % intervals of OA, kappa and macro-F1 within a tile). The last rows give the <strong>mean and SD across the six tiles</strong> next to the in-AOI test result of the same model.</p>
-<div id="cc0485d9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:05.786662Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:05.786565Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:22.167068Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:22.166739Z&quot;}}" data-execution_count="29">
+<div id="cc0485d9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:17.658780Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:17.658690Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:33.402325Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:33.401840Z&quot;}}" data-execution_count="29">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_t(res, t):  <span class="co"># class predictions on a tile</span></span>
@@ -3743,74 +3865,74 @@ overlap between tiles        : 0.0</code></pre>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">N</th>
 <td>10466</td>
-<td>0.891745</td>
-<td>[0.885, 0.898]</td>
-<td>0.823118</td>
-<td>0.679674</td>
+<td>0.888783</td>
+<td>[0.883, 0.895]</td>
+<td>0.816557</td>
+<td>0.669445</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">NE</th>
 <td>10963</td>
-<td>0.800784</td>
-<td>[0.793, 0.809]</td>
-<td>0.715787</td>
-<td>0.673082</td>
+<td>0.802061</td>
+<td>[0.795, 0.809]</td>
+<td>0.716228</td>
+<td>0.67426</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">E</th>
 <td>11021</td>
-<td>0.890663</td>
-<td>[0.885, 0.896]</td>
-<td>0.817406</td>
-<td>0.688608</td>
+<td>0.88903</td>
+<td>[0.883, 0.894]</td>
+<td>0.81297</td>
+<td>0.68535</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">W</th>
 <td>6579</td>
-<td>0.853625</td>
-<td>[0.846, 0.862]</td>
-<td>0.775097</td>
-<td>0.689873</td>
+<td>0.853169</td>
+<td>[0.845, 0.863]</td>
+<td>0.772573</td>
+<td>0.681983</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">S</th>
 <td>7384</td>
-<td>0.855092</td>
-<td>[0.848, 0.863]</td>
-<td>0.77653</td>
-<td>0.710041</td>
+<td>0.85604</td>
+<td>[0.848, 0.864]</td>
+<td>0.776049</td>
+<td>0.709536</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">SE</th>
 <td>10948</td>
-<td>0.871392</td>
-<td>[0.866, 0.878]</td>
-<td>0.785119</td>
-<td>0.699529</td>
+<td>0.873036</td>
+<td>[0.867, 0.880]</td>
+<td>0.78598</td>
+<td>0.702396</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">mean over tiles</th>
 <td>57361</td>
-<td>0.86055</td>
+<td>0.860353</td>
 <td></td>
-<td>0.782176</td>
-<td>0.690134</td>
+<td>0.78006</td>
+<td>0.687162</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">SD over tiles</th>
 <td></td>
-<td>0.033607</td>
+<td>0.032433</td>
 <td></td>
-<td>0.038511</td>
-<td>0.01332</td>
+<td>0.036323</td>
+<td>0.015768</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">in-AOI test</th>
 <td>2090</td>
-<td>0.910048</td>
+<td>0.907177</td>
 <td></td>
-<td>0.845814</td>
-<td>0.727472</td>
+<td>0.839234</td>
+<td>0.718118</td>
 </tr>
 </tbody>
 </table>
@@ -3839,74 +3961,74 @@ overlap between tiles        : 0.0</code></pre>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">N</th>
 <td>10466</td>
-<td>0.877508</td>
-<td>[0.871, 0.885]</td>
-<td>0.799618</td>
-<td>0.674952</td>
+<td>0.869004</td>
+<td>[0.862, 0.876]</td>
+<td>0.78806</td>
+<td>0.666476</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">NE</th>
 <td>10963</td>
-<td>0.790021</td>
-<td>[0.783, 0.798]</td>
-<td>0.702905</td>
-<td>0.670287</td>
+<td>0.773876</td>
+<td>[0.766, 0.781]</td>
+<td>0.68229</td>
+<td>0.658799</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">E</th>
 <td>11021</td>
-<td>0.874422</td>
-<td>[0.868, 0.880]</td>
-<td>0.792077</td>
-<td>0.687298</td>
+<td>0.868977</td>
+<td>[0.863, 0.875]</td>
+<td>0.785024</td>
+<td>0.681782</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">W</th>
 <td>6579</td>
-<td>0.846025</td>
-<td>[0.837, 0.855]</td>
-<td>0.762341</td>
-<td>0.691761</td>
+<td>0.842377</td>
+<td>[0.834, 0.852]</td>
+<td>0.759077</td>
+<td>0.689455</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">S</th>
 <td>7384</td>
-<td>0.85604</td>
-<td>[0.849, 0.864]</td>
-<td>0.777194</td>
-<td>0.700305</td>
+<td>0.860915</td>
+<td>[0.854, 0.869]</td>
+<td>0.786309</td>
+<td>0.721554</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">SE</th>
 <td>10948</td>
-<td>0.859518</td>
-<td>[0.853, 0.866]</td>
-<td>0.766697</td>
-<td>0.67999</td>
+<td>0.853855</td>
+<td>[0.847, 0.860]</td>
+<td>0.759944</td>
+<td>0.688475</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">mean over tiles</th>
 <td>57361</td>
-<td>0.850589</td>
+<td>0.844834</td>
 <td></td>
-<td>0.766805</td>
-<td>0.684099</td>
+<td>0.760117</td>
+<td>0.684423</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">SD over tiles</th>
 <td></td>
-<td>0.03191</td>
+<td>0.036189</td>
 <td></td>
-<td>0.034428</td>
-<td>0.011161</td>
+<td>0.040361</td>
+<td>0.021937</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">in-AOI test</th>
 <td>2153</td>
-<td>0.902462</td>
+<td>0.901068</td>
 <td></td>
-<td>0.825179</td>
-<td>0.633159</td>
+<td>0.825478</td>
+<td>0.664337</td>
 </tr>
 </tbody>
 </table>
@@ -3918,7 +4040,7 @@ overlap between tiles        : 0.0</code></pre>
 <section id="accuracy-with-sd-for-all-12-models" class="level3">
 <h3 class="anchored" data-anchor-id="accuracy-with-sd-for-all-12-models">Accuracy with SD for all 12 models</h3>
 <p>The Part 3 ablation trained four configurations with three seeds each. All 12 models are applied to every tile. For each configuration: the tile OA averaged over seeds, then the <strong>mean ± SD across the six tiles</strong>; the <strong>SD over seeds</strong> (how much retraining alone changes the mean tile score) is listed for comparison.</p>
-<div id="ee69b8c0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:22.169006Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:22.168902Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:31.778208Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:31.777503Z&quot;}}" data-execution_count="30">
+<div id="ee69b8c0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:33.404000Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:33.403918Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:42.676506Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:42.675940Z&quot;}}" data-execution_count="30">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []  <span class="co"># one row per model and tile</span></span>
@@ -3976,39 +4098,39 @@ overlap between tiles        : 0.0</code></pre>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">A: global split</th>
-<td>0.893</td>
-<td>0.802</td>
-<td>0.890</td>
-<td>0.860</td>
-<td>0.863</td>
+<td>0.891</td>
+<td>0.803</td>
+<td>0.889</td>
+<td>0.859</td>
+<td>0.862</td>
 <td>0.873</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">B: tile split + augment</th>
-<td>0.876</td>
-<td>0.790</td>
-<td>0.876</td>
-<td>0.847</td>
-<td>0.850</td>
-<td>0.860</td>
+<td>0.873</td>
+<td>0.783</td>
+<td>0.873</td>
+<td>0.839</td>
+<td>0.856</td>
+<td>0.858</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">C: global + augment</th>
-<td>0.879</td>
-<td>0.796</td>
-<td>0.880</td>
-<td>0.853</td>
-<td>0.854</td>
-<td>0.866</td>
+<td>0.878</td>
+<td>0.794</td>
+<td>0.877</td>
+<td>0.851</td>
+<td>0.856</td>
+<td>0.867</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">D: tile split</th>
+<td>0.890</td>
+<td>0.797</td>
 <td>0.887</td>
-<td>0.790</td>
-<td>0.883</td>
-<td>0.854</td>
-<td>0.849</td>
-<td>0.865</td>
+<td>0.860</td>
+<td>0.862</td>
+<td>0.869</td>
 </tr>
 </tbody>
 </table>
@@ -4037,51 +4159,51 @@ overlap between tiles        : 0.0</code></pre>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">A: global split</th>
-<td>0.909</td>
+<td>0.905</td>
 <td>0.863</td>
-<td>0.033</td>
+<td>0.032</td>
 <td>0.005</td>
-<td>0.802</td>
-<td>0.893</td>
-<td>0.700</td>
-<td>0.014</td>
-<td>0.046</td>
+<td>0.803</td>
+<td>0.891</td>
+<td>0.699</td>
+<td>0.012</td>
+<td>0.042</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">B: tile split + augment</th>
-<td>0.900</td>
-<td>0.850</td>
-<td>0.032</td>
-<td>0.002</td>
-<td>0.790</td>
-<td>0.876</td>
-<td>0.681</td>
-<td>0.015</td>
-<td>0.050</td>
+<td>0.899</td>
+<td>0.847</td>
+<td>0.034</td>
+<td>0.005</td>
+<td>0.783</td>
+<td>0.873</td>
+<td>0.664</td>
+<td>0.019</td>
+<td>0.052</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">C: global + augment</th>
-<td>0.898</td>
-<td>0.855</td>
+<td>0.894</td>
+<td>0.854</td>
 <td>0.031</td>
-<td>0.002</td>
-<td>0.796</td>
-<td>0.880</td>
-<td>0.689</td>
+<td>0.005</td>
+<td>0.794</td>
+<td>0.878</td>
+<td>0.681</td>
 <td>0.017</td>
-<td>0.043</td>
+<td>0.040</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">D: tile split</th>
-<td>0.911</td>
-<td>0.855</td>
-<td>0.035</td>
+<td>0.907</td>
+<td>0.861</td>
+<td>0.034</td>
 <td>0.005</td>
-<td>0.790</td>
-<td>0.887</td>
-<td>0.686</td>
-<td>0.012</td>
-<td>0.056</td>
+<td>0.797</td>
+<td>0.890</td>
+<td>0.692</td>
+<td>0.015</td>
+<td>0.046</td>
 </tr>
 </tbody>
 </table>
@@ -4089,7 +4211,7 @@ overlap between tiles        : 0.0</code></pre>
 </div>
 </div>
 </div>
-<div id="0f565bd4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:31.779797Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:31.779710Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:32.066635Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:32.065918Z&quot;}}" data-execution_count="31">
+<div id="0f565bd4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:42.678718Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:42.678635Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:42.951644Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:42.950917Z&quot;}}" data-execution_count="31">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">"#4c78a8"</span>, <span class="st">"#e45756"</span>, <span class="st">"#72b7b2"</span>, <span class="st">"#f2a65a"</span>]</span>
@@ -4133,7 +4255,7 @@ overlap between tiles        : 0.0</code></pre>
 <section id="is-the-difference-between-the-approaches-real" class="level3">
 <h3 class="anchored" data-anchor-id="is-the-difference-between-the-approaches-real">Is the difference between the approaches real?</h3>
 <p>The tiles are the units of replication, so the tests compare the <em>per-tile</em> scores of two approaches (paired by tile). With only six tiles the Wilcoxon test cannot give a p-value below 0.031, so the paired <em>t</em>-test and the mean difference with its SD are shown too. Pooled McNemar tests on all outside chips are added for Part 1 against Part 2; they have far more power but treat neighbouring chips as independent, so they are optimistic.</p>
-<div id="f2c1173e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:32.068342Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:32.068249Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:32.083906Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:32.083284Z&quot;}}" data-execution_count="32">
+<div id="f2c1173e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:42.953412Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:42.953285Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:42.970396Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:42.969801Z&quot;}}" data-execution_count="32">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> paired(a, b, label):  <span class="co"># paired comparison of two configurations over the six tiles</span></span>
@@ -4185,34 +4307,34 @@ overlap between tiles        : 0.0</code></pre>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">A&nbsp;&nbsp;vs&nbsp;&nbsp;B&nbsp;&nbsp; (Part 1 vs Part 2)</th>
-<td>1.3455</td>
-<td>0.1730</td>
+<td>1.5790</td>
+<td>0.5088</td>
 <td>6/6</td>
-<td>0.0000</td>
+<td>0.0006</td>
 <td>0.0312</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">A&nbsp;&nbsp;vs&nbsp;&nbsp;D&nbsp;&nbsp; (global vs tile split, no aug)</th>
-<td>0.8550</td>
-<td>0.3216</td>
-<td>6/6</td>
-<td>0.0013</td>
-<td>0.0312</td>
+<td>0.1993</td>
+<td>0.2502</td>
+<td>5/6</td>
+<td>0.1084</td>
+<td>0.0938</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">D&nbsp;&nbsp;vs&nbsp;&nbsp;B&nbsp;&nbsp; (effect of augmentation, tile split)</th>
-<td>0.4905</td>
-<td>0.4271</td>
-<td>5/6</td>
-<td>0.0374</td>
-<td>0.0938</td>
+<td>1.3797</td>
+<td>0.4954</td>
+<td>6/6</td>
+<td>0.0010</td>
+<td>0.0312</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">A&nbsp;&nbsp;vs&nbsp;&nbsp;C&nbsp;&nbsp; (effect of augmentation, global split)</th>
-<td>0.8624</td>
-<td>0.3259</td>
+<td>0.8893</td>
+<td>0.3049</td>
 <td>6/6</td>
-<td>0.0013</td>
+<td>0.0008</td>
 <td>0.0312</td>
 </tr>
 </tbody>
@@ -4221,10 +4343,10 @@ overlap between tiles        : 0.0</code></pre>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>pooled chips: 57,361 | only A right 2945 | only B right 2326 | McNemar exact p = 1.6e-17</code></pre>
+<pre><code>pooled chips: 57,361 | only A right 3241 | only B right 2259 | McNemar exact p = 3.8e-40</code></pre>
 </div>
 </div>
-<div id="17a0019e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:32.085646Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:32.085553Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:32.096247Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:32.095620Z&quot;}}" data-execution_count="33">
+<div id="17a0019e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:42.971940Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:42.971848Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:42.982801Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:42.982244Z&quot;}}" data-execution_count="33">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># per-class F1 of each approach on every tile</span></span>
@@ -4258,42 +4380,42 @@ overlap between tiles        : 0.0</code></pre>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Corn</th>
-<td>0.931</td>
+<td>0.928</td>
 <td>0.021</td>
-<td>0.923</td>
-<td>0.018</td>
+<td>0.918</td>
+<td>0.021</td>
 <td>28063</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Soybeans</th>
-<td>0.923</td>
-<td>0.017</td>
+<td>0.920</td>
+<td>0.016</td>
 <td>0.911</td>
-<td>0.012</td>
+<td>0.016</td>
 <td>17917</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Grass/pasture</th>
-<td>0.587</td>
-<td>0.057</td>
-<td>0.519</td>
-<td>0.086</td>
+<td>0.577</td>
+<td>0.061</td>
+<td>0.562</td>
+<td>0.062</td>
 <td>4602</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Developed</th>
-<td>0.629</td>
-<td>0.057</td>
-<td>0.567</td>
-<td>0.059</td>
+<td>0.604</td>
+<td>0.060</td>
+<td>0.558</td>
+<td>0.065</td>
 <td>3228</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Other</th>
-<td>0.381</td>
-<td>0.107</td>
-<td>0.501</td>
-<td>0.096</td>
+<td>0.405</td>
+<td>0.114</td>
+<td>0.473</td>
+<td>0.111</td>
 <td>3551</td>
 </tr>
 </tbody>
@@ -4302,7 +4424,7 @@ overlap between tiles        : 0.0</code></pre>
 </div>
 </div>
 </div>
-<div id="790dfde2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:32.097607Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:32.097527Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:32.291821Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:32.291122Z&quot;}}" data-execution_count="34">
+<div id="790dfde2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:42.984140Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:42.984050Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:43.174237Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:43.173610Z&quot;}}" data-execution_count="34">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="fl">4.6</span>))  <span class="co"># two panels</span></span>
@@ -4332,7 +4454,7 @@ overlap between tiles        : 0.0</code></pre>
 <section id="maps-of-all-six-tiles-cdl-and-both-predictions" class="level3">
 <h3 class="anchored" data-anchor-id="maps-of-all-six-tiles-cdl-and-both-predictions">Maps of all six tiles: CDL and both predictions</h3>
 <p><code>predict_chip_map</code> is run over every tile with both models (stride 8, no retraining). Three figures follow, each laid out 2 × 3 in the same geographic order (top: N, NE, E; bottom: W, S, SE): the <strong>CDL reference</strong>, the <strong>Part 1</strong> prediction and the <strong>Part 2</strong> prediction. The titles give the pixel-level agreement with CDL.</p>
-<div id="e4068825" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:32.293790Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:32.293692Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:39.574384Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:39.573605Z&quot;}}" data-execution_count="35">
+<div id="e4068825" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:43.175596Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:43.175500Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:50.463465Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:50.462312Z&quot;}}" data-execution_count="35">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> chip_map_t(res, t, stride<span class="op">=</span><span class="dv">8</span>):  <span class="co"># class map of a tile from a sliding chip window</span></span>
@@ -4383,43 +4505,43 @@ overlap between tiles        : 0.0</code></pre>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">N</th>
-<td>0.786</td>
-<td>0.793</td>
+<td>0.790</td>
+<td>0.779</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">NE</th>
-<td>0.700</td>
-<td>0.704</td>
+<td>0.705</td>
+<td>0.688</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">E</th>
-<td>0.787</td>
-<td>0.787</td>
+<td>0.790</td>
+<td>0.779</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">W</th>
-<td>0.746</td>
-<td>0.765</td>
+<td>0.752</td>
+<td>0.754</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">S</th>
-<td>0.757</td>
-<td>0.775</td>
+<td>0.764</td>
+<td>0.771</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">SE</th>
-<td>0.773</td>
 <td>0.779</td>
+<td>0.769</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">mean</th>
-<td>0.758</td>
-<td>0.767</td>
+<td>0.763</td>
+<td>0.756</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">SD</th>
-<td>0.033</td>
 <td>0.032</td>
+<td>0.035</td>
 </tr>
 </tbody>
 </table>
@@ -4434,7 +4556,7 @@ overlap between tiles        : 0.0</code></pre>
 </div>
 </div>
 </div>
-<div id="aa09ab0c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:39.577611Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:39.577524Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:40.178484Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:40.177773Z&quot;}}" data-execution_count="36">
+<div id="aa09ab0c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:50.464940Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:50.464843Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:51.048624Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:51.046799Z&quot;}}" data-execution_count="36">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>k1 <span class="op">=</span> <span class="st">"Part 1 (A: global split)"</span>  <span class="co"># the Part 1 key</span></span>
@@ -4451,7 +4573,7 @@ overlap between tiles        : 0.0</code></pre>
 </div>
 </div>
 </div>
-<div id="1926543c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:40.179803Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:40.179710Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:40.775329Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:40.774908Z&quot;}}" data-execution_count="37">
+<div id="1926543c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:51.050798Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:51.050703Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:51.633277Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:51.632649Z&quot;}}" data-execution_count="37">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>k2 <span class="op">=</span> <span class="st">"Part 2 (B: tile split + augment)"</span>  <span class="co"># the Part 2 key</span></span>
@@ -4469,7 +4591,7 @@ overlap between tiles        : 0.0</code></pre>
 </div>
 </div>
 <p>Where do the two approaches disagree with the reference? Green is a pixel both models classify correctly, blue only Part 1, orange only Part 2, red neither.</p>
-<div id="e4139aec" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-31T23:35:40.777319Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-31T23:35:40.777222Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-31T23:35:41.674629Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-31T23:35:41.673790Z&quot;}}" data-execution_count="38">
+<div id="e4139aec" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T20:02:51.634853Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T20:02:51.634768Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T20:02:52.336204Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T20:02:52.335472Z&quot;}}" data-execution_count="38">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>cc_ <span class="op">=</span> plt.matplotlib.colors.ListedColormap([<span class="st">"#b2df8a"</span>, <span class="st">"#1f78b4"</span>, <span class="st">"#ff7f00"</span>, <span class="st">"#e31a1c"</span>])</span>

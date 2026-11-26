@@ -111,6 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<style>.navbar .dropdown-menu { max-height: 80vh; overflow-y: auto; }</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -327,10 +328,10 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-foundations--optical" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Foundations &amp; Optical</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-foundations--optical">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
         <li class="dropdown-header">Foundations</li>
         <li>
     <a class="dropdown-item" href="../09_01_foundations/09_01_00_remote_sensing_fundamentals.html">
@@ -382,13 +383,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_02_optical/09_02_07_sentinel_5p_and_sentinel_5_mapping_air_pollution_from_orbit.html">
  <span class="dropdown-text">Sentinel-5P and Sentinel-5</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-radar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Radar</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-radar">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Radar (SAR and InSAR)</li>
         <li>
     <a class="dropdown-item" href="../09_03_radar/09_03_00_sar_fundamentals.html">
@@ -486,13 +481,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_03_radar/09_03_03_05_nisar_gunw_geocoded_unwrapped_interferogram.html">
  <span class="dropdown-text">NISAR GUNW</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-uav-hyperspectral--lidar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">UAV, Hyperspectral &amp; LiDAR</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-uav-hyperspectral--lidar">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">UAV</li>
         <li>
     <a class="dropdown-item" href="../09_04_uav/09_04_01_uav_fundamentals_and_mission_planning.html">
@@ -618,13 +607,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_06_lidar/09_06_08_large_area_lidar_processing_tiling_streaming_parallel_work_and_the_gpu.html">
  <span class="dropdown-text">Large-Area LiDAR Processing</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-image-analysis--ai" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Image Analysis &amp; AI</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-image-analysis--ai">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Texture Analysis</li>
         <li>
     <a class="dropdown-item" href="../09_07_texture_analysis/09_07_00_texture_analysis.html">
@@ -810,13 +793,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_11_foundations_models/09_11_13_benchmarking_foundation_models_on_your_own_data.html">
  <span class="dropdown-text">Benchmarking Foundation Models</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-energy-balance--capstones" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Energy Balance &amp; Capstones</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-energy-balance--capstones">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Surface Energy Balance</li>
         <li>
     <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_00_evapotranspiration_and_the_surface_energy_balance.html">
@@ -866,75 +843,129 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_11_how_good_is_the_et_map_validation_sensitivity_and_uncertainty.html">
  <span class="dropdown-text">Validation and Uncertainty</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Soil Moisture</li>
         <li>
-    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html">
- <span class="dropdown-text">Capstone: Boro Rice Water Use</span></a>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_00_soil_moisture_concepts_and_why_it_matters.html">
+ <span class="dropdown-text">Soil Moisture Concepts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_01_microwave_remote_sensing_of_soil_moisture.html">
+ <span class="dropdown-text">Microwave Remote Sensing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_02_the_mission_and_product_landscape.html">
+ <span class="dropdown-text">Missions and Products</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_03_python_environment_and_data_access.html">
+ <span class="dropdown-text">Environment and Data Access</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_04_smap_l3_enhanced_daily_cube_and_climatology.html">
+ <span class="dropdown-text">SMAP L3 Enhanced Daily Cube</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_08_ascat_and_the_tu_wien_change_detection_approach.html">
+ <span class="dropdown-text">ASCAT and TU Wien Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_09_esa_cci_long_term_trends_and_anomalies.html">
+ <span class="dropdown-text">ESA CCI Trends and Anomalies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_10_esa_cci_vs_era5_land.html">
+ <span class="dropdown-text">ESA CCI vs ERA5-Land</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_11_sentinel_1_preprocessing_for_soil_moisture.html">
+ <span class="dropdown-text">Sentinel-1 Preprocessing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_12_change_detection_soil_moisture_from_sentinel_1.html">
+ <span class="dropdown-text">Sentinel-1 Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_13_water_cloud_model_and_surface_scattering_inversion.html">
+ <span class="dropdown-text">Water Cloud Model Inversion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_14_operational_high_resolution_products.html">
+ <span class="dropdown-text">Operational 1 km Products</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_15_downscale_soil_moisture.html">
+ <span class="dropdown-text">Downscaling: Six Methods Compared</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Capstone Projects</li>
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_01_thirty_five_years_of_change_around_pucallpa_peru.html">
  <span class="dropdown-text">Change around Pucallpa, Peru</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_02_fifty_years_of_change_in_the_bangladesh_delta.html">
  <span class="dropdown-text">Fifty Years in the Bangladesh Delta</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_03_wild_fire_burned_area_mapping.html">
  <span class="dropdown-text">Wildfire Burned Area</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
  <span class="dropdown-text">Rohingya Deforestation: Sentinel-2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
  <span class="dropdown-text">Flood Mapping in Sylhet</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
  <span class="dropdown-text">Rohingya Deforestation: Sentinel-1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
  <span class="dropdown-text">Ship Detection, Strait of Hormuz</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
  <span class="dropdown-text">Crops from NISAR GCOV</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
  <span class="dropdown-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
  <span class="dropdown-text">Charland Monitoring, Lower Meghna</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
  <span class="dropdown-text">Shrimp Ghers in Coastal Bangladesh</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
  <span class="dropdown-text">Big Sur Wildfire, 2026</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
  <span class="dropdown-text">Wetland Paddy in Bangladesh</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
  <span class="dropdown-text">Field Edges across Four Countries</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
  <span class="dropdown-text">Tree Biomass and Carbon from LiDAR</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
  <span class="dropdown-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_17_capstone_water_use_of_boro_rice_in_bangladesh.html">
+ <span class="dropdown-text">Boro Rice Water Use, Bangladesh</span></a>
   </li>  
     </ul>
   </li>
@@ -1866,18 +1897,12 @@ window.Quarto = {
  <span class="menu-text">Validation and Uncertainty</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Capstone: Boro Rice Water Use</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
- <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+ <span class="menu-text"><strong>Soil Moisture</strong></span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1885,98 +1910,193 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_13_soil_moisture/09_13_00_soil_moisture_concepts_and_why_it_matters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil Moisture Concepts</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_01_microwave_remote_sensing_of_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Microwave Remote Sensing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_02_the_mission_and_product_landscape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Missions and Products</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_03_python_environment_and_data_access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Environment and Data Access</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_04_smap_l3_enhanced_daily_cube_and_climatology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SMAP L3 Enhanced Daily Cube</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_08_ascat_and_the_tu_wien_change_detection_approach.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ASCAT and TU Wien Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_09_esa_cci_long_term_trends_and_anomalies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESA CCI Trends and Anomalies</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_10_esa_cci_vs_era5_land.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESA CCI vs ERA5-Land</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_11_sentinel_1_preprocessing_for_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Preprocessing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_12_change_detection_soil_moisture_from_sentinel_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_13_water_cloud_model_and_surface_scattering_inversion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Water Cloud Model Inversion</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_14_operational_high_resolution_products.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Operational 1 km Products</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_15_downscale_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Downscaling: Six Methods Compared</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_14_Capstones/09_14_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Change around Pucallpa, Peru</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Fifty Years in the Bangladesh Delta</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Wildfire Burned Area</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rohingya Deforestation: Sentinel-2</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Flood Mapping in Sylhet</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rohingya Deforestation: Sentinel-1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ship Detection, Strait of Hormuz</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Crops from NISAR GCOV</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Charland Monitoring, Lower Meghna</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shrimp Ghers in Coastal Bangladesh</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Big Sur Wildfire, 2026</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Wetland Paddy in Bangladesh</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Field Edges across Four Countries</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tree Biomass and Carbon from LiDAR</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_14_Capstones/09_14_17_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boro Rice Water Use, Bangladesh</span></a>
   </div>
 </li>
       </ul>
@@ -2687,7 +2807,7 @@ window.Quarto = {
 <section id="setup" class="level3">
 <h3 class="anchored" data-anchor-id="setup">Setup</h3>
 <p><strong>Installation.</strong> This notebook needs installation option 5 (core, spatial analysis, spatial statistics, geostatistics and remote sensing): <code>pip install "geolattice[remote-sensing]"</code>. See “Installation options” in the GeoLattice README.</p>
-<div id="b0affc91" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-23T19:55:52.357756Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-23T19:55:52.357506Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-23T19:55:53.798838Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-23T19:55:53.798146Z&quot;}}" data-execution_count="1">
+<div id="b0affc91" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:44:20.550523Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:44:20.550251Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:44:22.026116Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:44:22.025128Z&quot;}}" data-execution_count="1">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup for the Mexico City example: libraries, cache folders, the area of interest,</span></span>
@@ -2754,14 +2874,14 @@ window.Quarto = {
 <span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [SimpleNamespace(<span class="op">**</span>r) <span class="cf">for</span> r <span class="kw">in</span> rows]  <span class="co"># objects with .properties and .geometry, like ASF products</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>geolattice.rsense 0.2.0.dev0 | 12 dates | single pair 2025-01-07 → 2025-04-13</code></pre>
+<pre><code>geolattice.rsense 0.3.49 | 12 dates | single pair 2025-01-07 → 2025-04-13</code></pre>
 </div>
 </div>
 </section>
 <section id="select-the-image-pair-and-the-dates-of-the-time-series" class="level3">
 <h3 class="anchored" data-anchor-id="select-the-image-pair-and-the-dates-of-the-time-series">Select the image pair (and the dates of the time series)</h3>
 <p>Relative orbit 41 is a descending track over central Mexico; on every pass, burst 086877 of sub-swath IW1 contains both GNSS stations, and the next burst, 086878, overlaps it (two bursts are needed for ESD). In 2025, Sentinel-1A and the newly launched Sentinel-1C together give an acquisition every 6 days. We take roughly one date a month with a <strong>small perpendicular baseline</strong>, as Step 1 recommends: small B⊥ keeps the height of ambiguity large, so DEM errors hardly leak into the deformation phase.</p>
-<div id="bd03ac47" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-23T19:55:53.800948Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-23T19:55:53.800705Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-23T19:55:58.039611Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-23T19:55:58.039040Z&quot;}}" data-execution_count="2">
+<div id="bd03ac47" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:44:22.028010Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:44:22.027754Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:44:22.198727Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:44:22.197966Z&quot;}}" data-execution_count="2">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1. Choose the dates. stack() on one burst lists every acquisition of that same burst</span></span>
@@ -2824,7 +2944,7 @@ window.Quarto = {
 <section id="orbits-dem-tops-split-and-apply-orbit-file" class="level3">
 <h3 class="anchored" data-anchor-id="orbits-dem-tops-split-and-apply-orbit-file">Orbits, DEM, TOPS Split and Apply Orbit File</h3>
 <p><code>sar.download_orbit</code> fetches each date’s POEORB file from the open AWS <code>s1-orbits</code> bucket; the DEM is Copernicus GLO-30, converted from EGM2008 geoid heights to WGS84 ellipsoidal heights (orbits and range-Doppler geometry live on the ellipsoid). TOPS Split downloads only the two bursts per date from ASF’s burst extractor and keeps the range samples covering the AOI.</p>
-<div id="d3f122e2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-23T19:55:58.041000Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-23T19:55:58.040904Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-23T19:56:02.743380Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-23T19:56:02.742708Z&quot;}}" data-execution_count="3">
+<div id="d3f122e2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:44:22.200305Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:44:22.200216Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:44:26.136477Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:44:26.136148Z&quot;}}" data-execution_count="3">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Steps 2 and the DEM. Precise orbits replace the state vectors stored in the product.</span></span>
@@ -2875,10 +2995,10 @@ window.Quarto = {
 <span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"geoid undulation </span><span class="sc">{</span>dem_ell<span class="sc">.</span>attrs[<span class="st">'geoid_undulation_mean'</span>]<span class="sc">:.1f}</span><span class="ss"> m"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>12 precise orbit files; Copernicus DEM 2216–3430 m, geoid undulation -5.4 m</code></pre>
+<pre><code>12 precise orbit files; Copernicus DEM 2216-3430 m, geoid undulation -5.4 m</code></pre>
 </div>
 </div>
-<div id="852a7350" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-23T19:56:02.744777Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-23T19:56:02.744673Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-23T19:56:05.175223Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-23T19:56:05.174780Z&quot;}}" data-execution_count="4">
+<div id="852a7350" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:44:26.138485Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:44:26.138379Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:44:28.828108Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:44:28.827670Z&quot;}}" data-execution_count="4">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Steps 3 and 4. TOPS Split keeps two bursts and the range samples over the AOI.</span></span>
@@ -2960,7 +3080,7 @@ S1A IW1 Descending, heading 192.2°, incidence at mid-swath 34.2°; window 1492 
 <section id="back-geocoding-and-esd-for-the-whole-stack" class="level3">
 <h3 class="anchored" data-anchor-id="back-geocoding-and-esd-for-the-whole-stack">Back-geocoding and ESD for the whole stack</h3>
 <p>For a time series every date must sit on the same grid. <code>sar.coregister_stack</code> co-registers each of the 11 secondary dates to the reference date (7 January) in one call: Copernicus-DEM-assisted back-geocoding of both bursts (<code>back_geocode</code>), deramp-interpolate-reramp resampling (<code>resample_slc</code>), then ESD over the burst overlap (<code>esd_azimuth_shift</code>) and a second resampling with the correction. For every date it also keeps the slant-range difference to the reference at the DEM surface, which Step 10 needs to remove the topographic phase of <em>any</em> pair of dates.</p>
-<div id="9766997f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-23T19:56:05.176995Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-23T19:56:05.176906Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-23T20:04:35.917990Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-23T20:04:35.917269Z&quot;}}" data-execution_count="5">
+<div id="9766997f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:44:28.829890Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:44:28.829791Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:53:05.423122Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:53:05.422321Z&quot;}}" data-execution_count="5">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Steps 5 and 6, for every secondary date at once. coregister_stack puts each date onto the</span></span>
@@ -2995,7 +3115,7 @@ S1A IW1 Descending, heading 192.2°, incidence at mid-swath 34.2°; window 1492 
 <span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>esd_table  <span class="co"># show the ESD table</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>stack co-registration of 11 dates x 2 bursts: 511 s</code></pre>
+<pre><code>stack co-registration of 11 dates x 2 bursts: 517 s</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
@@ -3117,7 +3237,7 @@ S1A IW1 Descending, heading 192.2°, incidence at mid-swath 34.2°; window 1492 
 <section id="interferogram-deburst-and-topographic-phase-removal" class="level3">
 <h3 class="anchored" data-anchor-id="interferogram-deburst-and-topographic-phase-removal">Interferogram, deburst and topographic phase removal</h3>
 <p>For two co-registered dates <em>i</em>, <em>j</em> the interferogram is <code>s_i · conj(s_j)</code>. Its phase holds the flat-Earth and topographic terms, both predicted by the DEM and orbits as <code>insar.topographic_phase(ΔR_j − ΔR_i)</code>, where ΔR is each date’s slant-range difference to the reference at the DEM surface. <code>insar.differential_interferogram</code> removes them in one step (SNAP’s “Subtract topographic phase”, Step 10). What remains is deformation, atmosphere, residual orbit and DEM error, and noise. <code>sar.deburst</code> then joins the two bursts (Step 8); the AOI lies in sub-swath IW1 only, so no TOPS Merge (Step 9) is needed.</p>
-<div id="b033724f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-23T20:04:35.919359Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-23T20:04:35.919262Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-23T20:04:38.006334Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-23T20:04:38.005641Z&quot;}}" data-execution_count="6">
+<div id="b033724f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:53:05.424891Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:53:05.424792Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:53:07.525926Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:53:07.525409Z&quot;}}" data-execution_count="6">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Steps 7, 8 and 10 for the single pair (7 January → 13 April).</span></span>
@@ -3189,7 +3309,7 @@ S1A IW1 Descending, heading 192.2°, incidence at mid-swath 34.2°; window 1492 
 <section id="multilook-goldstein-filter-unwrap" class="level3">
 <h3 class="anchored" data-anchor-id="multilook-goldstein-filter-unwrap">Multilook, Goldstein filter, unwrap</h3>
 <p>Multilooking by 2 azimuth × 8 range pixels gives about 28 m × 34 m on the ground. Coherence is estimated from the multilooked products with a further 3 × 3 window. The Goldstein filter (α = 0.6) sharpens the fringes, and SNAPHU unwraps them in <strong>DEFO</strong> cost mode, the statistical model for deformation (smooth, with no layover-type jumps), as Step 13 recommends; pixels with coherence below 0.25 are masked.</p>
-<div id="deceed0f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-23T20:04:38.012446Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-23T20:04:38.012353Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-23T20:05:10.058438Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-23T20:05:10.057866Z&quot;}}" data-execution_count="7">
+<div id="deceed0f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:53:07.531928Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:53:07.531836Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:53:41.460090Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:53:41.459263Z&quot;}}" data-execution_count="7">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Steps 11-13. Multilook the differential interferogram, estimate coherence, filter the phase</span></span>
@@ -3272,7 +3392,7 @@ S1A IW1 Descending, heading 192.2°, incidence at mid-swath 34.2°; window 1492 
 <span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()  <span class="co"># arrange and draw</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>multilooked 1399 x 776; median coherence 0.57, 75% above 0.4; SNAPHU (DEFO) 30 s</code></pre>
+<pre><code>multilooked 1399 x 776; median coherence 0.57, 75% above 0.4; SNAPHU (DEFO) 32 s</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -3286,7 +3406,7 @@ S1A IW1 Descending, heading 192.2°, incidence at mid-swath 34.2°; window 1492 
 <section id="phase-to-displacement-terrain-correction-and-the-reference-point" class="level3">
 <h3 class="anchored" data-anchor-id="phase-to-displacement-terrain-correction-and-the-reference-point">Phase to displacement, terrain correction and the reference point</h3>
 <p><code>insar.phase_to_los</code> converts unwrapped phase to line-of-sight displacement, d = −λ φ / 4π, positive toward the satellite (Step 14), and <code>sar.terrain_correct</code> moves it onto a 30 m UTM grid (Step 16). Displacements are relative, so a <strong>reference point</strong> is needed. <code>insar.select_reference_point</code> picks the most coherent 7 × 7 neighbourhood inside a mask; here the mask is the volcanic hills of the western AOI (above 2,350 m), which stand on rock rather than lake clay and are known to be stable. <code>insar.reference_to_point</code> then makes every value relative to it.</p>
-<div id="d5437e21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-23T20:05:10.063610Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-23T20:05:10.063512Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-23T20:05:10.727606Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-23T20:05:10.726749Z&quot;}}" data-execution_count="8">
+<div id="d5437e21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:53:41.465775Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:53:41.465675Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:53:42.139341Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:53:42.138656Z&quot;}}" data-execution_count="8">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Steps 14 and 16. Turn the unwrapped phase into line-of-sight displacement, geocode it,</span></span>
@@ -3336,7 +3456,7 @@ S1A IW1 Descending, heading 192.2°, incidence at mid-swath 34.2°; window 1492 
 <section id="corrections-orbital-ramp-and-topography-correlated-troposphere" class="level3">
 <h3 class="anchored" data-anchor-id="corrections-orbital-ramp-and-topography-correlated-troposphere">Corrections: orbital ramp and topography-correlated troposphere</h3>
 <p>A single interferogram still contains a residual planar ramp and a tropospheric delay that correlates with elevation (the AOI rises from the lake bed to the western hills). Both are fitted on <strong>stable</strong> pixels only, the western hills used for the reference point, and removed: a plane in map coordinates plus a term proportional to elevation. Fitting on the sinking lake bed would remove part of the signal itself.</p>
-<div id="fa097681" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-23T20:05:10.729005Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-23T20:05:10.728913Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-23T20:05:11.074875Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-23T20:05:11.074314Z&quot;}}" data-execution_count="9">
+<div id="fa097681" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:53:42.141089Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:53:42.140994Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:53:42.495271Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:53:42.494985Z&quot;}}" data-execution_count="9">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 15. Fit a plane plus an elevation term on the stable hills only, and subtract it.</span></span>
@@ -3407,7 +3527,7 @@ S1A IW1 Descending, heading 192.2°, incidence at mid-swath 34.2°; window 1492 
 <section id="quality-control-against-gnss" class="level3">
 <h3 class="anchored" data-anchor-id="quality-control-against-gnss">Quality control against GNSS</h3>
 <p>The Nevada Geodetic Laboratory publishes daily positions of both stations. Their east, north and up motion between the two acquisition dates is projected onto the line of sight with <code>sar.los_unit_vector</code> (the exact ground-to-satellite direction at each station, from the precise orbit) and <code>insar.enu_to_los</code>. The InSAR reference point is not at a GNSS station, so the comparison uses the <strong>difference between the stations</strong> (MMX1 − ICMX), which cancels any reference offset in both data sets.</p>
-<div id="e676af05" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-23T20:05:11.077536Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-23T20:05:11.077449Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-23T20:05:11.132104Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-23T20:05:11.131710Z&quot;}}" data-execution_count="10">
+<div id="e676af05" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:53:42.498402Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:53:42.498303Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T17:53:42.559530Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T17:53:42.559003Z&quot;}}" data-execution_count="10">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 17. Project the GNSS east/north/up series onto the radar line of sight and compare</span></span>
@@ -3571,7 +3691,7 @@ S1A IW1 Descending, heading 192.2°, incidence at mid-swath 34.2°; window 1492 
 <section id="multi-temporal-insar-an-sbas-time-series-for-2025" class="level3">
 <h3 class="anchored" data-anchor-id="multi-temporal-insar-an-sbas-time-series-for-2025">Multi-temporal InSAR: an SBAS time series for 2025</h3>
 <p>A single interferogram measures one interval and carries one atmosphere. The small-baseline subset approach forms many short interferograms between the 12 dates (each date with its next two neighbours: 21 pairs, the blue network in Step 1) from the already co-registered stack, unwraps each, and inverts the network for the displacement at every date (<code>insar.sbas_inversion</code>, Berardino et al.&nbsp;2002). Each interferogram is referenced to the same point and corrected for ramp and elevation-correlated delay before the inversion; the atmosphere of each date then averages down in the fitted velocity (<code>insar.velocity</code>).</p>
-<div id="22f1a352" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-23T20:05:11.133868Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-23T20:05:11.133784Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-23T20:15:44.627446Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-23T20:15:44.627038Z&quot;}}" data-execution_count="11">
+<div id="22f1a352" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T17:53:42.561095Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T17:53:42.561010Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T18:04:37.137754Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T18:04:37.137266Z&quot;}}" data-execution_count="11">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The SBAS network. Each of the 21 pairs is formed from the stack that is already co-registered,</span></span>
@@ -3637,11 +3757,11 @@ S1A IW1 Descending, heading 192.2°, incidence at mid-swath 34.2°; window 1492 
 <span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"reliable pixels: </span><span class="sc">{</span>reliable[np.isfinite(grid.values)]<span class="sc">.</span>mean()<span class="sc">:.0%}</span><span class="ss"> of the AOI; median |loop closure| </span><span class="sc">{</span>np<span class="sc">.</span>median(closure)<span class="sc">:.1f}</span><span class="ss"> mm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>21 interferograms in 631 s; median coherence per pair 0.65 (range 0.60–0.71)
+<pre><code>21 interferograms in 652 s; median coherence per pair 0.65 (range 0.60-0.71)
 reliable pixels: 86% of the AOI; median |loop closure| 1.3 mm</code></pre>
 </div>
 </div>
-<div id="ce3caf15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-23T20:15:44.631283Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-23T20:15:44.631093Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-23T20:15:45.010251Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-23T20:15:45.009716Z&quot;}}" data-execution_count="12">
+<div id="ce3caf15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T18:04:37.140043Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T18:04:37.139501Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T18:04:37.527154Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T18:04:37.526729Z&quot;}}" data-execution_count="12">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Velocity map and the time series at the two stations, then the rates side by side.</span></span>
@@ -3770,7 +3890,7 @@ reliable pixels: 86% of the AOI; median |loop closure| 1.3 mm</code></pre>
 </tbody>
 </table>
 <p>The InSAR rates agree with GNSS to within about 1 cm/yr at both stations, and to 0.4 cm/yr for the difference between them. Both stations move less than 0.3 cm/yr east-west, so the line-of-sight signal is almost all vertical. In the time-series panel, the 12 InSAR dates at MMX1 bridge the station’s 11-month data gap and land on the GNSS trend on both sides.</p>
-<div id="4784a9da" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-23T20:15:45.011739Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-23T20:15:45.011648Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-23T20:15:45.708261Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-23T20:15:45.707836Z&quot;}}" data-execution_count="13">
+<div id="4784a9da" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T18:04:37.528653Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T18:04:37.528569Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T18:04:38.282106Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T18:04:38.281324Z&quot;}}" data-execution_count="13">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write the maps. Dividing the LOS velocity by cos(incidence) converts it to a vertical rate</span></span>

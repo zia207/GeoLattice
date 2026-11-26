@@ -111,6 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<style>.navbar .dropdown-menu { max-height: 80vh; overflow-y: auto; }</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -327,10 +328,10 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-foundations--optical" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Foundations &amp; Optical</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-foundations--optical">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
         <li class="dropdown-header">Foundations</li>
         <li>
     <a class="dropdown-item" href="../09_01_foundations/09_01_00_remote_sensing_fundamentals.html">
@@ -382,13 +383,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_02_optical/09_02_07_sentinel_5p_and_sentinel_5_mapping_air_pollution_from_orbit.html">
  <span class="dropdown-text">Sentinel-5P and Sentinel-5</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-radar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Radar</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-radar">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Radar (SAR and InSAR)</li>
         <li>
     <a class="dropdown-item" href="../09_03_radar/09_03_00_sar_fundamentals.html">
@@ -486,13 +481,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_03_radar/09_03_03_05_nisar_gunw_geocoded_unwrapped_interferogram.html">
  <span class="dropdown-text">NISAR GUNW</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-uav-hyperspectral--lidar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">UAV, Hyperspectral &amp; LiDAR</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-uav-hyperspectral--lidar">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">UAV</li>
         <li>
     <a class="dropdown-item" href="../09_04_uav/09_04_01_uav_fundamentals_and_mission_planning.html">
@@ -618,13 +607,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_06_lidar/09_06_08_large_area_lidar_processing_tiling_streaming_parallel_work_and_the_gpu.html">
  <span class="dropdown-text">Large-Area LiDAR Processing</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-image-analysis--ai" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Image Analysis &amp; AI</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-image-analysis--ai">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Texture Analysis</li>
         <li>
     <a class="dropdown-item" href="../09_07_texture_analysis/09_07_00_texture_analysis.html">
@@ -810,13 +793,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_11_foundations_models/09_11_13_benchmarking_foundation_models_on_your_own_data.html">
  <span class="dropdown-text">Benchmarking Foundation Models</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-energy-balance--capstones" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Energy Balance &amp; Capstones</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-energy-balance--capstones">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Surface Energy Balance</li>
         <li>
     <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_00_evapotranspiration_and_the_surface_energy_balance.html">
@@ -866,75 +843,129 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_11_how_good_is_the_et_map_validation_sensitivity_and_uncertainty.html">
  <span class="dropdown-text">Validation and Uncertainty</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Soil Moisture</li>
         <li>
-    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html">
- <span class="dropdown-text">Capstone: Boro Rice Water Use</span></a>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_00_soil_moisture_concepts_and_why_it_matters.html">
+ <span class="dropdown-text">Soil Moisture Concepts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_01_microwave_remote_sensing_of_soil_moisture.html">
+ <span class="dropdown-text">Microwave Remote Sensing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_02_the_mission_and_product_landscape.html">
+ <span class="dropdown-text">Missions and Products</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_03_python_environment_and_data_access.html">
+ <span class="dropdown-text">Environment and Data Access</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_04_smap_l3_enhanced_daily_cube_and_climatology.html">
+ <span class="dropdown-text">SMAP L3 Enhanced Daily Cube</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_08_ascat_and_the_tu_wien_change_detection_approach.html">
+ <span class="dropdown-text">ASCAT and TU Wien Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_09_esa_cci_long_term_trends_and_anomalies.html">
+ <span class="dropdown-text">ESA CCI Trends and Anomalies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_10_esa_cci_vs_era5_land.html">
+ <span class="dropdown-text">ESA CCI vs ERA5-Land</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_11_sentinel_1_preprocessing_for_soil_moisture.html">
+ <span class="dropdown-text">Sentinel-1 Preprocessing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_12_change_detection_soil_moisture_from_sentinel_1.html">
+ <span class="dropdown-text">Sentinel-1 Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_13_water_cloud_model_and_surface_scattering_inversion.html">
+ <span class="dropdown-text">Water Cloud Model Inversion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_14_operational_high_resolution_products.html">
+ <span class="dropdown-text">Operational 1 km Products</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_15_downscale_soil_moisture.html">
+ <span class="dropdown-text">Downscaling: Six Methods Compared</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Capstone Projects</li>
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_01_thirty_five_years_of_change_around_pucallpa_peru.html">
  <span class="dropdown-text">Change around Pucallpa, Peru</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_02_fifty_years_of_change_in_the_bangladesh_delta.html">
  <span class="dropdown-text">Fifty Years in the Bangladesh Delta</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_03_wild_fire_burned_area_mapping.html">
  <span class="dropdown-text">Wildfire Burned Area</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
  <span class="dropdown-text">Rohingya Deforestation: Sentinel-2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
  <span class="dropdown-text">Flood Mapping in Sylhet</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
  <span class="dropdown-text">Rohingya Deforestation: Sentinel-1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
  <span class="dropdown-text">Ship Detection, Strait of Hormuz</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
  <span class="dropdown-text">Crops from NISAR GCOV</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
  <span class="dropdown-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
  <span class="dropdown-text">Charland Monitoring, Lower Meghna</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
  <span class="dropdown-text">Shrimp Ghers in Coastal Bangladesh</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
  <span class="dropdown-text">Big Sur Wildfire, 2026</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
  <span class="dropdown-text">Wetland Paddy in Bangladesh</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
  <span class="dropdown-text">Field Edges across Four Countries</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
  <span class="dropdown-text">Tree Biomass and Carbon from LiDAR</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
  <span class="dropdown-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_17_capstone_water_use_of_boro_rice_in_bangladesh.html">
+ <span class="dropdown-text">Boro Rice Water Use, Bangladesh</span></a>
   </li>  
     </ul>
   </li>
@@ -1866,18 +1897,12 @@ window.Quarto = {
  <span class="menu-text">Validation and Uncertainty</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Capstone: Boro Rice Water Use</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
- <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+ <span class="menu-text"><strong>Soil Moisture</strong></span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1885,98 +1910,193 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_13_soil_moisture/09_13_00_soil_moisture_concepts_and_why_it_matters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil Moisture Concepts</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_01_microwave_remote_sensing_of_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Microwave Remote Sensing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_02_the_mission_and_product_landscape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Missions and Products</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_03_python_environment_and_data_access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Environment and Data Access</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_04_smap_l3_enhanced_daily_cube_and_climatology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SMAP L3 Enhanced Daily Cube</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_08_ascat_and_the_tu_wien_change_detection_approach.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ASCAT and TU Wien Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_09_esa_cci_long_term_trends_and_anomalies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESA CCI Trends and Anomalies</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_10_esa_cci_vs_era5_land.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESA CCI vs ERA5-Land</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_11_sentinel_1_preprocessing_for_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Preprocessing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_12_change_detection_soil_moisture_from_sentinel_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_13_water_cloud_model_and_surface_scattering_inversion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Water Cloud Model Inversion</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_14_operational_high_resolution_products.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Operational 1 km Products</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_15_downscale_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Downscaling: Six Methods Compared</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_14_Capstones/09_14_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Change around Pucallpa, Peru</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Fifty Years in the Bangladesh Delta</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Wildfire Burned Area</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rohingya Deforestation: Sentinel-2</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Flood Mapping in Sylhet</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rohingya Deforestation: Sentinel-1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ship Detection, Strait of Hormuz</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Crops from NISAR GCOV</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Charland Monitoring, Lower Meghna</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shrimp Ghers in Coastal Bangladesh</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Big Sur Wildfire, 2026</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Wetland Paddy in Bangladesh</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Field Edges across Four Countries</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tree Biomass and Carbon from LiDAR</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_14_Capstones/09_14_17_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boro Rice Water Use, Bangladesh</span></a>
   </div>
 </li>
       </ul>
@@ -2149,7 +2269,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="setup-libraries-device-and-data-paths">Setup: libraries, device and data paths</h2>
 <p>The cell below resolves the data folder from either working directory, checks the files and selects the GPU. On a CPU the epochs and seeds are reduced.</p>
 <p><strong>Installation.</strong> This notebook needs installation option 6 (every GeoLattice module): <code>pip install "geolattice[all]"</code>. See “Installation options” in the GeoLattice README.</p>
-<div id="33229f09" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T03:56:03.113738Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T03:56:03.113466Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T03:56:05.347914Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T03:56:05.347074Z&quot;}}" data-execution_count="1">
+<div id="33229f09" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:10:33.197497Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:10:33.197090Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:10:35.478029Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:10:35.477290Z&quot;}}" data-execution_count="1">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json, time, warnings, tempfile  <span class="co"># JSON, timing, warnings and temporary folders</span></span>
@@ -2192,7 +2312,7 @@ window.Quarto = {
 <section id="sentinel-2-reflectance-on-a-common-10-m-grid" class="level3">
 <h3 class="anchored" data-anchor-id="sentinel-2-reflectance-on-a-common-10-m-grid">Sentinel-2 reflectance on a common 10 m grid</h3>
 <p>Four bands are native 10 m; six 20 m bands are bilinearly resampled to the 10 m grid. DNs are scaled to reflectance with the L2A factor <span class="math inline">\(\rho=10^{-4}\,\mathrm{DN}\)</span> (the DNs of these files are already offset-corrected). Pixels flagged by the scene classification layer (no data, saturated, cloud shadow, cloud, cirrus) become <code>NaN</code> and are later ignored in the loss and the metrics.</p>
-<div id="6cf03e52" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T03:56:05.350039Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T03:56:05.349800Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T03:56:07.914835Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T03:56:07.914471Z&quot;}}" data-execution_count="2">
+<div id="6cf03e52" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:10:35.480034Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:10:35.479778Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:10:38.107718Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:10:38.106996Z&quot;}}" data-execution_count="2">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the ten Sentinel-2 bands</span></span>
@@ -2228,7 +2348,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="cdl-labels-as-a-colour-mask">CDL labels as a colour mask</h3>
 <p>Many segmentation benchmarks (DeepGlobe, LoveDA, …) distribute their labels as <strong>colour-coded PNG masks</strong>: each class has an RGB colour and a legend file lists <code>name,r,g,b</code>. <code>rgb_mask_to_index(mask, colors, unknown=-100)</code> converts such a mask into class indices; it thresholds each channel at 128, so the class colours must be corners of the RGB cube, and every other colour (here black) becomes the <em>unknown / ignore</em> index <span class="math inline">\(-100\)</span>.</p>
 <p>To use the same route with our data, the 10 m CDL is reprojected (nearest neighbour: labels must never be interpolated) from EPSG:5070 to the Sentinel-2 grid, recoded to six classes, <strong>rendered as a colour mask</strong>, and converted back with <code>rgb_mask_to_index</code>. The round trip must reproduce the recoded CDL exactly.</p>
-<div id="78bd3d30" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T03:56:07.917000Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T03:56:07.916902Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T03:56:10.365035Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T03:56:10.364348Z&quot;}}" data-execution_count="3">
+<div id="78bd3d30" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:10:38.109398Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:10:38.109295Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:10:40.550167Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:10:40.549328Z&quot;}}" data-execution_count="3">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CDL on the 10 m grid (nearest neighbour)</span></span>
@@ -2310,7 +2430,7 @@ Wetland/forest       0.0132
 <li>test patches: stride 128 px, i.e.&nbsp;4 non-overlapping patches per block that tile the test blocks exactly.</li>
 </ul>
 <p><strong>Blocks are split first, patches are cut second</strong>, so no pixel appears in two splits. <code>group_split</code> assigns the 121 block ids 60/20/20 and <code>check_split_isolation</code> verifies it. Pixels without a valid label (background or cloud) get the ignore index <span class="math inline">\(-100\)</span> and are excluded from the loss and from the metrics. The <code>Normalizer</code> is fitted (NaN-aware) on the <strong>training patches only</strong>.</p>
-<div id="5f72e1bb" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T03:56:10.370441Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T03:56:10.370337Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T03:56:13.746139Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T03:56:13.745160Z&quot;}}" data-execution_count="4">
+<div id="5f72e1bb" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:10:40.555800Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:10:40.555691Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:10:43.868816Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:10:43.868089Z&quot;}}" data-execution_count="4">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>PS <span class="op">=</span> <span class="dv">128</span>  <span class="co"># patch size in pixels</span></span>
@@ -2477,7 +2597,7 @@ batch: {'image': ((16, 10, 128, 128), 'torch.float32'), 'mask': ((16, 128, 128),
 <li><strong>Thin classes</strong> (roads, rivers) need the high-resolution skip paths of U-Net and DeepLabV3+; coarse-output models smear them.</li>
 <li><strong>Cost.</strong> From 3.7 M (SegFormer-b0) to 40 M (DeepLabV3-ResNet50) parameters; the timing table below measures the actual GPU cost for <span class="math inline">\(16\times10\times128\times128\)</span> batches.</li>
 </ul>
-<div id="e9bb2ef1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T03:56:13.748144Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T03:56:13.748038Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T03:56:17.961506Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T03:56:17.960862Z&quot;}}" data-execution_count="5">
+<div id="e9bb2ef1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:10:43.870358Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:10:43.870231Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:10:48.140762Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:10:48.140146Z&quot;}}" data-execution_count="5">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># seven segmentation architectures and their options</span></span>
@@ -2531,7 +2651,7 @@ batch: {'image': ((16, 10, 128, 128), 'torch.float32'), 'mask': ((16, 128, 128),
 <th data-quarto-table-cell-role="th">unet_basic</th>
 <td>U-Net (basic)</td>
 <td>7765222</td>
-<td>64.7</td>
+<td>66.2</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">unet</th>
@@ -2543,31 +2663,31 @@ batch: {'image': ((16, 10, 128, 128), 'torch.float32'), 'mask': ((16, 128, 128),
 <th data-quarto-table-cell-role="th">fcn_resnet50</th>
 <td>FCN (ResNet-50)</td>
 <td>32971270</td>
-<td>70.8</td>
+<td>69.6</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">deeplabv3_resnet50</th>
 <td>DeepLabV3 (ResNet-50)</td>
 <td>39656966</td>
-<td>81.4</td>
+<td>80.4</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">deeplabv3_mobilenet</th>
 <td>DeepLabV3 (MobileNetV3)</td>
 <td>11022630</td>
-<td>19.6</td>
+<td>19.1</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">deeplabv3plus</th>
 <td>DeepLabV3+ (ResNet-18)</td>
 <td>12352534</td>
-<td>17.7</td>
+<td>17.2</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">segformer</th>
 <td>SegFormer (MiT-b0)</td>
 <td>3726662</td>
-<td>42.0</td>
+<td>53.3</td>
 </tr>
 </tbody>
 </table>
@@ -2593,7 +2713,7 @@ batch: {'image': ((16, 10, 128, 128), 'torch.float32'), 'mask': ((16, 128, 128),
 <p>Write the CE as a sum over classes with <span class="math inline">\(\pi_k\)</span> the pixel share of class <span class="math inline">\(k\)</span> and <span class="math inline">\(\bar\ell_k\)</span> the mean loss of its pixels:</p>
 <p><span class="math display">\[\mathcal L_{CE}=\sum_{k=1}^{K}\pi_k\,\bar\ell_k .\]</span></p>
 <p>A class with <span class="math inline">\(\pi_k=1\,\%\)</span> (rivers, roads, small towns) contributes at most 1 % of the total loss and of the gradient, so the optimiser can ignore it: misclassifying <em>all</em> its pixels as the neighbouring corn costs about <span class="math inline">\(\pi_k\log(1/\epsilon)\)</span>, a small price, while mIoU gives that class the <strong>same weight</strong> as corn, <span class="math inline">\(\mathrm{mIoU}=\frac1K\sum_k\mathrm{IoU}_k\)</span>. Thin objects make it worse because most of their pixels sit on a boundary where the prediction is blurred. Dice and Lovász normalise <strong>per class</strong> (<span class="math inline">\(\sum_i y_{ik}\)</span> is in the denominator), so every class weighs <span class="math inline">\(1/K\)</span> irrespective of its size, and class weights in WCE achieve the same by reweighting. The experiments in the <em>Loss ablation: thin classes and mIoU</em> section measure this.</p>
-<div id="fabeee23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T03:56:17.963340Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T03:56:17.963229Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T03:56:18.047539Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T03:56:18.046945Z&quot;}}" data-execution_count="6">
+<div id="fabeee23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:10:48.142139Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:10:48.142030Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:10:48.224688Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:10:48.224077Z&quot;}}" data-execution_count="6">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># square-root inverse class weights from the training pixels</span></span>
@@ -2634,7 +2754,7 @@ share of the CE gradient mass if every class has the same per-pixel loss: {'Corn
 <li><strong>Augmentation:</strong> <code>OverheadAugment(dihedral=True)</code> applies the same random rotation/flip (8 elements of the dihedral group <span class="math inline">\(D_4\)</span>; overhead imagery has no “up”) to <strong>image and mask</strong>.</li>
 </ul>
 <p>The helper below trains one model and scores the test patches with <code>segmentation_metrics</code>.</p>
-<div id="e0468fd6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T03:56:18.049255Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T03:56:18.049143Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T03:56:18.054443Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T03:56:18.053833Z&quot;}}" data-execution_count="7">
+<div id="e0468fd6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:10:48.225974Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:10:48.225868Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:10:48.230848Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:10:48.230503Z&quot;}}" data-execution_count="7">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> score(pred, target):  <span class="co"># mIoU, accuracy and per-class IoU/F1 ...</span></span>
@@ -2665,7 +2785,7 @@ share of the CE gradient mass if every class has the same per-pixel loss: {'Corn
 <span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>                f1<span class="op">=</span>m[<span class="st">"per_class"</span>][<span class="st">"dice"</span>].values, iou<span class="op">=</span>m[<span class="st">"per_class"</span>][<span class="st">"iou"</span>].values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="7d6222a3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T03:56:18.056143Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T03:56:18.056046Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T04:08:34.655511Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T04:08:34.654899Z&quot;}}" data-execution_count="8">
+<div id="7d6222a3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:10:48.232185Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:10:48.232082Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:22:31.766662Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:22:31.766167Z&quot;}}" data-execution_count="8">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>res, rows <span class="op">=</span> {}, []  <span class="co"># trained runs and result rows</span></span>
@@ -2686,13 +2806,13 @@ share of the CE gradient mass if every class has the same per-pixel loss: {'Corn
 <span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>tab.<span class="bu">round</span>(<span class="dv">4</span>)  <span class="co"># show it</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>U-Net (basic)              val mIoU 0.615 | test mIoU 0.651 ± 0.003 | 28s/run
-U-Net (ResNet-18)          val mIoU 0.605 | test mIoU 0.630 ± 0.006 | 25s/run
-FCN (ResNet-50)            val mIoU 0.553 | test mIoU 0.582 ± 0.007 | 49s/run
-DeepLabV3 (ResNet-50)      val mIoU 0.545 | test mIoU 0.571 ± 0.004 | 56s/run
-DeepLabV3 (MobileNetV3)    val mIoU 0.406 | test mIoU 0.423 ± 0.016 | 28s/run
-DeepLabV3+ (ResNet-18)     val mIoU 0.578 | test mIoU 0.607 ± 0.001 | 23s/run
-SegFormer (MiT-b0)         val mIoU 0.577 | test mIoU 0.605 ± 0.003 | 32s/run</code></pre>
+<pre><code>U-Net (basic)              val mIoU 0.615 | test mIoU 0.651 ± 0.003 | 27s/run
+U-Net (ResNet-18)          val mIoU 0.605 | test mIoU 0.630 ± 0.006 | 23s/run
+FCN (ResNet-50)            val mIoU 0.552 | test mIoU 0.582 ± 0.001 | 47s/run
+DeepLabV3 (ResNet-50)      val mIoU 0.545 | test mIoU 0.571 ± 0.000 | 53s/run
+DeepLabV3 (MobileNetV3)    val mIoU 0.403 | test mIoU 0.427 ± 0.017 | 28s/run
+DeepLabV3+ (ResNet-18)     val mIoU 0.576 | test mIoU 0.604 ± 0.003 | 21s/run
+SegFormer (MiT-b0)         val mIoU 0.576 | test mIoU 0.605 ± 0.003 | 31s/run</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div>
@@ -2730,7 +2850,7 @@ SegFormer (MiT-b0)         val mIoU 0.577 | test mIoU 0.605 ± 0.003 | 32s/run</
 <td>0.6512</td>
 <td>0.0032</td>
 <td>0.9525</td>
-<td>27.5742</td>
+<td>26.7020</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">unet</th>
@@ -2740,57 +2860,57 @@ SegFormer (MiT-b0)         val mIoU 0.577 | test mIoU 0.605 ± 0.003 | 32s/run</
 <td>0.6302</td>
 <td>0.0062</td>
 <td>0.9489</td>
-<td>25.4526</td>
+<td>23.0207</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">fcn_resnet50</th>
 <td>FCN (ResNet-50)</td>
 <td>32971270</td>
-<td>0.5531</td>
-<td>0.5817</td>
-<td>0.0069</td>
-<td>0.9357</td>
-<td>49.3177</td>
+<td>0.5520</td>
+<td>0.5824</td>
+<td>0.0015</td>
+<td>0.9360</td>
+<td>47.0513</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">deeplabv3_resnet50</th>
 <td>DeepLabV3 (ResNet-50)</td>
 <td>39656966</td>
-<td>0.5445</td>
-<td>0.5710</td>
-<td>0.0036</td>
-<td>0.9342</td>
-<td>55.5188</td>
+<td>0.5447</td>
+<td>0.5711</td>
+<td>0.0004</td>
+<td>0.9341</td>
+<td>52.7749</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">deeplabv3_mobilenet</th>
 <td>DeepLabV3 (MobileNetV3)</td>
 <td>11022630</td>
-<td>0.4059</td>
-<td>0.4234</td>
-<td>0.0160</td>
-<td>0.8997</td>
-<td>28.1358</td>
+<td>0.4033</td>
+<td>0.4270</td>
+<td>0.0173</td>
+<td>0.8993</td>
+<td>28.1968</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">deeplabv3plus</th>
 <td>DeepLabV3+ (ResNet-18)</td>
 <td>12352534</td>
-<td>0.5785</td>
-<td>0.6070</td>
-<td>0.0008</td>
-<td>0.9426</td>
-<td>22.8806</td>
+<td>0.5759</td>
+<td>0.6037</td>
+<td>0.0035</td>
+<td>0.9425</td>
+<td>21.1417</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">segformer</th>
 <td>SegFormer (MiT-b0)</td>
 <td>3726662</td>
-<td>0.5773</td>
+<td>0.5763</td>
 <td>0.6049</td>
-<td>0.0034</td>
+<td>0.0028</td>
 <td>0.9440</td>
-<td>31.8663</td>
+<td>30.8691</td>
 </tr>
 </tbody>
 </table>
@@ -2798,7 +2918,7 @@ SegFormer (MiT-b0)         val mIoU 0.577 | test mIoU 0.605 ± 0.003 | 32s/run</
 </div>
 </div>
 </div>
-<div id="2c23d146" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T04:08:34.657079Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T04:08:34.656872Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T04:08:35.027476Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T04:08:35.027025Z&quot;}}" data-execution_count="9">
+<div id="2c23d146" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:22:31.768220Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:22:31.768117Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:22:32.128796Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:22:32.128319Z&quot;}}" data-execution_count="9">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">4</span>))  <span class="co"># three panels</span></span>
@@ -2827,7 +2947,7 @@ SegFormer (MiT-b0)         val mIoU 0.577 | test mIoU 0.605 ± 0.003 | 32s/run</
 <section id="loss-ablation-thin-classes-and-miou" class="level2">
 <h2 class="anchored" data-anchor-id="loss-ablation-thin-classes-and-miou">Loss ablation: thin classes and mIoU</h2>
 <p>The U-Net with a ResNet-18 encoder is retrained with each loss of the <em>Segmentation losses: Dice, Lovász and focal versus cross-entropy</em> section, three seeds each, everything else fixed. Besides mIoU we show the <strong>per-class IoU</strong>, because the point of the Dice, Lovász and weighted losses is the small classes, which hardly change the pixel accuracy. The mean IoU is over all six classes; a class absent from the test blocks would be <span class="math inline">\(\mathrm{NaN}\)</span> and is skipped.</p>
-<div id="3535137e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T04:08:35.029546Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T04:08:35.029447Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T04:16:31.545987Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T04:16:31.545445Z&quot;}}" data-execution_count="10">
+<div id="3535137e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:22:32.130655Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:22:32.130561Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:30:04.043752Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:30:04.043287Z&quot;}}" data-execution_count="10">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>LOSSES <span class="op">=</span> [<span class="st">"ce"</span>, <span class="st">"weighted_ce"</span>, <span class="st">"focal"</span>, <span class="st">"dice"</span>, <span class="st">"lovasz"</span>, <span class="st">"ce+dice"</span>]  <span class="co"># six losses</span></span>
@@ -2874,7 +2994,7 @@ lovasz       0.950     0.945          0.506      0.594           0.560  0.129
 ce+dice      0.952     0.946          0.536      0.594           0.623  0.165</code></pre>
 </div>
 </div>
-<div id="fc5ff7d3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T04:16:31.548096Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T04:16:31.547880Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T04:16:31.736294Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T04:16:31.735813Z&quot;}}" data-execution_count="11">
+<div id="fc5ff7d3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:30:04.045369Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:30:04.045263Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:30:04.233913Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:30:04.233595Z&quot;}}" data-execution_count="11">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">4</span>))  <span class="co"># two panels</span></span>
@@ -2899,7 +3019,7 @@ ce+dice      0.952     0.946          0.536      0.594           0.623  0.165</c
 <section id="final-model-checkpoint-and-reload" class="level2">
 <h2 class="anchored" data-anchor-id="final-model-checkpoint-and-reload">Final model: checkpoint and reload</h2>
 <p>The final model combines the architecture with the best <strong>validation</strong> mIoU from the <em>Training with <code>train_model</code>: architecture benchmark</em> section and the loss with the best validation mIoU from the <em>Loss ablation: thin classes and mIoU</em> section (choices are made on validation data only; the test blocks are not used for selection). It is trained longer, with early stopping (patience 8 on validation mIoU) and a best-weights checkpoint, then reloaded with <code>load_checkpoint</code> into a freshly built network; a correct round trip reproduces the predictions exactly.</p>
-<div id="63da6079" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T04:16:31.737682Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T04:16:31.737586Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T04:17:23.511159Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T04:17:23.510486Z&quot;}}" data-execution_count="12">
+<div id="63da6079" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:30:04.235637Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:30:04.235538Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:30:53.959131Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:30:53.957974Z&quot;}}" data-execution_count="12">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>best_arch <span class="op">=</span> tab[<span class="st">"val_miou"</span>].idxmax()  <span class="co"># architecture with the best validation mIoU</span></span>
@@ -2956,7 +3076,7 @@ load_state_dict: &lt;All keys matched successfully&gt; | max |p_trained - p_relo
 <p>The network was trained on <span class="math inline">\(128\times128\)</span> px patches, but the scene is <span class="math inline">\(2816\times2816\)</span> px. <code>sliding_window_predict(model, image, tile=, overlap=, normalizer=, blend=, return_proba=, batch_size=, precision=)</code> cuts the raster into overlapping tiles of <code>tile</code> px with stride <span class="math inline">\(T-O\)</span>, predicts the softmax probabilities of each tile and <strong>blends</strong> them with a weight window <span class="math inline">\(w(i,j)\)</span>:</p>
 <p><span class="math display">\[\bar p_k(\mathbf x)=\frac{\sum_{t}w_t(\mathbf x)\,p_{t,k}(\mathbf x)}{\sum_{t}w_t(\mathbf x)},\qquad w(i,j)=w_1(i)\,w_1(j),\quad w_1(i)=\sin^2\!\Big(\frac{\pi i}{T-1}\Big)\ \ (\text{Hann}).\]</span></p>
 <p><strong>Why:</strong> a convolutional network is least reliable at the <strong>edge of a tile</strong>, where zero padding replaces the missing context, so predictions of adjacent non-overlapping tiles disagree and leave visible <em>seams</em>. With overlap, every pixel is predicted several times and the Hann window gives the central, well-informed predictions the largest weight and the unreliable edges almost zero; <code>triangle</code> is a linear alternative and <code>none</code> averages with equal weights. We compare four settings on the test blocks: no overlap, overlap with uniform weights, triangle and Hann blending. The reference is the same CDL index mask and only valid test-block pixels count.</p>
-<div id="cd90496e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T04:17:23.513657Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T04:17:23.513305Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T04:17:30.246005Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T04:17:30.244933Z&quot;}}" data-execution_count="13">
+<div id="cd90496e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:30:53.961192Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:30:53.960855Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:31:00.455341Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:31:00.454919Z&quot;}}" data-execution_count="13">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sub <span class="op">=</span> refl                                                  <span class="co"># the full 2816 x 2816 px working area</span></span>
@@ -3017,7 +3137,7 @@ load_state_dict: &lt;All keys matched successfully&gt; | max |p_trained - p_relo
 <td>0.9532</td>
 <td>0.0536</td>
 <td>0.046</td>
-<td>0.9112</td>
+<td>0.8823</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">overlap 64, uniform</th>
@@ -3025,7 +3145,7 @@ load_state_dict: &lt;All keys matched successfully&gt; | max |p_trained - p_relo
 <td>0.9535</td>
 <td>0.0506</td>
 <td>0.046</td>
-<td>1.1945</td>
+<td>1.1416</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">overlap 64, triangle</th>
@@ -3033,7 +3153,7 @@ load_state_dict: &lt;All keys matched successfully&gt; | max |p_trained - p_relo
 <td>0.9535</td>
 <td>0.0506</td>
 <td>0.046</td>
-<td>1.1838</td>
+<td>1.1498</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">overlap 64, Hann</th>
@@ -3041,7 +3161,7 @@ load_state_dict: &lt;All keys matched successfully&gt; | max |p_trained - p_relo
 <td>0.9535</td>
 <td>0.0506</td>
 <td>0.046</td>
-<td>1.1837</td>
+<td>1.1418</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">overlap 128, Hann</th>
@@ -3049,7 +3169,7 @@ load_state_dict: &lt;All keys matched successfully&gt; | max |p_trained - p_relo
 <td>0.9535</td>
 <td>0.0506</td>
 <td>0.046</td>
-<td>1.7679</td>
+<td>1.6966</td>
 </tr>
 </tbody>
 </table>
@@ -3057,7 +3177,7 @@ load_state_dict: &lt;All keys matched successfully&gt; | max |p_trained - p_relo
 </div>
 </div>
 </div>
-<div id="c1faf58a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T04:17:30.248232Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T04:17:30.248098Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T04:17:30.748758Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T04:17:30.747850Z&quot;}}" data-execution_count="14">
+<div id="c1faf58a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:31:00.457239Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:31:00.457145Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:31:00.946137Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:31:00.945726Z&quot;}}" data-execution_count="14">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">17</span>, <span class="fl">4.6</span>))  <span class="co"># four panels</span></span>
@@ -3090,7 +3210,7 @@ load_state_dict: &lt;All keys matched successfully&gt; | max |p_trained - p_relo
 <p><span class="math display">\[\mathrm{IoU}_k=\frac{TP_k}{TP_k+FP_k+FN_k},\qquad F1_k=\mathrm{Dice}_k=\frac{2\,TP_k}{2\,TP_k+FP_k+FN_k},\qquad \mathrm{mIoU}=\frac1K\sum_k\mathrm{IoU}_k,\]</span></p>
 <p>and the pixel accuracy <span class="math inline">\(\sum_kTP_k/\sum_{ij}M_{ij}\)</span>. IoU and F1 are monotonically related, <span class="math inline">\(F1=2\,\mathrm{IoU}/(1+\mathrm{IoU})\)</span>, so they rank models identically, but IoU is the more severe: <span class="math inline">\(\mathrm{IoU}=0.5\)</span> corresponds to <span class="math inline">\(F1=0.67\)</span>. Because mIoU averages classes with equal weight, a rare class counts as much as corn; pixel accuracy, in contrast, is dominated by corn and soybeans.</p>
 <p><strong>Boundary effects.</strong> Segmentation errors concentrate along the borders between fields. A boundary of length <span class="math inline">\(L\)</span> pixels has about <span class="math inline">\(2dL\)</span> pixels within distance <span class="math inline">\(d\)</span>, and a prediction that is displaced by one pixel misclassifies every one of them. We compute for each valid test pixel the <strong>distance to the nearest class boundary of the reference</strong> (Euclidean distance transform) and report the error rate in distance bands. Part of this error is <em>not</em> the model’s: the CDL itself is a classification product whose boundaries are uncertain by one or two pixels.</p>
-<div id="acf6f00a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T04:17:30.750693Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T04:17:30.750509Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T04:17:30.988266Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T04:17:30.987480Z&quot;}}" data-execution_count="15">
+<div id="acf6f00a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:31:00.948021Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:31:00.947929Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:31:01.179274Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:31:01.178691Z&quot;}}" data-execution_count="15">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pm <span class="op">=</span> maps[<span class="st">"overlap 64, Hann"</span>]  <span class="co"># the final map</span></span>
@@ -3129,7 +3249,7 @@ Other           0.204  0.338      0.408   0.289     9947</code></pre>
 </div>
 </div>
 </div>
-<div id="909a720d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T04:17:30.989885Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T04:17:30.989787Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T04:17:35.045132Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T04:17:35.044469Z&quot;}}" data-execution_count="16">
+<div id="909a720d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:31:01.180683Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:31:01.180585Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:31:04.900990Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:31:04.900483Z&quot;}}" data-execution_count="16">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.ndimage <span class="im">import</span> distance_transform_edt  <span class="co"># distance transform</span></span>
@@ -3205,7 +3325,7 @@ boundary band (&lt;3 px): 26.1% of pixels, 98.3% of the errors | mIoU 0.584 vs i
 <section id="georeferenced-output-with-write_class_map" class="level2">
 <h2 class="anchored" data-anchor-id="georeferenced-output-with-write_class_map">Georeferenced output with <code>write_class_map</code></h2>
 <p><code>write_class_map(class_map, path, class_names=, colormap=, nodata=, metadata=, compress=)</code> writes a class raster as a <strong>GeoTIFF</strong> that keeps the grid of the input (CRS and affine transform) and carries the <strong>class names</strong> (JSON tag and band description), an embedded <strong>colour table</strong> (opens with the legend in QGIS/ArcGIS) and free metadata such as model, date and loss. Nodata (<span class="math inline">\(-1\)</span> in this module) is stored as 255 in the <code>uint8</code> file. We write the map with the test-block outlines unmasked (the full prediction), read it back with <code>rasterio</code>, and check that CRS, transform, tags and colour table survived.</p>
-<div id="0be09494" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T04:17:35.046783Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T04:17:35.046689Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T04:17:36.346974Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T04:17:36.345797Z&quot;}}" data-execution_count="17">
+<div id="0be09494" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:31:04.902363Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:31:04.902266Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:31:06.162117Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:31:06.161324Z&quot;}}" data-execution_count="17">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio  <span class="co"># GeoTIFF reading</span></span>
@@ -3244,7 +3364,7 @@ round trip equals the predicted map: True | mismatching pixels: 0</code></pre>
 </section>
 <section id="summary-of-the-experiments" class="level2">
 <h2 class="anchored" data-anchor-id="summary-of-the-experiments">Summary of the experiments</h2>
-<div id="b039088b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T04:17:36.348709Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T04:17:36.348595Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T04:17:36.358231Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T04:17:36.357444Z&quot;}}" data-execution_count="18">
+<div id="b039088b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:31:06.164038Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:31:06.163938Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:31:06.173148Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:31:06.172399Z&quot;}}" data-execution_count="18">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Architectures (CE loss, mean over"</span>, <span class="bu">len</span>(SEEDS), <span class="st">"seeds):"</span>)  <span class="co"># architecture benchmark</span></span>
@@ -3261,13 +3381,13 @@ round trip equals the predicted map: True | mismatching pixels: 0</code></pre>
 <pre><code>Architectures (CE loss, mean over 3 seeds):
                                        model  parameters  val_miou  test_miou  test_sd  pixel_acc      sec
 arch                                                                                                      
-unet_basic                     U-Net (basic)     7765222    0.6148     0.6512   0.0032     0.9525  27.5742
-unet                       U-Net (ResNet-18)    14350886    0.6053     0.6302   0.0062     0.9489  25.4526
-deeplabv3plus         DeepLabV3+ (ResNet-18)    12352534    0.5785     0.6070   0.0008     0.9426  22.8806
-segformer                 SegFormer (MiT-b0)     3726662    0.5773     0.6049   0.0034     0.9440  31.8663
-fcn_resnet50                 FCN (ResNet-50)    32971270    0.5531     0.5817   0.0069     0.9357  49.3177
-deeplabv3_resnet50     DeepLabV3 (ResNet-50)    39656966    0.5445     0.5710   0.0036     0.9342  55.5188
-deeplabv3_mobilenet  DeepLabV3 (MobileNetV3)    11022630    0.4059     0.4234   0.0160     0.8997  28.1358
+unet_basic                     U-Net (basic)     7765222    0.6148     0.6512   0.0032     0.9525  26.7020
+unet                       U-Net (ResNet-18)    14350886    0.6053     0.6302   0.0062     0.9489  23.0207
+segformer                 SegFormer (MiT-b0)     3726662    0.5763     0.6049   0.0028     0.9440  30.8691
+deeplabv3plus         DeepLabV3+ (ResNet-18)    12352534    0.5759     0.6037   0.0035     0.9425  21.1417
+fcn_resnet50                 FCN (ResNet-50)    32971270    0.5520     0.5824   0.0015     0.9360  47.0513
+deeplabv3_resnet50     DeepLabV3 (ResNet-50)    39656966    0.5447     0.5711   0.0004     0.9341  52.7749
+deeplabv3_mobilenet  DeepLabV3 (MobileNetV3)    11022630    0.4033     0.4270   0.0173     0.8993  28.1968
 
 Losses (U-Net ResNet-18):
              val_miou  test_miou  test_sd  pixel_acc  macro_f1
@@ -3282,11 +3402,11 @@ ce+dice        0.6088     0.6362   0.0009     0.9478    0.7405
 Large-raster inference (final model, test blocks):
                         mIoU  pixel acc  error near tile borders  error elsewhere  seconds
 setting                                                                                   
-no overlap            0.6617     0.9532                   0.0536            0.046   0.9112
-overlap 64, uniform   0.6634     0.9535                   0.0506            0.046   1.1945
-overlap 64, triangle  0.6636     0.9535                   0.0506            0.046   1.1838
-overlap 64, Hann      0.6635     0.9535                   0.0506            0.046   1.1837
-overlap 128, Hann     0.6636     0.9535                   0.0506            0.046   1.7679
+no overlap            0.6617     0.9532                   0.0536            0.046   0.8823
+overlap 64, uniform   0.6634     0.9535                   0.0506            0.046   1.1416
+overlap 64, triangle  0.6636     0.9535                   0.0506            0.046   1.1498
+overlap 64, Hann      0.6635     0.9535                   0.0506            0.046   1.1418
+overlap 128, Hann     0.6636     0.9535                   0.0506            0.046   1.6966
 
 Final: U-Net (basic) + ce+dice: test-block mIoU 0.6635, mean F1 0.7656, pixel accuracy 0.9535</code></pre>
 </div>
@@ -3297,7 +3417,7 @@ Final: U-Net (basic) + ce+dice: test-block mIoU 0.6635, mean F1 0.7656, pixel ac
 <p>The architecture/loss benchmark above selected a <strong>basic U-Net with CE + Dice</strong> by validation mIoU. This section refits that recipe using <strong>only 128 × 128 patches fully inside the supplied AOI</strong>, holds out entire 256 × 256 map blocks for an unbiased in-AOI check, and predicts the scene outside the AOI with <code>sliding_window_predict</code>. The outside pixels are never used for training or validation.</p>
 <p>The Sentinel-2 scene extends beyond the AOI, but only along a narrow fringe; results therefore describe local spatial extrapolation at the edge of this one scene, not geographic transfer to a distant area. A dense segmentation output assigns one class per 10 m pixel (unlike the chip classifier, which assigns one class per window). CDL outside the AOI is only a comparison product, not independent ground truth.</p>
 <p>For mapped class (k), direct mapped area is (A_k=N_k|r_xr_y|/10^4) hectares, where (N_k) counts valid exterior pixels. This is pixel counting on the predicted map, not an area-adjusted estimator with design-based confidence intervals.</p>
-<div id="f575fdc1" class="cell" data-execution_count="5">
+<div id="f575fdc1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:31:06.174811Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:31:06.174714Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:32:27.078947Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:32:27.078322Z&quot;}}" data-execution_count="19">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio  <span class="co"># GeoTIFF reading</span></span>
@@ -3525,25 +3645,25 @@ Final: U-Net (basic) + ce+dice: test-block mIoU 0.6635, mean F1 0.7656, pixel ac
 <pre><code>AOI coverage of training grid: 98.77% | wholly contained labelled patches: 1,024
 AOI-only spatial split: 621 train / 204 validation / 199 test patches | blocks: 73/24/24
 AOI patch counts by split: {'train': 621, 'validation': 204, 'test': 199}
-AOI spatial hold-out (24 unseen blocks): mIoU 0.653 | pixel accuracy 0.953 | validation-selected epoch 16
+AOI spatial hold-out (24 unseen blocks): mIoU 0.657 | pixel accuracy 0.953 | validation-selected epoch 15
                   iou   dice  precision  recall  support
-Corn            0.957  0.978      0.977   0.979  1671274
-Soybeans        0.951  0.975      0.975   0.975  1273476
-Grass/pasture   0.554  0.713      0.737   0.690    98981
-Developed       0.629  0.772      0.748   0.797   140601
-Wetland/forest  0.665  0.799      0.784   0.814    54977
-Other           0.163  0.281      0.395   0.218    20039
-Refit final AOI-only U-Net on 1,024 AOI patches for 16 epochs.
+Corn            0.957  0.978      0.975   0.980  1671274
+Soybeans        0.952  0.975      0.978   0.973  1273476
+Grass/pasture   0.559  0.717      0.730   0.705    98981
+Developed       0.627  0.771      0.750   0.793   140601
+Wetland/forest  0.657  0.793      0.806   0.781    54977
+Other           0.190  0.320      0.381   0.276    20039
+Refit final AOI-only U-Net on 1,024 AOI patches for 15 epochs.
 Full scene outside AOI: 192,786 pixels (1,927.9 ha)
 Clear exterior: 191,197 px | mapped: 191,197 (100.0%) | unclassified clear: 0 px | cloud/shadow/nodata: 1,589 px
 Predicted class area outside AOI (valid mapped pixels only):
          class  mapped_ha
-          Corn     846.58
-      Soybeans     682.04
- Grass/pasture     137.67
-     Developed     158.66
-Wetland/forest      54.07
-         Other      32.95
+          Corn     849.32
+      Soybeans     683.13
+ Grass/pasture     136.66
+     Developed     157.55
+Wetland/forest      51.53
+         Other      33.78
 CDL comparison only (not independent accuracy): OA 0.913 | mIoU 0.667 | pixels 150,428
 GeoTIFF: Corn_belt/outputs/s2_20250826_semantic_segmentation_outside_aoi.tif | CRS EPSG:32615 | transform matches scene: True | nodata 255.0 | AOI pixels written as nodata: True</code></pre>
 </div>

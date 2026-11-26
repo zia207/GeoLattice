@@ -111,6 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<style>.navbar .dropdown-menu { max-height: 80vh; overflow-y: auto; }</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -327,10 +328,10 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-foundations--optical" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Foundations &amp; Optical</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-foundations--optical">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
         <li class="dropdown-header">Foundations</li>
         <li>
     <a class="dropdown-item" href="../09_01_foundations/09_01_00_remote_sensing_fundamentals.html">
@@ -382,13 +383,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_02_optical/09_02_07_sentinel_5p_and_sentinel_5_mapping_air_pollution_from_orbit.html">
  <span class="dropdown-text">Sentinel-5P and Sentinel-5</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-radar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Radar</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-radar">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Radar (SAR and InSAR)</li>
         <li>
     <a class="dropdown-item" href="../09_03_radar/09_03_00_sar_fundamentals.html">
@@ -486,13 +481,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_03_radar/09_03_03_05_nisar_gunw_geocoded_unwrapped_interferogram.html">
  <span class="dropdown-text">NISAR GUNW</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-uav-hyperspectral--lidar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">UAV, Hyperspectral &amp; LiDAR</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-uav-hyperspectral--lidar">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">UAV</li>
         <li>
     <a class="dropdown-item" href="../09_04_uav/09_04_01_uav_fundamentals_and_mission_planning.html">
@@ -618,13 +607,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_06_lidar/09_06_08_large_area_lidar_processing_tiling_streaming_parallel_work_and_the_gpu.html">
  <span class="dropdown-text">Large-Area LiDAR Processing</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-image-analysis--ai" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Image Analysis &amp; AI</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-image-analysis--ai">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Texture Analysis</li>
         <li>
     <a class="dropdown-item" href="../09_07_texture_analysis/09_07_00_texture_analysis.html">
@@ -810,13 +793,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_11_foundations_models/09_11_13_benchmarking_foundation_models_on_your_own_data.html">
  <span class="dropdown-text">Benchmarking Foundation Models</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-energy-balance--capstones" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Energy Balance &amp; Capstones</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-energy-balance--capstones">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Surface Energy Balance</li>
         <li>
     <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_00_evapotranspiration_and_the_surface_energy_balance.html">
@@ -866,75 +843,129 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_11_how_good_is_the_et_map_validation_sensitivity_and_uncertainty.html">
  <span class="dropdown-text">Validation and Uncertainty</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Soil Moisture</li>
         <li>
-    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html">
- <span class="dropdown-text">Capstone: Boro Rice Water Use</span></a>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_00_soil_moisture_concepts_and_why_it_matters.html">
+ <span class="dropdown-text">Soil Moisture Concepts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_01_microwave_remote_sensing_of_soil_moisture.html">
+ <span class="dropdown-text">Microwave Remote Sensing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_02_the_mission_and_product_landscape.html">
+ <span class="dropdown-text">Missions and Products</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_03_python_environment_and_data_access.html">
+ <span class="dropdown-text">Environment and Data Access</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_04_smap_l3_enhanced_daily_cube_and_climatology.html">
+ <span class="dropdown-text">SMAP L3 Enhanced Daily Cube</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_08_ascat_and_the_tu_wien_change_detection_approach.html">
+ <span class="dropdown-text">ASCAT and TU Wien Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_09_esa_cci_long_term_trends_and_anomalies.html">
+ <span class="dropdown-text">ESA CCI Trends and Anomalies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_10_esa_cci_vs_era5_land.html">
+ <span class="dropdown-text">ESA CCI vs ERA5-Land</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_11_sentinel_1_preprocessing_for_soil_moisture.html">
+ <span class="dropdown-text">Sentinel-1 Preprocessing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_12_change_detection_soil_moisture_from_sentinel_1.html">
+ <span class="dropdown-text">Sentinel-1 Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_13_water_cloud_model_and_surface_scattering_inversion.html">
+ <span class="dropdown-text">Water Cloud Model Inversion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_14_operational_high_resolution_products.html">
+ <span class="dropdown-text">Operational 1 km Products</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_15_downscale_soil_moisture.html">
+ <span class="dropdown-text">Downscaling: Six Methods Compared</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Capstone Projects</li>
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_01_thirty_five_years_of_change_around_pucallpa_peru.html">
  <span class="dropdown-text">Change around Pucallpa, Peru</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_02_fifty_years_of_change_in_the_bangladesh_delta.html">
  <span class="dropdown-text">Fifty Years in the Bangladesh Delta</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_03_wild_fire_burned_area_mapping.html">
  <span class="dropdown-text">Wildfire Burned Area</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
  <span class="dropdown-text">Rohingya Deforestation: Sentinel-2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
  <span class="dropdown-text">Flood Mapping in Sylhet</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
  <span class="dropdown-text">Rohingya Deforestation: Sentinel-1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
  <span class="dropdown-text">Ship Detection, Strait of Hormuz</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
  <span class="dropdown-text">Crops from NISAR GCOV</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
  <span class="dropdown-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
  <span class="dropdown-text">Charland Monitoring, Lower Meghna</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
  <span class="dropdown-text">Shrimp Ghers in Coastal Bangladesh</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
  <span class="dropdown-text">Big Sur Wildfire, 2026</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
  <span class="dropdown-text">Wetland Paddy in Bangladesh</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
  <span class="dropdown-text">Field Edges across Four Countries</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
  <span class="dropdown-text">Tree Biomass and Carbon from LiDAR</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
  <span class="dropdown-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_17_capstone_water_use_of_boro_rice_in_bangladesh.html">
+ <span class="dropdown-text">Boro Rice Water Use, Bangladesh</span></a>
   </li>  
     </ul>
   </li>
@@ -1866,18 +1897,12 @@ window.Quarto = {
  <span class="menu-text">Validation and Uncertainty</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Capstone: Boro Rice Water Use</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
- <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+ <span class="menu-text"><strong>Soil Moisture</strong></span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1885,98 +1910,193 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_13_soil_moisture/09_13_00_soil_moisture_concepts_and_why_it_matters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil Moisture Concepts</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_01_microwave_remote_sensing_of_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Microwave Remote Sensing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_02_the_mission_and_product_landscape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Missions and Products</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_03_python_environment_and_data_access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Environment and Data Access</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_04_smap_l3_enhanced_daily_cube_and_climatology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SMAP L3 Enhanced Daily Cube</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_08_ascat_and_the_tu_wien_change_detection_approach.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ASCAT and TU Wien Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_09_esa_cci_long_term_trends_and_anomalies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESA CCI Trends and Anomalies</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_10_esa_cci_vs_era5_land.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESA CCI vs ERA5-Land</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_11_sentinel_1_preprocessing_for_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Preprocessing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_12_change_detection_soil_moisture_from_sentinel_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_13_water_cloud_model_and_surface_scattering_inversion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Water Cloud Model Inversion</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_14_operational_high_resolution_products.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Operational 1 km Products</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_15_downscale_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Downscaling: Six Methods Compared</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_14_Capstones/09_14_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Change around Pucallpa, Peru</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Fifty Years in the Bangladesh Delta</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Wildfire Burned Area</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rohingya Deforestation: Sentinel-2</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Flood Mapping in Sylhet</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rohingya Deforestation: Sentinel-1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ship Detection, Strait of Hormuz</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Crops from NISAR GCOV</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Charland Monitoring, Lower Meghna</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shrimp Ghers in Coastal Bangladesh</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Big Sur Wildfire, 2026</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Wetland Paddy in Bangladesh</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Field Edges across Four Countries</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tree Biomass and Carbon from LiDAR</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_14_Capstones/09_14_17_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boro Rice Water Use, Bangladesh</span></a>
   </div>
 </li>
       </ul>
@@ -2325,7 +2445,7 @@ window.Quarto = {
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <p><strong>Installation.</strong> This notebook needs installation option 6 (every GeoLattice module): <code>pip install "geolattice[all]"</code>. See “Installation options” in the GeoLattice README.</p>
-<div id="ca1c920f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:40:37.664683Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:40:37.664431Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:40:40.269638Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:40:40.268268Z&quot;}}" data-execution_count="1">
+<div id="ca1c920f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:52:46.030991Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:52:46.030751Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:52:47.120912Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:52:47.120364Z&quot;}}" data-execution_count="1">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup: silence noisy warnings, import the libraries and choose the array backend.</span></span>
@@ -2354,10 +2474,10 @@ window.Quarto = {
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"geolattice.rsense"</span>, rs.__version__, <span class="st">"| backend:"</span>, rs.set_backend(<span class="st">"cpu"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>geolattice.rsense 0.2 (local stand-in) | backend: cpu</code></pre>
+<pre><code>geolattice.rsense 0.3.49 | backend: cpu</code></pre>
 </div>
 </div>
-<div id="a4e98fdd" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:40:40.279556Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:40:40.279108Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:40:52.049307Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:40:52.048397Z&quot;}}" data-execution_count="2">
+<div id="a4e98fdd" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:52:47.123382Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:52:47.123157Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:52:49.830726Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:52:49.830386Z&quot;}}" data-execution_count="2">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>, message<span class="op">=</span><span class="st">"IProgress not found"</span>)  <span class="co"># hide the tqdm progress-bar notice</span></span>
@@ -2368,7 +2488,7 @@ window.Quarto = {
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"| device:"</span>, <span class="st">"cuda"</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">"cpu"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>torch 2.15.0+cu132 | timm 1.0.30 | device: cpu</code></pre>
+<pre><code>torch 2.14.0+cu132 | timm 1.0.30 | device: cuda</code></pre>
 </div>
 </div>
 </section>
@@ -2382,7 +2502,7 @@ window.Quarto = {
 <li>the folded sedimentary <strong>ridges of Frenchman Mountain</strong> (east),</li>
 <li>the vegetated channel of the <strong>Las Vegas Wash</strong> (south), red in colour infrared.</li>
 </ul>
-<div id="943b96e8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:40:52.052604Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:40:52.051789Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:40:52.802499Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:40:52.793663Z&quot;}}" data-execution_count="3">
+<div id="943b96e8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:52:49.833613Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:52:49.833294Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:52:49.981945Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:52:49.981424Z&quot;}}" data-execution_count="3">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Read each band as a 2-D DataArray (drop the singleton "band" dimension).</span></span>
@@ -2408,7 +2528,7 @@ window.Quarto = {
 <pre><code>1679 x 1512 pixels at 30 m, CRS EPSG:32611</code></pre>
 </div>
 </div>
-<div id="be3db323" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:40:52.805006Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:40:52.804536Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:40:54.967787Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:40:54.958207Z&quot;}}" data-execution_count="4">
+<div id="be3db323" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:52:49.983904Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:52:49.983797Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:52:50.778773Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:52:50.778148Z&quot;}}" data-execution_count="4">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Where the study window lies, and how it looks in natural colour and colour infrared.</span></span>
@@ -2433,7 +2553,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="4275872f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:40:54.972289Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:40:54.971944Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:40:54.986271Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:40:54.985679Z&quot;}}" data-execution_count="5">
+<div id="4275872f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:52:50.788182Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:52:50.788021Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:52:50.793370Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:52:50.792565Z&quot;}}" data-execution_count="5">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># three 40 x 40 pixel sample boxes (rows, columns) in the study window</span></span>
@@ -2456,7 +2576,7 @@ window.Quarto = {
 <section id="inside-the-network-first-layer-filters" class="level2">
 <h2 class="anchored" data-anchor-id="inside-the-network-first-layer-filters">Inside the network: first-layer filters</h2>
 <p>The 64 kernels of ResNet-18’s first convolution (7 × 7 × 3) are shown as small RGB images. Most are oriented edge detectors and colour-opponent blobs, a learned counterpart of the Gabor bank in notebook 09_07_02.</p>
-<div id="997838a3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:40:55.019552Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:40:55.019305Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:40:59.123131Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:40:59.120661Z&quot;}}" data-execution_count="6">
+<div id="997838a3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:52:50.795232Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:52:50.795117Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:52:51.658877Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:52:51.658201Z&quot;}}" data-execution_count="6">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ResNet-18 with ImageNet weights (downloaded once by timm)</span></span>
@@ -2488,7 +2608,7 @@ window.Quarto = {
 <section id="feature-maps-of-the-resnet-18-stages" class="level2">
 <h2 class="anchored" data-anchor-id="feature-maps-of-the-resnet-18-stages">Feature maps of the ResNet-18 stages</h2>
 <p><code>tx.deep_texture_features(cir, layer=k)</code> returns a Dataset with one variable per channel (<code>deep_0</code>, <code>deep_1</code>, …). With 64 to 256 channels, looking at maps one by one is impractical, so we project each pixel’s feature vector onto its first three <strong>principal components</strong> and show them as an RGB image: pixels with similar colours have similar deep features.</p>
-<div id="e0a121d7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:40:59.125963Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:40:59.125732Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:41:26.457377Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:41:26.456777Z&quot;}}" data-execution_count="7">
+<div id="e0a121d7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:52:51.661241Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:52:51.661128Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:52:57.743607Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:52:57.743304Z&quot;}}" data-execution_count="7">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> to_matrix(ds):  <span class="co"># Dataset of feature maps -&gt; (pixels, channels) array</span></span>
@@ -2551,28 +2671,28 @@ window.Quarto = {
 <th data-quarto-table-cell-role="th">0</th>
 <td>0</td>
 <td>64</td>
-<td>2.1</td>
+<td>0.5</td>
 <td>44%</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
 <td>1</td>
 <td>64</td>
-<td>2.8</td>
+<td>0.5</td>
 <td>20%</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
 <td>2</td>
 <td>128</td>
-<td>3.9</td>
+<td>0.9</td>
 <td>21%</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">3</th>
 <td>3</td>
 <td>256</td>
-<td>7.4</td>
+<td>1.7</td>
 <td>31%</td>
 </tr>
 </tbody>
@@ -2591,7 +2711,7 @@ window.Quarto = {
 <section id="individual-channels-of-layer-1" class="level3">
 <h3 class="anchored" data-anchor-id="individual-channels-of-layer-1">Individual channels of layer 1</h3>
 <p>The eight layer-1 channels with the highest spatial variance.</p>
-<div id="2e5e1879" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:41:26.463823Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:41:26.463348Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:41:30.264149Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:41:30.262183Z&quot;}}" data-execution_count="8">
+<div id="2e5e1879" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:52:57.751045Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:52:57.750923Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:52:58.608248Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:52:58.607103Z&quot;}}" data-execution_count="8">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="op">=</span> deep[<span class="dv">1</span>]  <span class="co"># stage-1 features</span></span>
@@ -2627,7 +2747,7 @@ window.Quarto = {
 <section id="choosing-the-input-bands" class="level2">
 <h2 class="anchored" data-anchor-id="choosing-the-input-bands">Choosing the input bands</h2>
 <p>The network sees only three channels, so the band choice matters. We compare the colour-infrared composite, true colour, and the NIR band repeated three times (what the function does with a single band).</p>
-<div id="e8030fb5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:41:30.267043Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:41:30.266628Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:41:43.198742Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:41:43.198172Z&quot;}}" data-execution_count="9">
+<div id="e8030fb5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:52:58.612200Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:52:58.612079Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:53:01.723111Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:53:01.722680Z&quot;}}" data-execution_count="9">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> {<span class="st">"NIR-red-green (CIR)"</span>: cir,  <span class="co"># three ways to feed the 3-channel network</span></span>
@@ -2656,7 +2776,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="b75ac213" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:41:43.229545Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:41:43.229032Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:41:46.838539Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:41:46.838131Z&quot;}}" data-execution_count="10">
+<div id="b75ac213" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:53:01.740865Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:53:01.740716Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:53:02.350476Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:53:02.348767Z&quot;}}" data-execution_count="10">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Agreement between inputs: correlation of the first principal component of each feature set.</span></span>
@@ -2712,7 +2832,7 @@ window.Quarto = {
 <section id="pooled-tile-descriptors-search-and-clustering" class="level2">
 <h2 class="anchored" data-anchor-id="pooled-tile-descriptors-search-and-clustering">Pooled tile descriptors: search and clustering</h2>
 <p>With <code>reduce="mean"</code>, the function averages every channel over the whole input and returns one number per channel: a compact <strong>descriptor</strong> of the texture of an image tile. We cut the study window into 256 tiles of 32 × 32 pixels (960 m) and describe each with the 64 layer-1 means.</p>
-<div id="ccaacfd9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:41:46.845505Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:41:46.844745Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:43:31.933886Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:43:31.932087Z&quot;}}" data-execution_count="11">
+<div id="ccaacfd9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:53:02.352828Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:53:02.352703Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:53:43.068308Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:53:43.067602Z&quot;}}" data-execution_count="11">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="dv">32</span>  <span class="co"># tile size in pixels (960 m)</span></span>
@@ -2730,14 +2850,14 @@ window.Quarto = {
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(D)<span class="sc">}</span><span class="ss"> tiles x </span><span class="sc">{</span>D<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> features in </span><span class="sc">{</span>time<span class="sc">.</span>time() <span class="op">-</span> t0<span class="sc">:.0f}</span><span class="ss"> s"</span>)  <span class="co"># size and run time</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>256 tiles x 64 features in 105 s</code></pre>
+<pre><code>256 tiles x 64 features in 41 s</code></pre>
 </div>
 </div>
 <p>Running the backbone on 256 separate tiles takes about 100 seconds on a CPU, because the model is built for every call. For many tiles it is much faster to run <code>tx.deep_texture_features</code> once on the whole window and average the feature maps per tile, for example with <code>deep[1].coarsen(y=32, x=32).mean()</code>; the result differs slightly at tile edges, where a single pass sees the neighbouring tiles.</p>
 <section id="similarity-search" class="level3">
 <h3 class="anchored" data-anchor-id="similarity-search">Similarity search</h3>
 <p>Choose a query tile and rank all tiles by the <strong>cosine similarity</strong> of their standardized descriptors. This is content-based image retrieval: “find the places that look like this one”.</p>
-<div id="b341fb68" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:43:31.937567Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:43:31.936593Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:43:32.307259Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:43:32.305969Z&quot;}}" data-execution_count="12">
+<div id="b341fb68" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:53:43.070193Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:53:43.069961Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:53:43.340658Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:53:43.339867Z&quot;}}" data-execution_count="12">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler  <span class="co"># standardisation</span></span>
@@ -2771,7 +2891,7 @@ window.Quarto = {
 </div>
 </div>
 <p>The urban query tile is similar (0.25 to 0.6) to almost every other city tile and dissimilar to the mountain and fan. The ridge query finds other ridge tiles across Frenchman Mountain. The fan query gives weak, scattered similarities: the fan has little texture, so its descriptor is close to the average of all tiles.</p>
-<div id="3f87397f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:43:32.309116Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:43:32.308928Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:43:32.703902Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:43:32.703066Z&quot;}}" data-execution_count="13">
+<div id="3f87397f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:53:43.343662Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:53:43.343557Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:53:43.550755Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:53:43.549931Z&quot;}}" data-execution_count="13">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans  <span class="co"># k-means</span></span>
@@ -2803,7 +2923,7 @@ window.Quarto = {
 <section id="deep-features-and-hand-crafted-texture" class="level2">
 <h2 class="anchored" data-anchor-id="deep-features-and-hand-crafted-texture">Deep features and hand-crafted texture</h2>
 <p>How do the deep features relate to the classic measures of notebooks 09_07_01 to 09_07_04? We correlate the first five principal components of the layer-1 features with a few hand-crafted measures computed on NIR.</p>
-<div id="adbc8aaf" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:43:32.708521Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:43:32.708282Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:43:55.232327Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:43:55.230893Z&quot;}}" data-execution_count="14">
+<div id="adbc8aaf" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:53:43.553820Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:53:43.553720Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:53:57.158141Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:53:57.157306Z&quot;}}" data-execution_count="14">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.time()  <span class="co"># start the timer</span></span>
@@ -2839,7 +2959,7 @@ window.Quarto = {
 <span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()  <span class="co"># arrange and draw</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>hand-crafted features: 21.5 s</code></pre>
+<pre><code>hand-crafted features: 13.1 s</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -2890,7 +3010,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<div id="945ea8e4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:43:55.235861Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:43:55.235344Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:43:55.364041Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:43:55.363091Z&quot;}}" data-execution_count="15">
+<div id="945ea8e4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:53:57.160621Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:53:57.160355Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:53:57.280903Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:53:57.280273Z&quot;}}" data-execution_count="15">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># three 40 x 40 pixel sample boxes (rows, columns) in the study window</span></span>
@@ -2919,7 +3039,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="d36ff5bf" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:43:55.367655Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:43:55.367456Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:43:55.383322Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:43:55.382254Z&quot;}}" data-execution_count="16">
+<div id="d36ff5bf" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:53:57.283621Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:53:57.283507Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:53:57.295922Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:53:57.295007Z&quot;}}" data-execution_count="16">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans  <span class="co"># k-means clustering</span></span>
@@ -2978,7 +3098,7 @@ window.Quarto = {
 <span id="cb24-54"><a href="#cb24-54" aria-hidden="true" tabindex="-1"></a>spectral <span class="op">=</span> xr.Dataset({<span class="op">**</span>{b: sub[b] <span class="cf">for</span> b <span class="kw">in</span> BANDS}, <span class="st">"NDVI"</span>: ndvi})  <span class="co"># four bands plus NDVI</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="42fd459e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:43:55.385415Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:43:55.385158Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:43:55.494661Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:43:55.493341Z&quot;}}" data-execution_count="17">
+<div id="42fd459e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:53:57.297885Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:53:57.297781Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:53:57.365851Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:53:57.365568Z&quot;}}" data-execution_count="17">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The first 8 principal components of the layer-1 features as a compact deep-texture stack.</span></span>
@@ -3059,7 +3179,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="5d8d3c4d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:43:55.497485Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:43:55.497106Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:43:55.714194Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:43:55.712769Z&quot;}}" data-execution_count="18">
+<div id="5d8d3c4d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:53:57.369013Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:53:57.368886Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:53:57.496504Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:53:57.495794Z&quot;}}" data-execution_count="18">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>plot_signatures(sig, <span class="st">"Deep texture signatures (ResNet-18 layer 1, PC1-8)"</span>)  <span class="co"># bar chart of the box signatures</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3080,7 +3200,7 @@ window.Quarto = {
 <li><strong>Speckle</strong>: the share of pixels whose cluster differs from the majority of their 3 × 3 neighbourhood (lower = more spatially coherent).</li>
 <li><strong>Purity</strong>: the share of pixels in each sample box that fall in that box’s most common cluster (higher = the surface is mapped as one unit).</li>
 </ul>
-<div id="2b945b37" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:43:55.717068Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:43:55.716761Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:43:55.724278Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:43:55.722999Z&quot;}}" data-execution_count="19">
+<div id="2b945b37" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:53:57.497997Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:53:57.497894Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:53:57.501987Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:53:57.501565Z&quot;}}" data-execution_count="19">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compare_clusterings(texture_ds, label):  <span class="co"># clustering with and without the texture layers</span></span>
@@ -3102,7 +3222,7 @@ window.Quarto = {
 <span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>                         <span class="ss">f"spectral + </span><span class="sc">{</span>label<span class="sc">}</span><span class="ss">"</span>: box_purity(k_both)}).<span class="bu">map</span>(<span class="kw">lambda</span> v: <span class="ss">f"</span><span class="sc">{</span>v<span class="sc">:.0%}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="79c798a7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:43:55.726740Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:43:55.726487Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:43:58.679425Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:43:58.678160Z&quot;}}" data-execution_count="20">
+<div id="79c798a7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:53:57.503576Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:53:57.503493Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:54:00.285377Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:54:00.284985Z&quot;}}" data-execution_count="20">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>compare_clusterings(dl_feats, <span class="st">"deep texture"</span>)  <span class="co"># maps, speckle and box purity</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3153,7 +3273,7 @@ window.Quarto = {
 <section id="scale-matters-layer-2-instead-of-layer-1" class="level3">
 <h3 class="anchored" data-anchor-id="scale-matters-layer-2-instead-of-layer-1">Scale matters: layer 2 instead of layer 1</h3>
 <p>The same test with the first 8 principal components of <strong>layer 2</strong> (stride 8, receptive field about 3 km) instead of layer 1.</p>
-<div id="3ceb3150" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:43:58.682562Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:43:58.682344Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:44:01.951951Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:44:01.950549Z&quot;}}" data-execution_count="21">
+<div id="3ceb3150" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:54:00.286824Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:54:00.286734Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:54:03.646465Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:54:03.646030Z&quot;}}" data-execution_count="21">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>X2 <span class="op">=</span> to_matrix(deep[<span class="dv">2</span>])  <span class="co"># stage-2 features as pixels x channels</span></span>
@@ -3206,7 +3326,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Layer 2 (larger receptive field) gives slightly more coherent maps (speckle 9.5%) and the highest ridge purity of the two (79%), while the city stays split (47%). For pixel-level mapping, deep features need a supervised classifier that learns which components matter; for tile-level description they work well as they are (see <em>Pooled tile descriptors</em>).</p>
-<div id="1b7da5cf" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-29T14:44:01.955434Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-29T14:44:01.955100Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-29T14:44:02.001588Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-29T14:44:02.001044Z&quot;}}" data-execution_count="22">
+<div id="1b7da5cf" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T19:54:03.650029Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T19:54:03.649917Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T19:54:03.668655Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T19:54:03.668265Z&quot;}}" data-execution_count="22">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>OUT <span class="op">=</span> Path(<span class="st">"outputs"</span>) <span class="op">/</span> <span class="st">"texture"</span>  <span class="co"># output folder for texture rasters</span></span>

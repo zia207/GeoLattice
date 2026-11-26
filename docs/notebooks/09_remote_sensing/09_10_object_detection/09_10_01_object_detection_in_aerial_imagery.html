@@ -111,6 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<style>.navbar .dropdown-menu { max-height: 80vh; overflow-y: auto; }</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -327,10 +328,10 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-foundations--optical" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Foundations &amp; Optical</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorial" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorial</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-foundations--optical">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorial">    
         <li class="dropdown-header">Foundations</li>
         <li>
     <a class="dropdown-item" href="../09_01_foundations/09_01_00_remote_sensing_fundamentals.html">
@@ -382,13 +383,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_02_optical/09_02_07_sentinel_5p_and_sentinel_5_mapping_air_pollution_from_orbit.html">
  <span class="dropdown-text">Sentinel-5P and Sentinel-5</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-radar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Radar</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-radar">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Radar (SAR and InSAR)</li>
         <li>
     <a class="dropdown-item" href="../09_03_radar/09_03_00_sar_fundamentals.html">
@@ -486,13 +481,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_03_radar/09_03_03_05_nisar_gunw_geocoded_unwrapped_interferogram.html">
  <span class="dropdown-text">NISAR GUNW</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-uav-hyperspectral--lidar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">UAV, Hyperspectral &amp; LiDAR</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-uav-hyperspectral--lidar">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">UAV</li>
         <li>
     <a class="dropdown-item" href="../09_04_uav/09_04_01_uav_fundamentals_and_mission_planning.html">
@@ -618,13 +607,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_06_lidar/09_06_08_large_area_lidar_processing_tiling_streaming_parallel_work_and_the_gpu.html">
  <span class="dropdown-text">Large-Area LiDAR Processing</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-image-analysis--ai" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Image Analysis &amp; AI</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-image-analysis--ai">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Texture Analysis</li>
         <li>
     <a class="dropdown-item" href="../09_07_texture_analysis/09_07_00_texture_analysis.html">
@@ -810,13 +793,7 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_11_foundations_models/09_11_13_benchmarking_foundation_models_on_your_own_data.html">
  <span class="dropdown-text">Benchmarking Foundation Models</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-energy-balance--capstones" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Energy Balance &amp; Capstones</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-energy-balance--capstones">    
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Surface Energy Balance</li>
         <li>
     <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_00_evapotranspiration_and_the_surface_energy_balance.html">
@@ -866,75 +843,129 @@ window.Quarto = {
     <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_11_how_good_is_the_et_map_validation_sensitivity_and_uncertainty.html">
  <span class="dropdown-text">Validation and Uncertainty</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Soil Moisture</li>
         <li>
-    <a class="dropdown-item" href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html">
- <span class="dropdown-text">Capstone: Boro Rice Water Use</span></a>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_00_soil_moisture_concepts_and_why_it_matters.html">
+ <span class="dropdown-text">Soil Moisture Concepts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_01_microwave_remote_sensing_of_soil_moisture.html">
+ <span class="dropdown-text">Microwave Remote Sensing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_02_the_mission_and_product_landscape.html">
+ <span class="dropdown-text">Missions and Products</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_03_python_environment_and_data_access.html">
+ <span class="dropdown-text">Environment and Data Access</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_04_smap_l3_enhanced_daily_cube_and_climatology.html">
+ <span class="dropdown-text">SMAP L3 Enhanced Daily Cube</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_08_ascat_and_the_tu_wien_change_detection_approach.html">
+ <span class="dropdown-text">ASCAT and TU Wien Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_09_esa_cci_long_term_trends_and_anomalies.html">
+ <span class="dropdown-text">ESA CCI Trends and Anomalies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_10_esa_cci_vs_era5_land.html">
+ <span class="dropdown-text">ESA CCI vs ERA5-Land</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_11_sentinel_1_preprocessing_for_soil_moisture.html">
+ <span class="dropdown-text">Sentinel-1 Preprocessing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_12_change_detection_soil_moisture_from_sentinel_1.html">
+ <span class="dropdown-text">Sentinel-1 Change Detection</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_13_water_cloud_model_and_surface_scattering_inversion.html">
+ <span class="dropdown-text">Water Cloud Model Inversion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_14_operational_high_resolution_products.html">
+ <span class="dropdown-text">Operational 1 km Products</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_13_soil_moisture/09_13_15_downscale_soil_moisture.html">
+ <span class="dropdown-text">Downscaling: Six Methods Compared</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Capstone Projects</li>
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_01_thirty_five_years_of_change_around_pucallpa_peru.html">
  <span class="dropdown-text">Change around Pucallpa, Peru</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_02_fifty_years_of_change_in_the_bangladesh_delta.html">
  <span class="dropdown-text">Fifty Years in the Bangladesh Delta</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_03_wild_fire_burned_area_mapping.html">
  <span class="dropdown-text">Wildfire Burned Area</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html">
  <span class="dropdown-text">Rohingya Deforestation: Sentinel-2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html">
  <span class="dropdown-text">Flood Mapping in Sylhet</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html">
  <span class="dropdown-text">Rohingya Deforestation: Sentinel-1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html">
  <span class="dropdown-text">Ship Detection, Strait of Hormuz</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html">
  <span class="dropdown-text">Crops from NISAR GCOV</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html">
  <span class="dropdown-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html">
  <span class="dropdown-text">Charland Monitoring, Lower Meghna</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html">
  <span class="dropdown-text">Shrimp Ghers in Coastal Bangladesh</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html">
  <span class="dropdown-text">Big Sur Wildfire, 2026</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html">
  <span class="dropdown-text">Wetland Paddy in Bangladesh</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html">
  <span class="dropdown-text">Field Edges across Four Countries</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html">
  <span class="dropdown-text">Tree Biomass and Carbon from LiDAR</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html">
  <span class="dropdown-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../09_14_Capstones/09_14_17_capstone_water_use_of_boro_rice_in_bangladesh.html">
+ <span class="dropdown-text">Boro Rice Water Use, Bangladesh</span></a>
   </li>  
     </ul>
   </li>
@@ -1866,18 +1897,12 @@ window.Quarto = {
  <span class="menu-text">Validation and Uncertainty</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../09_12_surface_energy_balance_modeling/09_12_12_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Capstone: Boro Rice Water Use</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
- <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+ <span class="menu-text"><strong>Soil Moisture</strong></span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1885,98 +1910,193 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_13_soil_moisture/09_13_00_soil_moisture_concepts_and_why_it_matters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Soil Moisture Concepts</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_01_microwave_remote_sensing_of_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Microwave Remote Sensing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_02_the_mission_and_product_landscape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Missions and Products</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_03_python_environment_and_data_access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Environment and Data Access</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_04_smap_l3_enhanced_daily_cube_and_climatology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SMAP L3 Enhanced Daily Cube</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_08_ascat_and_the_tu_wien_change_detection_approach.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ASCAT and TU Wien Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_09_esa_cci_long_term_trends_and_anomalies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESA CCI Trends and Anomalies</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_10_esa_cci_vs_era5_land.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESA CCI vs ERA5-Land</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_11_sentinel_1_preprocessing_for_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Preprocessing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_12_change_detection_soil_moisture_from_sentinel_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sentinel-1 Change Detection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_13_water_cloud_model_and_surface_scattering_inversion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Water Cloud Model Inversion</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_14_operational_high_resolution_products.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Operational 1 km Products</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_13_soil_moisture/09_13_15_downscale_soil_moisture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Downscaling: Six Methods Compared</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+ <span class="menu-text"><strong>Capstone Projects</strong></span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_14_Capstones/09_14_01_thirty_five_years_of_change_around_pucallpa_peru.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Change around Pucallpa, Peru</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_02_fifty_years_of_change_in_the_bangladesh_delta.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Fifty Years in the Bangladesh Delta</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_03_wild_fire_burned_area_mapping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Wildfire Burned Area</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_04_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rohingya Deforestation: Sentinel-2</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_05_flood_mapping_with_sentinel_1_data_sylhet_bangladesh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Flood Mapping in Sylhet</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_06_timeline_of_the_rohingya_exodus_deforestation_in_bangladesh_2016_2018_sentinel_1_radar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rohingya Deforestation: Sentinel-1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_07_ship_detection_in_the_strait_of_hormuz_with_sentinel_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ship Detection, Strait of Hormuz</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_08_crop_classification_with_nisar_gcov_time_series_and_self_supervised_learning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Crops from NISAR GCOV</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_09_sea_ice_mapping_for_shipping_routes_in_the_st_lawrence_estuary_with_radarsat_constellation_mission_rcm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sea Ice in the St.&nbsp;Lawrence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_10_charland_monitoring_with_sentinel_1_sar_and_nisar_l_band_lower_meghna_estuary_of_bangladesh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Charland Monitoring, Lower Meghna</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_11_mapping_shrimp_ghers_in_coastal_bangladesh_with_a_2025_2026_sentinel_1_time_series_and_sentinel_2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shrimp Ghers in Coastal Bangladesh</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_12_mapping_the_2026_big_sur_wildfire_with_time_series_sentinel_1_sar_and_sentinel_2_optical_images.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Big Sur Wildfire, 2026</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_13_mapping_wetland_paddy_in_bangladesh_with_a_2025_to_2026_sentinel_1_time_series.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Wetland Paddy in Bangladesh</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_14_field_edge_detection_across_four_countries_training_in_mexico_mali_cambodia_and_bangladesh_testing_on_an_unseen_bangladesh_site.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Field Edges across Four Countries</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_15_tree_inventory_biomass_and_carbon_from_airborne_lidar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tree Biomass and Carbon from LiDAR</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../09_13_Capstones/09_13_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
+  <a href="../09_14_Capstones/09_14_16_uav_based_high_throughput_phenotyping_of_maize_nitrogen_response.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">UAV Phenotyping of Maize Nitrogen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09_14_Capstones/09_14_17_capstone_water_use_of_boro_rice_in_bangladesh.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boro Rice Water Use, Bangladesh</span></a>
   </div>
 </li>
       </ul>
@@ -2095,7 +2215,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="environment-and-dataset">Environment and Dataset</h2>
 <p>The supplied tiles are RGB aerial photographs (usually 1920 x 939 pixels). We resolve the dataset folder from either the repository root or this notebook’s folder. GPU availability is reported for later neural-detector experiments; the OpenCV baseline itself runs on CPU.</p>
 <p><strong>Installation.</strong> This notebook needs installation option 6 (every GeoLattice module): <code>pip install "geolattice[all]"</code>. See “Installation options” in the GeoLattice README. It also uses <code>pyyaml</code>, which no GeoLattice option installs: <code>pip install pyyaml</code>.</p>
-<div id="7524efc9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:22.518739Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:22.518497Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:24.136457Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:24.135640Z&quot;}}" data-execution_count="1">
+<div id="7524efc9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:23.876143Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:23.875853Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:25.537799Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:25.537331Z&quot;}}" data-execution_count="1">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -2129,12 +2249,12 @@ window.Quarto = {
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"OpenCV </span><span class="sc">{</span>cv2<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss"> | PyTorch </span><span class="sc">{</span>torch<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Dataset: /home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_09_image_classification/data/cv2-pool-detection-master
+<pre><code>Dataset: /home/zia207/Github/GeoLattice/Data/08_remote_sensing/08_10_object_detection/cv2-pool-detection-master
 JPEG tiles: 29 | detector-training device if needed: cuda
 OpenCV 5.0.0 | PyTorch 2.14.0+cu132</code></pre>
 </div>
 </div>
-<div id="2722f4aa" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:24.138322Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:24.138133Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:24.968750Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:24.967959Z&quot;}}" data-execution_count="2">
+<div id="2722f4aa" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:25.539673Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:25.539493Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:26.396472Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:26.395602Z&quot;}}" data-execution_count="2">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> read_rgb(path):</span>
@@ -2185,7 +2305,7 @@ M\circ B=(M\ominus B)\oplus B,\qquad
 M\bullet B=(M\oplus B)\ominus B,
 \]</span></p>
 <p>where <span class="math inline">\(\ominus\)</span> and <span class="math inline">\(\oplus\)</span> denote erosion and dilation by structuring element <span class="math inline">\(B\)</span>. Connected external contours then provide candidate regions. A contour’s axis-aligned box is <span class="math inline">\((x_0,y_0,x_1,y_1)\)</span>, and the contour fill ratio <span class="math inline">\(A_c/A_b\)</span> can serve as a rough ranking score, not a calibrated probability.</p>
-<div id="16bbe488" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:24.977232Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:24.977123Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:24.989177Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:24.988433Z&quot;}}" data-execution_count="3">
+<div id="16bbe488" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:26.403038Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:26.402926Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:26.421030Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:26.419983Z&quot;}}" data-execution_count="3">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># OpenCV HSV ranges use H in [0, 179], S/V in [0, 255].</span></span>
@@ -2229,7 +2349,7 @@ M\bullet B=(M\oplus B)\ominus B,
 <pre><code>20190108_WGS84_S_Mercator_144_98370_-37_90270_144_98628_-37_90171_20.jpg: 9 heuristic proposals</code></pre>
 </div>
 </div>
-<div id="2cd58254" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:24.990700Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:24.990609Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:25.771719Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:25.771099Z&quot;}}" data-execution_count="4">
+<div id="2cd58254" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:26.423559Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:26.423409Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:27.197088Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:27.196514Z&quot;}}" data-execution_count="4">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> show_detections(rgb, boxes, scores<span class="op">=</span><span class="va">None</span>, <span class="op">*</span>, title<span class="op">=</span><span class="st">"Heuristic pool proposals"</span>):</span>
@@ -2275,7 +2395,7 @@ M\bullet B=(M\oplus B)\ominus B,
 <section id="parameter-sensitivity-thresholds-are-not-universal" class="level3">
 <h3 class="anchored" data-anchor-id="parameter-sensitivity-thresholds-are-not-universal">Parameter sensitivity: thresholds are not universal</h3>
 <p>Raising the minimum contour or box area suppresses speckle but can miss small pools; lowering it increases false positives. A hue/saturation/value threshold that works on one image may fail under haze, shadows, roofs, or a different sensor. The small table below is a <strong>proposal-count sensitivity check only</strong>. Since independent box labels are absent, it does not identify which setting is most accurate.</p>
-<div id="79e8db63" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:25.779514Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:25.779394Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:25.803438Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:25.802840Z&quot;}}" data-execution_count="5">
+<div id="79e8db63" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:27.204920Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:27.204803Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:27.227139Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:27.226360Z&quot;}}" data-execution_count="5">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>parameter_rows <span class="op">=</span> []</span>
@@ -2340,7 +2460,7 @@ M\bullet B=(M\oplus B)\ominus B,
 \operatorname{IoU}(A,B)=\frac{|A\cap B|}{|A\cup B|}.
 \]</span></p>
 <p>Greedy NMS sorts boxes by score, keeps the highest-scoring box, and removes lower-scoring boxes whose IoU exceeds threshold <span class="math inline">\(\tau\)</span>. The threshold trades duplicate suppression against accidentally merging adjacent pools.</p>
-<div id="1370af40" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:25.805158Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:25.805034Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:26.847383Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:26.846629Z&quot;}}" data-execution_count="6">
+<div id="1370af40" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:27.228588Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:27.228479Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:28.266969Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:28.266237Z&quot;}}" data-execution_count="6">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geolattice.rsense.classify <span class="im">import</span> image_classification <span class="im">as</span> ic</span>
@@ -2381,7 +2501,7 @@ M\bullet B=(M\oplus B)\ominus B,
 </div>
 </div>
 </div>
-<div id="e0f660fe" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:26.855178Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:26.854923Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:26.858667Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:26.858041Z&quot;}}" data-execution_count="7">
+<div id="e0f660fe" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:28.274513Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:28.274218Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:28.278837Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:28.277980Z&quot;}}" data-execution_count="7">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify the geometry and NMS helpers on a tiny controlled example.</span></span>
@@ -2400,7 +2520,7 @@ Kept indices: [0, 2]</code></pre>
 <h2 class="anchored" data-anchor-id="batch-results-and-cautious-filename-derived-coordinates">Batch results and cautious filename-derived coordinates</h2>
 <p>We run the same baseline on every JPEG and summarize proposal counts. Names in this sample appear to encode lower-left and upper-right longitude/latitude pairs. The parser below decodes that naming convention and maps pixel boxes to approximate WGS84 polygons by linear interpolation. This is useful for illustration, <strong>not a substitute for checking the imagery’s authoritative CRS, image orientation, and georeferencing metadata</strong>.</p>
 <p>If adjacent images overlap, the same pool may be detected twice. Geographic polygon NMS can merge such duplicate footprints. Counts summed before that step are therefore not necessarily counts of unique real-world pools.</p>
-<div id="4fcc2752" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:26.860040Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:26.859943Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:26.864594Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:26.863980Z&quot;}}" data-execution_count="8">
+<div id="4fcc2752" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:28.280566Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:28.280468Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:28.284842Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:28.284351Z&quot;}}" data-execution_count="8">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_encoded_coordinate(degrees, fraction):</span>
@@ -2430,7 +2550,7 @@ Kept indices: [0, 2]</code></pre>
 20190108_WGS84_S_Mercator_144_98370_-37_90270_144_98628_-37_90171_20.jpg -&gt; (144.9837, -37.9027, 144.98628, -37.90171)</code></pre>
 </div>
 </div>
-<div id="9f5294a4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:26.865996Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:26.865899Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:27.283889Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:27.283075Z&quot;}}" data-execution_count="9">
+<div id="9f5294a4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:28.286986Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:28.286903Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:28.703255Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:28.702609Z&quot;}}" data-execution_count="9">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>all_detections <span class="op">=</span> []</span>
@@ -2577,7 +2697,7 @@ Kept indices: [0, 2]</code></pre>
 Raw HSV proposals across images: 192</code></pre>
 </div>
 </div>
-<div id="beb64400" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:27.285636Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:27.285544Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:27.318267Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:27.317851Z&quot;}}" data-execution_count="10">
+<div id="beb64400" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:28.704758Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:28.704662Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:28.736949Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:28.736355Z&quot;}}" data-execution_count="10">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
@@ -2790,7 +2910,7 @@ w=s\,e^{t_w},\quad h=s\,e^{t_h}.
 \texttt{labels}_i\in\{1,\ldots,C-1\}^{N_i}.
 \]</span></p>
 <p>GeoLattice’s <code>train_detection</code> expects a list of image tensors and a list of target dictionaries. The loader needs a custom <code>collate_fn</code> because each image has a different number <span class="math inline">\(N_i\)</span> of boxes. This code shows the target and collate shapes; it deliberately does not fabricate labels or start training.</p>
-<div id="ba060ac8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:27.319778Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:27.319682Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:27.322891Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:27.322483Z&quot;}}" data-execution_count="11">
+<div id="ba060ac8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:28.739222Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:28.739120Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:28.742347Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:28.741900Z&quot;}}" data-execution_count="11">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> detection_collate(batch):</span>
@@ -2817,7 +2937,7 @@ w=s\,e^{t_w},\quad h=s\,e^{t_h}.
 <p>GeoLattice already provides object-detection functions in <code>geolattice.rsense.classify.image_classification</code>; a separate <code>object_detection.py</code> module is not needed. This notebook uses <code>detection_tiles</code>, <code>nms</code>, and <code>merge_detections</code> in the runnable HSV baseline. For a trained neural detector, the same module provides <code>build_object_detector</code> and georeferenced tiled inference through <code>detect_objects</code>; it also includes <code>box_iou</code>, <code>mean_average_precision</code>, and <code>count_objects</code>.</p>
 <p>The HSV proposals below are <strong>not</strong> predictions from a GeoLattice neural detector. The pool tiles have no verified boxes, so fitting a pool-specific detector is not possible yet. Once independently labeled examples exist, train a torchvision detector and pass the trained model plus a georeferenced <code>xarray</code> raster to GeoLattice <code>detect_objects</code>. That function handles overlapping windows, global class-wise NMS, and conversion of predicted boxes to map-coordinate polygons.</p>
 <p>The code cell smoke-tests the GeoLattice metric API on one deliberately perfect synthetic box. Its score verifies interface behavior only; it is <strong>not</strong> a score on the pool images.</p>
-<div id="70104bd2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:27.324190Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:27.324115Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:27.328729Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:27.328431Z&quot;}}" data-execution_count="12">
+<div id="70104bd2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:28.743726Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:28.743636Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:28.748661Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:28.748270Z&quot;}}" data-execution_count="12">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm the installed GeoLattice detector API without downloading pretrained weights.</span></span>
@@ -2889,7 +3009,7 @@ Synthetic one-box mAP@0.50 smoke test: 1.0 (not a dataset result)</code></pre>
 <p>For an image of width <span class="math inline">\(W\)</span> and height <span class="math inline">\(H\)</span>, YOLO stores each box as normalized center and size <span class="math inline">\((c_x,c_y,w,h)\in[0,1]^4\)</span>. Convert to pixel corners by</p>
 <p><span class="math display">\[x_0=W(c_x-w/2),\quad y_0=H(c_y-h/2),\quad x_1=W(c_x+w/2),\quad y_1=H(c_y+h/2).\]</span></p>
 <p>The detector jointly predicts class/objectness and box offsets; during evaluation a predicted box is a true positive only when it matches an unmatched reference tree with sufficient IoU. The precision-recall curve yields AP, and AP@0.50 is reported for the single class.</p>
-<div id="17d37c6e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:27.330244Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:27.330158Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:27.352572Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:27.352120Z&quot;}}" data-execution_count="13">
+<div id="17d37c6e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:28.749965Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:28.749880Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:28.772726Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:28.772159Z&quot;}}" data-execution_count="13">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -2986,7 +3106,7 @@ Synthetic one-box mAP@0.50 smoke test: 1.0 (not a dataset result)</code></pre>
 <section id="inspect-the-ground-truth-boxes" class="level3">
 <h3 class="anchored" data-anchor-id="inspect-the-ground-truth-boxes">Inspect the ground-truth boxes</h3>
 <p>The display below converts normalized YOLO coordinates back to pixel corners. Reviewing the annotations before training helps catch class/coordinate mistakes and reveals how dense the tree crowns are within each chip.</p>
-<div id="e394771a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:27.354357Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:27.354269Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:27.576209Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:27.575421Z&quot;}}" data-execution_count="14">
+<div id="e394771a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:28.774381Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:28.774282Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:28.986380Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:28.985853Z&quot;}}" data-execution_count="14">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>tree_sample_path <span class="op">=</span> <span class="bu">sorted</span>((TREE_SPLITS[<span class="st">"train"</span>] <span class="op">/</span> <span class="st">"images"</span>).glob(<span class="st">"*"</span>))[<span class="dv">0</span>]</span>
@@ -3018,7 +3138,7 @@ Synthetic one-box mAP@0.50 smoke test: 1.0 (not a dataset result)</code></pre>
 <section id="train-with-the-geolattice-yolo-wrapper-and-test-on-held-out-images" class="level3">
 <h3 class="anchored" data-anchor-id="train-with-the-geolattice-yolo-wrapper-and-test-on-held-out-images">Train with the GeoLattice YOLO wrapper and test on held-out images</h3>
 <p><code>ic.build_object_detector</code> returns the Ultralytics model for <code>arch="yolo"</code>; training is delegated to its supported <code>.train</code> method. The dataset YAML is written to a temporary file with explicit absolute paths, avoiding assumptions about how Ultralytics resolves the supplied Roboflow YAML’s relative paths. Training uses the provided train/validation splits; the test split is reserved for the final evaluation cell below. Set <code>TREE_TRAIN_EPOCHS</code> higher for a more complete run. The default is kept modest for a tutorial notebook.</p>
-<div id="2710ba31" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:27.579232Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:27.579130Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:46.559442Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:46.558863Z&quot;}}" data-execution_count="15">
+<div id="2710ba31" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:28.990006Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:28.989903Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:46.957969Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:46.957472Z&quot;}}" data-execution_count="15">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tempfile</span>
@@ -3076,11 +3196,22 @@ Synthetic one-box mAP@0.50 smoke test: 1.0 (not a dataset result)</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>New https://pypi.org/project/ultralytics/8.4.198 available 😃 Update with 'pip install -U ultralytics'
+<pre>Downloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8n.pt to 'yolov8n.pt': 9% ━─────────── 576.0KB/6.2MB 5.6MB/s 0.1s&lt;1.0s
+
+Downloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8n.pt to 'yolov8n.pt': 30% ━━━╸──────── 1.9/6.2MB 11.4MB/s 0.2s&lt;0.4s
+
+Downloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8n.pt to 'yolov8n.pt': 53% ━━━━━━────── 3.3/6.2MB 14.0MB/s 0.3s&lt;0.2s
+
+Downloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8n.pt to 'yolov8n.pt': 74% ━━━━━━━━╸─── 4.7/6.2MB 13.0MB/s 0.4s&lt;0.1s
+
+Downloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8n.pt to 'yolov8n.pt': 100% ━━━━━━━━━━━━ 6.2MB 12.4MB/s 0.5s
+
+
+New https://pypi.org/project/ultralytics/8.4.218 available 😃 Update with 'pip install -U ultralytics'
 
 Ultralytics 8.4.174 🚀 Python-3.11.16 torch-2.14.0+cu132 CUDA:0 (NVIDIA RTX A5500 Laptop GPU, 15984MiB)
 
-<span class="ansi-blue-fg ansi-bold">engine/trainer: </span>agnostic_nms=False, amp=True, angle=1.0, augment=False, auto_augment=randaugment, batch=8, bgr=0.0, box=7.5, cache=False, cfg=None, channels_last=None, classes=None, close_mosaic=10, cls=0.5, cls_pw=0.0, cls_remap=True, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=/tmp/geolattice-tree-data-86vitpe6/tree_data.yaml, degrees=0.0, deterministic=True, device=0, dfl=1.5, dgrad=0.5, dis=6.0, distill_model=None, dlam=1.0, dlog=1.0, dnn=False, dropout=0.0, dynamic=False, embed=None, epochs=10, erasing=0.4, exist_ok=True, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=640, iou=0.7, kobj=1.0, line_width=None, lr0=0.01, lrf=0.01, mask_ratio=4, max_det=1000, mixup=0.0, mode=train, model=yolov8n.pt, momentum=0.937, mosaic=1.0, multi_scale=0.0, name=yolov8n_tree, nbs=64, nms=None, opset=None, optimize=False, optimizer=auto, overlap_mask=True, patience=5, perspective=0.0, plots=False, pose=12.0, pretrained=True, profile=False, project=/home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_09_image_classification/runs/object_detection, quantize=None, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=/home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_09_image_classification/runs/object_detection/yolov8n_tree, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.5, seed=0, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=detect, time=None, tracker=tracktrack.yaml, translate=0.1, val=True, verbose=False, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=3.0, warmup_momentum=0.8, weight_decay=0.0005, workers=0, workspace=None
+<span class="ansi-blue-fg ansi-bold">engine/trainer: </span>agnostic_nms=False, amp=True, angle=1.0, augment=False, auto_augment=randaugment, batch=8, bgr=0.0, box=7.5, cache=False, cfg=None, channels_last=None, classes=None, close_mosaic=10, cls=0.5, cls_pw=0.0, cls_remap=True, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=/tmp/geolattice-tree-data-h3cv0kof/tree_data.yaml, degrees=0.0, deterministic=True, device=0, dfl=1.5, dgrad=0.5, dis=6.0, distill_model=None, dlam=1.0, dlog=1.0, dnn=False, dropout=0.0, dynamic=False, embed=None, epochs=10, erasing=0.4, exist_ok=True, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=640, iou=0.7, kobj=1.0, line_width=None, lr0=0.01, lrf=0.01, mask_ratio=4, max_det=1000, mixup=0.0, mode=train, model=yolov8n.pt, momentum=0.937, mosaic=1.0, multi_scale=0.0, name=yolov8n_tree, nbs=64, nms=None, opset=None, optimize=False, optimizer=auto, overlap_mask=True, patience=5, perspective=0.0, plots=False, pose=12.0, pretrained=True, profile=False, project=/home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_10_object_detection/runs/object_detection, quantize=None, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=/home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_10_object_detection/runs/object_detection/yolov8n_tree, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.5, seed=0, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=detect, time=None, tracker=tracktrack.yaml, translate=0.1, val=True, verbose=False, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=3.0, warmup_momentum=0.8, weight_decay=0.0005, workers=0, workspace=None
 
 Overriding model.yaml nc=80 with nc=1
 
@@ -3146,13 +3277,23 @@ Freezing layer 'model.22.dfl.conv.weight'
 
 <span class="ansi-blue-fg ansi-bold">AMP: </span>checks passed ✅
 
-<span class="ansi-blue-fg ansi-bold">train: </span>Fast image access ✅ (ping: 0.0±0.0 ms, read: 2683.4±1405.0 MB/s, size: 81.0 KB)
+<span class="ansi-blue-fg ansi-bold">train: </span>Fast image access ✅ (ping: 0.0±0.0 ms, read: 172.1±113.0 MB/s, size: 81.0 KB)
 
-<span class="ansi-blue-fg ansi-bold">train: </span>Scanning /home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_09_image_classification/data/Tree_Detection/train/labels.cache... 64 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 64/64 24.4Mit/s 0.0s
 
-<span class="ansi-blue-fg ansi-bold">val: </span>Fast image access ✅ (ping: 0.0±0.0 ms, read: 2881.6±1392.9 MB/s, size: 77.2 KB)
+<span class="ansi-blue-fg ansi-bold">train: </span>Scanning /home/zia207/Github/GeoLattice/Data/08_remote_sensing/08_10_object_detection/Tree_Detection/train/labels... 64 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 64/64 1.0Kit/s 0.1s
 
-<span class="ansi-blue-fg ansi-bold">val: </span>Scanning /home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_09_image_classification/data/Tree_Detection/valid/labels.cache... 18 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 18/18 10.8Mit/s 0.0s
+
+<span class="ansi-blue-fg ansi-bold">train: </span>New cache created: /home/zia207/Github/GeoLattice/Data/08_remote_sensing/08_10_object_detection/Tree_Detection/train/labels.cache
+
+<span class="ansi-blue-fg ansi-bold">albumentations: </span>Blur(p=0.01, blur_limit=(3, 7)), MedianBlur(p=0.01, blur_limit=(3, 7)), ToGray(p=0.01, method='weighted_average', num_output_channels=3), CLAHE(p=0.01, clip_limit=(1.0, 4.0), tile_grid_size=(8, 8))
+
+<span class="ansi-blue-fg ansi-bold">val: </span>Fast image access ✅ (ping: 0.0±0.0 ms, read: 322.0±38.1 MB/s, size: 77.2 KB)
+
+
+<span class="ansi-blue-fg ansi-bold">val: </span>Scanning /home/zia207/Github/GeoLattice/Data/08_remote_sensing/08_10_object_detection/Tree_Detection/valid/labels... 18 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 18/18 1.5Kit/s 0.0s
+
+
+<span class="ansi-blue-fg ansi-bold">val: </span>New cache created: /home/zia207/Github/GeoLattice/Data/08_remote_sensing/08_10_object_detection/Tree_Detection/valid/labels.cache
 
 <span class="ansi-blue-fg ansi-bold">optimizer:</span> 'optimizer=auto' found, ignoring 'lr0=0.01' and determining best 'optimizer' and 'lr0' automatically... 
 
@@ -3162,162 +3303,314 @@ Using 64 train, 18 val images for fraction=1.0 at imgsz=640
 
 Using 0 dataloader workers
 
-Logging results to <span class="ansi-bold">/home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_09_image_classification/runs/object_detection/yolov8n_tree</span>
+Logging results to <span class="ansi-bold">/home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_10_object_detection/runs/object_detection/yolov8n_tree</span>
 
 Starting training for 10 epochs...
 
 Closing dataloader mosaic
 
-
-
-      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
-
-       1/10      1.35G      3.039      3.554      2.208        396        640: 100% ━━━━━━━━━━━━ 8/8 8.2it/s 1.0s0.3s
-
-                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 13.7it/s 0.1s.4s
-
-                   all         18       1524     0.0219      0.189    0.00671    0.00167
+<span class="ansi-blue-fg ansi-bold">albumentations: </span>Blur(p=0.01, blur_limit=(3, 7)), MedianBlur(p=0.01, blur_limit=(3, 7)), ToGray(p=0.01, method='weighted_average', num_output_channels=3), CLAHE(p=0.01, clip_limit=(1.0, 4.0), tile_grid_size=(8, 8))
 
 
 
       Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
 
-       2/10      1.58G      2.437      3.218      1.802        419        640: 12% ━─────────── 1/8 2.3it/s 0.1s&lt;3.1s</pre>
+
+       1/10      1.12G      3.163      3.537      2.355        577        640: 0% ──────────── 0/8  0.4s
+
+       1/10       1.3G      3.234      3.583      2.304        572        640: 25% ━━━───────── 2/8 3.2it/s 0.6s&lt;1.9s
+
+       1/10      1.31G      3.172      3.582      2.273        441        640: 50% ━━━━━━────── 4/8 5.5it/s 0.8s&lt;0.7s
+
+       1/10      1.31G      3.179      3.586      2.266        570        640: 62% ━━━━━━━───── 5/8 5.5it/s 1.0s&lt;0.5s
+
+       1/10      1.32G      3.135      3.583       2.27        369        640: 87% ━━━━━━━━━━── 7/8 7.2it/s 1.2s&lt;0.1s
+
+       1/10      1.32G      3.135      3.583       2.27        369        640: 100% ━━━━━━━━━━━━ 8/8 6.9it/s 1.2s
+
+
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 50% ━━━━━━────── 1/2 2.1it/s 0.1s&lt;0.5s
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 10.5it/s 0.2s
+
+
+                   all         18       1524     0.0253      0.259    0.00732    0.00157
+
+
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+       2/10      1.47G       2.77       3.44      1.984        388        640: 12% ━─────────── 1/8 2.2it/s 0.1s&lt;3.2s</pre>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>       2/10      1.58G      2.461      3.163      1.791        763        640: 100% ━━━━━━━━━━━━ 8/8 15.0it/s 0.5s0.1s
+<pre>       2/10      1.47G      2.633      3.386      1.903        462        640: 37% ━━━━──────── 3/8 5.5it/s 0.3s&lt;0.9s
 
-                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 15.7it/s 0.1s.4s
+       2/10      1.47G      2.587      3.283      1.854        605        640: 62% ━━━━━━━───── 5/8 7.8it/s 0.4s&lt;0.4s
 
-                   all         18       1524     0.0413      0.384     0.0345     0.0116
+       2/10      1.47G      2.541      3.156      1.795        667        640: 87% ━━━━━━━━━━── 7/8 9.3it/s 0.6s&lt;0.1s
 
-
-
-      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
-
-       3/10      1.58G      2.631      2.648      1.882        566        640: 100% ━━━━━━━━━━━━ 8/8 15.7it/s 0.5s0.1s
-
-                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 12.2it/s 0.2s.5s
-
-                   all         18       1524     0.0461      0.545     0.0497     0.0151
+       2/10      1.47G      2.541      3.156      1.795        667        640: 100% ━━━━━━━━━━━━ 8/8 13.4it/s 0.6s
 
 
 
-      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 50% ━━━━━━────── 1/2 2.5it/s 0.1s&lt;0.4s
 
-       4/10      1.58G      2.332      2.182      1.606        531        640: 100% ━━━━━━━━━━━━ 8/8 15.2it/s 0.5s0.1s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 13.2it/s 0.2s
 
-                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 12.1it/s 0.2s.5s
 
-                   all         18       1524      0.746      0.254      0.432      0.131
+                   all         18       1524     0.0563      0.665      0.097     0.0269
 
 
 
       Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
 
-       5/10      1.58G      2.372      1.873      1.611        667        640: 100% ━━━━━━━━━━━━ 8/8 14.9it/s 0.5s0.1s
 
-                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 12.7it/s 0.2s.4s
+       3/10      1.47G      2.488      2.713      1.652        523        640: 12% ━─────────── 1/8 2.0it/s 0.2s&lt;3.6s
 
-                   all         18       1524      0.421      0.488      0.348      0.107
+       3/10      1.47G      2.451      2.588      1.646        488        640: 37% ━━━━──────── 3/8 5.1it/s 0.3s&lt;1.0s
 
+       3/10      1.47G      2.431      2.439       1.66        618        640: 62% ━━━━━━━───── 5/8 7.6it/s 0.5s&lt;0.4s
 
+       3/10      1.47G      2.426      2.375      1.669        487        640: 87% ━━━━━━━━━━── 7/8 9.1it/s 0.6s&lt;0.1s
 
-      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
-
-       6/10      1.58G      2.261      1.647      1.527        511        640: 100% ━━━━━━━━━━━━ 8/8 14.9it/s 0.5s0.1s
-
-                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 12.8it/s 0.2s.4s
-
-                   all         18       1524      0.518      0.577      0.472      0.159
+       3/10      1.47G      2.426      2.375      1.669        487        640: 100% ━━━━━━━━━━━━ 8/8 12.9it/s 0.6s
 
 
 
-      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 50% ━━━━━━────── 1/2 2.3it/s 0.1s&lt;0.4s
 
-       7/10      1.58G       2.17      1.567      1.465        561        640: 100% ━━━━━━━━━━━━ 8/8 15.1it/s 0.5s0.1s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 12.8it/s 0.2s
 
-                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 13.4it/s 0.1s.4s
 
-                   all         18       1524      0.643      0.573      0.542      0.188
+                   all         18       1524     0.0571      0.671      0.109     0.0346
 
 
 
       Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
 
-       8/10      1.58G      2.123      1.509      1.461        469        640: 100% ━━━━━━━━━━━━ 8/8 14.3it/s 0.6s0.1s
 
-                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 13.2it/s 0.2s.4s
+       4/10      1.47G      2.296      2.137      1.651        532        640: 12% ━─────────── 1/8 2.1it/s 0.1s&lt;3.3s
 
-                   all         18       1524       0.67      0.597      0.598      0.216
+       4/10      1.47G      2.374      2.064      1.663        592        640: 37% ━━━━──────── 3/8 5.2it/s 0.3s&lt;1.0s
+
+       4/10      1.47G      2.375      1.989      1.649        509        640: 50% ━━━━━━────── 4/8 6.3it/s 0.4s&lt;0.6s
+
+       4/10      1.47G      2.394      1.915      1.656        691        640: 75% ━━━━━━━━━─── 6/8 8.6it/s 0.6s&lt;0.2s
+
+       4/10      1.47G      2.417      1.894      1.659        562        640: 100% ━━━━━━━━━━━━ 8/8 12.7it/s 0.6s
+
+
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 50% ━━━━━━────── 1/2 2.5it/s 0.1s&lt;0.4s
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 13.7it/s 0.1s
+
+
+                   all         18       1524      0.587      0.264      0.297     0.0872
 
 
 
       Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
 
-       9/10      1.58G      2.123      1.498      1.438        801        640: 100% ━━━━━━━━━━━━ 8/8 14.9it/s 0.5s0.1s
 
-                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 13.4it/s 0.1s.4s
+       5/10      1.47G      2.374       1.87      1.651        699        640: 12% ━─────────── 1/8 2.1it/s 0.1s&lt;3.3s
 
-                   all         18       1524      0.696       0.64      0.637      0.237
+       5/10      1.47G      2.319      1.794      1.623        435        640: 37% ━━━━──────── 3/8 5.8it/s 0.3s&lt;0.9s
+
+       5/10      1.47G      2.309       1.72      1.588        518        640: 62% ━━━━━━━───── 5/8 8.5it/s 0.4s&lt;0.4s
+
+       5/10      1.47G      2.281       1.69      1.568        660        640: 87% ━━━━━━━━━━── 7/8 10.1it/s 0.6s&lt;0.1s
+
+       5/10      1.47G      2.281       1.69      1.568        660        640: 100% ━━━━━━━━━━━━ 8/8 14.3it/s 0.6s
+
+
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 50% ━━━━━━────── 1/2 2.6it/s 0.1s&lt;0.4s
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 14.0it/s 0.1s
+
+
+                   all         18       1524      0.634      0.456      0.503      0.173
 
 
 
       Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
 
-      10/10      1.58G      2.079      1.457      1.434        624        640: 100% ━━━━━━━━━━━━ 8/8 14.6it/s 0.5s0.1s
 
-                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 13.4it/s 0.1s.4s
+       6/10      1.47G      2.196      1.543      1.506        387        640: 12% ━─────────── 1/8 2.2it/s 0.1s&lt;3.1s
 
-                   all         18       1524      0.711       0.65       0.65      0.245
+       6/10      1.47G      2.195      1.584      1.513        763        640: 37% ━━━━──────── 3/8 6.1it/s 0.3s&lt;0.8s
 
+       6/10      1.47G      2.218      1.577      1.515        605        640: 50% ━━━━━━────── 4/8 7.2it/s 0.4s&lt;0.6s
 
+       6/10      1.47G      2.181      1.548      1.506        437        640: 75% ━━━━━━━━━─── 6/8 9.6it/s 0.5s&lt;0.2s
 
-10 epochs completed in 0.002 hours.
-
-Optimizer stripped from /home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_09_image_classification/runs/object_detection/yolov8n_tree/weights/last.pt, 6.2MB
-
-Optimizer stripped from /home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_09_image_classification/runs/object_detection/yolov8n_tree/weights/best.pt, 6.2MB
+       6/10      1.47G      2.149      1.543      1.497        565        640: 100% ━━━━━━━━━━━━ 8/8 14.1it/s 0.6s
 
 
 
-Validating /home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_09_image_classification/runs/object_detection/yolov8n_tree/weights/best.pt...
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 50% ━━━━━━────── 1/2 2.6it/s 0.1s&lt;0.4s
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 14.5it/s 0.1s
+
+
+                   all         18       1524      0.665      0.529      0.537      0.182
+
+
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+       7/10      1.47G      2.191      1.442      1.463        520        640: 12% ━─────────── 1/8 2.2it/s 0.1s&lt;3.1s
+
+       7/10      1.47G      2.181      1.533      1.517        468        640: 37% ━━━━──────── 3/8 6.1it/s 0.3s&lt;0.8s
+
+       7/10      1.47G      2.218      1.492      1.525        454        640: 62% ━━━━━━━───── 5/8 8.8it/s 0.4s&lt;0.3s
+
+       7/10      1.47G      2.231       1.47      1.527        536        640: 87% ━━━━━━━━━━── 7/8 10.6it/s 0.5s&lt;0.1s
+
+       7/10      1.47G      2.231       1.47      1.527        536        640: 100% ━━━━━━━━━━━━ 8/8 15.0it/s 0.5s
+
+
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 50% ━━━━━━────── 1/2 2.6it/s 0.1s&lt;0.4s
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 14.3it/s 0.1s
+
+
+                   all         18       1524      0.697      0.571      0.542      0.181
+
+
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+       8/10      1.47G      2.303       1.44      1.522        587        640: 12% ━─────────── 1/8 2.3it/s 0.1s&lt;3.0s
+
+       8/10      1.47G      2.228      1.412      1.501        505        640: 37% ━━━━──────── 3/8 6.3it/s 0.3s&lt;0.8s
+
+       8/10      1.47G      2.172      1.399      1.479        555        640: 62% ━━━━━━━───── 5/8 9.0it/s 0.4s&lt;0.3s
+
+       8/10      1.47G      2.167      1.441      1.487        498        640: 87% ━━━━━━━━━━── 7/8 9.8it/s 0.6s&lt;0.1s
+
+       8/10      1.47G      2.167      1.441      1.487        498        640: 100% ━━━━━━━━━━━━ 8/8 14.3it/s 0.6s
+
+
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 50% ━━━━━━────── 1/2 2.5it/s 0.1s&lt;0.4s
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 13.9it/s 0.1s
+
+
+                   all         18       1524      0.747      0.649      0.614      0.207
+
+
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+       9/10      1.47G       2.23      1.404      1.512        534        640: 12% ━─────────── 1/8 2.3it/s 0.1s&lt;3.0s
+
+       9/10      1.47G      2.121      1.373      1.465        508        640: 37% ━━━━──────── 3/8 6.3it/s 0.3s&lt;0.8s
+
+       9/10      1.47G       2.13      1.378      1.448        433        640: 62% ━━━━━━━───── 5/8 8.2it/s 0.4s&lt;0.4s
+
+       9/10      1.47G      2.112      1.409      1.439        911        640: 87% ━━━━━━━━━━── 7/8 10.0it/s 0.6s&lt;0.1s
+
+       9/10      1.47G      2.112      1.409      1.439        911        640: 100% ━━━━━━━━━━━━ 8/8 14.4it/s 0.6s
+
+
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 50% ━━━━━━────── 1/2 2.5it/s 0.1s&lt;0.4s
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 13.4it/s 0.1s
+
+
+                   all         18       1524      0.782      0.684       0.68      0.235
+
+
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+
+      10/10      1.47G      2.235      1.565      1.504        467        640: 12% ━─────────── 1/8 1.8it/s 0.2s&lt;3.9s
+
+      10/10      1.47G      2.211      1.537      1.499        617        640: 37% ━━━━──────── 3/8 5.4it/s 0.3s&lt;0.9s
+
+      10/10      1.47G      2.171      1.464      1.461        551        640: 62% ━━━━━━━───── 5/8 8.3it/s 0.4s&lt;0.4s
+
+      10/10      1.47G      2.141      1.454      1.457        494        640: 87% ━━━━━━━━━━── 7/8 9.8it/s 0.6s&lt;0.1s
+
+      10/10      1.47G      2.141      1.454      1.457        494        640: 100% ━━━━━━━━━━━━ 8/8 13.4it/s 0.6s
+
+
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 50% ━━━━━━────── 1/2 2.4it/s 0.1s&lt;0.4s
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 13.1it/s 0.2s
+
+
+                   all         18       1524      0.762       0.69      0.687      0.245
+
+
+
+10 epochs completed in 0.003 hours.
+
+Optimizer stripped from /home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_10_object_detection/runs/object_detection/yolov8n_tree/weights/last.pt, 6.2MB
+
+Optimizer stripped from /home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_10_object_detection/runs/object_detection/yolov8n_tree/weights/best.pt, 6.2MB
+
+
+
+Validating /home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_10_object_detection/runs/object_detection/yolov8n_tree/weights/best.pt...
 
 Ultralytics 8.4.174 🚀 Python-3.11.16 torch-2.14.0+cu132 CUDA:0 (NVIDIA RTX A5500 Laptop GPU, 15984MiB)
 
 Model summary (fused): 72 layers, 3,005,843 parameters, 0 gradients, 8.1 GFLOPs
 
-                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 13.9it/s 0.1s.4s
 
-                   all         18       1524      0.712       0.65      0.651      0.245
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 50% ━━━━━━────── 1/2 2.6it/s 0.1s&lt;0.4s
 
-Speed: 0.2ms preprocess, 1.4ms inference, 0.0ms loss, 1.7ms postprocess per image
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 14.2it/s 0.1s
+
+
+                   all         18       1524      0.763      0.691      0.689      0.245
+
+Speed: 0.2ms preprocess, 1.4ms inference, 0.0ms loss, 1.5ms postprocess per image
 
 Ultralytics 8.4.174 🚀 Python-3.11.16 torch-2.14.0+cu132 CUDA:0 (NVIDIA RTX A5500 Laptop GPU, 15984MiB)
 
 Model summary (fused): 72 layers, 3,005,843 parameters, 0 gradients, 8.1 GFLOPs
 
-<span class="ansi-blue-fg ansi-bold">val: </span>Fast image access ✅ (ping: 0.0±0.0 ms, read: 4437.6±935.9 MB/s, size: 82.7 KB)
+<span class="ansi-blue-fg ansi-bold">val: </span>Fast image access ✅ (ping: 0.0±0.0 ms, read: 1815.2±2012.4 MB/s, size: 88.2 KB)
 
-<span class="ansi-blue-fg ansi-bold">val: </span>Scanning /home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_09_image_classification/data/Tree_Detection/test/labels.cache... 9 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 9/9 5.4Mit/s 0.0s
 
-                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 25.7it/s 0.1s
+<span class="ansi-blue-fg ansi-bold">val: </span>Scanning /home/zia207/Github/GeoLattice/Data/08_remote_sensing/08_10_object_detection/Tree_Detection/test/labels... 9 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 9/9 1.2Kit/s 0.0s
 
-                   all          9        759      0.706      0.647      0.658       0.24
 
-Speed: 0.2ms preprocess, 2.4ms inference, 0.0ms loss, 1.3ms postprocess per image
+<span class="ansi-blue-fg ansi-bold">val: </span>New cache created: /home/zia207/Github/GeoLattice/Data/08_remote_sensing/08_10_object_detection/Tree_Detection/test/labels.cache
 
-Best checkpoint: /home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_09_image_classification/runs/object_detection/yolov8n_tree/weights/best.pt
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 2/2 23.5it/s 0.1s
+
+
+                   all          9        759      0.802      0.688      0.728      0.285
+
+Speed: 0.2ms preprocess, 2.8ms inference, 0.0ms loss, 1.4ms postprocess per image
+
+Best checkpoint: /home/zia207/Github/GeoLattice/Tutorials/notebooks/09_remote_sensing/09_10_object_detection/runs/object_detection/yolov8n_tree/weights/best.pt
 
 Test images: 9
 
-Test mAP@0.50: 0.658
+Test mAP@0.50: 0.728
 
-Test mAP@0.50:0.95: 0.240
+Test mAP@0.50:0.95: 0.285
 
-Test precision: 0.706 | recall: 0.647
+Test precision: 0.802 | recall: 0.688
 </pre>
 </div>
 </div>
@@ -3326,7 +3619,7 @@ Test precision: 0.706 | recall: 0.647
 <section id="visualize-a-held-out-tree-detection" class="level3">
 <h3 class="anchored" data-anchor-id="visualize-a-held-out-tree-detection">Visualize a held-out tree detection</h3>
 <p>This prediction is from the best validation checkpoint and uses an image from the separate test split. Boxes and confidence scores are in <strong>image coordinates</strong>. Since the sample images are resized chips without CRS/transform metadata, the detections are not yet geospatial features.</p>
-<div id="6648e279" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-01T23:57:46.563512Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-01T23:57:46.563349Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-01T23:57:46.915935Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-01T23:57:46.915033Z&quot;}}" data-execution_count="16">
+<div id="6648e279" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-11-25T22:34:46.959749Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-11-25T22:34:46.959636Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-11-25T22:34:47.341177Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-11-25T22:34:47.340580Z&quot;}}" data-execution_count="16">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>tree_test_path <span class="op">=</span> <span class="bu">sorted</span>((TREE_SPLITS[<span class="st">"test"</span>] <span class="op">/</span> <span class="st">"images"</span>).glob(<span class="st">"*"</span>))[<span class="dv">0</span>]</span>
@@ -3350,7 +3643,7 @@ Test precision: 0.706 | recall: 0.647
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Predicted trees at confidence ≥ 0.25: 61
+<pre><code>Predicted trees at confidence ≥ 0.25: 72
 Ground-truth trees in this image: 86</code></pre>
 </div>
 </div>
