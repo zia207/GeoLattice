@@ -4,6 +4,15 @@
   <img src="https://raw.githubusercontent.com/zia207/GeoLattice/main/Images/geolattice_logo.png" alt="GeoLattice logo: a hexagon lattice with a globe and a spatial network" width="220">
 </p>
 
+<p align="center">
+  <a href="https://pypi.org/project/geolattice/"><img src="https://img.shields.io/pypi/v/geolattice?label=PyPI&color=blue" alt="PyPI version"></a>
+  <a href="https://pypi.org/project/geolattice/"><img src="https://img.shields.io/pypi/pyversions/geolattice" alt="Python versions"></a>
+  <a href="https://github.com/zia207/GeoLattice/blob/main/LICENSE"><img src="https://img.shields.io/pypi/l/geolattice" alt="License: MIT"></a>
+  <a href="https://zia207.github.io/GeoLattice/"><img src="https://img.shields.io/badge/docs-tutorials-orange" alt="Documentation and tutorials"></a>
+</p>
+
+<p align="center"><code>pip install geolattice</code></p>
+
 GeoLattice is a Python library for geospatial analysis that brings vector and raster processing, spatial analysis, spatial statistics, geostatistics, spatial causal inference, spatial databases, web and cloud GIS, and remote sensing together under one import, `geolattice`.
 
 It is built on GDAL, NumPy, SciPy, pandas, GeoPandas, Shapely and xarray, so its functions read and return the objects these libraries already use: GeoDataFrames, xarray DataArrays and Datasets, NumPy arrays and GDAL-readable files. Compute-heavy parts of the library run on the CPU by default and on a GPU (CuPy, PyTorch or JAX) when one is available, and `geolattice.distributed` runs vector and raster work on all CPU cores, a Dask cluster or Spark. Installing GeoLattice installs all of its dependencies (listed in `requirements.txt`); only GPU, cluster and Spark extras are added by name.
@@ -34,6 +43,12 @@ Every subpackage is available after `import geolattice` (for example `geolattice
 ## Installation
 
 GeoLattice needs Python 3.10 or newer (tested on 3.11 and 3.14; its dependencies need 3.10, for example libpysal 4.10). GDAL and PROJ must be installed first, with Python GDAL bindings that match the GDAL library; install them with conda or your system package manager.
+
+Then install GeoLattice from [PyPI](https://pypi.org/project/geolattice/):
+
+```bash
+python3 -m pip install geolattice
+```
 
 Installing GeoLattice installs every runtime dependency listed in [`requirements.txt`](https://github.com/zia207/GeoLattice/blob/main/requirements.txt), whether you install from PyPI, the wheel or the sdist (`pip install dist/geolattice-0.3.49-cp314-cp314-linux_x86_64.whl` or `pip install dist/geolattice-0.3.49.tar.gz`). That list is the conflict-free set that installation option 6 (`geolattice[all]`) resolves to: about 80 packages, including PyTorch. `pip install -r requirements.txt` installs the same set without GeoLattice itself.
 
