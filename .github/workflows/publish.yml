@@ -86,7 +86,8 @@ jobs:
 
   publish-pypi:
     name: Upload to PyPI
-    if: github.event_name == 'release'
+    # always() with explicit results, so the upload waits for both builds and nothing else
+    if: always() && github.event_name == 'release' && needs.wheels.result == 'success' && needs.sdist.result == 'success'
     needs: [wheels, sdist]
     runs-on: ubuntu-latest
     environment:
@@ -104,7 +105,8 @@ jobs:
 
   publish-testpypi:
     name: Upload to TestPyPI
-    if: github.event_name == 'workflow_dispatch'
+    # always(): the version check is skipped on manual runs and must not skip the upload
+    if: always() && github.event_name == 'workflow_dispatch' && needs.wheels.result == 'success' && needs.sdist.result == 'success'
     needs: [wheels, sdist]
     runs-on: ubuntu-latest
     environment:
