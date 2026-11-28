@@ -11,7 +11,7 @@ Every notebook follows the house style: banner cell, `#` title with a one paragr
 `## Overview` (theory), `## ... with GeoLattice`, Learning objectives, Data, Contents, Setup, the
 working sections, and Summary and exercises. Section headings carry no numbers, every code
 statement has a comment, and the markdown has no em or en dashes. Notebooks are built by
-scripts in `_builders/` and executed before release; markdown claims are checked against the
+scripts in `_builders/` (now kept locally in `helper_functions/`, outside the repository) and executed before release; markdown claims are checked against the
 executed outputs.
 
 Moved from the classification chapter (21 November 2026): `08_09_05_01_self_supervised_pretraining`
@@ -63,7 +63,7 @@ Status (22 November 2026): every notebook is built by `_builders/build_08_11_XX.
 errors, and its markdown checked against its outputs and figures (01 and 02 were moved from 08_09 and
 keep their own outputs). 07 and 08 read AlphaEarth anonymously from its public Zarr and GeoTIFF copies,
 so they need no Earth Engine account; run 07 before 08, which uses its cached samples. After any
-`run.py` or `sync_text.py`, rerun `Tutorials/_tools/notebook_install_notes.py` to restore the
+`run.py` or `sync_text.py`, rerun `helper_functions/Tutorials/_tools/notebook_install_notes.py` to restore the
 installation notes.
 
 | Notebook | Built | Main result |

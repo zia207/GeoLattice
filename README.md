@@ -269,7 +269,7 @@ The notebooks in [`Tutorials/notebooks`](Tutorials/notebooks) are organized like
 | [08 Distributed spatial computing](Tutorials/notebooks/08_distributed_spatial) | 13 | Sessions and clusters, parallel I/O, rasters and vectors at scale, zonal statistics, spatial statistics and clustering, networks, hydrology, machine learning on GPUs, Apache Sedona, diagnostics, capstone |
 | [09 Remote sensing](Tutorials/notebooks/09_remote_sensing) | 152 | Foundations, optical, radar, UAV, hyperspectral, lidar, texture analysis, super-resolution, image classification, object detection, foundation models, surface energy balance and evapotranspiration (SEBAL, METRIC, SSEBop, TSEB, seasonal crop water use), soil moisture (SMAP, ESA CCI, Sentinel-1 retrieval, downscaling), capstones |
 
-The sample data the notebooks read is in [`Data/`](Data/README.md), organized by chapter. HTML versions of the notebooks with all outputs are in [`docs/notebooks`](docs/notebooks) (chapters 01 to 06 so far); `Tutorials/_tools/export_notebooks_html.py` builds them.
+The sample data the notebooks read (about 540 GB, organized by chapter) is too large for GitHub; download it from Dropbox and place it in a `Data/` folder at the repository root, as described on the [Data page](https://zia207.github.io/GeoLattice/data.html). HTML versions of the notebooks with all outputs are in [`docs/notebooks`](docs/notebooks) for every chapter, as Quarto sites published at [zia207.github.io/GeoLattice](https://zia207.github.io/GeoLattice/); each chapter folder's `_quarto.yml` builds its site.
 
 ## Documentation
 

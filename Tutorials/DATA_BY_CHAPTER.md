@@ -1,6 +1,6 @@
 # Tutorial Data by Chapter
 
-The data each tutorial notebook reads, organised by chapter, sub-chapter and notebook. Paths are relative to the repository root. Built from `Tutorials/DATA_INVENTORY.csv` by `Tutorials/_tools/data_by_chapter.py`; the same tables are in `Tutorials/DATA_BY_CHAPTER.xlsx` (one sheet per chapter).
+The data each tutorial notebook reads, organised by chapter, sub-chapter and notebook. Paths are relative to the repository root. Built from `Tutorials/DATA_INVENTORY.csv` by `Tutorials/_tools/data_by_chapter.py` (kept locally in `helper_functions/`, not in the repository); the same tables are in `Tutorials/DATA_BY_CHAPTER.xlsx` (one sheet per chapter).
 
 ## Contents
 

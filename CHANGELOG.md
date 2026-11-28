@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Notebook builders (the ``_builders/`` folders of chapters 08_distributed_spatial, 09_05, 09_11, 09_12 and 09_13), the maintenance scripts in ``Tutorials/_tools/``, the banner and quick reference generators in ``Images/Banner/_src/`` and two unused notebook scripts (``variogram_kriging_jax.py``, ``download_lidar.py``) moved out of the repository to a local, git-ignored ``helper_functions/`` folder that keeps their original paths
+- GeoLattice home page (``Tutorials/home``, built by ``build_home.py`` into ``docs/``) with chapter tiles, Getting Started, User Guide, API Reference and a Data page that links the tutorial data on Dropbox
+
 ### Added
 - ``geolattice.rsense.soil_moisture`` (``rs.soil_moisture``): satellite soil moisture. Implemented: Saxton and Rawls (2006) pedotransfer functions (``saxton_rawls``, ``porosity_from_texture``), volumetric, gravimetric and saturation conversions, the Debye free water model, the Dobson (with Peplinski) and Mironov dielectric models, Topp and its inverse, penetration depth, Fresnel and H-Q-N reflectivity, SMAP vegetation water content and VOD, the tau-omega model, its single channel inversion and a Tb sensitivity table. Outlined (signatures and docstrings, raising ``NotImplementedError``): product registry and readers for SMAP, SMOS, AMSR2, ASCAT, ESA CCI, ERA5-Land, CLMS and NISAR; Sentinel-1 change detection, Water Cloud Model and surface scattering models; downscaling, gap filling, ISMN validation, triple collocation, root-zone filters, and drought, irrigation and hazard indicators. ``tests/rsense/test_soil_moisture.py`` (25 tests) checks the Saxton and Rawls table values, the water relaxation frequency, the Fresnel and tau-omega limits and the inversion round trip
 - ``docs/make_api_reference.py`` marks outlined functions (bodies that only call ``_todo``) as planned; the API reference lists ``geolattice.rsense.soil_moisture`` and no longer places ``surface_energy_balance`` under a second Visualization heading
@@ -233,6 +237,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Capstone notebook ``05_09_02_arsenic_cancer_risk.ipynb`` now calls ``sis_local_means`` / ``sklm_cdf`` from the package and no longer embeds a local copy of the algorithm or manuscript comparison tables
 
 ## [Unreleased]
+
+### Changed
+- Notebook builders (the ``_builders/`` folders of chapters 08_distributed_spatial, 09_05, 09_11, 09_12 and 09_13), the maintenance scripts in ``Tutorials/_tools/``, the banner and quick reference generators in ``Images/Banner/_src/`` and two unused notebook scripts (``variogram_kriging_jax.py``, ``download_lidar.py``) moved out of the repository to a local, git-ignored ``helper_functions/`` folder that keeps their original paths
+- GeoLattice home page (``Tutorials/home``, built by ``build_home.py`` into ``docs/``) with chapter tiles, Getting Started, User Guide, API Reference and a Data page that links the tutorial data on Dropbox
 
 ## [0.3.38] - 2026-11-10
 
@@ -472,6 +480,10 @@ Lidar coverage for the "Lidar Data Processing in Python" tutorial (Parts I–IX)
 - Version bumped to 0.3.25
 
 ## [Unreleased]
+
+### Changed
+- Notebook builders (the ``_builders/`` folders of chapters 08_distributed_spatial, 09_05, 09_11, 09_12 and 09_13), the maintenance scripts in ``Tutorials/_tools/``, the banner and quick reference generators in ``Images/Banner/_src/`` and two unused notebook scripts (``variogram_kriging_jax.py``, ``download_lidar.py``) moved out of the repository to a local, git-ignored ``helper_functions/`` folder that keeps their original paths
+- GeoLattice home page (``Tutorials/home``, built by ``build_home.py`` into ``docs/``) with chapter tiles, Getting Started, User Guide, API Reference and a Data page that links the tutorial data on Dropbox
 
 ### Added
 - ``pygis.rsense.sar.flood_map(..., method="ratio")``: the UN-SPIDER Sentinel-1 change test, ``after / before`` on dB backscatter with a default threshold of 1.25. Because dB values are negative, a drop in backscatter (flooding) makes the ratio larger than 1. The Sylhet notebook follows that recommended practice (50 m smoothing, JRC seasonality, 5% slope, 8-pixel connectivity, area in hectares, exposed people, cropland and urban area).

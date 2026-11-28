@@ -12,7 +12,7 @@ Every notebook follows the house style: banner cell, `#` title with a one paragr
 `## Overview` (theory), `## ... with GeoLattice`, Learning objectives, Data, Contents, Setup, the
 working sections, and Summary and exercises. Section headings carry no numbers, every code
 statement has a comment, and the markdown has no em or en dashes. Notebooks are built by scripts in
-`_builders/` (same `nb.py` / `run.py` / `sync_text.py` pattern as 09_11 and 09_12), executed before
+`_builders/` (now kept locally in `helper_functions/`, outside the repository; same `nb.py` / `run.py` / `sync_text.py` pattern as 09_11 and 09_12), executed before
 release, and their markdown is checked against the executed outputs. Notebook files are named
 `08_NN_<title>.ipynb`.
 

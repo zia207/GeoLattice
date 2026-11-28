@@ -13,7 +13,7 @@ Every notebook follows the house style of 09_12: banner cell, `#` title with a o
 `## Overview` (theory), `## ... with GeoLattice`, Learning objectives, Data, Contents, Setup, the
 working sections, and Summary and exercises. Section headings carry no numbers, every code
 statement has a comment, and the markdown has no em or en dashes. Notebooks are built by
-scripts in `_builders/` (`build_09_13_XX.py`, same `nb.py` / `run.py` / `sync_text.py` pattern as
+scripts in `_builders/` (now kept locally in `helper_functions/`, outside the repository; `build_09_13_XX.py`, same `nb.py` / `run.py` / `sync_text.py` pattern as
 09_12) and executed before release; markdown claims are checked against the executed outputs.
 
 Scope: the 29 notebooks of course modules 1 to 25 live in this folder (`09_13_00` to `09_13_28`).

@@ -11,7 +11,7 @@ Every notebook follows the house style: banner cell, `#` title with a one paragr
 `## Overview` (theory), `## ... with GeoLattice`, Learning objectives, Data, Contents, Setup, the
 working sections, and Summary and exercises. Section headings carry no numbers, every code
 statement has a comment, and the markdown has no em or en dashes. Notebooks are built by
-scripts in `_builders/` (same `nb.py` / `run.py` / `sync_text.py` pattern as 08_11) and executed
+scripts in `_builders/` (now kept locally in `helper_functions/`, outside the repository; same `nb.py` / `run.py` / `sync_text.py` pattern as 08_11) and executed
 before release; markdown claims are checked against the executed outputs.
 
 Scope: the methods behind the OpenET ensemble (https://etdata.org/methods/), meaning SEBAL,
@@ -91,7 +91,7 @@ without errors in the `python3` kernel (Python 3.11), and its markdown checked a
 and figures. The section folder was renamed from `08_12_...` to `09_12_...` on 23 November 2026;
 notebook files keep the `08_12_` prefix like the other sections. Run 02, 06, 07 and 10 before 11
 (it reads their outputs); every other notebook runs on its own through `seb_data.py`. After any
-`run.py` or `sync_text.py`, rerun the installation notes (`Tutorials/_tools/notebook_install_notes.py`,
+`run.py` or `sync_text.py`, rerun the installation notes (`helper_functions/Tutorials/_tools/notebook_install_notes.py`,
 or its `update()` for these notebooks only).
 
 | Notebook | Built | Main result |
