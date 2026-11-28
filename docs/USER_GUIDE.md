@@ -618,6 +618,7 @@ python3 -m pip install -e ".[spatial-statistics-all]"  # all spatial-statistics 
 python3 -m pip install -e ".[spatialcausal]"         # spatial causal inference (spatial-statistics, scikit-learn, geopandas)
 python3 -m pip install -e ".[spatialcausal-viz]"     # matplotlib plots for geolattice.spatial_analysis.spatialcausal
 python3 -m pip install -e ".[spatialcausal-causalml]" # PyCausalML estimators through PyCausalMLAdapter
+python3 -m pip install https://github.com/zia207/PyCausalML/releases/download/v0.2.0/pycausalml-0.2.0-py3-none-any.whl  # PyCausalML itself (not on PyPI)
 python3 -m pip install -e ".[spatialcausal-all]"     # all of the above
 python3 -m pip install -e ".[web]"                   # web / cloud GIS: GeoParquet, COG, tiles, tile + OGC API server
 python3 -m pip install -e ".[web-cloud]"             # adds s3fs / gcsfs / adlfs and DuckDB
@@ -2382,7 +2383,7 @@ Other entry points include ``SpatialPlus``, ``SpatialDRLearner``, ``GWDML``,
 ``SpatialSyntheticControl``, ``BayesianSpatialCausal``, ``ClusterRandomizedDesign``,
 ``power_analysis``, ``SpatialGranger``, ``GCCM`` and ``SpatialNOTEARS``. Plots
 (``geolattice.spatial_analysis.spatialcausal.viz``) need ``geolattice[spatialcausal-viz]``;
-``PyCausalMLAdapter`` needs ``geolattice[spatialcausal-causalml]``.
+``PyCausalMLAdapter`` needs ``geolattice[spatialcausal-causalml]`` and PyCausalML, which is not on PyPI: ``pip install https://github.com/zia207/PyCausalML/releases/download/v0.2.0/pycausalml-0.2.0-py3-none-any.whl``.
 
 ### Web and cloud GIS
 

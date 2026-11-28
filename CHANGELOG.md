@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- Ready for PyPI: a one-line package summary (PyPI allows 512 characters), Zia Ahmed as author, project links to the website, absolute links in the README so it renders on PyPI, and ``.github/workflows/publish.yml``, which builds wheels for Linux, macOS and Windows (CPython 3.10 to 3.14) and the sdist and publishes them with trusted publishing (PyPI on a GitHub release, TestPyPI when run by hand)
+- ``pycausalml`` is no longer installed from its GitHub release URL by ``requirements.txt`` or ``geolattice[spatialcausal-causalml]``, because PyPI refuses packages with URL dependencies; install it with ``pip install`` and the wheel URL given in the user guide
 - Notebook builders (the ``_builders/`` folders of chapters 08_distributed_spatial, 09_05, 09_11, 09_12 and 09_13), the maintenance scripts in ``Tutorials/_tools/``, the banner and quick reference generators in ``Images/Banner/_src/`` and two unused notebook scripts (``variogram_kriging_jax.py``, ``download_lidar.py``) moved out of the repository to a local, git-ignored ``helper_functions/`` folder that keeps their original paths
 - GeoLattice home page (``Tutorials/home``, built by ``build_home.py`` into ``docs/``) with chapter tiles, Getting Started, User Guide, API Reference and a Data page that links the tutorial data on Dropbox
 

@@ -326,8 +326,9 @@ def _resolve_pycausalml(name: str):
         if hasattr(m, name):
             return getattr(m, name)
     raise ImportError(
-        f"Could not load PyCausalML estimator '{name}'. Install with "
-        "`pip install geolattice[spatialcausal-causalml]`. Details: " + "; ".join(errors[:2]))
+        f"Could not load PyCausalML estimator '{name}'. PyCausalML is not on PyPI; install it with "
+        "`pip install https://github.com/zia207/PyCausalML/releases/download/v0.2.0/pycausalml-0.2.0-py3-none-any.whl`. "
+        "Details: " + "; ".join(errors[:2]))
 
 
 class PyCausalMLAdapter:

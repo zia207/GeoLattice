@@ -1,7 +1,7 @@
 # GeoLattice
 
 <p align="center">
-  <img src="Images/geolattice_logo.png" alt="GeoLattice logo: a hexagon lattice with a globe and a spatial network" width="220">
+  <img src="https://raw.githubusercontent.com/zia207/GeoLattice/main/Images/geolattice_logo.png" alt="GeoLattice logo: a hexagon lattice with a globe and a spatial network" width="220">
 </p>
 
 GeoLattice is a Python library for geospatial analysis that brings vector and raster processing, spatial analysis, spatial statistics, geostatistics, spatial causal inference, spatial databases, web and cloud GIS, and remote sensing together under one import, `geolattice`.
@@ -35,7 +35,7 @@ Every subpackage is available after `import geolattice` (for example `geolattice
 
 GeoLattice needs Python 3.10 or newer (tested on 3.11 and 3.14; its dependencies need 3.10, for example libpysal 4.10). GDAL and PROJ must be installed first, with Python GDAL bindings that match the GDAL library; install them with conda or your system package manager.
 
-Installing GeoLattice installs every runtime dependency listed in [`requirements.txt`](requirements.txt), whether you install from PyPI, the wheel or the sdist (`pip install dist/geolattice-0.3.49-cp314-cp314-linux_x86_64.whl` or `pip install dist/geolattice-0.3.49.tar.gz`). That list is the conflict-free set that installation option 6 (`geolattice[all]`) resolves to: about 80 packages, including PyTorch. `pip install -r requirements.txt` installs the same set without GeoLattice itself.
+Installing GeoLattice installs every runtime dependency listed in [`requirements.txt`](https://github.com/zia207/GeoLattice/blob/main/requirements.txt), whether you install from PyPI, the wheel or the sdist (`pip install dist/geolattice-0.3.49-cp314-cp314-linux_x86_64.whl` or `pip install dist/geolattice-0.3.49.tar.gz`). That list is the conflict-free set that installation option 6 (`geolattice[all]`) resolves to: about 80 packages, including PyTorch. `pip install -r requirements.txt` installs the same set without GeoLattice itself.
 
 ### Installation options
 
@@ -75,7 +75,7 @@ python3 -m pip install dist/geolattice-0.3.49-cp314-cp314-linux_x86_64.whl   # i
 
 `python3 -m build` writes an sdist and a wheel for the Python that ran it (`cp314` above). For another Python version, build a wheel from the sdist with that Python: `python3 -m pip wheel --no-deps -w dist dist/geolattice-0.3.49.tar.gz`. For development, install in editable mode with `python3 -m pip install -e ".[dev]"`.
 
-The [user guide](docs/USER_GUIDE.md#installation) lists the 65 individual extras the installation options are built from and explains how to fix the common GDAL import errors (`libgdal.so` not found, `No module named '_gdal'`).
+The [user guide](https://github.com/zia207/GeoLattice/blob/main/docs/USER_GUIDE.md#installation) lists the 65 individual extras the installation options are built from and explains how to fix the common GDAL import errors (`libgdal.so` not found, `No module named '_gdal'`).
 
 ### Moving from PyGIS
 
@@ -172,7 +172,7 @@ tb = sm.tau_omega(295.0, eps, 40.0, tau=0.3, pol="v")    # 260.7 K
 theta = sm.invert_tau_omega(tb, 295.0, 40.0, clay=0.20, tau=0.3)   # back to 0.25 m3/m3
 ```
 
-The [user guide](docs/USER_GUIDE.md) has worked examples for every module, including the full raster toolset, hydrology, suitability analysis, geostatistical simulation, SAR and InSAR processing, lidar, hyperspectral analysis, image classification, evapotranspiration from the surface energy balance and soil moisture physics.
+The [user guide](https://github.com/zia207/GeoLattice/blob/main/docs/USER_GUIDE.md) has worked examples for every module, including the full raster toolset, hydrology, suitability analysis, geostatistical simulation, SAR and InSAR processing, lidar, hyperspectral analysis, image classification, evapotranspiration from the surface energy balance and soil moisture physics.
 
 ## GPU support
 
@@ -251,33 +251,33 @@ with pdist.start("cuda"):                                  # one Dask worker per
 | Slope, 8000 x 8000 DEM | 0.82 s | 0.22 s |
 | Point-in-polygon join, 2 million points, 2,000 polygons | 5.4 s (geopandas: 15.4 s) | 4.7 s |
 
-Where the GPU version is slower on typical inputs (`rasterize`, `dbscan`), `compute="auto"` keeps the CPU; `pdist.explain("bridge.rasterize")` says which implementation runs and why. The [user guide](docs/USER_GUIDE.md#distributed-computing-geolatticedistributed) has worked examples.
+Where the GPU version is slower on typical inputs (`rasterize`, `dbscan`), `compute="auto"` keeps the CPU; `pdist.explain("bridge.rasterize")` says which implementation runs and why. The [user guide](https://github.com/zia207/GeoLattice/blob/main/docs/USER_GUIDE.md#distributed-computing-geolatticedistributed) has worked examples.
 
 ## Tutorials
 
-The notebooks in [`Tutorials/notebooks`](Tutorials/notebooks) are organized like a course. They explain the theory behind each method and work through examples on real data, and each notebook starts with a note that names the installation option it needs.
+The notebooks in [`Tutorials/notebooks`](https://github.com/zia207/GeoLattice/tree/main/Tutorials/notebooks) are organized like a course. They explain the theory behind each method and work through examples on real data, and each notebook starts with a note that names the installation option it needs.
 
 | Chapter | Notebooks | Topics |
 |---|---:|---|
-| [01 Vector data](Tutorials/notebooks/01_02_vector_raster/01_vector) | 6 | Reading and writing vector data, map projections, visualization, geoprocessing, geometry operations |
-| [02 Raster data](Tutorials/notebooks/01_02_vector_raster/02_raster) | 4 | Reading and writing rasters, projections, basic raster operations |
-| [03 Spatial analysis](Tutorials/notebooks/03_spatial_analysis) | 51 | Terrain and hydrology, multidimensional data, multi-criteria suitability, network analysis, segregation analysis, spatial causal inference, capstones |
-| [04 Spatial statistics](Tutorials/notebooks/04_spatial_statistics) | 77 | Point patterns, spatial autocorrelation, spatial regression, spatial clusters, disease mapping, geographically weighted models, interpolation, sampling design, space-time analysis, capstones |
-| [05 Geostatistics](Tutorials/notebooks/05_geostatistics) | 55 | Variograms, kriging, regression kriging, specialized and space-time kriging, Poisson kriging, simulation, Bayesian kriging, capstones |
-| [06 Spatial databases](Tutorials/notebooks/06_spatialDB) | 15 | Spatial database concepts, spatial SQL, joins, indexing, PostGIS raster, pgRouting, DuckDB and GeoParquet, cloud engines, deployment |
-| [07 Web and cloud GIS](Tutorials/notebooks/07_web_cloud_gis) | 12 | Cloud-native raster and vector data, spatial SQL, interactive web maps, map serving, geospatial APIs, web apps, scalable processing, cloud platforms |
-| [08 Distributed spatial computing](Tutorials/notebooks/08_distributed_spatial) | 13 | Sessions and clusters, parallel I/O, rasters and vectors at scale, zonal statistics, spatial statistics and clustering, networks, hydrology, machine learning on GPUs, Apache Sedona, diagnostics, capstone |
-| [09 Remote sensing](Tutorials/notebooks/09_remote_sensing) | 152 | Foundations, optical, radar, UAV, hyperspectral, lidar, texture analysis, super-resolution, image classification, object detection, foundation models, surface energy balance and evapotranspiration (SEBAL, METRIC, SSEBop, TSEB, seasonal crop water use), soil moisture (SMAP, ESA CCI, Sentinel-1 retrieval, downscaling), capstones |
+| [01 Vector data](https://github.com/zia207/GeoLattice/tree/main/Tutorials/notebooks/01_02_vector_raster/01_vector) | 6 | Reading and writing vector data, map projections, visualization, geoprocessing, geometry operations |
+| [02 Raster data](https://github.com/zia207/GeoLattice/tree/main/Tutorials/notebooks/01_02_vector_raster/02_raster) | 4 | Reading and writing rasters, projections, basic raster operations |
+| [03 Spatial analysis](https://github.com/zia207/GeoLattice/tree/main/Tutorials/notebooks/03_spatial_analysis) | 51 | Terrain and hydrology, multidimensional data, multi-criteria suitability, network analysis, segregation analysis, spatial causal inference, capstones |
+| [04 Spatial statistics](https://github.com/zia207/GeoLattice/tree/main/Tutorials/notebooks/04_spatial_statistics) | 77 | Point patterns, spatial autocorrelation, spatial regression, spatial clusters, disease mapping, geographically weighted models, interpolation, sampling design, space-time analysis, capstones |
+| [05 Geostatistics](https://github.com/zia207/GeoLattice/tree/main/Tutorials/notebooks/05_geostatistics) | 55 | Variograms, kriging, regression kriging, specialized and space-time kriging, Poisson kriging, simulation, Bayesian kriging, capstones |
+| [06 Spatial databases](https://github.com/zia207/GeoLattice/tree/main/Tutorials/notebooks/06_spatialDB) | 15 | Spatial database concepts, spatial SQL, joins, indexing, PostGIS raster, pgRouting, DuckDB and GeoParquet, cloud engines, deployment |
+| [07 Web and cloud GIS](https://github.com/zia207/GeoLattice/tree/main/Tutorials/notebooks/07_web_cloud_gis) | 12 | Cloud-native raster and vector data, spatial SQL, interactive web maps, map serving, geospatial APIs, web apps, scalable processing, cloud platforms |
+| [08 Distributed spatial computing](https://github.com/zia207/GeoLattice/tree/main/Tutorials/notebooks/08_distributed_spatial) | 13 | Sessions and clusters, parallel I/O, rasters and vectors at scale, zonal statistics, spatial statistics and clustering, networks, hydrology, machine learning on GPUs, Apache Sedona, diagnostics, capstone |
+| [09 Remote sensing](https://github.com/zia207/GeoLattice/tree/main/Tutorials/notebooks/09_remote_sensing) | 152 | Foundations, optical, radar, UAV, hyperspectral, lidar, texture analysis, super-resolution, image classification, object detection, foundation models, surface energy balance and evapotranspiration (SEBAL, METRIC, SSEBop, TSEB, seasonal crop water use), soil moisture (SMAP, ESA CCI, Sentinel-1 retrieval, downscaling), capstones |
 
-The sample data the notebooks read (about 540 GB, organized by chapter) is too large for GitHub; download it from Dropbox and place it in a `Data/` folder at the repository root, as described on the [Data page](https://zia207.github.io/GeoLattice/data.html). HTML versions of the notebooks with all outputs are in [`docs/notebooks`](docs/notebooks) for every chapter, as Quarto sites published at [zia207.github.io/GeoLattice](https://zia207.github.io/GeoLattice/); each chapter folder's `_quarto.yml` builds its site.
+The sample data the notebooks read (about 540 GB, organized by chapter) is too large for GitHub; download it from Dropbox and place it in a `Data/` folder at the repository root, as described on the [Data page](https://zia207.github.io/GeoLattice/data.html). HTML versions of the notebooks with all outputs are in [`docs/notebooks`](https://github.com/zia207/GeoLattice/tree/main/docs/notebooks) for every chapter, as Quarto sites published at [zia207.github.io/GeoLattice](https://zia207.github.io/GeoLattice/); each chapter folder's `_quarto.yml` builds its site.
 
 ## Documentation
 
-- [User guide](docs/USER_GUIDE.md): features, installation and troubleshooting, the package layout and worked examples for every module.
-- [API reference](docs/API_REFERENCE.md): every public class and function, grouped by module, with a one-line description.
-- [CHANGELOG](CHANGELOG.md): changes in each release.
-- [Module organization](docs/GeoLattice_modules_organization_and_rebuild.md): how the GeoLattice subpackages were assembled from earlier packages (PyRSense, pygstat and PySpatialCausal) and how to rebuild the package.
-- [Data by chapter](Tutorials/DATA_BY_CHAPTER.md): the data files each tutorial notebook reads.
+- [User guide](https://github.com/zia207/GeoLattice/blob/main/docs/USER_GUIDE.md): features, installation and troubleshooting, the package layout and worked examples for every module.
+- [API reference](https://github.com/zia207/GeoLattice/blob/main/docs/API_REFERENCE.md): every public class and function, grouped by module, with a one-line description.
+- [CHANGELOG](https://github.com/zia207/GeoLattice/blob/main/CHANGELOG.md): changes in each release.
+- [Module organization](https://github.com/zia207/GeoLattice/blob/main/docs/GeoLattice_modules_organization_and_rebuild.md): how the GeoLattice subpackages were assembled from earlier packages (PyRSense, pygstat and PySpatialCausal) and how to rebuild the package.
+- [Data by chapter](https://github.com/zia207/GeoLattice/blob/main/Tutorials/DATA_BY_CHAPTER.md): the data files each tutorial notebook reads.
 
 ## Repository layout
 
@@ -305,8 +305,8 @@ Install GeoLattice with the `dev` extra, then run the tests from the repository 
 python3 -m pytest
 ```
 
-The tests import the installed package, so rebuild and reinstall the wheel after changing files in `src/`. After changing an extra in `pyproject.toml`, run `python3 tools/make_requirements.py` to regenerate `requirements.txt`; `tests/test_requirements.py` fails until the two agree. [CONTRIBUTING.md](CONTRIBUTING.md) describes how to propose changes.
+The tests import the installed package, so rebuild and reinstall the wheel after changing files in `src/`. After changing an extra in `pyproject.toml`, run `python3 tools/make_requirements.py` to regenerate `requirements.txt`; `tests/test_requirements.py` fails until the two agree. [CONTRIBUTING.md](https://github.com/zia207/GeoLattice/blob/main/CONTRIBUTING.md) describes how to propose changes.
 
 ## License
 
-GeoLattice is released under the MIT License. See [LICENSE](LICENSE).
+GeoLattice is released under the MIT License. See [LICENSE](https://github.com/zia207/GeoLattice/blob/main/LICENSE).

@@ -1,0 +1,123 @@
+# Build GeoLattice and publish it to PyPI with trusted publishing (no API tokens).
+#
+# - Publishing a GitHub release (tag vX.Y.Z, matching the version in pyproject.toml) uploads to PyPI.
+# - Running the workflow by hand (Actions > Publish to PyPI > Run workflow) uploads to TestPyPI.
+#
+# PyPI and TestPyPI must each list this repository as a trusted publisher:
+# owner zia207, repository GeoLattice, workflow publish.yml, environment pypi or testpypi.
+
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-version:
+    name: Check the release tag against pyproject.toml
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compare versions
+        run: |
+          version=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")
+          tag="${GITHUB_REF_NAME#v}"
+          echo "pyproject.toml: $version, release tag: $tag"
+          test "$version" = "$tag"
+
+  wheels:
+    name: Wheels on ${{ matrix.os }}
+    needs: [check-version]
+    if: always() && (needs.check-version.result == 'success' || needs.check-version.result == 'skipped')
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build wheels
+        run: |
+          python -m pip install --upgrade "cibuildwheel>=3.1"
+          python -m cibuildwheel --output-dir wheelhouse
+        env:
+          # CPython 3.10 to 3.14; no 32-bit, musl or PyPy builds
+          CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
+          CIBW_SKIP: "*-win32 *_i686 *-musllinux_*"
+          CIBW_ARCHS_MACOS: "x86_64 arm64"
+          # The extension only needs NumPy; installing the full dependency set
+          # (GDAL, PyTorch) to test each wheel is left to the test suite.
+          CIBW_TEST_SKIP: "*"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.os }}
+          path: wheelhouse/*.whl
+
+  sdist:
+    name: Source distribution
+    needs: [check-version]
+    if: always() && (needs.check-version.result == 'success' || needs.check-version.result == 'skipped')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build and check
+        run: |
+          python -m pip install --upgrade build twine
+          python -m build --sdist
+          python -m twine check --strict dist/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdist
+          path: dist/*.tar.gz
+
+  publish-pypi:
+    name: Upload to PyPI
+    if: github.event_name == 'release'
+    needs: [wheels, sdist]
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/geolattice/
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - run: ls -l dist
+      - uses: pypa/gh-action-pypi-publish@release/v1
+
+  publish-testpypi:
+    name: Upload to TestPyPI
+    if: github.event_name == 'workflow_dispatch'
+    needs: [wheels, sdist]
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/project/geolattice/
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - run: ls -l dist
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/

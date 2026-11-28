@@ -5,13 +5,16 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "geolattice"
 version = "0.3.49"
-description = "Geospatial analysis with CRS tools, vector and raster I/O, basic raster operations, terrain analysis, surface hydrology, multi-criteria suitability analysis (fuzzy / WLC / C kernels), multidimensional rasters, spatial network analysis, segregation analysis, geostatistics (variograms, kriging, simulation, JAX CPU/GPU variograms and kriging), spatial statistics (ESDA, spatial weights, GWR/MGWR, point patterns, spatial regression, sampling, Bayesian disease mapping), spatial causal inference (interference, spatial confounding, spatial DML, geographic RDD / DiD, causal discovery), web and cloud GIS (COG, GeoParquet, PMTiles, XYZ tiles, OGC API Features), spatial databases (PostGIS, SpatiaLite, GeoPackage, DuckDB spatial SQL, PostGIS raster, pgRouting, vector tiles), remote sensing (optical indices and compositing, satellite image super-resolution, texture analysis, NISAR HDF5 products, SAR flood mapping, InSAR, lidar (point cloud filtering, tiling, ground classification, forest, urban, hydrology, change detection, registration, PointNet++), hyperspectral (ENVI/EMIT/EnMAP/PRISMA I/O, MNF, continuum removal, unmixing, target and methane detection, PLSR/PROSAIL traits), foundation models (Prithvi, Clay, DOFA, CROMA, Copernicus-FM, Panopticon, TerraMind, AnySat, SSL4EO, Satlas, Scale-MAE, RemoteCLIP, AlphaEarth embeddings), UAV, time series, fusion, deep learning, image classification, segmentation, object detection and change detection, XAI), distributed and GPU computing (chunked raster and partitioned vector processing, zonal statistics, spatial statistics, networks and machine learning on Dask clusters, CUDA GPUs or Apache Sedona), geoprocessing, geometry tools, vector analysis, attribute manipulation, and optional CPU/GPU acceleration"
+description = "One Python library for geospatial analysis: vector and raster data, spatial analysis, spatial statistics, geostatistics, spatial databases, web and cloud GIS, distributed computing and remote sensing, on CPU or GPU"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [
-    {name = "GeoLattice Contributors"}
+    {name = "Zia Ahmed"}
+]
+maintainers = [
+    {name = "Zia Ahmed"}
 ]
 keywords = [
     "gis",
@@ -300,9 +303,10 @@ spatialcausal-viz = [
     "matplotlib>=3.6",
 ]
 
+# PyCausalML is not on PyPI, and PyPI refuses packages that depend on a URL; install it with
+#   pip install https://github.com/zia207/PyCausalML/releases/download/v0.2.0/pycausalml-0.2.0-py3-none-any.whl
 spatialcausal-causalml = [
     "geolattice[spatialcausal]",
-    "pycausalml @ https://github.com/zia207/PyCausalML/releases/download/v0.2.0/pycausalml-0.2.0-py3-none-any.whl",
 ]
 
 spatialcausal-all = [
@@ -613,7 +617,8 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/zia207/GeoLattice"
+Homepage = "https://zia207.github.io/GeoLattice/"
+Documentation = "https://zia207.github.io/GeoLattice/user_guide.html"
 Repository = "https://github.com/zia207/GeoLattice"
 "Bug Tracker" = "https://github.com/zia207/GeoLattice/issues"
 Changelog = "https://github.com/zia207/GeoLattice/blob/main/CHANGELOG.md"
